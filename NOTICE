@@ -1,0 +1,16 @@
+PokeDaisy iOS
+Based on PokeDaisy by Lidor Itzhari - https://github.com/lidor30/pokedaisy
+
+Copyright for the original PokeDaisy project: (C) 2026 Lidor Itzhari
+
+This program is free software under the GNU GPL v3 with the additional
+attribution term from upstream PokeDaisy. See LICENSE and upstream/NOTICE.
+
+Anyone who conveys this program, or any work based on it, must preserve:
+
+    Based on PokeDaisy by Lidor Itzhari - https://github.com/lidor30/pokedaisy
+
+THIRD-PARTY
+
+- mGBA (upstream/third_party/mgba), Mozilla Public License 2.0
+  https://github.com/mgba-emu/mgba
