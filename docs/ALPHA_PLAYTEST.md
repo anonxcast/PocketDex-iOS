@@ -47,10 +47,45 @@ Hey — I’m looking for a few people to try **PocketDex**, an early **alpha** 
 - **Large parts of this project were built with help from AI coding tools** (under my direction). I’m being upfront about that. Expect weird bugs; please report them instead of assuming it’s a polished commercial app.
 - Install will be via **TestFlight** or a **registered-device IPA** (iOS doesn’t allow free universal IPA installs). I’ll share the link / ask for your UDID depending on the method.
 
+**Optimized / best-supported titles right now**  
+(These get the full play stack where noted: Expand widescreen, Companion HUD, save editor, etc. Other ROMs may still boot — they just won’t be “optimized.” Bring your own dumps; I don’t provide ROMs.)
+
+**Retail Gen 3 (GBA)**  
+- Pokémon Emerald  
+- Pokémon FireRed  
+- Pokémon LeafGreen  
+- Pokémon Ruby  
+- Pokémon Sapphire  
+
+**FireRed hacks**  
+- Pokémon Radical Red  
+- Pokémon Unbound  
+- FireRed Rocket Edition  
+- Crystal Advance Redux  
+
+**Emerald hacks**  
+- Emerald Seaglass  
+- Pokémon Heart and Soul  
+- Pokémon R.O.W.E.  
+- Pokémon SoulGold (GBA)  
+- Pokémon Modern Emerald *(Companion + save editor; Expand not available for this dump yet)*  
+
+**GB / GBC**  
+- Pokémon Red / Blue / Yellow  
+- Pokémon Green (Midori, JP)  
+- Pokémon Crystal  
+- Polished Crystal  
+
+**Nintendo DS**  
+- HeartGold / SoulSilver  
+- Pokémon Platinum  
+
+If you play one of the above, please say which version/build when you report bugs (e.g. Radical Red 4.1, Unbound 2.1.x, Seaglass 3.0).
+
 **What I want from you**
 
 - Device model + iOS version  
-- Which game/hack you tried  
+- Which game/hack you tried (ideally from the optimized list)  
 - What felt good / confusing / broken  
 - Crashes, audio issues, save problems, Expand/companion bugs  
 
