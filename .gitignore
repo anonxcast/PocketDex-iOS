@@ -1,0 +1,66 @@
+# Secrets & local credentials
+ios/Secrets/
+**/.env
+**/.env.*
+*.pem
+*.p12
+*.mobileprovision
+
+# Nested upstream git metadata (kept locally; tree is vendored in this repo)
+**/.git_local_backup/
+
+# Xcode / build products
+build/
+DerivedData/
+ios/PocketDex.xcodeproj/xcuserdata/
+ios/PocketDex.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+archive/
+*.xcarchive
+
+# Swift / SPM
+.swiftpm/
+Package.resolved
+
+# ROMs & saves (never publish copyrighted games or user saves)
+ROMs/
+roms/
+Roms/
+/roms/
+/*.gba
+/*.gbc
+/*.gb
+/*.nds
+/*.sav
+/*.dsv
+**/*.sav.bak
+# User dumps elsewhere (not mGBA cinema fixtures under third_party):
+/ios/**/*.gba
+/ios/**/*.gbc
+/ios/**/*.gb
+/ios/**/*.nds
+/ios/**/*.sav
+
+# OS / editor
+.DS_Store
+**/.DS_Store
+.idea/
+*.swp
+*~
+.vscode/
+.cursor/
+
+# Logs
+*.log
+build/*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/

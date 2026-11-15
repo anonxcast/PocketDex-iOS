@@ -1,0 +1,1002 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		076897AB5D6C24465767C34A /* DsTouchWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30D31B1C287F8ADD2A1DD1B /* DsTouchWindow.swift */; };
+		173F87AF42B95584D1ACFEB2 /* SpeciesIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632490505807D8060BA2A24F /* SpeciesIcon.swift */; };
+		17ABC8A78AD2F82CD7484944 /* CompanionSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB997B3D321824987166D84A /* CompanionSampler.swift */; };
+		1B210C6CE689A7E07A54C8ED /* Gen5Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9C9CF8EDDB627E19FD6CA6 /* Gen5Save.swift */; };
+		20B2FB8E07CFA8028D1ABFA7 /* pk_wide_gb.c in Sources */ = {isa = PBXBuildFile; fileRef = 9E7F0C390D7BA9DA8C24182C /* pk_wide_gb.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		20DBB24A0D67BE2AB2974901 /* Gen3Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51F9200B4AB4EBF01F5A2AD4 /* Gen3Text.swift */; };
+		234AAEE94072A80C738CCBF2 /* Gen3ConfigsGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71270D1B3D1F6EE5E03F2508 /* Gen3ConfigsGen.swift */; };
+		239DDFBF5D9A2C4E6B257D3B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0790A4AC697D9FC4FE4964 /* AppSettings.swift */; };
+		26E93634F26DEE6D59A46864 /* SmartEVProfiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53F24555A7E94E53027622E /* SmartEVProfiles.swift */; };
+		28E567946A38E1BC628F9A2C /* Gen45Personal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25608D48F8D1D7CCDB4F6B7F /* Gen45Personal.swift */; };
+		2D9CA7D3D45E213991448389 /* IBMPlexSans-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 12A8204A5CC85C72FB0FA00E /* IBMPlexSans-Medium.otf */; };
+		2F9FF7C130AB20F1DF3BC78F /* pk_cheats_stub.c in Sources */ = {isa = PBXBuildFile; fileRef = A1497B4BB8ADF750EDE69F79 /* pk_cheats_stub.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		2FCD582D44FA71BE31B28B4A /* GameShaderOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DF4EE283A2D59771AE6805 /* GameShaderOverlay.swift */; };
+		303229E9538B9719C4D2C5B5 /* Gen3SpeciesNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017F6BFA320D59088A9DB74 /* Gen3SpeciesNames.swift */; };
+		324AA29103F7DB44D38F8F40 /* DisplaySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B6F4721D4BA43113E878E /* DisplaySettings.swift */; };
+		32C13130018EC30DCB3D1AC9 /* PokeCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0572FEEC816096E8417442F /* PokeCrypto.swift */; };
+		367B60DA61F6E0BF383E6C10 /* Silkscreen-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E93B13D6677AFBDBD4F4067B /* Silkscreen-Regular.ttf */; };
+		38079D79F630AE1846CB9963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD9A8D8766D1292949BE2591 /* Assets.xcassets */; };
+		389A8F7C3EC8703A8CF717BF /* IBMPlexMono-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2ADE87A5CBF4797573419A8B /* IBMPlexMono-Medium.otf */; };
+		38B0353D63AFA77DDFE8B4C5 /* RomLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100AA8F1B8D5D2B45195D472 /* RomLibrary.swift */; };
+		3B305B07264C09F0781E8F41 /* EmulatorEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581043C4738F9D02E50F8B45 /* EmulatorEngine.swift */; };
+		3D5898FA1B359E3237799A8A /* Gen3TableBlobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CAFC860D9C06578FCE2048B /* Gen3TableBlobs.swift */; };
+		3F53D4E73A977332D77C7CDF /* PadTouchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05277C02EDAA79669E7CA8A3 /* PadTouchView.swift */; };
+		3F7374902E756E8CEC466E9D /* FrameShaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2F684ACF58920CF2DEC968 /* FrameShaders.swift */; };
+		4327E6EAF75C52AD0731FCB1 /* RetroAchievementsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3121FFA42AE069271149C506 /* RetroAchievementsClient.swift */; };
+		497031CBA36D7F5854612E12 /* pk_nds_gl_stub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 722D1D653D12EABEC94AF290 /* pk_nds_gl_stub.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4B94A6CA554DBB3B616A178F /* Gen4Sampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA6DD756758FB4AD7AFAE27 /* Gen4Sampler.swift */; };
+		4F0526861C992D51DD8C1444 /* Gen3SaveFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99822624832D384364B8AA87 /* Gen3SaveFormat.swift */; };
+		538F5E936E22F1E3CB4EB81E /* DuoHinge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2520D3F1870552F3F520EF52 /* DuoHinge.swift */; };
+		548A944E3D342414868263E4 /* DeltaSkinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B50E6C2BADCB534ED7A67A8 /* DeltaSkinManager.swift */; };
+		56D3506A02A242AF159BF4B3 /* LibretroArtworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7572853537CA66DAB62C4AD7 /* LibretroArtworkClient.swift */; };
+		581A8C741D94B00615687988 /* DuoSafeAreaProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9C59466DA9892EDCDC44D4 /* DuoSafeAreaProbe.swift */; };
+		58D26D4402A0FF3B611CC0E0 /* RomIdentityGen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA0BAF56BE2C45919217DB1 /* RomIdentityGen.swift */; };
+		5ACA1343538A62172EC86F17 /* Gen1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCFFBEBC5C3F4765BCF5A1A /* Gen1Config.swift */; };
+		64E62E238295B3D59045D05B /* Gen4EncounterBlobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E6993BCBDE7D7186EF1E90 /* Gen4EncounterBlobs.swift */; };
+		691AFEFAF178D642832D0F2C /* SteamGridDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838F003567700BE5EEEC0C43 /* SteamGridDBClient.swift */; };
+		6A26C8252715EF4741DF960E /* Gen2MapBlobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBCF70B05665A4D44C35333 /* Gen2MapBlobs.swift */; };
+		6A74822201B30887DE8C4CCC /* Gen1Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B1D33052721BA22994E738 /* Gen1Save.swift */; };
+		6ADC6FBBEBBC4E7669ED915F /* EmulatorAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2EDEC5B47371508D9F75E8 /* EmulatorAudio.swift */; };
+		6B733BFC603C7445A9A94A38 /* Gen3SaveFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C24AE9F509F9CE073666A3 /* Gen3SaveFile.swift */; };
+		6BB0AF3778DF7382C7A77E47 /* GoogleDriveSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093FF2E1FCB6983B294C07F4 /* GoogleDriveSync.swift */; };
+		6BEFF9FB031F63242C79AAF0 /* Gen4Maps.swift in Sources */ = {isa = PBXBuildFile; fileRef = D568117356D7B081EBECF762 /* Gen4Maps.swift */; };
+		6CAEAD0DE2E181CB35237CB6 /* SaveStateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0060BC5379E058B5F54CC80 /* SaveStateSheet.swift */; };
+		6FAB5E578C249A524B2866C6 /* RetroAchievementsSettingsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9ECA2BA0771629AD1334BC /* RetroAchievementsSettingsCard.swift */; };
+		6FE1A91DE913AD1E35F55CA9 /* Gen2Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680B2A2F6228791DE41124BA /* Gen2Config.swift */; };
+		71879D16048761A05DFD6753 /* Gen3Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF462F12E906F41C4FB0DA3 /* Gen3Decode.swift */; };
+		72124D472337A620A3952FDA /* ItemIcons in Resources */ = {isa = PBXBuildFile; fileRef = FDA5DFE297B0B0E45F10EE15 /* ItemIcons */; };
+		765F28EDD3CB68E88A902CC5 /* LearnsetsNational.bin in Resources */ = {isa = PBXBuildFile; fileRef = 2D58ADA90FBAE000BE66E13D /* LearnsetsNational.bin */; };
+		772AD791D27F9ECC6129DBDE /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3908577A743FA10F530EA /* KeychainStore.swift */; };
+		7911D852AB6F1DE1BEA82D4A /* IBMPlexSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = EE37702BF909FD105550CF8C /* IBMPlexSans-Bold.otf */; };
+		7CB58F7C2056DD9073AE3C31 /* SkinTouchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C185B2AB2AD35DA5340F6B82 /* SkinTouchView.swift */; };
+		7DA74179A54780287D342B39 /* Gen3BoxMonSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72B2E7BF8E9A64C5B20307D /* Gen3BoxMonSave.swift */; };
+		7EC96FEF393EF6937A94D197 /* SaveEditorViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E880EE43C8944693CC9D11D0 /* SaveEditorViews.swift */; };
+		823C3775CDEC47AD429BBDAD /* ItemIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279694569AE34337193273B9 /* ItemIconView.swift */; };
+		84D2E5DE8853F3E73837F533 /* Gen3Trade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267E80E81BA2DD64CDC3CF5D /* Gen3Trade.swift */; };
+		8B80D7135099DE1C27400E82 /* TouchPadLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EFC5AD7AA0238DF5E6B13D2 /* TouchPadLayout.swift */; };
+		8BC5A34ED6CFB982626632F1 /* DeltaSkinLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52EC8E01404161DF66288F /* DeltaSkinLayout.swift */; };
+		8DF2FD80F179389BEED030A9 /* SaveSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248A1E2AFBDAB414E388ED63 /* SaveSession.swift */; };
+		8EE1476C4984CC4A607C9452 /* IBMPlexSans-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 177820AFFD77D0C2ED414EC5 /* IBMPlexSans-SemiBold.otf */; };
+		932ADA9C957561B9543F2538 /* CompanionDrawerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF38044CD522BDC423FDDF6 /* CompanionDrawerView.swift */; };
+		937F1D54D5280B97D3AC1CCC /* Gen1Sampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740F497D0B3C5872AFA1A2E5 /* Gen1Sampler.swift */; };
+		957BD848D2F19B188D475D7F /* Gen45Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BCA10AC829013C13F002B6C /* Gen45Text.swift */; };
+		967862D508397A6C94A02E7C /* Gen45Bag.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA28BF951DD9E6D78F3442B /* Gen45Bag.swift */; };
+		98C9B651E6F9D5D610C0319A /* GameScreenshotClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0342449F9D23A41A4A7A47C /* GameScreenshotClient.swift */; };
+		9E22AEC346F9EA5C939D3628 /* Gen3Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA04632FA3FB65B5A6BDD0E6 /* Gen3Gender.swift */; };
+		A1D26F23C31B1211C1C5F9B4 /* RetroAchievementsPlayHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA30F0CD506D92231D2D8B /* RetroAchievementsPlayHUD.swift */; };
+		A2090B1A81823942F99C8990 /* Gen12Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA039367E745DFFE6535047 /* Gen12Common.swift */; };
+		A372337D3C80534A094E4FBE /* GameSummaryClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8811D2B9061A7BF9FB28DF6 /* GameSummaryClient.swift */; };
+		A469EDEAE73BD44E349F7796 /* Gen2Sampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FCB310E755C3003F30DAC1 /* Gen2Sampler.swift */; };
+		A713DA8251DEA08A53C1BDDD /* SupportQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039AF27EC116EA5D20BF4048 /* SupportQueueView.swift */; };
+		A86F80FFF81943B94CACF938 /* PocketDexApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFB63EE7347FB12AB94E137 /* PocketDexApp.swift */; };
+		B1FDDEA5F9C9734A93416A79 /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6291ECD52F9AD6402F1C12 /* PlayView.swift */; };
+		B36B88427A53D85BF7DDCF16 /* pk_ios.c in Sources */ = {isa = PBXBuildFile; fileRef = A74CB7DEA190D783935A9934 /* pk_ios.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		B4555ED3A9A941D76A6B3A90 /* Gen3BattleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5437F91D859828872CDEB85 /* Gen3BattleData.swift */; };
+		B6F23CCA96AD9E9BCDAE4996 /* pk_unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 644D99D9668A1A25D83D9B9A /* pk_unzip.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		B8D73903837E8AF104023F0A /* GlassChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = A935ECCA45B89B4599E63581 /* GlassChrome.swift */; };
+		B94151D6E9F4BBD9B1F8A327 /* pk_wide.c in Sources */ = {isa = PBXBuildFile; fileRef = 73860CB0244F0E73DEE37E41 /* pk_wide.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BAB1D719DD2FE7BBE65EA6AC /* SpeciesIcons in Resources */ = {isa = PBXBuildFile; fileRef = 496C9EABF91C6C3BBBB21FEF /* SpeciesIcons */; };
+		BC59B85BBA285CDC1EC678B4 /* Gen2Polished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC91C9625E305CB1DB32A97 /* Gen2Polished.swift */; };
+		C18F14AAF96185061D936B2F /* pk_wide_gb_compat.c in Sources */ = {isa = PBXBuildFile; fileRef = 996D4DA66EEA013AEEB2936C /* pk_wide_gb_compat.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C1B80F947657D9D5E65627E3 /* Gen2Maps.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2DCDF1CAD57A06673A4A092 /* Gen2Maps.swift */; };
+		C87F2605795AC80C89256CF1 /* RecentlyPlayedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CDE62AC21BFF8BA2FD06A7 /* RecentlyPlayedStore.swift */; };
+		CC0F9B534C6AB9E1D27B131F /* Gen2Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B34EF559154E2991D528F4D /* Gen2Save.swift */; };
+		CCCDDA6E1F33CBC48897C65C /* LibraryFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB26A7A4877A56AF7F64A01 /* LibraryFont.swift */; };
+		D086E7B97D47F501255B22EB /* ArtworkPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DCAD1C90AC4CF41AD3F6E4 /* ArtworkPickerSheet.swift */; };
+		D0974D07C9EA2D929996E97B /* CustomizableVirtualPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09519673455904F06AB890D /* CustomizableVirtualPad.swift */; };
+		D2F18ACFC8243C7C65FDA12D /* GameDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34501B4C443C382EE7AA5657 /* GameDetailView.swift */; };
+		D3AE2D2DD2ED97F1BB7B6F58 /* Gen4Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A0A0C17191446E832385EB /* Gen4Save.swift */; };
+		D4DE215F89A79A414DECF1A0 /* Gen3Sampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56CCD459D6F499F1D924C11 /* Gen3Sampler.swift */; };
+		D85CBBC8284E1EA889AC0E3F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1CA6E9D2D999F0842E2423B /* Theme.swift */; };
+		D85FA1ED144BC2E75C1C70AC /* WideCameraMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F654DF52BA3EBB19F8EAF13 /* WideCameraMath.swift */; };
+		D938140253ED7F488DF89FCC /* GoogleDriveAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B15A7C0C62F49A260097BF71 /* GoogleDriveAuth.swift */; };
+		DA6E6392EF2D57ECC4B44637 /* VT323-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9BD325D5CBCD12D233C809F4 /* VT323-Regular.ttf */; };
+		DE422876C0BAEBAA935C9BD7 /* Gen4MapBlobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74832700D2D7AD6462E2DE6 /* Gen4MapBlobs.swift */; };
+		DE8686E9275C91569187D1F8 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB8E36953EC24C977EA8389 /* LibraryView.swift */; };
+		DF6BEBE1770C1FDE1732CFE8 /* Gen3Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5D52653AAF40C75E1B88C74 /* Gen3Types.swift */; };
+		E0E3DEAFD7478D33E946A773 /* OptimizedRomCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29B664443C55382E0ECE2FB /* OptimizedRomCatalog.swift */; };
+		E1E8F8A370A8EA69B4487485 /* DeletedCloudNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EF26D3F5C9183441735708 /* DeletedCloudNames.swift */; };
+		E23CFA0322A9FE3726E5493B /* Gen3BattleBlobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1857ED54B822BFD2E8653B /* Gen3BattleBlobs.swift */; };
+		E2C4A88DEAB7489A44F136BF /* IBMPlexSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0B6EBC218FA151A153C991F4 /* IBMPlexSans-Regular.otf */; };
+		E5AD57FA0CA95231A71DB8B7 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5672820A14C56BE73137FE5B /* PressStart2P-Regular.ttf */; };
+		E78E733E0F68C0A78694D8AA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1B5DC14FF0CD39B04F0C89 /* SettingsView.swift */; };
+		E860E3C4DAA0B912D1D83009 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = E2EB4EC7DE78307F8FD6AD1D /* CMakeLists.txt */; };
+		EC0E52FE10A52B396BD014E4 /* Gen3BaseStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8CB0802FF5B1F8F9EB048D /* Gen3BaseStats.swift */; };
+		ECD1FFE554A84ECF4B43335E /* Gen3Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4035314DBEAF8EA2100B22 /* Gen3Config.swift */; };
+		ED1DC185102078FB3EBB757F /* CompanionRomIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153026922ED096FF35541D92 /* CompanionRomIdentity.swift */; };
+		EE225D43414AE1A023C6D41E /* SaveModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C502DB64543BD4A0D12AF8 /* SaveModels.swift */; };
+		F008B3220934F9F4C4133FDA /* Gen3SaveEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC00F4C242F8DA11C7DD5F2 /* Gen3SaveEditor.swift */; };
+		F1FCBC18A1F337BA5FCA4C03 /* SaveBinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7C39619C53BB8A67F58342 /* SaveBinary.swift */; };
+		F223366FC55DEBDC56F8B604 /* Gen3Learnsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833B0CEB5DD74678EE1F223 /* Gen3Learnsets.swift */; };
+		F24CB298E7A60C87EFB14875 /* FoldLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38657C375B3D4E9D4EDAB4C /* FoldLayout.swift */; };
+		F846ADF6EFE49CDE02362C34 /* Gen4Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19055C3C33F65EE6BC82E3D9 /* Gen4Config.swift */; };
+		FA07B445EBF00DF1342A896F /* RomArtworkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D09F740D58A6A793B78269 /* RomArtworkStore.swift */; };
+		FD26895E921BCE49A5268B16 /* Gen45Mon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671531F8E96581339DBC67A /* Gen45Mon.swift */; };
+		FD9051FA553318CFA1B8C554 /* Gen3MovePP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728293CA62D38E00F3DA0EC0 /* Gen3MovePP.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01C24AE9F509F9CE073666A3 /* Gen3SaveFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3SaveFile.swift; sourceTree = "<group>"; };
+		039AF27EC116EA5D20BF4048 /* SupportQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportQueueView.swift; sourceTree = "<group>"; };
+		05277C02EDAA79669E7CA8A3 /* PadTouchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadTouchView.swift; sourceTree = "<group>"; };
+		093FF2E1FCB6983B294C07F4 /* GoogleDriveSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveSync.swift; sourceTree = "<group>"; };
+		0B6EBC218FA151A153C991F4 /* IBMPlexSans-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Regular.otf"; sourceTree = "<group>"; };
+		0BCA10AC829013C13F002B6C /* Gen45Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen45Text.swift; sourceTree = "<group>"; };
+		0C2EDEC5B47371508D9F75E8 /* EmulatorAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmulatorAudio.swift; sourceTree = "<group>"; };
+		0C4035314DBEAF8EA2100B22 /* Gen3Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Config.swift; sourceTree = "<group>"; };
+		0FFB63EE7347FB12AB94E137 /* PocketDexApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketDexApp.swift; sourceTree = "<group>"; };
+		100AA8F1B8D5D2B45195D472 /* RomLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RomLibrary.swift; sourceTree = "<group>"; };
+		115848AD890B0921B4A88482 /* pk_unzip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pk_unzip.h; sourceTree = "<group>"; };
+		12A8204A5CC85C72FB0FA00E /* IBMPlexSans-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Medium.otf"; sourceTree = "<group>"; };
+		153026922ED096FF35541D92 /* CompanionRomIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionRomIdentity.swift; sourceTree = "<group>"; };
+		177820AFFD77D0C2ED414EC5 /* IBMPlexSans-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-SemiBold.otf"; sourceTree = "<group>"; };
+		19055C3C33F65EE6BC82E3D9 /* Gen4Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen4Config.swift; sourceTree = "<group>"; };
+		1FA0BAF56BE2C45919217DB1 /* RomIdentityGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RomIdentityGen.swift; sourceTree = "<group>"; };
+		248A1E2AFBDAB414E388ED63 /* SaveSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveSession.swift; sourceTree = "<group>"; };
+		2520D3F1870552F3F520EF52 /* DuoHinge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuoHinge.swift; sourceTree = "<group>"; };
+		25608D48F8D1D7CCDB4F6B7F /* Gen45Personal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen45Personal.swift; sourceTree = "<group>"; };
+		267E80E81BA2DD64CDC3CF5D /* Gen3Trade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Trade.swift; sourceTree = "<group>"; };
+		279694569AE34337193273B9 /* ItemIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemIconView.swift; sourceTree = "<group>"; };
+		28A0A0C17191446E832385EB /* Gen4Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen4Save.swift; sourceTree = "<group>"; };
+		28DF4EE283A2D59771AE6805 /* GameShaderOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameShaderOverlay.swift; sourceTree = "<group>"; };
+		28EDC7E362ACFE0B9DF7B5D5 /* log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		2ADE87A5CBF4797573419A8B /* IBMPlexMono-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.otf"; sourceTree = "<group>"; };
+		2BC00F4C242F8DA11C7DD5F2 /* Gen3SaveEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3SaveEditor.swift; sourceTree = "<group>"; };
+		2D58ADA90FBAE000BE66E13D /* LearnsetsNational.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = LearnsetsNational.bin; sourceTree = "<group>"; };
+		2FBCF70B05665A4D44C35333 /* Gen2MapBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2MapBlobs.swift; sourceTree = "<group>"; };
+		3121FFA42AE069271149C506 /* RetroAchievementsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroAchievementsClient.swift; sourceTree = "<group>"; };
+		34501B4C443C382EE7AA5657 /* GameDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailView.swift; sourceTree = "<group>"; };
+		3B1857ED54B822BFD2E8653B /* Gen3BattleBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3BattleBlobs.swift; sourceTree = "<group>"; };
+		3B50E6C2BADCB534ED7A67A8 /* DeltaSkinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaSkinManager.swift; sourceTree = "<group>"; };
+		3C0CA64F6A3BA6B0B748AC82 /* PocketDex.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PocketDex.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CAFC860D9C06578FCE2048B /* Gen3TableBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3TableBlobs.swift; sourceTree = "<group>"; };
+		4833B0CEB5DD74678EE1F223 /* Gen3Learnsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Learnsets.swift; sourceTree = "<group>"; };
+		496C9EABF91C6C3BBBB21FEF /* SpeciesIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SpeciesIcons; path = Resources/SpeciesIcons; sourceTree = SOURCE_ROOT; };
+		4B34EF559154E2991D528F4D /* Gen2Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2Save.swift; sourceTree = "<group>"; };
+		4BF38044CD522BDC423FDDF6 /* CompanionDrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionDrawerView.swift; sourceTree = "<group>"; };
+		5017F6BFA320D59088A9DB74 /* Gen3SpeciesNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3SpeciesNames.swift; sourceTree = "<group>"; };
+		51F9200B4AB4EBF01F5A2AD4 /* Gen3Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Text.swift; sourceTree = "<group>"; };
+		5672820A14C56BE73137FE5B /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
+		581043C4738F9D02E50F8B45 /* EmulatorEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmulatorEngine.swift; sourceTree = "<group>"; };
+		5A9C59466DA9892EDCDC44D4 /* DuoSafeAreaProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuoSafeAreaProbe.swift; sourceTree = "<group>"; };
+		5AB26A7A4877A56AF7F64A01 /* LibraryFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryFont.swift; sourceTree = "<group>"; };
+		5BDDE7481C6C5B387B276FE4 /* pk_ios.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pk_ios.h; sourceTree = "<group>"; };
+		632490505807D8060BA2A24F /* SpeciesIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeciesIcon.swift; sourceTree = "<group>"; };
+		644D99D9668A1A25D83D9B9A /* pk_unzip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk_unzip.c; sourceTree = "<group>"; };
+		6668C7E246AF0C41DDFDEC28 /* pk_wide_gb_polished_tables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pk_wide_gb_polished_tables.h; sourceTree = "<group>"; };
+		680B2A2F6228791DE41124BA /* Gen2Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2Config.swift; sourceTree = "<group>"; };
+		6966A9600EFD1821A3528C9C /* pk_wide_gb_profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pk_wide_gb_profile.h; sourceTree = "<group>"; };
+		71270D1B3D1F6EE5E03F2508 /* Gen3ConfigsGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3ConfigsGen.swift; sourceTree = "<group>"; };
+		722D1D653D12EABEC94AF290 /* pk_nds_gl_stub.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pk_nds_gl_stub.cpp; sourceTree = "<group>"; };
+		728293CA62D38E00F3DA0EC0 /* Gen3MovePP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3MovePP.swift; sourceTree = "<group>"; };
+		73860CB0244F0E73DEE37E41 /* pk_wide.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk_wide.c; sourceTree = "<group>"; };
+		740F497D0B3C5872AFA1A2E5 /* Gen1Sampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen1Sampler.swift; sourceTree = "<group>"; };
+		74E6993BCBDE7D7186EF1E90 /* Gen4EncounterBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen4EncounterBlobs.swift; sourceTree = "<group>"; };
+		7572853537CA66DAB62C4AD7 /* LibretroArtworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibretroArtworkClient.swift; sourceTree = "<group>"; };
+		7CC91C9625E305CB1DB32A97 /* Gen2Polished.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2Polished.swift; sourceTree = "<group>"; };
+		7D6291ECD52F9AD6402F1C12 /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
+		7D9C9CF8EDDB627E19FD6CA6 /* Gen5Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen5Save.swift; sourceTree = "<group>"; };
+		7EFC5AD7AA0238DF5E6B13D2 /* TouchPadLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchPadLayout.swift; sourceTree = "<group>"; };
+		80D09F740D58A6A793B78269 /* RomArtworkStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RomArtworkStore.swift; sourceTree = "<group>"; };
+		838F003567700BE5EEEC0C43 /* SteamGridDBClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteamGridDBClient.swift; sourceTree = "<group>"; };
+		85B3908577A743FA10F530EA /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		8DB8E36953EC24C977EA8389 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		90CF6EBD39664066EC64CE9F /* PocketDex-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PocketDex-Bridging-Header.h"; sourceTree = "<group>"; };
+		94DCAD1C90AC4CF41AD3F6E4 /* ArtworkPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkPickerSheet.swift; sourceTree = "<group>"; };
+		996D4DA66EEA013AEEB2936C /* pk_wide_gb_compat.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk_wide_gb_compat.c; sourceTree = "<group>"; };
+		99822624832D384364B8AA87 /* Gen3SaveFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3SaveFormat.swift; sourceTree = "<group>"; };
+		9B52EC8E01404161DF66288F /* DeltaSkinLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaSkinLayout.swift; sourceTree = "<group>"; };
+		9BD325D5CBCD12D233C809F4 /* VT323-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "VT323-Regular.ttf"; sourceTree = "<group>"; };
+		9E7F0C390D7BA9DA8C24182C /* pk_wide_gb.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk_wide_gb.c; sourceTree = "<group>"; };
+		9F654DF52BA3EBB19F8EAF13 /* WideCameraMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WideCameraMath.swift; sourceTree = "<group>"; };
+		A09519673455904F06AB890D /* CustomizableVirtualPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizableVirtualPad.swift; sourceTree = "<group>"; };
+		A1497B4BB8ADF750EDE69F79 /* pk_cheats_stub.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk_cheats_stub.c; sourceTree = "<group>"; };
+		A30D31B1C287F8ADD2A1DD1B /* DsTouchWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DsTouchWindow.swift; sourceTree = "<group>"; };
+		A74CB7DEA190D783935A9934 /* pk_ios.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk_ios.c; sourceTree = "<group>"; };
+		A8811D2B9061A7BF9FB28DF6 /* GameSummaryClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSummaryClient.swift; sourceTree = "<group>"; };
+		A935ECCA45B89B4599E63581 /* GlassChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassChrome.swift; sourceTree = "<group>"; };
+		ACA6DD756758FB4AD7AFAE27 /* Gen4Sampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen4Sampler.swift; sourceTree = "<group>"; };
+		B0060BC5379E058B5F54CC80 /* SaveStateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveStateSheet.swift; sourceTree = "<group>"; };
+		B15A7C0C62F49A260097BF71 /* GoogleDriveAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveAuth.swift; sourceTree = "<group>"; };
+		B74832700D2D7AD6462E2DE6 /* Gen4MapBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen4MapBlobs.swift; sourceTree = "<group>"; };
+		BAA039367E745DFFE6535047 /* Gen12Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen12Common.swift; sourceTree = "<group>"; };
+		BB8CB0802FF5B1F8F9EB048D /* Gen3BaseStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3BaseStats.swift; sourceTree = "<group>"; };
+		BB997B3D321824987166D84A /* CompanionSampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionSampler.swift; sourceTree = "<group>"; };
+		C185B2AB2AD35DA5340F6B82 /* SkinTouchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinTouchView.swift; sourceTree = "<group>"; };
+		C3C502DB64543BD4A0D12AF8 /* SaveModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveModels.swift; sourceTree = "<group>"; };
+		C56CCD459D6F499F1D924C11 /* Gen3Sampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Sampler.swift; sourceTree = "<group>"; };
+		C6EF26D3F5C9183441735708 /* DeletedCloudNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedCloudNames.swift; sourceTree = "<group>"; };
+		CCA28BF951DD9E6D78F3442B /* Gen45Bag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen45Bag.swift; sourceTree = "<group>"; };
+		CD2F684ACF58920CF2DEC968 /* FrameShaders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameShaders.swift; sourceTree = "<group>"; };
+		D0342449F9D23A41A4A7A47C /* GameScreenshotClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreenshotClient.swift; sourceTree = "<group>"; };
+		D03B6F4721D4BA43113E878E /* DisplaySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySettings.swift; sourceTree = "<group>"; };
+		D0EA30F0CD506D92231D2D8B /* RetroAchievementsPlayHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroAchievementsPlayHUD.swift; sourceTree = "<group>"; };
+		D1FCB310E755C3003F30DAC1 /* Gen2Sampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2Sampler.swift; sourceTree = "<group>"; };
+		D29B664443C55382E0ECE2FB /* OptimizedRomCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptimizedRomCatalog.swift; sourceTree = "<group>"; };
+		D38657C375B3D4E9D4EDAB4C /* FoldLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldLayout.swift; sourceTree = "<group>"; };
+		D568117356D7B081EBECF762 /* Gen4Maps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen4Maps.swift; sourceTree = "<group>"; };
+		D671531F8E96581339DBC67A /* Gen45Mon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen45Mon.swift; sourceTree = "<group>"; };
+		DA1B5DC14FF0CD39B04F0C89 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E1CA6E9D2D999F0842E2423B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		E2DCDF1CAD57A06673A4A092 /* Gen2Maps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2Maps.swift; sourceTree = "<group>"; };
+		E2EB4EC7DE78307F8FD6AD1D /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		E5B1D33052721BA22994E738 /* Gen1Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen1Save.swift; sourceTree = "<group>"; };
+		E72B2E7BF8E9A64C5B20307D /* Gen3BoxMonSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3BoxMonSave.swift; sourceTree = "<group>"; };
+		E7CDE62AC21BFF8BA2FD06A7 /* RecentlyPlayedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyPlayedStore.swift; sourceTree = "<group>"; };
+		E880EE43C8944693CC9D11D0 /* SaveEditorViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveEditorViews.swift; sourceTree = "<group>"; };
+		E93B13D6677AFBDBD4F4067B /* Silkscreen-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Silkscreen-Regular.ttf"; sourceTree = "<group>"; };
+		EBCFFBEBC5C3F4765BCF5A1A /* Gen1Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen1Config.swift; sourceTree = "<group>"; };
+		EE37702BF909FD105550CF8C /* IBMPlexSans-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Bold.otf"; sourceTree = "<group>"; };
+		F0572FEEC816096E8417442F /* PokeCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeCrypto.swift; sourceTree = "<group>"; };
+		F53F24555A7E94E53027622E /* SmartEVProfiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartEVProfiles.swift; sourceTree = "<group>"; };
+		F5437F91D859828872CDEB85 /* Gen3BattleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3BattleData.swift; sourceTree = "<group>"; };
+		F5D52653AAF40C75E1B88C74 /* Gen3Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Types.swift; sourceTree = "<group>"; };
+		FA04632FA3FB65B5A6BDD0E6 /* Gen3Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Gender.swift; sourceTree = "<group>"; };
+		FB9ECA2BA0771629AD1334BC /* RetroAchievementsSettingsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroAchievementsSettingsCard.swift; sourceTree = "<group>"; };
+		FC7C39619C53BB8A67F58342 /* SaveBinary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveBinary.swift; sourceTree = "<group>"; };
+		FCF462F12E906F41C4FB0DA3 /* Gen3Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Decode.swift; sourceTree = "<group>"; };
+		FD9A8D8766D1292949BE2591 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FDA5DFE297B0B0E45F10EE15 /* ItemIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ItemIcons; path = Resources/ItemIcons; sourceTree = SOURCE_ROOT; };
+		FF0790A4AC697D9FC4FE4964 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		08E88640C345CB7A6C50F728 /* Companion */ = {
+			isa = PBXGroup;
+			children = (
+				4BF38044CD522BDC423FDDF6 /* CompanionDrawerView.swift */,
+				153026922ED096FF35541D92 /* CompanionRomIdentity.swift */,
+				BB997B3D321824987166D84A /* CompanionSampler.swift */,
+				EBCFFBEBC5C3F4765BCF5A1A /* Gen1Config.swift */,
+				740F497D0B3C5872AFA1A2E5 /* Gen1Sampler.swift */,
+				680B2A2F6228791DE41124BA /* Gen2Config.swift */,
+				2FBCF70B05665A4D44C35333 /* Gen2MapBlobs.swift */,
+				E2DCDF1CAD57A06673A4A092 /* Gen2Maps.swift */,
+				7CC91C9625E305CB1DB32A97 /* Gen2Polished.swift */,
+				D1FCB310E755C3003F30DAC1 /* Gen2Sampler.swift */,
+				3B1857ED54B822BFD2E8653B /* Gen3BattleBlobs.swift */,
+				F5437F91D859828872CDEB85 /* Gen3BattleData.swift */,
+				0C4035314DBEAF8EA2100B22 /* Gen3Config.swift */,
+				FCF462F12E906F41C4FB0DA3 /* Gen3Decode.swift */,
+				C56CCD459D6F499F1D924C11 /* Gen3Sampler.swift */,
+				5017F6BFA320D59088A9DB74 /* Gen3SpeciesNames.swift */,
+				3CAFC860D9C06578FCE2048B /* Gen3TableBlobs.swift */,
+				51F9200B4AB4EBF01F5A2AD4 /* Gen3Text.swift */,
+				F5D52653AAF40C75E1B88C74 /* Gen3Types.swift */,
+				19055C3C33F65EE6BC82E3D9 /* Gen4Config.swift */,
+				74E6993BCBDE7D7186EF1E90 /* Gen4EncounterBlobs.swift */,
+				B74832700D2D7AD6462E2DE6 /* Gen4MapBlobs.swift */,
+				D568117356D7B081EBECF762 /* Gen4Maps.swift */,
+				ACA6DD756758FB4AD7AFAE27 /* Gen4Sampler.swift */,
+				279694569AE34337193273B9 /* ItemIconView.swift */,
+				632490505807D8060BA2A24F /* SpeciesIcon.swift */,
+				039AF27EC116EA5D20BF4048 /* SupportQueueView.swift */,
+				BCAA7EB326F915FE024D15B8 /* Generated */,
+			);
+			path = Companion;
+			sourceTree = "<group>";
+		};
+		145DD83787AE9EFE1A6AA913 /* app */ = {
+			isa = PBXGroup;
+			children = (
+				DD4B28D56E0EF44EA70BDF55 /* src */,
+			);
+			path = app;
+			sourceTree = "<group>";
+		};
+		19F44F47A31F6265A1190342 /* upstream */ = {
+			isa = PBXGroup;
+			children = (
+				145DD83787AE9EFE1A6AA913 /* app */,
+			);
+			path = upstream;
+			sourceTree = "<group>";
+		};
+		234A3FC5BD84F639CB160A63 /* melonds */ = {
+			isa = PBXGroup;
+			children = (
+				E2EB4EC7DE78307F8FD6AD1D /* CMakeLists.txt */,
+			);
+			path = melonds;
+			sourceTree = "<group>";
+		};
+		241E107705CAE0F36A572C37 /* android_shim */ = {
+			isa = PBXGroup;
+			children = (
+				5CA18139BA6B10D1C488C7AB /* android */,
+			);
+			path = android_shim;
+			sourceTree = "<group>";
+		};
+		2610ADDA61E37C7CB33F40A5 /* SaveEditor */ = {
+			isa = PBXGroup;
+			children = (
+				E5B1D33052721BA22994E738 /* Gen1Save.swift */,
+				4B34EF559154E2991D528F4D /* Gen2Save.swift */,
+				BB8CB0802FF5B1F8F9EB048D /* Gen3BaseStats.swift */,
+				E72B2E7BF8E9A64C5B20307D /* Gen3BoxMonSave.swift */,
+				FA04632FA3FB65B5A6BDD0E6 /* Gen3Gender.swift */,
+				4833B0CEB5DD74678EE1F223 /* Gen3Learnsets.swift */,
+				728293CA62D38E00F3DA0EC0 /* Gen3MovePP.swift */,
+				2BC00F4C242F8DA11C7DD5F2 /* Gen3SaveEditor.swift */,
+				01C24AE9F509F9CE073666A3 /* Gen3SaveFile.swift */,
+				99822624832D384364B8AA87 /* Gen3SaveFormat.swift */,
+				267E80E81BA2DD64CDC3CF5D /* Gen3Trade.swift */,
+				28A0A0C17191446E832385EB /* Gen4Save.swift */,
+				7D9C9CF8EDDB627E19FD6CA6 /* Gen5Save.swift */,
+				BAA039367E745DFFE6535047 /* Gen12Common.swift */,
+				CCA28BF951DD9E6D78F3442B /* Gen45Bag.swift */,
+				D671531F8E96581339DBC67A /* Gen45Mon.swift */,
+				25608D48F8D1D7CCDB4F6B7F /* Gen45Personal.swift */,
+				0BCA10AC829013C13F002B6C /* Gen45Text.swift */,
+				F0572FEEC816096E8417442F /* PokeCrypto.swift */,
+				FC7C39619C53BB8A67F58342 /* SaveBinary.swift */,
+				E880EE43C8944693CC9D11D0 /* SaveEditorViews.swift */,
+				C3C502DB64543BD4A0D12AF8 /* SaveModels.swift */,
+				248A1E2AFBDAB414E388ED63 /* SaveSession.swift */,
+				F53F24555A7E94E53027622E /* SmartEVProfiles.swift */,
+			);
+			path = SaveEditor;
+			sourceTree = "<group>";
+		};
+		286527AA3852F8F4687EAB8A /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				A1497B4BB8ADF750EDE69F79 /* pk_cheats_stub.c */,
+				A74CB7DEA190D783935A9934 /* pk_ios.c */,
+				5BDDE7481C6C5B387B276FE4 /* pk_ios.h */,
+				722D1D653D12EABEC94AF290 /* pk_nds_gl_stub.cpp */,
+				644D99D9668A1A25D83D9B9A /* pk_unzip.c */,
+				115848AD890B0921B4A88482 /* pk_unzip.h */,
+				241E107705CAE0F36A572C37 /* android_shim */,
+				234A3FC5BD84F639CB160A63 /* melonds */,
+				8D5F3C43475D14055AFE8B9C /* wide_gb */,
+			);
+			path = Native;
+			sourceTree = "<group>";
+		};
+		362AEC6929CD341412BA0D27 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3C0CA64F6A3BA6B0B748AC82 /* PocketDex.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3C32DDEFE12CC74DF117ED38 /* main */ = {
+			isa = PBXGroup;
+			children = (
+				423F376C06328F8D96F610A9 /* cpp */,
+			);
+			path = main;
+			sourceTree = "<group>";
+		};
+		423F376C06328F8D96F610A9 /* cpp */ = {
+			isa = PBXGroup;
+			children = (
+				73860CB0244F0E73DEE37E41 /* pk_wide.c */,
+			);
+			path = cpp;
+			sourceTree = "<group>";
+		};
+		4C00CD9F93D363B514621C2D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FD9A8D8766D1292949BE2591 /* Assets.xcassets */,
+				FDA5DFE297B0B0E45F10EE15 /* ItemIcons */,
+				2D58ADA90FBAE000BE66E13D /* LearnsetsNational.bin */,
+				496C9EABF91C6C3BBBB21FEF /* SpeciesIcons */,
+				B69B8E5734E1EACA023B4C1D /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5CA18139BA6B10D1C488C7AB /* android */ = {
+			isa = PBXGroup;
+			children = (
+				28EDC7E362ACFE0B9DF7B5D5 /* log.h */,
+			);
+			path = android;
+			sourceTree = "<group>";
+		};
+		60E00D254812464E27C70EFE = {
+			isa = PBXGroup;
+			children = (
+				286527AA3852F8F4687EAB8A /* Native */,
+				858B509DF9EA4DBEC95F1998 /* PokeDaisy-iOS */,
+				4C00CD9F93D363B514621C2D /* Resources */,
+				B619ABF98FBB517281B89B94 /* Sources */,
+				362AEC6929CD341412BA0D27 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		858B509DF9EA4DBEC95F1998 /* PokeDaisy-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				19F44F47A31F6265A1190342 /* upstream */,
+			);
+			name = "PokeDaisy-iOS";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		8D5F3C43475D14055AFE8B9C /* wide_gb */ = {
+			isa = PBXGroup;
+			children = (
+				996D4DA66EEA013AEEB2936C /* pk_wide_gb_compat.c */,
+				6668C7E246AF0C41DDFDEC28 /* pk_wide_gb_polished_tables.h */,
+				6966A9600EFD1821A3528C9C /* pk_wide_gb_profile.h */,
+				9E7F0C390D7BA9DA8C24182C /* pk_wide_gb.c */,
+			);
+			path = wide_gb;
+			sourceTree = "<group>";
+		};
+		94CB0AFB079A3BA0A840CE6D /* Achievements */ = {
+			isa = PBXGroup;
+			children = (
+				3121FFA42AE069271149C506 /* RetroAchievementsClient.swift */,
+				D0EA30F0CD506D92231D2D8B /* RetroAchievementsPlayHUD.swift */,
+				FB9ECA2BA0771629AD1334BC /* RetroAchievementsSettingsCard.swift */,
+			);
+			path = Achievements;
+			sourceTree = "<group>";
+		};
+		B619ABF98FBB517281B89B94 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				FF0790A4AC697D9FC4FE4964 /* AppSettings.swift */,
+				A09519673455904F06AB890D /* CustomizableVirtualPad.swift */,
+				9B52EC8E01404161DF66288F /* DeltaSkinLayout.swift */,
+				3B50E6C2BADCB534ED7A67A8 /* DeltaSkinManager.swift */,
+				D03B6F4721D4BA43113E878E /* DisplaySettings.swift */,
+				A30D31B1C287F8ADD2A1DD1B /* DsTouchWindow.swift */,
+				2520D3F1870552F3F520EF52 /* DuoHinge.swift */,
+				5A9C59466DA9892EDCDC44D4 /* DuoSafeAreaProbe.swift */,
+				0C2EDEC5B47371508D9F75E8 /* EmulatorAudio.swift */,
+				581043C4738F9D02E50F8B45 /* EmulatorEngine.swift */,
+				D38657C375B3D4E9D4EDAB4C /* FoldLayout.swift */,
+				CD2F684ACF58920CF2DEC968 /* FrameShaders.swift */,
+				34501B4C443C382EE7AA5657 /* GameDetailView.swift */,
+				28DF4EE283A2D59771AE6805 /* GameShaderOverlay.swift */,
+				A935ECCA45B89B4599E63581 /* GlassChrome.swift */,
+				8DB8E36953EC24C977EA8389 /* LibraryView.swift */,
+				D29B664443C55382E0ECE2FB /* OptimizedRomCatalog.swift */,
+				05277C02EDAA79669E7CA8A3 /* PadTouchView.swift */,
+				7D6291ECD52F9AD6402F1C12 /* PlayView.swift */,
+				90CF6EBD39664066EC64CE9F /* PocketDex-Bridging-Header.h */,
+				0FFB63EE7347FB12AB94E137 /* PocketDexApp.swift */,
+				E7CDE62AC21BFF8BA2FD06A7 /* RecentlyPlayedStore.swift */,
+				100AA8F1B8D5D2B45195D472 /* RomLibrary.swift */,
+				B0060BC5379E058B5F54CC80 /* SaveStateSheet.swift */,
+				DA1B5DC14FF0CD39B04F0C89 /* SettingsView.swift */,
+				C185B2AB2AD35DA5340F6B82 /* SkinTouchView.swift */,
+				E1CA6E9D2D999F0842E2423B /* Theme.swift */,
+				7EFC5AD7AA0238DF5E6B13D2 /* TouchPadLayout.swift */,
+				9F654DF52BA3EBB19F8EAF13 /* WideCameraMath.swift */,
+				94CB0AFB079A3BA0A840CE6D /* Achievements */,
+				D913B8C24A884CA537673B8B /* Artwork */,
+				B9FA1FD38F1FF08251755557 /* Cloud */,
+				08E88640C345CB7A6C50F728 /* Companion */,
+				2610ADDA61E37C7CB33F40A5 /* SaveEditor */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		B69B8E5734E1EACA023B4C1D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				2ADE87A5CBF4797573419A8B /* IBMPlexMono-Medium.otf */,
+				EE37702BF909FD105550CF8C /* IBMPlexSans-Bold.otf */,
+				12A8204A5CC85C72FB0FA00E /* IBMPlexSans-Medium.otf */,
+				0B6EBC218FA151A153C991F4 /* IBMPlexSans-Regular.otf */,
+				177820AFFD77D0C2ED414EC5 /* IBMPlexSans-SemiBold.otf */,
+				5672820A14C56BE73137FE5B /* PressStart2P-Regular.ttf */,
+				E93B13D6677AFBDBD4F4067B /* Silkscreen-Regular.ttf */,
+				9BD325D5CBCD12D233C809F4 /* VT323-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		B9FA1FD38F1FF08251755557 /* Cloud */ = {
+			isa = PBXGroup;
+			children = (
+				C6EF26D3F5C9183441735708 /* DeletedCloudNames.swift */,
+				B15A7C0C62F49A260097BF71 /* GoogleDriveAuth.swift */,
+				093FF2E1FCB6983B294C07F4 /* GoogleDriveSync.swift */,
+			);
+			path = Cloud;
+			sourceTree = "<group>";
+		};
+		BCAA7EB326F915FE024D15B8 /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				71270D1B3D1F6EE5E03F2508 /* Gen3ConfigsGen.swift */,
+				1FA0BAF56BE2C45919217DB1 /* RomIdentityGen.swift */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		D913B8C24A884CA537673B8B /* Artwork */ = {
+			isa = PBXGroup;
+			children = (
+				94DCAD1C90AC4CF41AD3F6E4 /* ArtworkPickerSheet.swift */,
+				D0342449F9D23A41A4A7A47C /* GameScreenshotClient.swift */,
+				A8811D2B9061A7BF9FB28DF6 /* GameSummaryClient.swift */,
+				85B3908577A743FA10F530EA /* KeychainStore.swift */,
+				5AB26A7A4877A56AF7F64A01 /* LibraryFont.swift */,
+				7572853537CA66DAB62C4AD7 /* LibretroArtworkClient.swift */,
+				80D09F740D58A6A793B78269 /* RomArtworkStore.swift */,
+				838F003567700BE5EEEC0C43 /* SteamGridDBClient.swift */,
+			);
+			path = Artwork;
+			sourceTree = "<group>";
+		};
+		DD4B28D56E0EF44EA70BDF55 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				3C32DDEFE12CC74DF117ED38 /* main */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B1A4916E258CF7CC31A0D501 /* PocketDex */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28B0FB1298C6DF7B51AE07F1 /* Build configuration list for PBXNativeTarget "PocketDex" */;
+			buildPhases = (
+				02FB58FE4D32B9A3BA448715 /* Sources */,
+				DE6DA14D461B6C28C9D4B3DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PocketDex;
+			packageProductDependencies = (
+			);
+			productName = PocketDex;
+			productReference = 3C0CA64F6A3BA6B0B748AC82 /* PocketDex.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		11E93DF25A0D30DE7588789A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					B1A4916E258CF7CC31A0D501 = {
+						DevelopmentTeam = 5TNX7VB7Z6;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 00BB55B66446E8CA63B4EF83 /* Build configuration list for PBXProject "PocketDex" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 60E00D254812464E27C70EFE;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 362AEC6929CD341412BA0D27 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B1A4916E258CF7CC31A0D501 /* PocketDex */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DE6DA14D461B6C28C9D4B3DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				38079D79F630AE1846CB9963 /* Assets.xcassets in Resources */,
+				E860E3C4DAA0B912D1D83009 /* CMakeLists.txt in Resources */,
+				389A8F7C3EC8703A8CF717BF /* IBMPlexMono-Medium.otf in Resources */,
+				7911D852AB6F1DE1BEA82D4A /* IBMPlexSans-Bold.otf in Resources */,
+				2D9CA7D3D45E213991448389 /* IBMPlexSans-Medium.otf in Resources */,
+				E2C4A88DEAB7489A44F136BF /* IBMPlexSans-Regular.otf in Resources */,
+				8EE1476C4984CC4A607C9452 /* IBMPlexSans-SemiBold.otf in Resources */,
+				72124D472337A620A3952FDA /* ItemIcons in Resources */,
+				765F28EDD3CB68E88A902CC5 /* LearnsetsNational.bin in Resources */,
+				E5AD57FA0CA95231A71DB8B7 /* PressStart2P-Regular.ttf in Resources */,
+				367B60DA61F6E0BF383E6C10 /* Silkscreen-Regular.ttf in Resources */,
+				BAB1D719DD2FE7BBE65EA6AC /* SpeciesIcons in Resources */,
+				DA6E6392EF2D57ECC4B44637 /* VT323-Regular.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		02FB58FE4D32B9A3BA448715 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				239DDFBF5D9A2C4E6B257D3B /* AppSettings.swift in Sources */,
+				D086E7B97D47F501255B22EB /* ArtworkPickerSheet.swift in Sources */,
+				932ADA9C957561B9543F2538 /* CompanionDrawerView.swift in Sources */,
+				ED1DC185102078FB3EBB757F /* CompanionRomIdentity.swift in Sources */,
+				17ABC8A78AD2F82CD7484944 /* CompanionSampler.swift in Sources */,
+				D0974D07C9EA2D929996E97B /* CustomizableVirtualPad.swift in Sources */,
+				E1E8F8A370A8EA69B4487485 /* DeletedCloudNames.swift in Sources */,
+				8BC5A34ED6CFB982626632F1 /* DeltaSkinLayout.swift in Sources */,
+				548A944E3D342414868263E4 /* DeltaSkinManager.swift in Sources */,
+				324AA29103F7DB44D38F8F40 /* DisplaySettings.swift in Sources */,
+				076897AB5D6C24465767C34A /* DsTouchWindow.swift in Sources */,
+				538F5E936E22F1E3CB4EB81E /* DuoHinge.swift in Sources */,
+				581A8C741D94B00615687988 /* DuoSafeAreaProbe.swift in Sources */,
+				6ADC6FBBEBBC4E7669ED915F /* EmulatorAudio.swift in Sources */,
+				3B305B07264C09F0781E8F41 /* EmulatorEngine.swift in Sources */,
+				F24CB298E7A60C87EFB14875 /* FoldLayout.swift in Sources */,
+				3F7374902E756E8CEC466E9D /* FrameShaders.swift in Sources */,
+				D2F18ACFC8243C7C65FDA12D /* GameDetailView.swift in Sources */,
+				98C9B651E6F9D5D610C0319A /* GameScreenshotClient.swift in Sources */,
+				2FCD582D44FA71BE31B28B4A /* GameShaderOverlay.swift in Sources */,
+				A372337D3C80534A094E4FBE /* GameSummaryClient.swift in Sources */,
+				A2090B1A81823942F99C8990 /* Gen12Common.swift in Sources */,
+				5ACA1343538A62172EC86F17 /* Gen1Config.swift in Sources */,
+				937F1D54D5280B97D3AC1CCC /* Gen1Sampler.swift in Sources */,
+				6A74822201B30887DE8C4CCC /* Gen1Save.swift in Sources */,
+				6FE1A91DE913AD1E35F55CA9 /* Gen2Config.swift in Sources */,
+				6A26C8252715EF4741DF960E /* Gen2MapBlobs.swift in Sources */,
+				C1B80F947657D9D5E65627E3 /* Gen2Maps.swift in Sources */,
+				BC59B85BBA285CDC1EC678B4 /* Gen2Polished.swift in Sources */,
+				A469EDEAE73BD44E349F7796 /* Gen2Sampler.swift in Sources */,
+				CC0F9B534C6AB9E1D27B131F /* Gen2Save.swift in Sources */,
+				EC0E52FE10A52B396BD014E4 /* Gen3BaseStats.swift in Sources */,
+				E23CFA0322A9FE3726E5493B /* Gen3BattleBlobs.swift in Sources */,
+				B4555ED3A9A941D76A6B3A90 /* Gen3BattleData.swift in Sources */,
+				7DA74179A54780287D342B39 /* Gen3BoxMonSave.swift in Sources */,
+				ECD1FFE554A84ECF4B43335E /* Gen3Config.swift in Sources */,
+				234AAEE94072A80C738CCBF2 /* Gen3ConfigsGen.swift in Sources */,
+				71879D16048761A05DFD6753 /* Gen3Decode.swift in Sources */,
+				9E22AEC346F9EA5C939D3628 /* Gen3Gender.swift in Sources */,
+				F223366FC55DEBDC56F8B604 /* Gen3Learnsets.swift in Sources */,
+				FD9051FA553318CFA1B8C554 /* Gen3MovePP.swift in Sources */,
+				D4DE215F89A79A414DECF1A0 /* Gen3Sampler.swift in Sources */,
+				F008B3220934F9F4C4133FDA /* Gen3SaveEditor.swift in Sources */,
+				6B733BFC603C7445A9A94A38 /* Gen3SaveFile.swift in Sources */,
+				4F0526861C992D51DD8C1444 /* Gen3SaveFormat.swift in Sources */,
+				303229E9538B9719C4D2C5B5 /* Gen3SpeciesNames.swift in Sources */,
+				3D5898FA1B359E3237799A8A /* Gen3TableBlobs.swift in Sources */,
+				20DBB24A0D67BE2AB2974901 /* Gen3Text.swift in Sources */,
+				84D2E5DE8853F3E73837F533 /* Gen3Trade.swift in Sources */,
+				DF6BEBE1770C1FDE1732CFE8 /* Gen3Types.swift in Sources */,
+				967862D508397A6C94A02E7C /* Gen45Bag.swift in Sources */,
+				FD26895E921BCE49A5268B16 /* Gen45Mon.swift in Sources */,
+				28E567946A38E1BC628F9A2C /* Gen45Personal.swift in Sources */,
+				957BD848D2F19B188D475D7F /* Gen45Text.swift in Sources */,
+				F846ADF6EFE49CDE02362C34 /* Gen4Config.swift in Sources */,
+				64E62E238295B3D59045D05B /* Gen4EncounterBlobs.swift in Sources */,
+				DE422876C0BAEBAA935C9BD7 /* Gen4MapBlobs.swift in Sources */,
+				6BEFF9FB031F63242C79AAF0 /* Gen4Maps.swift in Sources */,
+				4B94A6CA554DBB3B616A178F /* Gen4Sampler.swift in Sources */,
+				D3AE2D2DD2ED97F1BB7B6F58 /* Gen4Save.swift in Sources */,
+				1B210C6CE689A7E07A54C8ED /* Gen5Save.swift in Sources */,
+				B8D73903837E8AF104023F0A /* GlassChrome.swift in Sources */,
+				D938140253ED7F488DF89FCC /* GoogleDriveAuth.swift in Sources */,
+				6BB0AF3778DF7382C7A77E47 /* GoogleDriveSync.swift in Sources */,
+				823C3775CDEC47AD429BBDAD /* ItemIconView.swift in Sources */,
+				772AD791D27F9ECC6129DBDE /* KeychainStore.swift in Sources */,
+				CCCDDA6E1F33CBC48897C65C /* LibraryFont.swift in Sources */,
+				DE8686E9275C91569187D1F8 /* LibraryView.swift in Sources */,
+				56D3506A02A242AF159BF4B3 /* LibretroArtworkClient.swift in Sources */,
+				E0E3DEAFD7478D33E946A773 /* OptimizedRomCatalog.swift in Sources */,
+				3F53D4E73A977332D77C7CDF /* PadTouchView.swift in Sources */,
+				B1FDDEA5F9C9734A93416A79 /* PlayView.swift in Sources */,
+				A86F80FFF81943B94CACF938 /* PocketDexApp.swift in Sources */,
+				32C13130018EC30DCB3D1AC9 /* PokeCrypto.swift in Sources */,
+				C87F2605795AC80C89256CF1 /* RecentlyPlayedStore.swift in Sources */,
+				4327E6EAF75C52AD0731FCB1 /* RetroAchievementsClient.swift in Sources */,
+				A1D26F23C31B1211C1C5F9B4 /* RetroAchievementsPlayHUD.swift in Sources */,
+				6FAB5E578C249A524B2866C6 /* RetroAchievementsSettingsCard.swift in Sources */,
+				FA07B445EBF00DF1342A896F /* RomArtworkStore.swift in Sources */,
+				58D26D4402A0FF3B611CC0E0 /* RomIdentityGen.swift in Sources */,
+				38B0353D63AFA77DDFE8B4C5 /* RomLibrary.swift in Sources */,
+				F1FCBC18A1F337BA5FCA4C03 /* SaveBinary.swift in Sources */,
+				7EC96FEF393EF6937A94D197 /* SaveEditorViews.swift in Sources */,
+				EE225D43414AE1A023C6D41E /* SaveModels.swift in Sources */,
+				8DF2FD80F179389BEED030A9 /* SaveSession.swift in Sources */,
+				6CAEAD0DE2E181CB35237CB6 /* SaveStateSheet.swift in Sources */,
+				E78E733E0F68C0A78694D8AA /* SettingsView.swift in Sources */,
+				7CB58F7C2056DD9073AE3C31 /* SkinTouchView.swift in Sources */,
+				26E93634F26DEE6D59A46864 /* SmartEVProfiles.swift in Sources */,
+				173F87AF42B95584D1ACFEB2 /* SpeciesIcon.swift in Sources */,
+				691AFEFAF178D642832D0F2C /* SteamGridDBClient.swift in Sources */,
+				A713DA8251DEA08A53C1BDDD /* SupportQueueView.swift in Sources */,
+				D85CBBC8284E1EA889AC0E3F /* Theme.swift in Sources */,
+				8B80D7135099DE1C27400E82 /* TouchPadLayout.swift in Sources */,
+				D85FA1ED144BC2E75C1C70AC /* WideCameraMath.swift in Sources */,
+				2F9FF7C130AB20F1DF3BC78F /* pk_cheats_stub.c in Sources */,
+				B36B88427A53D85BF7DDCF16 /* pk_ios.c in Sources */,
+				497031CBA36D7F5854612E12 /* pk_nds_gl_stub.cpp in Sources */,
+				B6F23CCA96AD9E9BCDAE4996 /* pk_unzip.c in Sources */,
+				B94151D6E9F4BBD9B1F8A327 /* pk_wide.c in Sources */,
+				20B2FB8E07CFA8028D1ABFA7 /* pk_wide_gb.c in Sources */,
+				C18F14AAF96185061D936B2F /* pk_wide_gb_compat.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		395D24574CCC02C911FAA203 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6D4A7B296CAAAAC3EF060AD2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 166;
+				DEVELOPMENT_TEAM = 5TNX7VB7Z6;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Native",
+					"$(SRCROOT)/Native/android_shim",
+					"$(SRCROOT)/../upstream/app/src/main/cpp",
+					"$(SRCROOT)/../upstream/app/src/main/cpp/nds",
+					"$(SRCROOT)/../upstream/third_party/mgba/include",
+					"$(SRCROOT)/../upstream/third_party/mgba/src",
+					"$(SRCROOT)/../upstream/third_party/melonds/src",
+					"$(SRCROOT)/../build/mgba-ios/include",
+					"$(SRCROOT)/../build/mgba-ios",
+				);
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../build/mgba-ios/Release-iphoneos",
+					"$(SRCROOT)/../build/melonds-ios/Release-iphoneos",
+				);
+				MARKETING_VERSION = 0.10.67;
+				OTHER_CFLAGS = (
+					"-DM_CORE_GBA",
+					"-DM_CORE_GB",
+					"-DUSE_PTHREADS",
+					"-DARCHITECTURE_ARM64=1",
+					"-Wno-unused-parameter",
+					"-Wno-unused-function",
+					"-Wno-unused-variable",
+				);
+				OTHER_LDFLAGS = (
+					"-lmgba",
+					"-lpknds",
+					"-lcore",
+					"-lteakra",
+					"-lz",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.anonxcast.pocketdex;
+				PRODUCT_NAME = PocketDex;
+				SDKROOT = iphoneos;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/PocketDex-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		834BBD1C4AD5CD2EF39BDB2E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 166;
+				DEVELOPMENT_TEAM = 5TNX7VB7Z6;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Native",
+					"$(SRCROOT)/Native/android_shim",
+					"$(SRCROOT)/../upstream/app/src/main/cpp",
+					"$(SRCROOT)/../upstream/app/src/main/cpp/nds",
+					"$(SRCROOT)/../upstream/third_party/mgba/include",
+					"$(SRCROOT)/../upstream/third_party/mgba/src",
+					"$(SRCROOT)/../upstream/third_party/melonds/src",
+					"$(SRCROOT)/../build/mgba-ios/include",
+					"$(SRCROOT)/../build/mgba-ios",
+				);
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../build/mgba-ios/Release-iphoneos",
+					"$(SRCROOT)/../build/melonds-ios/Release-iphoneos",
+				);
+				MARKETING_VERSION = 0.10.67;
+				OTHER_CFLAGS = (
+					"-DM_CORE_GBA",
+					"-DM_CORE_GB",
+					"-DUSE_PTHREADS",
+					"-DARCHITECTURE_ARM64=1",
+					"-Wno-unused-parameter",
+					"-Wno-unused-function",
+					"-Wno-unused-variable",
+				);
+				OTHER_LDFLAGS = (
+					"-lmgba",
+					"-lpknds",
+					"-lcore",
+					"-lteakra",
+					"-lz",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.anonxcast.pocketdex;
+				PRODUCT_NAME = PocketDex;
+				SDKROOT = iphoneos;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/PocketDex-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C5E69B172CFD0B7936EC9EA8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00BB55B66446E8CA63B4EF83 /* Build configuration list for PBXProject "PocketDex" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				395D24574CCC02C911FAA203 /* Debug */,
+				C5E69B172CFD0B7936EC9EA8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		28B0FB1298C6DF7B51AE07F1 /* Build configuration list for PBXNativeTarget "PocketDex" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				834BBD1C4AD5CD2EF39BDB2E /* Debug */,
+				6D4A7B296CAAAAC3EF060AD2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 11E93DF25A0D30DE7588789A /* Project object */;
+}
