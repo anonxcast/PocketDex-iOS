@@ -1,5 +1,11 @@
-# Local-only (not for public GitHub)
+# Local-only (never publish) — coaching, Discord drafts, personal notes
+docs/private/
 docs/ALPHA_PLAYTEST.md
+**/ALPHA_PLAYTEST.md
+.cursor/private/
+*_PRIVATE.md
+*_private.md
+
 
 # Secrets & local credentials
 ios/Secrets/
