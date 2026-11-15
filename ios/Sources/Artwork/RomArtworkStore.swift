@@ -309,7 +309,10 @@ final class RomArtworkStore: ObservableObject {
   func appendScreenshot(imageData: Data, forKey key: String) -> URL? {
     guard !imageData.isEmpty else { return nil }
     let dir = screenshotsDirectory(forKey: key)
-    let name = String(format: "snap_%lld.png", Int64(Date().timeIntervalSince1970 * 1000))
+    // Detect JPEG SOI vs treat as PNG so the gallery loader's extension filter matches.
+    let isJPEG = imageData.count >= 2 && imageData[0] == 0xFF && imageData[1] == 0xD8
+    let ext = isJPEG ? "jpg" : "png"
+    let name = String(format: "snap_%lld.%@", Int64(Date().timeIntervalSince1970 * 1000), ext)
     let dest = dir.appendingPathComponent(name)
     do {
       try imageData.write(to: dest, options: .atomic)

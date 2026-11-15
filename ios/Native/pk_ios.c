@@ -13,6 +13,7 @@
 #include <mgba-util/vfs.h>
 
 #include <fcntl.h>
+#include <math.h>
 #include <pthread.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -136,6 +137,12 @@ static void audio_rate_control_locked(void) {
   double adj = 1.0 - err * 0.04;
   if (adj < 0.985) adj = 0.985;
   if (adj > 1.015) adj = 1.015;
+  /* Pull back toward 1.0 so a hitch (screenshot / heavy UI) doesn't leave
+   * pitch stuck slow after the ring recovers. */
+  adj = g.rate_scale * 0.85 + adj * 0.15;
+  if (adj < 0.985) adj = 0.985;
+  if (adj > 1.015) adj = 1.015;
+  if (fabs(adj - g.rate_scale) < 0.0005) return;
   g.rate_scale = adj;
   configure_audio_rates_locked();
 }

@@ -6,6 +6,10 @@ final class EmulatorAudio {
   private let engine = AVAudioEngine()
   private var sourceNode: AVAudioSourceNode?
   private var started = false
+  private var outputEnabled = true
+  private var lastVolume: Float = -1
+  private var hwRate = Double(PK_IOS_AUDIO_SAMPLE_RATE)
+  private var observers: [NSObjectProtocol] = []
   /// Preallocated — never malloc on the real-time audio callback.
   private let maxCallbackFrames = 4096
   private let pcmScratch: UnsafeMutablePointer<Int16>
@@ -16,12 +20,32 @@ final class EmulatorAudio {
   }
 
   deinit {
+    removeSessionObservers()
     pcmScratch.deallocate()
   }
 
   func start() {
     guard !started else { return }
-    var hwRate = Double(PK_IOS_AUDIO_SAMPLE_RATE)
+    configureSessionAndEngine()
+    installSessionObservers()
+  }
+
+  func stop() {
+    removeSessionObservers()
+    guard started else { return }
+    tearDownEngine()
+    try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
+  }
+
+  func setOutputEnabled(_ enabled: Bool) {
+    outputEnabled = enabled
+    applyVolumeIfNeeded()
+  }
+
+  // MARK: - Engine
+
+  private func configureSessionAndEngine() {
+    hwRate = Double(PK_IOS_AUDIO_SAMPLE_RATE)
     do {
       let session = AVAudioSession.sharedInstance()
       try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
@@ -71,32 +95,105 @@ final class EmulatorAudio {
 
     engine.attach(node)
     engine.connect(node, to: engine.mainMixerNode, format: format)
-    engine.mainMixerNode.outputVolume = 1.0
     sourceNode = node
+    lastVolume = -1
+    applyVolumeIfNeeded()
 
     do {
       try engine.start()
       started = true
     } catch {
-      engine.detach(node)
-      sourceNode = nil
-      started = false
+      tearDownEngine()
     }
   }
 
-  func stop() {
-    guard started else { return }
-    engine.stop()
+  private func tearDownEngine() {
+    if engine.isRunning { engine.stop() }
     if let node = sourceNode {
       engine.detach(node)
       sourceNode = nil
     }
     started = false
-    try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
+    lastVolume = -1
   }
 
-  func setOutputEnabled(_ enabled: Bool) {
+  private func applyVolumeIfNeeded() {
     guard started else { return }
-    engine.mainMixerNode.outputVolume = enabled ? 1.0 : 0.0
+    let v: Float = outputEnabled ? 1.0 : 0.0
+    guard abs(v - lastVolume) > 0.001 else { return }
+    engine.mainMixerNode.outputVolume = v
+    lastVolume = v
+  }
+
+  /// iOS screenshots / Control Center can interrupt or stop AVAudioEngine; bring it back.
+  private func recoverAfterInterruption() {
+    do {
+      let session = AVAudioSession.sharedInstance()
+      try session.setActive(true)
+      if session.sampleRate > 0, abs(session.sampleRate - hwRate) > 1 {
+        hwRate = session.sampleRate
+        pk_ios_set_output_sample_rate(hwRate)
+      }
+    } catch {}
+
+    if !started {
+      configureSessionAndEngine()
+      return
+    }
+    if !engine.isRunning {
+      do {
+        try engine.start()
+        applyVolumeIfNeeded()
+      } catch {
+        tearDownEngine()
+        configureSessionAndEngine()
+      }
+    }
+  }
+
+  // MARK: - Session observers
+
+  private func installSessionObservers() {
+    removeSessionObservers()
+    let nc = NotificationCenter.default
+    observers.append(
+      nc.addObserver(
+        forName: AVAudioSession.interruptionNotification,
+        object: AVAudioSession.sharedInstance(),
+        queue: .main
+      ) { [weak self] note in
+        guard let self else { return }
+        let type = (note.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt)
+          .flatMap { AVAudioSession.InterruptionType(rawValue: $0) }
+        if type == .ended {
+          self.recoverAfterInterruption()
+        }
+      }
+    )
+    observers.append(
+      nc.addObserver(
+        forName: AVAudioSession.mediaServicesWereResetNotification,
+        object: nil,
+        queue: .main
+      ) { [weak self] _ in
+        self?.tearDownEngine()
+        self?.configureSessionAndEngine()
+      }
+    )
+    observers.append(
+      nc.addObserver(
+        forName: .AVAudioEngineConfigurationChange,
+        object: engine,
+        queue: .main
+      ) { [weak self] _ in
+        self?.recoverAfterInterruption()
+      }
+    )
+  }
+
+  private func removeSessionObservers() {
+    let nc = NotificationCenter.default
+    for o in observers { nc.removeObserver(o) }
+    observers.removeAll()
   }
 }

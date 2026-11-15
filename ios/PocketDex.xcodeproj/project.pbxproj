@@ -810,7 +810,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 166;
+				CURRENT_PROJECT_VERSION = 167;
 				DEVELOPMENT_TEAM = 5TNX7VB7Z6;
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -833,7 +833,7 @@
 					"$(SRCROOT)/../build/mgba-ios/Release-iphoneos",
 					"$(SRCROOT)/../build/melonds-ios/Release-iphoneos",
 				);
-				MARKETING_VERSION = 0.10.67;
+				MARKETING_VERSION = 0.10.68;
 				OTHER_CFLAGS = (
 					"-DM_CORE_GBA",
 					"-DM_CORE_GB",
@@ -867,7 +867,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 166;
+				CURRENT_PROJECT_VERSION = 167;
 				DEVELOPMENT_TEAM = 5TNX7VB7Z6;
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -890,7 +890,7 @@
 					"$(SRCROOT)/../build/mgba-ios/Release-iphoneos",
 					"$(SRCROOT)/../build/melonds-ios/Release-iphoneos",
 				);
-				MARKETING_VERSION = 0.10.67;
+				MARKETING_VERSION = 0.10.68;
 				OTHER_CFLAGS = (
 					"-DM_CORE_GBA",
 					"-DM_CORE_GB",

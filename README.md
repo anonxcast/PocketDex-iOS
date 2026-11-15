@@ -27,6 +27,29 @@ Optimized ROM support is documented in-app under **Settings → About → Optimi
 
 ---
 
+## Screenshots
+
+<p>
+  <img src="docs/showcase/01-library-gb.jpg" alt="Game Boy library" width="280" />
+  <img src="docs/showcase/02-library-gba.jpg" alt="GBA library with optimized hacks" width="280" />
+  <img src="docs/showcase/03-library-portrait.jpg" alt="Portrait library" width="180" />
+</p>
+<p>
+  <img src="docs/showcase/04-detail-unbound.jpg" alt="Pokémon Unbound game page" width="280" />
+  <img src="docs/showcase/05-detail-heart-and-soul.jpg" alt="Heart and Soul game page" width="280" />
+</p>
+<p>
+  <img src="docs/showcase/06-gameplay-firered.png" alt="FireRed gameplay" width="280" />
+  <img src="docs/showcase/07-gameplay-pallet.png" alt="Pallet Town with Expand" width="280" />
+  <img src="docs/showcase/08-companion-drawer.png" alt="Companion drawer" width="280" />
+</p>
+<p>
+  <img src="docs/showcase/09-save-editor.png" alt="Save editor" width="280" />
+  <img src="docs/showcase/10-achievements.png" alt="Achievements" width="280" />
+</p>
+
+---
+
 ## What you need to build
 
 - macOS with Xcode 15+
