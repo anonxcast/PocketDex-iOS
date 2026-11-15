@@ -41,6 +41,10 @@ final class EmulatorEngine: ObservableObject {
   private var companionFrameCount = 0
   private var companionGeneration = 0
   private let companionSampleEveryFrames = 15
+  /// When the companion drawer is open, sample less often so SwiftUI redraws
+  /// don't stall CADisplayLink (which underruns audio and sounds slow/poppy).
+  var companionDrawerOpen = false
+  private var lastAudioEnabled: Bool?
 
   /// Last play-area size used to compute the WIDE window (points).
   private var lastWideDisplay: CGSize = .zero
@@ -370,13 +374,21 @@ final class EmulatorEngine: ObservableObject {
     }
     let statePath = RomLibrary.statePath(forRom: url, slot: slot)
     let thumbPath = RomLibrary.stateThumbPath(forRom: url, slot: slot)
-    let thumbData = frameImage.flatMap { uiImage(from: $0)?.pngData() }
+    // Capture CGImage now; encode JPEG off the main/display-link thread so
+    // PNG of a wide Expand frame can't hitch audio for hundreds of ms.
+    let thumbCG = frameImage
     let artworkKey = Self.artworkKey(forRomURL: url)
     let q = emuQueue
     q.async {
       let ok = statePath.path.withCString { pk_ios_save_state($0) }
-      if ok, let thumbData {
-        try? thumbData.write(to: thumbPath, options: [.atomic])
+      var thumbData: Data?
+      if ok, let thumbCG {
+        let ui = UIImage(cgImage: thumbCG)
+        // JPEG is far cheaper than PNG on large WIDE buffers.
+        thumbData = ui.jpegData(compressionQuality: 0.72)
+        if let thumbData {
+          try? thumbData.write(to: thumbPath, options: [.atomic])
+        }
       }
       Task { @MainActor [weak self] in
         guard let self else { return }
@@ -688,10 +700,12 @@ final class EmulatorEngine: ObservableObject {
   }
 
   /// Every ~15 frames (~4 Hz) sample the companion on the emulator queue and publish on main.
+  /// Drawer open → ~2 Hz so live HUD updates don't starve the display-link / audio.
   private func sampleCompanionIfNeeded() {
     guard let sampler = companionSampler else { return }
     companionFrameCount += 1
-    guard companionFrameCount >= companionSampleEveryFrames else { return }
+    let every = companionDrawerOpen ? companionSampleEveryFrames * 2 : companionSampleEveryFrames
+    guard companionFrameCount >= every else { return }
     companionFrameCount = 0
     let generation = companionGeneration
     emuQueue.async { [weak self] in
@@ -751,6 +765,8 @@ final class EmulatorEngine: ObservableObject {
     lastSkinMask = 0
     companionGeneration += 1
     companionSampler = nil
+    companionDrawerOpen = false
+    lastAudioEnabled = nil
     wasInBattle = false
     autoSaveInFlight = false
     emuQueue.sync { pk_ios_deinit() }
@@ -934,7 +950,12 @@ final class EmulatorEngine: ObservableObject {
     let speed = max(1, min(3, speedMultiplier))
     // Keep audio on during FF at normal pitch: only the last frame of each burst
     // feeds the ring; earlier frames discard samples so output stays ~1× rate.
-    audio.setOutputEnabled(AppSettings.shared.audioEnabled)
+    // Only poke the mixer when the setting flips — per-frame volume writes hitch audio.
+    let wantAudio = AppSettings.shared.audioEnabled
+    if lastAudioEnabled != wantAudio {
+      lastAudioEnabled = wantAudio
+      audio.setOutputEnabled(wantAudio)
+    }
     // Keep WIDE window in sync with battle/text scenes (auto zoom).
     if AppSettings.shared.gameAspect == .expand, lastWideDisplay.width > 0 {
       updateWideView(forDisplay: lastWideDisplay)

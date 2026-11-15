@@ -371,6 +371,7 @@ struct PlayView: View {
             chromeButton(systemName: companionOpen ? "xmark" : "line.3.horizontal") {
               withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) {
                 companionOpen.toggle()
+                engine.companionDrawerOpen = companionOpen
               }
             }
             .accessibilityLabel("Companion menu")
@@ -450,11 +451,16 @@ struct PlayView: View {
       }
       .onAppear {
         playLandscape = landscape
+        engine.companionDrawerOpen = companionOpen
         reloadSkin(viewSize: size, landscape: landscape, panes: panes)
         raHUD.start(forRom: rom.url)
       }
       .onDisappear {
+        engine.companionDrawerOpen = false
         raHUD.stop()
+      }
+      .onChange(of: companionOpen) { _, open in
+        engine.companionDrawerOpen = open
       }
       .animation(.spring(response: 0.42, dampingFraction: 0.82), value: raHUD.banner?.id)
       .onChange(of: geo.size) { _, newSize in
