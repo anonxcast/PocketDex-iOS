@@ -1,3 +1,6 @@
+# Local-only (not for public GitHub)
+docs/ALPHA_PLAYTEST.md
+
 # Secrets & local credentials
 ios/Secrets/
 **/.env

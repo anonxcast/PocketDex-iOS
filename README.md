@@ -47,13 +47,7 @@ Default bundle id / team in `ios/project.yml` are for the original developer; ch
 
 ## Playtesting & IPA downloads
 
-See **[docs/ALPHA_PLAYTEST.md](docs/ALPHA_PLAYTEST.md)** for:
-
-- How to install a build (TestFlight vs direct IPA)
-- A ready-to-paste message for recruiting testers
-- What feedback helps most
-
-Prebuilt IPAs (when attached to [GitHub Releases](../../releases)) are **development / ad-hoc signed**. They only install on devices registered to the signing team — they are **not** a universal public App Store install. For wider testing, **TestFlight** is the path that actually works for strangers.
+Prebuilt IPAs on [GitHub Releases](../../releases) are **development / ad-hoc signed**. They only install on devices registered to the signing team — not a universal public install. Wider playtesting goes through **TestFlight**.
 
 ---
 
