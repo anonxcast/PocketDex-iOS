@@ -43,6 +43,14 @@ struct BattleMonLayout: Equatable {
     status1: 0x50, personality: 0x4C, otId: 0x58
   )
 
+  /// Wishes of Tomorrow — expansion field offsets in a 0x88-byte BattlePokemon (Android WISHES_BATTLE_MON).
+  static let wishes = BattleMonLayout(
+    size: 0x88,
+    species: 0x00, moves: 0x0C, pp: 0x25,
+    hp: 0x2A, level: 0x2C, maxHp: 0x2E, item: 0x30,
+    status1: 0x50, personality: 0x4C, otId: 0x58
+  )
+
   /// Heart and Soul 0x88-byte BattlePokemon (Android NATIVE_HEART_AND_SOUL).
   static let heartAndSoul = BattleMonLayout(
     size: 0x88,
@@ -326,6 +334,8 @@ enum Gen3Tables {
   case crystal
   /// Polished Crystal's remapped move / species / type ids (Fairy included).
   case polished
+  /// Heart and Soul / Crystal Enhanced: expansion type ids (Normal=1) + ROM-extracted *Hns tables.
+  case hns
 }
 
 struct CompanionSnapshot: Equatable {

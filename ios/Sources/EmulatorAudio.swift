@@ -10,6 +10,8 @@ final class EmulatorAudio {
   private var lastVolume: Float = -1
   private var hwRate = Double(PK_IOS_AUDIO_SAMPLE_RATE)
   private var observers: [NSObjectProtocol] = []
+  /// Bumps on start/stop so a deferred tear-down can't kill a new session.
+  private var generation = 0
   /// Preallocated — never malloc on the real-time audio callback.
   private let maxCallbackFrames = 4096
   private let pcmScratch: UnsafeMutablePointer<Int16>
@@ -25,16 +27,37 @@ final class EmulatorAudio {
   }
 
   func start() {
-    guard !started else { return }
+    generation += 1
+    guard !started else {
+      outputEnabled = true
+      applyVolumeIfNeeded()
+      return
+    }
     configureSessionAndEngine()
     installSessionObservers()
   }
 
+  /// Silence only — never touches `AVAudioEngine.stop()` (that blocked Exit).
+  func mute() {
+    outputEnabled = false
+    if started {
+      engine.mainMixerNode.outputVolume = 0
+      lastVolume = 0
+    }
+  }
+
+  /// Mute now; tear down the engine on a later main turn (never inline on Exit).
   func stop() {
+    generation += 1
+    let gen = generation
     removeSessionObservers()
-    guard started else { return }
-    tearDownEngine()
-    try? AVAudioSession.sharedInstance().setActive(false, options: [.notifyOthersOnDeactivation])
+    mute()
+    DispatchQueue.main.async { [weak self] in
+      guard let self, self.generation == gen else { return }
+      guard self.started else { return }
+      self.tearDownEngine()
+      // Do not setActive(false) — it can hang; next start() reactivates.
+    }
   }
 
   func setOutputEnabled(_ enabled: Bool) {
@@ -50,8 +73,8 @@ final class EmulatorAudio {
       let session = AVAudioSession.sharedInstance()
       try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
       try session.setPreferredSampleRate(Double(PK_IOS_AUDIO_SAMPLE_RATE))
-      // ~80 ms callbacks — DS present is heavy; a shallow buffer underruns into pops.
-      try session.setPreferredIOBufferDuration(0.08)
+      // ~50 ms — GBC Expand still crackled at 40 ms on underruns; DS uses audio catch-up.
+      try session.setPreferredIOBufferDuration(0.05)
       try session.setActive(true)
       // iOS often keeps 44.1 kHz despite a 48 kHz preference. Drive blip and the
       // source node at the *actual* rate or music plays slow / pitch-shifted.

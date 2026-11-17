@@ -1163,36 +1163,18 @@ private struct CompactTabBarChrome: ViewModifier {
   }
 }
 
-/// Subtle fade/slide when a library tab becomes the selected page.
+/// Library tab page wrapper. Kept as a pass-through — an earlier fade-to-~0 for
+/// inactive tabs left Import / Skins / Editor (often under system More) stuck dark.
 private struct LibraryPageTransition<Content: View>: View {
-  let isActive: Bool
   let content: Content
-  @State private var visible = false
 
   init(isActive: Bool, @ViewBuilder content: () -> Content) {
-    self.isActive = isActive
+    _ = isActive
     self.content = content()
   }
 
   var body: some View {
     content
-      .opacity(visible ? 1 : 0.001)
-      .offset(y: visible ? 0 : 8)
-      .onAppear { playEntranceIfNeeded(isActive) }
-      .onChange(of: isActive) { _, active in
-        playEntranceIfNeeded(active)
-      }
-  }
-
-  private func playEntranceIfNeeded(_ active: Bool) {
-    guard active else {
-      visible = false
-      return
-    }
-    visible = false
-    withAnimation(.easeOut(duration: 0.26)) {
-      visible = true
-    }
   }
 }
 

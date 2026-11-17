@@ -59,7 +59,15 @@ struct RootView: View {
             }
           )
         case .rom(let rom):
-          PlayView(rom: rom)
+          PlayView(rom: rom) {
+            // Instant pop — animated parallax + SwiftUI graph updates froze Exit
+            // (device IPS: AG::LayoutDescriptor during _UINavigationParallaxTransition).
+            var t = Transaction()
+            t.disablesAnimations = true
+            withTransaction(t) {
+              if !path.isEmpty { path.removeLast() }
+            }
+          }
         case .saveEditor(let rom):
           SaveEditorHostView(rom: rom, engineLoadedStem: engineLoadedStem)
         case .settings:

@@ -6,9 +6,10 @@ import UIKit
 enum WideCameraMath {
   static let maxViewW = 800
   static let maxViewH = 800
-  /// Soft melonDS Expand. Gen 5 uses full budget when JIT is on (see EmulatorEngine caps).
-  static let ndsMaxViewW = 512
-  static let ndsMaxViewH = 384
+  /// Soft melonDS Expand caps (interpreter). Tight enough to hold ~60 FPS on Duo/phone;
+  /// Gen 5 stays smaller (heavier field). JIT path can raise Gen5 to ndsGen5Max* later.
+  static let ndsMaxViewW = 384
+  static let ndsMaxViewH = 288
   static let ndsGen5MaxViewW = 512
   static let ndsGen5MaxViewH = 384
   static let ndsGen5NoJitMaxViewW = 320

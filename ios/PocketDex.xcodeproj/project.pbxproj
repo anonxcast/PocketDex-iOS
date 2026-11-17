@@ -83,6 +83,7 @@
 		A469EDEAE73BD44E349F7796 /* Gen2Sampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FCB310E755C3003F30DAC1 /* Gen2Sampler.swift */; };
 		A713DA8251DEA08A53C1BDDD /* SupportQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039AF27EC116EA5D20BF4048 /* SupportQueueView.swift */; };
 		A86F80FFF81943B94CACF938 /* PocketDexApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FFB63EE7347FB12AB94E137 /* PocketDexApp.swift */; };
+		AB334EEDF45588448EE29DAD /* CompanionLiveStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227CA736A1A21D5B28EA5B6E /* CompanionLiveStore.swift */; };
 		B1FDDEA5F9C9734A93416A79 /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6291ECD52F9AD6402F1C12 /* PlayView.swift */; };
 		B36B88427A53D85BF7DDCF16 /* pk_ios.c in Sources */ = {isa = PBXBuildFile; fileRef = A74CB7DEA190D783935A9934 /* pk_ios.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		B4555ED3A9A941D76A6B3A90 /* Gen3BattleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5437F91D859828872CDEB85 /* Gen3BattleData.swift */; };
@@ -151,6 +152,7 @@
 		19055C3C33F65EE6BC82E3D9 /* Gen4Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen4Config.swift; sourceTree = "<group>"; };
 		1CA2A09019E7D3B9F5A5CD1C /* Gen5Sampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen5Sampler.swift; sourceTree = "<group>"; };
 		1FA0BAF56BE2C45919217DB1 /* RomIdentityGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RomIdentityGen.swift; sourceTree = "<group>"; };
+		227CA736A1A21D5B28EA5B6E /* CompanionLiveStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionLiveStore.swift; sourceTree = "<group>"; };
 		248A1E2AFBDAB414E388ED63 /* SaveSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveSession.swift; sourceTree = "<group>"; };
 		2520D3F1870552F3F520EF52 /* DuoHinge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuoHinge.swift; sourceTree = "<group>"; };
 		25608D48F8D1D7CCDB4F6B7F /* Gen45Personal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen45Personal.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				4BF38044CD522BDC423FDDF6 /* CompanionDrawerView.swift */,
+				227CA736A1A21D5B28EA5B6E /* CompanionLiveStore.swift */,
 				153026922ED096FF35541D92 /* CompanionRomIdentity.swift */,
 				BB997B3D321824987166D84A /* CompanionSampler.swift */,
 				EBCFFBEBC5C3F4765BCF5A1A /* Gen1Config.swift */,
@@ -661,6 +664,7 @@
 				239DDFBF5D9A2C4E6B257D3B /* AppSettings.swift in Sources */,
 				D086E7B97D47F501255B22EB /* ArtworkPickerSheet.swift in Sources */,
 				932ADA9C957561B9543F2538 /* CompanionDrawerView.swift in Sources */,
+				AB334EEDF45588448EE29DAD /* CompanionLiveStore.swift in Sources */,
 				ED1DC185102078FB3EBB757F /* CompanionRomIdentity.swift in Sources */,
 				17ABC8A78AD2F82CD7484944 /* CompanionSampler.swift in Sources */,
 				D0974D07C9EA2D929996E97B /* CustomizableVirtualPad.swift in Sources */,
@@ -846,7 +850,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 227;
+				CURRENT_PROJECT_VERSION = 244;
 				DEVELOPMENT_TEAM = 5TNX7VB7Z6;
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -869,7 +873,7 @@
 					"$(SRCROOT)/../build/mgba-ios/Release-iphoneos",
 					"$(SRCROOT)/../build/melonds-ios/Release-iphoneos",
 				);
-				MARKETING_VERSION = 0.10.147;
+				MARKETING_VERSION = 0.10.164;
 				OTHER_CFLAGS = (
 					"-DM_CORE_GBA",
 					"-DM_CORE_GB",
@@ -903,7 +907,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 227;
+				CURRENT_PROJECT_VERSION = 244;
 				DEVELOPMENT_TEAM = 5TNX7VB7Z6;
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -926,7 +930,7 @@
 					"$(SRCROOT)/../build/mgba-ios/Release-iphoneos",
 					"$(SRCROOT)/../build/melonds-ios/Release-iphoneos",
 				);
-				MARKETING_VERSION = 0.10.147;
+				MARKETING_VERSION = 0.10.164;
 				OTHER_CFLAGS = (
 					"-DM_CORE_GBA",
 					"-DM_CORE_GB",

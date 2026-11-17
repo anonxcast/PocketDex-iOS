@@ -96,6 +96,7 @@ enum Gen3BattleData {
   private static let movesYellow = parseMoves(Gen3BattleBlobs.movesYellow)
   private static let movesCrystal = parseMoves(Gen3BattleBlobs.movesCrystal)
   private static let movesPolished = parseMoves(Gen3BattleBlobs.movesPolished)
+  private static let movesHns = parseMoves(Gen3BattleBlobs.movesHns)
 
   private static let speciesRetail = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesRetail)
   private static let speciesSeaglass = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesSeaglass)
@@ -105,6 +106,7 @@ enum Gen3BattleData {
   private static let speciesYellow = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesYellow)
   private static let speciesCrystal = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesCrystal)
   private static let speciesPolished = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesPolished)
+  private static let speciesHns = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesHns)
 
   private static let typeNamesRetail = parseNames(Gen3BattleBlobs.typeNamesRetail)
   private static let typeNamesSeaglass = parseNames(Gen3BattleBlobs.typeNamesSeaglass)
@@ -113,6 +115,7 @@ enum Gen3BattleData {
   private static let typeNamesYellow = parseNames(Gen3BattleBlobs.typeNamesYellow)
   private static let typeNamesCrystal = parseNames(Gen3BattleBlobs.typeNamesCrystal)
   private static let typeNamesPolished = parseNames(Gen3BattleBlobs.typeNamesPolished)
+  private static let typeNamesHns = parseNames(Gen3BattleBlobs.typeNamesHns)
 
   private static let chartRetail = parsePairs(Gen3BattleBlobs.typeChartRetail)
   private static let chartSeaglass = parsePairs(Gen3BattleBlobs.typeChartSeaglass)
@@ -121,6 +124,7 @@ enum Gen3BattleData {
   private static let chartYellow = parsePairs(Gen3BattleBlobs.typeChartYellow)
   private static let chartCrystal = parsePairs(Gen3BattleBlobs.typeChartCrystal)
   private static let chartPolished = parsePairs(Gen3BattleBlobs.typeChartPolished)
+  private static let chartHns = parsePairs(Gen3BattleBlobs.typeChartHns)
 
   // MARK: - Lookups
 
@@ -128,6 +132,7 @@ enum Gen3BattleData {
     guard id > 0 else { return nil }
     switch tables {
     case .national: return movesSeaglass[id] ?? movesRetail[id]
+    case .hns: return movesHns[id] ?? movesSeaglass[id] ?? movesRetail[id]
     case .unbound: return movesUnbound[id] ?? movesRetail[id]
     case .modernEmerald: return movesModernEmerald[id] ?? movesRetail[id]
     case .retail: return movesRetail[id]
@@ -142,6 +147,7 @@ enum Gen3BattleData {
     let source: [Int: MoveInfo]
     switch tables {
     case .national: source = movesSeaglass
+    case .hns: source = movesHns
     case .unbound: source = movesUnbound
     case .modernEmerald: source = movesModernEmerald
     case .retail: source = movesRetail
@@ -153,7 +159,7 @@ enum Gen3BattleData {
     out.reserveCapacity(source.count)
     for (id, info) in source { out[id] = info.name }
     // Expanded / DS tables fall back to retail names for any gaps.
-    if tables == .national || tables == .unbound || tables == .modernEmerald {
+    if tables == .national || tables == .hns || tables == .unbound || tables == .modernEmerald {
       for (id, info) in movesRetail where out[id] == nil { out[id] = info.name }
     }
     return out
@@ -163,6 +169,7 @@ enum Gen3BattleData {
     guard species > 0 else { return nil }
     switch tables {
     case .national: return speciesNational[species] ?? speciesSeaglass[species] ?? speciesRetail[species]
+    case .hns: return speciesHns[species] ?? speciesSeaglass[species] ?? speciesNational[species]
     case .unbound: return speciesUnbound[species]
     case .modernEmerald: return speciesModernEmerald[species] ?? speciesRetail[species]
     case .retail: return speciesRetail[species]
@@ -177,6 +184,7 @@ enum Gen3BattleData {
     let map: [Int: String]
     switch tables {
     case .national: map = typeNamesSeaglass
+    case .hns: map = typeNamesHns
     case .unbound: map = typeNamesUnbound
     case .modernEmerald: map = typeNamesModernEmerald
     case .retail: map = typeNamesRetail
@@ -191,6 +199,7 @@ enum Gen3BattleData {
     let chart: [Int: Int]
     switch tables {
     case .national: chart = chartSeaglass
+    case .hns: chart = chartHns
     case .unbound: chart = chartUnbound
     case .modernEmerald: chart = chartModernEmerald
     case .retail: chart = chartRetail

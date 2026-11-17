@@ -6,6 +6,9 @@ struct PlayView: View {
   @Environment(\.dismiss) private var dismiss
 
   let rom: RomItem
+  /// Explicit nav pop — `dismiss()` from a confirmationDialog is unreliable and
+  /// left PlayView stuck on a frozen last frame after Exit Completely.
+  var onLeave: () -> Void = {}
 
   @State private var companionOpen = false
   /// Frozen when the companion opens so live geo.size jitter can’t remount / jump the panel.
@@ -20,6 +23,8 @@ struct PlayView: View {
   @State private var showPadEditor = false
   @State private var showSaveStates = false
   @State private var showLeaveConfirm = false
+  /// Fade-to-black before nav pop so Exit/Pause → library doesn’t hard-cut.
+  @State private var exitCoverOpacity: Double = 0
   /// Manual DS touch window (PokeDaisy TOUCH / HUD).
   @State private var dsTouchManual = false
   /// User hid the auto touch popup (HIDE) without closing the in-game menu — press TOUCH to bring it back.
@@ -88,22 +93,6 @@ struct PlayView: View {
     return image
   }
 
-  /// First party slot (lead / “box 1”) — used for the tiny starter sprite on the HUD.
-  private var leadMon: Mon? {
-    engine.companion?.party.first(where: { !$0.isEgg && $0.species > 0 })
-      ?? engine.companion?.party.first
-  }
-
-  /// Live map section name, with a mapGroup-mapNum fallback while the name table catches up.
-  private var liveLocationLabel: String? {
-    if let name = engine.companion?.mapSecName, !name.isEmpty { return name }
-    guard let snap = engine.companion else { return nil }
-    if snap.mapGroup != 0 || snap.mapNum != 0 {
-      return "Map \(snap.mapGroup)-\(snap.mapNum)"
-    }
-    return nil
-  }
-
   var body: some View {
     GeometryReader { geo in
       // Full-screen canvas (ignoresSafeArea below) so the LCD centers into side black bars.
@@ -144,44 +133,29 @@ struct PlayView: View {
         // Game framebuffer(s) — NDS ONE SCREEN: top LCD only; touch floats in a modal.
         // Stretch fills the band; Expand/Original keep pixel aspect (Expand still uses a full-size band for WIDE).
         let fillBand = settings.gameAspect == .stretch
-        // CALayer LCD path — avoids rebuilding PlayView every frame via @Published CGImages.
-        let useLayerLCD = !(settings.gameAspect == .expand && engine.wideSupported)
+        // Always CALayer — never @Published CGImage / frameSerial (that rebuilt PlayView
+        // every frame and tanked GB Expand to ~40 FPS with crackly audio).
         if isNDS {
           let freezeTop = dsOneScreen && dsTouchPopupOpen && !engine.dsMenuScreen && dsFrozenTop != nil
           Group {
             if freezeTop, let frozen = dsFrozenTop {
               gameSurface(in: topScreenRect, image: frozen, fill: fillBand)
-            } else if useLayerLCD {
-              layerLCD(in: topScreenRect, presenter: engine.lcdTop, fill: fillBand)
             } else {
-              gameSurface(in: topScreenRect, image: ndsTopImage, fill: fillBand)
+              layerLCD(in: topScreenRect, presenter: engine.lcdTop, fill: fillBand)
             }
           }
           .onAppear { engine.updateWideView(forDisplay: topScreenRect.size) }
           .onChange(of: topScreenRect) { _, rect in engine.updateWideView(forDisplay: rect.size) }
           if !dsOneScreen {
-            if useLayerLCD {
-              layerLCD(in: bottomScreenRect, presenter: engine.lcdBottom, fill: fillBand)
-            } else {
-              gameSurface(in: bottomScreenRect, image: ndsBottomImage, fill: fillBand)
-            }
+            layerLCD(in: bottomScreenRect, presenter: engine.lcdBottom, fill: fillBand)
           }
-        } else if useLayerLCD {
+        } else {
           layerLCD(in: gameRect, presenter: engine.lcdTop, fill: fillBand)
             .onAppear { engine.updateWideView(forDisplay: gameRect.size) }
             .onChange(of: gameRect) { _, rect in engine.updateWideView(forDisplay: rect.size) }
             .onChange(of: settings.gameAspect) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
             .onChange(of: settings.zoomLevel) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
             .onChange(of: settings.autoZoomIn) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
-            .onChange(of: engine.companion?.inBattle) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
-        } else {
-          gameSurface(in: gameRect, image: engine.frameImage, fill: fillBand)
-            .onAppear { engine.updateWideView(forDisplay: gameRect.size) }
-            .onChange(of: gameRect) { _, rect in engine.updateWideView(forDisplay: rect.size) }
-            .onChange(of: settings.gameAspect) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
-            .onChange(of: settings.zoomLevel) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
-            .onChange(of: settings.autoZoomIn) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
-            .onChange(of: engine.companion?.inBattle) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
         }
 
         // ROM failed to boot — clear message instead of a stuck spinner.
@@ -321,51 +295,20 @@ struct PlayView: View {
         // Top chrome: back · title/route + lead sprite · edit layout · companion
         // Must sit above DsTouchWindow so HUD actions work during the touch popup.
         VStack(spacing: 0) {
-          if settings.statusBarMode == .game {
-            GameStatusBarStrip(
-              location: liveLocationLabel,
-              money: engine.companion?.money,
-              inBattle: engine.companion?.inBattle == true,
-              lead: leadMon,
-              tables: engine.companion?.tables ?? .retail
-            )
-          }
+          // Companion / FPS chrome observes isolated stores — not EmulatorEngine —
+          // so sample + fps ticks do not rebuild the whole play surface.
+          PlayCompanionStatusStrip(statusBarMode: settings.statusBarMode)
           HStack(alignment: .center, spacing: 8) {
             chromeButton(systemName: "chevron.left") {
               showLeaveConfirm = true
             }
             .accessibilityLabel("Back to library")
-            // Slot-1 lead + route chip when the in-game status strip is off (strip already shows lead).
             if settings.statusBarMode != .game {
-              PlayTitleChip(
-                location: liveLocationLabel,
-                lead: leadMon,
-                tables: engine.companion?.tables ?? .retail,
-                inBattle: engine.companion?.inBattle == true
-              )
+              PlayCompanionTitleChip()
             }
-            // Same chrome row: RA tracking / unlock toasts take priority over battle tips.
-            if let raBanner = raHUD.banner {
-              RAAchievementChip(banner: raBanner)
-                .frame(maxWidth: .infinity)
-                .layoutPriority(-1)
-                .transition(
-                  .asymmetric(
-                    insertion: .scale(scale: 0.88).combined(with: .opacity).combined(with: .move(edge: .top)),
-                    removal: .opacity.combined(with: .scale(scale: 0.96))
-                  )
-                )
-                .animation(.spring(response: 0.42, dampingFraction: 0.82), value: raBanner.id)
-            } else if let tip = engine.companion.flatMap({ Gen3BattleData.liveSuggestions(from: $0) }) {
-              BattleSuggestChip(foeName: tip.foeName, moves: tip.moves)
-                .frame(maxWidth: .infinity)
-                .layoutPriority(-1)
-                .transition(.opacity)
-            } else {
-              Spacer(minLength: 8)
-            }
+            PlayCompanionCenterChrome(raBanner: raHUD.banner)
             if settings.showFps {
-              fpsChromeChip
+              FpsChromeChipView()
             }
             speedChromeButton
             if settings.gameAspect == .expand, engine.wideSupported {
@@ -491,6 +434,13 @@ struct PlayView: View {
           .transition(.opacity)
           .zIndex(71)
         }
+
+        // Exit / pause leave: opaque fade so the library handoff isn’t a hard cut.
+        Color.black
+          .opacity(exitCoverOpacity)
+          .ignoresSafeArea()
+          .allowsHitTesting(exitCoverOpacity > 0.01)
+          .zIndex(100)
       }
       .onAppear {
         playLandscape = landscape
@@ -606,12 +556,14 @@ struct PlayView: View {
     ) {
       Button("Pause & Leave") {
         engine.pause()
-        dismiss()
+        leaveWithFade()
       }
       Button("Exit Completely", role: .destructive) {
-        // Avoid onDisappear re-pausing a session we're about to unload.
-        engine.quitSession {
-          dismiss()
+        // Device hang log: `@Published` teardown + animated nav pop = AttributeGraph
+        // spin (watchdog 0x8BADF00D). Halt → fade to black → unanimated pop → teardown.
+        engine.beginQuit()
+        leaveWithFade {
+          engine.finishQuit()
         }
       }
       Button("Keep Playing", role: .cancel) {}
@@ -620,9 +572,24 @@ struct PlayView: View {
     }
     .onDisappear {
       // Swipe-back / any leave from play should pause, not soft-kill the session.
-      // Skip if quitSession already unloaded (loadedRomKey cleared).
+      if engine.isQuitting { return }
       if engine.isRunning, engine.loadedRomKey != nil {
         engine.pause()
+      }
+    }
+  }
+
+  /// Fade play to black, then unanimated pop (avoids AG hang from nav parallax + teardown).
+  private func leaveWithFade(afterPop: (() -> Void)? = nil) {
+    withAnimation(.easeIn(duration: 0.22)) {
+      exitCoverOpacity = 1
+    }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.24) {
+      var t = Transaction()
+      t.disablesAnimations = true
+      withTransaction(t) { onLeave() }
+      if let afterPop {
+        DispatchQueue.main.async { afterPop() }
       }
     }
   }
@@ -640,20 +607,7 @@ struct PlayView: View {
     }
   }
 
-  private var fpsChromeChip: some View {
-    let n = engine.fps
-    let tint: Color = n >= 55 ? CETheme.crystal : (n >= 40 ? CETheme.accent : Color(red: 1, green: 0.35, blue: 0.32))
-    return Text("\(n)")
-      .font(CETheme.mono(11))
-      .fontWeight(.bold)
-      .foregroundStyle(tint)
-      .frame(minWidth: 36, minHeight: 36)
-      .padding(.horizontal, n >= 100 ? 4 : 0)
-      .background(CETheme.card.opacity(0.55), in: Capsule())
-      .overlay(Capsule().stroke(tint.opacity(0.55), lineWidth: 1))
-      .accessibilityLabel("\(n) frames per second")
-      .allowsHitTesting(false)
-  }
+  // FPS chip is `FpsChromeChipView` — observes `FpsBadge` only (not EmulatorEngine).
 
   private var speedChromeButton: some View {
     Button {
@@ -1155,6 +1109,112 @@ private struct PlayPadChrome: View {
       )
       .contentShape(Rectangle())
     }
+  }
+}
+
+// MARK: - Isolated HUD (companion / FPS) — do not observe EmulatorEngine here
+
+private struct PlayCompanionStatusStrip: View {
+  @ObservedObject private var live = CompanionLiveStore.shared
+  let statusBarMode: StatusBarMode
+
+  private var leadMon: Mon? {
+    live.snapshot?.party.first(where: { !$0.isEgg && $0.species > 0 })
+      ?? live.snapshot?.party.first
+  }
+
+  private var location: String? {
+    if let name = live.snapshot?.mapSecName, !name.isEmpty { return name }
+    guard let snap = live.snapshot else { return nil }
+    if snap.mapGroup != 0 || snap.mapNum != 0 {
+      return "Map \(snap.mapGroup)-\(snap.mapNum)"
+    }
+    return nil
+  }
+
+  var body: some View {
+    if statusBarMode == .game {
+      GameStatusBarStrip(
+        location: location,
+        money: live.snapshot?.money,
+        inBattle: live.snapshot?.inBattle == true,
+        lead: leadMon,
+        tables: live.snapshot?.tables ?? .retail
+      )
+    }
+  }
+}
+
+private struct PlayCompanionTitleChip: View {
+  @ObservedObject private var live = CompanionLiveStore.shared
+
+  private var leadMon: Mon? {
+    live.snapshot?.party.first(where: { !$0.isEgg && $0.species > 0 })
+      ?? live.snapshot?.party.first
+  }
+
+  private var location: String? {
+    if let name = live.snapshot?.mapSecName, !name.isEmpty { return name }
+    guard let snap = live.snapshot else { return nil }
+    if snap.mapGroup != 0 || snap.mapNum != 0 {
+      return "Map \(snap.mapGroup)-\(snap.mapNum)"
+    }
+    return nil
+  }
+
+  var body: some View {
+    PlayTitleChip(
+      location: location,
+      lead: leadMon,
+      tables: live.snapshot?.tables ?? .retail,
+      inBattle: live.snapshot?.inBattle == true
+    )
+  }
+}
+
+private struct PlayCompanionCenterChrome: View {
+  @ObservedObject private var live = CompanionLiveStore.shared
+  let raBanner: RetroAchievementsPlayHUD.Banner?
+
+  var body: some View {
+    if let raBanner {
+      RAAchievementChip(banner: raBanner)
+        .frame(maxWidth: .infinity)
+        .layoutPriority(-1)
+        .transition(
+          .asymmetric(
+            insertion: .scale(scale: 0.88).combined(with: .opacity).combined(with: .move(edge: .top)),
+            removal: .opacity.combined(with: .scale(scale: 0.96))
+          )
+        )
+        .animation(.spring(response: 0.42, dampingFraction: 0.82), value: raBanner.id)
+    } else if let tip = live.snapshot.flatMap({ Gen3BattleData.liveSuggestions(from: $0) }) {
+      BattleSuggestChip(foeName: tip.foeName, moves: tip.moves)
+        .frame(maxWidth: .infinity)
+        .layoutPriority(-1)
+        .transition(.opacity)
+    } else {
+      Spacer(minLength: 8)
+    }
+  }
+}
+
+struct FpsChromeChipView: View {
+  @ObservedObject private var badge = FpsBadge.shared
+
+  var body: some View {
+    let n = badge.value
+    let tint: Color = n >= 55 ? CETheme.crystal : (n >= 40 ? CETheme.accent : Color(red: 1, green: 0.35, blue: 0.32))
+    return Text("\(n)")
+      .font(CETheme.mono(11))
+      .fontWeight(.bold)
+      .foregroundStyle(tint)
+      .frame(minWidth: 36, minHeight: 36)
+      .padding(.horizontal, n >= 100 ? 4 : 0)
+      .background(CETheme.card.opacity(0.55), in: Capsule())
+      .overlay(Capsule().stroke(tint.opacity(0.55), lineWidth: 1))
+      .accessibilityLabel("\(n) frames per second")
+      .allowsHitTesting(false)
   }
 }
 

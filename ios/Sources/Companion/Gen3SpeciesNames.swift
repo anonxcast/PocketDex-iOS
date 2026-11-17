@@ -62,11 +62,16 @@ enum Gen3Names {
   static let itemsUnbound: [Int: String] = parse(Gen3TableBlobs.itemsUnbound)
   /// Emerald Seaglass / pokeemerald-expansion item ids (different from retail).
   static let itemsSeaglass: [Int: String] = parse(Gen3TableBlobs.itemsSeaglass)
+  /// Heart and Soul / Crystal Enhanced expansion item ids.
+  static let itemsHns: [Int: String] = parse(Gen3TableBlobs.itemsHns)
   static let itemsModernEmerald: [Int: String] = parse(Gen3TableBlobs.itemsModernEmerald)
   static let movesRetail: [Int: String] = parse(Gen3TableBlobs.movesRetail)
   static let movesUnbound: [Int: String] = parse(Gen3TableBlobs.movesUnbound)
   static let movesSeaglass: [Int: String] = parse(Gen3TableBlobs.movesSeaglass)
+  static let movesHns: [Int: String] = parse(Gen3TableBlobs.movesHns)
   static let movesModernEmerald: [Int: String] = parse(Gen3TableBlobs.movesModernEmerald)
+  /// Heart and Soul / Crystal Enhanced species names (National-order expanded).
+  static let speciesHns: [Int: String] = parse(Gen3TableBlobs.speciesHns)
   static let mapSecFireRed: [Int: String] = parse(Gen3TableBlobs.mapSecFireRed)
   static let mapSecEmerald: [Int: String] = parse(Gen3TableBlobs.mapSecEmerald)
   static let mapSecUnbound: [Int: String] = parse(Gen3TableBlobs.mapSecUnbound)
@@ -87,6 +92,9 @@ enum Gen3Names {
     case .national:
       if id == 0xFD { return "Egg" }
       return nationalName(id)
+    case .hns:
+      if id == 0xFD { return "Egg" }
+      return speciesHns[id] ?? speciesNational[id] ?? "Species #\(id)"
     case .yellow:
       if id == 0xFD { return "Egg" }
       return speciesYellow[id] ?? nationalName(id)
@@ -113,6 +121,8 @@ enum Gen3Names {
     switch tables {
     case .national:
       return itemsSeaglass[id] ?? itemsRetail[id] ?? "Item #\(id)"
+    case .hns:
+      return itemsHns[id] ?? itemsSeaglass[id] ?? itemsRetail[id] ?? "Item #\(id)"
     case .unbound:
       return itemsUnbound[id] ?? itemsRetail[id] ?? "Item #\(id)"
     case .modernEmerald:
@@ -128,7 +138,9 @@ enum Gen3Names {
   /// Retail bag-icon id for an item under the active tables (Unbound remaps many item numbers).
   static func itemIconId(_ id: Int, tables: Gen3Tables) -> Int {
     guard id > 0 else { return 0 }
-    if tables != .unbound && tables != .modernEmerald { return id }
+    if tables != .unbound && tables != .modernEmerald && tables != .hns && tables != .national {
+      return id
+    }
     if itemsRetail[id] != nil { return id }
     let name = item(id, tables: tables)
     if name.hasPrefix("Item #") { return id }
@@ -140,6 +152,8 @@ enum Gen3Names {
     switch tables {
     case .national:
       return movesSeaglass[id] ?? movesRetail[id] ?? "Move #\(id)"
+    case .hns:
+      return movesHns[id] ?? movesSeaglass[id] ?? movesRetail[id] ?? "Move #\(id)"
     case .unbound:
       return movesUnbound[id] ?? movesRetail[id] ?? "Move #\(id)"
     case .modernEmerald:
@@ -159,7 +173,7 @@ enum Gen3Names {
   /// Hack ROMs use their own region-map tables (SoulGold / HnS / ROWE / Team Rocket).
   static func mapSec(_ id: Int, game: Gen3Game, tables: Gen3Tables = .retail, configId: String = "") -> String? {
     switch configId {
-    case "heart_and_soul":
+    case "heart_and_soul", "crystal_enhanced":
       return mapSecHns[id] ?? mapSecEmerald[id]
     case "soulgold", "soulgold_v1_2", "soulgold_v1_2b", "soulgold_v1_2c", "soulgold_v1_2_1":
       return mapSecSoulGold[id]
@@ -224,6 +238,8 @@ enum Gen3Names {
     case "unbound", "unbound_with_dex", "unbound_fr":
       // Unbound dex flags are National; prefer National names (Unbound table is species-id keyed).
       return nationalName(n)
+    case "heart_and_soul", "crystal_enhanced":
+      return species(n, tables: .hns)
     default:
       return nationalName(nationalForDexNumber(n, configId: configId))
     }
@@ -297,6 +313,17 @@ enum Gen3Names {
     switch tables {
     case .national, .yellow, .crystal:
       return speciesNational[id] != nil || id <= 1025 ? id : nil
+    case .hns:
+      // HnS / Crystal Enhanced use National-order species ids (with extras beyond 1025).
+      if speciesNational[id] != nil || id <= 1025 { return id }
+      let raw = species(id, tables: tables)
+      if raw.hasPrefix("Species #") || raw == "Egg" { return nil }
+      if let hit = nationalNumber(matchingName: raw) { return hit }
+      if let space = raw.lastIndex(of: " ") {
+        let base = String(raw[..<space])
+        if let hit = nationalNumber(matchingName: base) { return hit }
+      }
+      return id <= 2000 ? id : nil
     case .polished:
       // Polished's early ids match National; forms / later entries resolve by name.
       if id <= 251, speciesNational[id] != nil { return id }

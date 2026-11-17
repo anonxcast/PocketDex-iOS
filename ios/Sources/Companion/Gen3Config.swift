@@ -136,13 +136,13 @@ enum Gen3Config {
   /// Fields Android `NativeConfigsGen` keeps that iOS codegen often drops (masks, battle size, party stride).
   private static func enrich(_ c: inout NativeConfig) {
     switch c.id {
-    case "heart_and_soul":
+    case "heart_and_soul", "crystal_enhanced":
       c.speciesMask = 0x07FF
       c.moveMask = 0x07FF
       c.ppMask = 0x7F
       c.saveBlock1PosOff = 4
       c.battleMonLayout = .heartAndSoul
-      c.tables = .national
+      c.tables = .hns
     case "soulgold", "soulgold_v1_2", "soulgold_v1_2b", "soulgold_v1_2c":
       c.speciesMask = 0x07FF
       c.moveMask = 0x07FF
@@ -191,6 +191,12 @@ enum Gen3Config {
     case "lazarus":
       // National-dex species ids; expansion 0x60 battle mon; encryption key at SB2+0xB0.
       c.battleMonLayout = .expansion
+      c.tables = .national
+    case "wishes":
+      c.speciesMask = 0x07FF
+      c.moveMask = 0x07FF
+      c.ppMask = 0x7F
+      c.battleMonLayout = .wishes
       c.tables = .national
     case "tmt2":
       c.speciesMask = 0x07FF
@@ -242,6 +248,10 @@ enum Gen3Config {
     "5229160b68e3f2ee804a9e0f90e7a09b01254626": "firered_rev0",
     // Pokemon Lazarus.gba (device dump / v2.0) — also in RomIdentityGen
     "7dcdc7e280bc4631487e13dd37e6e0cea04adea6": "lazarus",
+    // Crystal Enhanced — crystalenhanceddex.app patch CRC AACBBF26
+    "755bdc2f01994881a72a448279f47666f1b0fb39": "crystal_enhanced",
+    // Wishes of Tomorrow v1.3.0 (device / FlatFoot Labs)
+    "0fb19d1d9ed68b550a4c1f562eaf0977d1007dbc": "wishes",
   ]
 
   /// Exact companion profile from a GPIO-masked whole-file SHA-1.
@@ -320,6 +330,12 @@ enum Gen3Config {
     if fn.contains("MODERN") && fn.contains("EMERALD"), let c = generated("modern_emerald") {
       return Detection(config: c, match: .header)
     }
+    // Crystal Enhanced (GBA Free Roam / pokehns) — before plain Crystal / Crystal Advance.
+    if (fn.contains("CRYSTAL") && fn.contains("ENHANCED"))
+        || t.contains("CRYSENHA") || t.contains("POKECRYSENHA"),
+       let c = generated("crystal_enhanced") {
+      return Detection(config: c, match: .header)
+    }
     if (fn.contains("HEART") && fn.contains("SOUL") && !fn.contains("HEARTGOLD"))
         || t.contains("HNS"),
        let c = generated("heart_and_soul") {
@@ -337,6 +353,9 @@ enum Gen3Config {
     if fn.contains("LAZARUS") || t.contains("LAZARUS"), let c = generated("lazarus") {
       return Detection(config: c, match: .header)
     }
+    if fn.contains("WISHES") || t.contains("WISHES"), let c = generated("wishes") {
+      return Detection(config: c, match: .header)
+    }
 
     switch code {
     case "BPEE", "BPES", "BPED", "BPEF", "BPEI", "BPEJ":
@@ -344,6 +363,11 @@ enum Gen3Config {
         // Large BPEE often = expansion rebuild. Try known titles, else Emerald-family
         // best-effort (party/bag/map may be wrong — queued for an exact pin).
         if fn.contains("MODERN") && fn.contains("EMERALD"), let c = generated("modern_emerald") {
+          return Detection(config: c, match: .header)
+        }
+        if (fn.contains("CRYSTAL") && fn.contains("ENHANCED"))
+            || t.contains("CRYSENHA") || t.contains("POKECRYSENHA"),
+           let c = generated("crystal_enhanced") {
           return Detection(config: c, match: .header)
         }
         if (fn.contains("HEART") && fn.contains("SOUL")) || t.contains("HNS"),

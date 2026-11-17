@@ -108,6 +108,14 @@ enum OptimizedRomCatalog {
     .init(id: "heart_and_soul", title: "Pokémon Heart and Soul", detail: "v2.0.6 · Expand + HnS save format + masked species HUD",
           family: .emeraldHacks, features: .playStack,
           fileHints: ["HEART AND SOUL", "HEARTSOUL"]),
+    // Free Roam GBA (pokehns) — Expand via pk_wide AACBBF26 (not HnS soft-map); companion + HnS save.
+    .init(id: "crystal_enhanced", title: "Pokémon Crystal Enhanced",
+          detail: "Free Roam (site CRC AACBBF26) · Expand/Zoom + companion + HnS save editor",
+          family: .emeraldHacks, features: .playStack,
+          fileHints: ["CRYSTAL ENHANCED", "CRYSENHA", "POKECRYSENHA"],
+          excludeHints: ["CRYSTAL ADVANCE", "CRYSTALADVANCE"]),
+    // Retail / GBC Crystal must not match this GBA Free Roam hack.
+
     .init(id: "rowe", title: "Pokémon R.O.W.E.", detail: "v2.1.9.1 · Expand/Zoom (EX objects + 12-bit metatiles, Elite Redux–style) + companion + save editor",
           family: .emeraldHacks, features: .playStack,
           fileHints: ["R.O.W.E", "ROWE"]),
@@ -117,14 +125,21 @@ enum OptimizedRomCatalog {
     .init(id: "lazarus", title: "Pokémon Lazarus", detail: "v2.0 · Expand + companion + Lazarus Emerald save editor",
           family: .emeraldHacks, features: .playStack,
           fileHints: ["LAZARUS"]),
+    .init(id: "wishes", title: "Pokémon Wishes of Tomorrow",
+          detail: "v1.3.0 · Expand/Zoom + companion + Wishes Emerald save editor",
+          family: .emeraldHacks, features: .playStack,
+          fileHints: ["WISHES"]),
 
     // GB / GBC (Expand where pk_wide_gb tables exist — Red/Blue/Green/Yellow / Crystal / Polished)
     .init(id: "polished", title: "Polished Crystal", detail: "3.2.3 CRC · Expand + Gen 2 companion & editor",
           family: .gameBoy, features: .playStack, fileHints: ["POLISHED"]),
+    .init(id: "crystal_clear", title: "Pokémon Crystal Clear",
+          detail: "Expand via pk_wide_gb (Clear profile) + Gen 2 companion & editor",
+          family: .gameBoy, features: .playStack, fileHints: ["CRYSTAL CLEAR"]),
     // Not Crystal Advance / Redux (GBA hacks) — those are separate unoptimized titles.
     .init(id: "crystal", title: "Pokémon Crystal", detail: "English / AU / DE · Expand via pk_wide_gb",
           family: .gameBoy, features: .playStack, fileHints: ["CRYSTAL"],
-          excludeHints: ["CRYSTAL ADVANCE", "ADVANCE REDUX", "CRYSTALREDUX"]),
+          excludeHints: ["CRYSTAL ADVANCE", "ADVANCE REDUX", "CRYSTALREDUX", "CRYSTAL ENHANCED", "CRYSENHA", "CRYSTAL CLEAR", "CLEAR"]),
     .init(id: "gold", title: "Pokémon Gold",
           detail: "Companion + Gen 2 save editor · Expand unavailable (no pk_wide_gb row)",
           family: .gameBoy, features: [.companion, .saveEditor, .shaders],
@@ -174,7 +189,8 @@ enum OptimizedRomCatalog {
     let u = fileName.uppercased()
     if ["RADICAL", "UNBOUND", "SEAGLASS", "ROCKET", "GAIA", "ODYSSEY", "AMETHYST", "IMPERIUM", "CFRU",
         "MODERN EMERALD", "ROWE", "R.O.W.E", "SOULGOLD", "SOUL GOLD", "SOULDGOLD", "HEARTSOUL",
-        "LAZARUS", "CRYSTAL ADVANCE", "CRYSTALADVANCE", "ADVANCE REDUX"]
+        "LAZARUS", "CRYSTAL ADVANCE", "CRYSTALADVANCE", "ADVANCE REDUX",
+        "CRYSTAL ENHANCED", "CRYSENHA"]
       .contains(where: { u.contains($0) }) {
       return true
     }

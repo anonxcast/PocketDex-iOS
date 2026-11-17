@@ -41,7 +41,8 @@ enum RomIdentityGen {
     put("5b38a681b6924ef3e0bb9f6cfbf22426c4c4e523", "elite_redux_v2_65_3b")
     put("5b6146adec1a30f88c565e8f555ab7a578825598", "lets_go_eevee")
     put("5d6a036260fdbde96f85b5c1b92d0256d3aebafb", "soulgold_v1_2b")
-    put("60182b934d2e8eb3eef226a9bbc25e5df6becd4f", "wishes")
+    put("60182b934d2e8eb3eef226a9bbc25e5df6becd4f", "wishes") // v1.2.6
+    put("0fb19d1d9ed68b550a4c1f562eaf0977d1007dbc", "wishes") // v1.3.0
     put("62bb900925118796fb963b7df92d02cb548c404e", "lets_go_pikachu")
     put("67f44fb4cdbb16c0d1a495ac219f2979b1e3005f", "recharged_emerald_v2_2_5")
     put("6806c7146aff457a4be85ef2030e9ddcdb17b665", "quetzal_v084")

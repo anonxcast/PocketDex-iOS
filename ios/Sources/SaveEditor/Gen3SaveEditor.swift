@@ -249,7 +249,8 @@ struct Gen3DexFlagsLayout: Equatable {
         bytes: 188, nationalCount: 1019, seenCopies: []
       )
     }
-    if (u.contains("HEART") && u.contains("SOUL") && !u.contains("HEARTGOLD")) || u.contains("HEARTSOUL") {
+    if (u.contains("HEART") && u.contains("SOUL") && !u.contains("HEARTGOLD")) || u.contains("HEARTSOUL")
+        || (u.contains("CRYSTAL") && u.contains("ENHANCED")) || u.contains("CRYSENHA") {
       return Gen3DexFlagsLayout(
         block: .saveBlock1, seenOff: 0x39C0, caughtOff: 0x3A7F,
         bytes: 191, nationalCount: 1080, seenCopies: []
@@ -267,6 +268,13 @@ struct Gen3DexFlagsLayout: Equatable {
       return Gen3DexFlagsLayout(
         block: .saveBlock1, seenOff: 0x32A8, caughtOff: 0x3329,
         bytes: 129, nationalCount: 1028, seenCopies: []
+      )
+    }
+    if u.contains("WISHES") {
+      // Wishes of Tomorrow — companion / GF header national dex on SB1.
+      return Gen3DexFlagsLayout(
+        block: .saveBlock1, seenOff: 0x359C, caughtOff: 0x361D,
+        bytes: 129, nationalCount: 1025, seenCopies: []
       )
     }
     // Retail: pokedex struct at SB2+0x18; owned +0x10, seen +0x44 within that struct.

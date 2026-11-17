@@ -853,6 +853,44 @@ enum Gen3ConfigsGen {
     dexNationalCount: 1080
   )
 
+  /// Crystal Enhanced — official site patch CRC AACBBF26 (crystalenhanceddex.app).
+  /// EWRAM from site ROM pools; IWRAM SB1/SB2/gMain +8 vs CE HEAD ELF (matches WIDE row).
+  /// Save layout matches website save_editor.json (EMERALD_HNS sizes).
+  static let crystal_enhanced: NativeConfig = NativeConfig(
+    id: "crystal_enhanced",
+    displayName: "Pokémon Crystal Enhanced",
+    game: .emerald,
+    tables: .national,
+    playerParty: 0x020357B0,
+    playerPartyCount: 0x020352F0,
+    battleMons: 0x02000420,
+    battlerPositions: 0x02000238,
+    battlersCount: 0x020000B4,
+    battleTypeFlags: 0x020000B0,
+    gMain: 0x03005BE0,
+    saveBlock1Ptr: 0x030041E0,
+    saveBlock2Ptr: 0x030041E4,
+    mapHeader: 0x02001C24,
+    bagPockets: 0x02007578,
+    bagPocketCount: 6,
+    encryptionKeyOff: 0x000000AC,
+    moneyOff: 0x00000494,
+    // I_COMBINE_BAG_POCKETS: MEDICINE, BALLS, BERRIES, ITEMS, TM_HM, KEY_ITEMS
+    bagPocketOrder: [0, 1, 3, 0, 2, 4],
+    staticSaveBlocks: false,
+    enemyParty: 0x02035300,
+    battleMonLayout: .vanilla,
+    dexEnabled: true,
+    dexFlagBlock: .saveBlock1,
+    dexSeenOff: 0x000039C0,
+    dexCaughtOff: 0x00003A7F,
+    dexBytes: 191,
+    dexSeenCopies: [],
+    dexNationalMagicOff: 2,
+    dexNationalMagic: 218,
+    dexNationalCount: 1080
+  )
+
   static let imperium: NativeConfig = NativeConfig(
     id: "imperium",
     displayName: "Pokémon Imperium",
@@ -3675,29 +3713,31 @@ enum Gen3ConfigsGen {
     dexNationalCount: 905
   )
 
+  /// Wishes of Tomorrow v1.3.0 (sha1 0fb19d1d…, CRC 5A5FC74F). RAM vs 1.2.6: IWRAM +0x10,
+  /// low EWRAM +0x10, party/sprites region +0x28C/+0x290, battle block +4.
   static let wishes: NativeConfig = NativeConfig(
     id: "wishes",
-    displayName: "Pokémon Wishes",
+    displayName: "Pokémon Wishes of Tomorrow",
     game: .emerald,
     tables: .national,
-    playerParty: 0x02031EBC,
-    playerPartyCount: 0x02031C5D,
-    battleMons: 0x02000420,
-    battlerPositions: 0x0200023C,
-    battlersCount: 0x020000B6,
-    battleTypeFlags: 0x020000B0,
-    gMain: 0x03006728,
-    saveBlock1Ptr: 0x0300522C,
-    saveBlock2Ptr: 0x03005228,
-    mapHeader: 0x02001AE8,
-    bagPockets: 0x02006B64,
+    playerParty: 0x02032148,
+    playerPartyCount: 0x02031EE9,
+    battleMons: 0x02000424,
+    battlerPositions: 0x02000240,
+    battlersCount: 0x020000BA,
+    battleTypeFlags: 0x020000B4,
+    gMain: 0x03006738,
+    saveBlock1Ptr: 0x0300523C,
+    saveBlock2Ptr: 0x03005238,
+    mapHeader: 0x02001AF8,
+    bagPockets: 0x02006B74,
     bagPocketCount: 5,
     encryptionKeyOff: 0x000000AC,
     moneyOff: 0x00000490,
     bagPocketOrder: [0, 1, 2, 3, 4],
     staticSaveBlocks: false,
-    enemyParty: 0x02031C64,
-    battleMonLayout: .expansion,
+    enemyParty: 0x02031EF0,
+    battleMonLayout: .wishes,
     dexEnabled: true,
     dexFlagBlock: .saveBlock1,
     dexSeenOff: 0x0000359C,
@@ -3744,6 +3784,7 @@ enum Gen3ConfigsGen {
     put("glazed", { glazed })
     put("gs_chronicles", { gs_chronicles })
     put("heart_and_soul", { heart_and_soul })
+    put("crystal_enhanced", { crystal_enhanced })
     put("imperium", { imperium })
     put("lazarus", { lazarus })
     put("leafgreen_rev0", { leafgreen_rev0 })

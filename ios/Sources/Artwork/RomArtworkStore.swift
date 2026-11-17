@@ -241,12 +241,25 @@ final class RomArtworkStore: ObservableObject {
   }
 
   func saveMeta(_ meta: RomArtworkMeta, forKey key: String) {
+    // Ignore updatedAt when comparing — always stamping Date() made every save
+    // look new, bumped `revision`, and re-fired GameDetail `.task(id: revision)`
+    // in a tight meta.json / FileSizeFormatting loop (device hang).
+    let existing = self.meta(forKey: key)
+    if let existing, Self.metaContentEqual(existing, meta) { return }
     var m = meta
     m.updatedAt = Date()
     let url = directory(forKey: key).appendingPathComponent("meta.json")
     guard let data = try? JSONEncoder().encode(m) else { return }
     try? data.write(to: url, options: .atomic)
     bump()
+  }
+
+  private static func metaContentEqual(_ a: RomArtworkMeta, _ b: RomArtworkMeta) -> Bool {
+    var x = a
+    var y = b
+    x.updatedAt = nil
+    y.updatedAt = nil
+    return x == y
   }
 
   func displayName(forKey key: String) -> String? {

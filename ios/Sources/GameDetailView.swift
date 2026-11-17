@@ -158,7 +158,9 @@ struct GameDetailView: View {
     } message: {
       Text("Play once in-game so PocketDex writes a battery .sav, then Edit Save opens the editor for this ROM.")
     }
-    .task(id: "\(rom.artworkKey)-\(artworkStore.revision)") {
+    // Do NOT key on artworkStore.revision — loadSummary → saveMeta → bump used to
+    // re-enter this task forever (meta.json + ByteCountFormatter spin / UI freeze).
+    .task(id: rom.artworkKey) {
       await loadExtras()
     }
   }

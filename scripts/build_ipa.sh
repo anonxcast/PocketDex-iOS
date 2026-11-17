@@ -39,6 +39,11 @@ bash "$ROOT/scripts/build_melonds_ios.sh"
 echo "==> Validating Gen3 companion maps (no duplicate-key crash)"
 python3 "$ROOT/scripts/validate_companion_maps.py"
 
+echo "==> Quit / Exit Completely invariants (PC gate — no phone install here)"
+python3 "$ROOT/scripts/verify_quit_invariants.py"
+echo "==> meta.json revision-loop gate"
+python3 "$ROOT/scripts/verify_meta_loop.py"
+
 echo "==> Generating Xcode project"
 (
   cd ios

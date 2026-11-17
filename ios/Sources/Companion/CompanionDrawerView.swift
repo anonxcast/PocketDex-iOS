@@ -31,10 +31,11 @@ enum CompanionTab: String, CaseIterable, Identifiable {
 /// PocketDex companion drawer content: Party | Bag | Map | Battle | Dex | Settings.
 struct CompanionDrawerView: View {
   @EnvironmentObject private var engine: EmulatorEngine
+  @ObservedObject private var live = CompanionLiveStore.shared
   let onClose: () -> Void
 
   @State private var tab: CompanionTab = .party
-  /// Held copy so live engine publishes don’t remount ScrollView / jump landscape scroll.
+  /// Held copy so live publishes don’t remount ScrollView / jump landscape scroll.
   @State private var heldSnap: CompanionSnapshot?
 
   var body: some View {
@@ -51,8 +52,8 @@ struct CompanionDrawerView: View {
       .scrollBounceBehavior(.basedOnSize)
     }
     .transaction { $0.animation = nil }
-    .onAppear { heldSnap = engine.companion }
-    .onChange(of: engine.companion) { _, new in
+    .onAppear { heldSnap = live.snapshot }
+    .onChange(of: live.snapshot) { _, new in
       var t = Transaction()
       t.disablesAnimations = true
       withTransaction(t) { heldSnap = new }
@@ -66,13 +67,13 @@ struct CompanionDrawerView: View {
           .font(CETheme.sans(11, weight: .bold))
           .tracking(1.0)
           .foregroundStyle(CETheme.crystal)
-        Text(heldSnap?.gameName ?? engine.companionGameName ?? "Party · Bag · Map · Battle · Dex · Settings")
+        Text(heldSnap?.gameName ?? live.gameName ?? "Party · Bag · Map · Battle · Dex · Settings")
           .font(CETheme.sans(13, weight: .medium))
           .foregroundStyle(CETheme.muted)
           .lineLimit(2)
           .minimumScaleFactor(0.85)
           .fixedSize(horizontal: false, vertical: true)
-        if engine.companionMatch == .bestEffort {
+        if live.match == .bestEffort {
           Text("Unverified")
             .font(CETheme.sans(10, weight: .bold))
             .foregroundStyle(CETheme.accent)
@@ -134,12 +135,12 @@ struct CompanionDrawerView: View {
       }
     } else {
       VStack(alignment: .leading, spacing: 10) {
-        Text(engine.companionHint)
+        Text(live.hint)
           .font(CETheme.sans(14))
           .foregroundStyle(CETheme.text)
-        if engine.companionMatch == .bestEffort {
+        if live.match == .bestEffort {
           CompanionNote("Best-effort profile — party/bag may be wrong until this ROM is pinned. It’s in Settings › Support.")
-        } else if engine.companionMatch == .none {
+        } else if live.match == .none {
           CompanionNote("No companion profile yet. Play still works. Open Settings › Support to share the queue for pinning.")
         } else {
           CompanionNote("Companion reads Gen 1–3 on GB/GBC/GBA (Red–Emerald + common hacks, best-effort). DS plays via melonDS. Data appears once a save is loaded.")
@@ -864,6 +865,10 @@ private struct DexDetailSheet: View {
       let sid = Gen3Names.speciesIdForDexNumber(number, configId: configId)
       return Gen3BattleData.speciesTypes(sid, tables: .modernEmerald)
     }
+    if tables == .hns {
+      return Gen3BattleData.speciesTypes(national, tables: .hns)
+        ?? Gen3BattleData.speciesTypes(national, tables: .national)
+    }
     return Gen3BattleData.speciesTypes(national, tables: .national)
       ?? Gen3BattleData.speciesTypes(national, tables: tables)
   }
@@ -981,7 +986,7 @@ private struct DexDetailSheet: View {
   }
 
   private func typeChip(_ type: Int) -> some View {
-    let label = Gen3BattleData.typeName(type, tables: .national)
+    let label = Gen3BattleData.typeName(type, tables: tables)
     return Text(label.isEmpty ? "—" : label)
       .font(CETheme.sans(11, weight: .bold))
       .foregroundStyle(CETheme.text)

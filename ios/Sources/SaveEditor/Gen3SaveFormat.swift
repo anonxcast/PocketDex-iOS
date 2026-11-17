@@ -56,7 +56,8 @@ private func gen3Pockets(start: Int, items: Int, key: Int, balls: Int, tmhm: Int
 /// 0xF2C), retail SaveBlock1, encryption key at +0xB0, expansion bag (items 50 / berries 30 /
 /// key 20 / balls 70 / TM 46) from live EWRAM.
 enum Gen3SaveFormat: CaseIterable {
-  case RUBY_SAPPHIRE, EMERALD, EMERALD_HNS, EMERALD_MODERN, EMERALD_LAZARUS, FIRERED_LEAFGREEN, FIRERED_CFRU
+  case RUBY_SAPPHIRE, EMERALD, EMERALD_HNS, EMERALD_MODERN, EMERALD_LAZARUS, EMERALD_WISHES,
+    FIRERED_LEAFGREEN, FIRERED_CFRU
 
   struct Layout {
     let label: String
@@ -139,6 +140,15 @@ enum Gen3SaveFormat: CaseIterable {
           PocketLayout(pocket: .balls, off: 0x6F0, slots: 70),
           PocketLayout(pocket: .tmhm, off: 0x808, slots: 46),
         ], stackMax: 99)
+    case .EMERALD_WISHES:
+      // Wishes of Tomorrow v1.3.0 GF ROM header: SB2 0xF44 / SB1 0x3D7C; flags/vars 0x1270/0x13A0.
+      return Layout(
+        label: "EMERALD (Wishes of Tomorrow)", saveBlock2Size: 0xF44, saveBlock1Size: 0x3D7C,
+        partyCountOff: 0x234, partyOff: 0x238, moneyOff: 0x490, encryptionKeyOff: 0xAC,
+        flagsOff: 0x1270, varsOff: 0x13A0, seen1Off: 0x988, seen2Off: 0x3B24,
+        nationalMagicOff: 0x1A, nationalMagic: 0xDA, nationalVar: 0x4046, nationalVarValue: 0x302, nationalFlag: 0x896,
+        linkRsFlag: -1, kanto: false, coinsOff: 0x494,
+        pockets: gen3Pockets(start: 0x560, items: 30, key: 30, balls: 16, tmhm: 64, berries: 46), stackMax: 99)
     case .FIRERED_LEAFGREEN:
       return Layout(
         label: "FIRERED / LEAFGREEN", saveBlock2Size: 0xF24, saveBlock1Size: 0x3D68,
@@ -270,24 +280,29 @@ enum Gen3SaveFormat: CaseIterable {
       .contains { u.contains($0) }
     let hnsHint = (u.contains("HEART") && u.contains("SOUL") && !u.contains("HEARTGOLD"))
       || u.contains("HEARTSOUL")
+      || (u.contains("CRYSTAL") && u.contains("ENHANCED"))
+      || u.contains("CRYSENHA")
     let modernHint = u.contains("MODERN") && u.contains("EMERALD")
     let lazarusHint = u.contains("LAZARUS")
+    let wishesHint = u.contains("WISHES")
     guard let base = forGameCode(code) else {
       // Unknown code — still try CFRU FRLG layout for named hacks.
       if modernHint { return [.EMERALD_MODERN, .EMERALD, .FIRERED_CFRU] }
       if hnsHint { return [.EMERALD_HNS, .EMERALD, .FIRERED_CFRU] }
       if lazarusHint { return [.EMERALD_LAZARUS, .EMERALD, .FIRERED_CFRU] }
+      if wishesHint { return [.EMERALD_WISHES, .EMERALD, .FIRERED_CFRU] }
       return cfruHint ? [.FIRERED_CFRU, .FIRERED_LEAFGREEN, .EMERALD] : []
     }
     switch base {
     case .FIRERED_LEAFGREEN, .FIRERED_CFRU:
       return cfruHint ? [.FIRERED_CFRU, .FIRERED_LEAFGREEN] : [.FIRERED_LEAFGREEN, .FIRERED_CFRU]
-    case .EMERALD, .EMERALD_HNS, .EMERALD_MODERN, .EMERALD_LAZARUS:
+    case .EMERALD, .EMERALD_HNS, .EMERALD_MODERN, .EMERALD_LAZARUS, .EMERALD_WISHES:
       if modernHint { return [.EMERALD_MODERN, .EMERALD] }
       // Heart and Soul needs its own sector sizes; other Emerald hacks try retail first.
       if hnsHint { return [.EMERALD_HNS, .EMERALD] }
       if lazarusHint { return [.EMERALD_LAZARUS, .EMERALD] }
-      return [.EMERALD, .EMERALD_HNS, .EMERALD_MODERN, .EMERALD_LAZARUS]
+      if wishesHint { return [.EMERALD_WISHES, .EMERALD] }
+      return [.EMERALD, .EMERALD_HNS, .EMERALD_MODERN, .EMERALD_LAZARUS, .EMERALD_WISHES]
     case .RUBY_SAPPHIRE:
       return [.RUBY_SAPPHIRE]
     }

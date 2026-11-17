@@ -176,7 +176,7 @@ enum Gen2ConfigStore {
       if t.contains("CLEAR") { c.displayName = "Crystal Clear (best-effort Crystal RAM)" }
       else if t.contains("PRISM") { c.displayName = "Pokémon Prism (best-effort Crystal RAM)" }
       else if t.contains("LEGACY") { c.displayName = "Crystal Legacy (best-effort Crystal RAM)" }
-      else if t.contains("ENHANCED") { c.displayName = "Crystal Enhanced (best-effort Crystal RAM)" }
+      // GBA Crystal Enhanced is Gen3 (pokehns) — never treat as GBC Crystal.
       return c
     }
     if t.contains("GOLD") || t.contains("POKEMON_GLD") || t.contains("_GLD") {

@@ -263,6 +263,29 @@ HACKS = [
              CONTROLS_LOCKED=0x03001FDD, PRIMARY_OVERRIDE=640, LAYOUT_VERSIONED=1,
              OBJ_GFX_INFO=0x0850C6F4, OBJ_PALETTES=0x085036B0, OBJ_FACING=0x084FFF58, ELEVATION_PRIO=0x08500360,
              OBJ_GFX_VAR_FROM=0xFFFF, OBJ_GFX_COUNT=0x224, SB1_OFFSETS=0x138C | 0x1ABC << 16)),
+    # Crystal Enhanced (Free Roam / pokehns): crystalenhanceddex.app patch CRC AACBBF26. HnS-family save + camera
+    # (SB1 pos +4, 640 primary / LAYOUT_VERSIONED, PAN_OFF 12). EWRAM + ROM tables from CE HEAD ELF ported onto the
+    # site ROM via literal pools (ghost_tables match HnS); IWRAM matches the Companion NativeConfig pin.
+    dict(name="Crystal Enhanced", sha1="755bdc2f01994881a72a448279f47666f1b0fb39", family="EX",
+         save="crystal_enhanced", boot_file="rhh_splash.txt", script=0x0821016C, a=dict(
+             # Site ROM IWRAM: VMAP/SB1/gMain/controls are +8 vs pokecrysenha.elf HEAD (HnS→CE pool votes).
+             VMAP=0x03003074, MAP_HEADER=0x02001C24, MAP_GROUPS=0x093604F0, SAVE_BLOCK1_PTR=0x030041E0, SB1_POS=4,
+             CAMERA_OFFSET=0x03000BDC, OBJECT_EVENTS=0x0200170C, SPRITES=0x0203B7A0, COORD_OFFSET=0x0203B31A,
+             COORD_OFFSET_Y=0x0203B31C, SPRITE_ORDER=0x0203B2D8, GMAIN=0x03005BE0, PAN_OFF=12,
+             CONTROLS_LOCKED=0x03001FE5, PRIMARY_OVERRIDE=640, LAYOUT_VERSIONED=1,
+             OBJ_GFX_INFO=0x08526E0C, OBJ_PALETTES=0x0851DDC8, OBJ_FACING=0x0851A6A4, ELEVATION_PRIO=0x0851AAAC,
+             OBJ_GFX_VAR_FROM=0xFFFF, OBJ_GFX_COUNT=0x224, SB1_OFFSETS=0x138C | 0x1ABC << 16)),
+    # Wishes of Tomorrow v1.3.0 (FlatFoot Labs; CRC 5A5FC74F): expansion 1.15.3. Field addrs from 1.2.6
+    # fixture dumps + IWRAM +0x10 / low-EWRAM +0x10 / high-EWRAM +0x28C..+0x290 / battle +4 vs 1.2.6.
+    dict(name="Wishes of Tomorrow v1.3.0", sha1="0fb19d1d9ed68b550a4c1f562eaf0977d1007dbc", family="EX",
+         save="wishes", boot=["press B", "wait 30"] * 3, a=dict(
+             VMAP=0x03002578, MAP_HEADER=0x02001AF8, MAP_GROUPS=0x09086ADC, SAVE_BLOCK1_PTR=0x0300523C,
+             CAMERA_OFFSET=0x03001324, OBJECT_EVENTS=0x020015E4, SPRITES=0x02035B10, COORD_OFFSET=0x0203568A,
+             COORD_OFFSET_Y=0x0203568C, SPRITE_ORDER=0x02035648, GMAIN=0x03006738, PAN_OFF=12,
+             CONTROLS_LOCKED=0x03001738, METATILE_SIZE=24,
+             OBJ_GFX_INFO=0x084981B0, OBJ_PALETTES=0x084915BC, OBJ_FACING=0x0848DE50, ELEVATION_PRIO=0x0848E228,
+             OBJ_GFX_VAR_FROM=0xFFFF, OBJ_GFX_COUNT=0xF3,
+             SB1_OFFSETS=0xCA8 | 0x13A0 << 16, SB1_FLAGS_AT=0x1270)),
     dict(name="Too Many Types 2 v1.5.2", sha1="3fa8e61ec1727cc51540c54677623f736a446e1b", family="EX", save="tmt2",
          boot=["press B", "wait 30"] * 3, script=0x081DC368, a=dict(
              VMAP=0x030046A8, MAP_HEADER=0x02001BBC, MAP_GROUPS=0x09047730, SAVE_BLOCK1_PTR=0x030057D8,

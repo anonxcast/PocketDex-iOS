@@ -163,6 +163,7 @@ def main():
     b, n = move_blob("movesYellow", "MoveDataYellow.kt"); parts.append(b); counts["movesYellow"] = n
     b, n = move_blob("movesCrystal", "MoveDataCrystal.kt"); parts.append(b); counts["movesCrystal"] = n
     b, n = move_blob("movesPolished", "MoveDataPolishedCrystal.kt"); parts.append(b); counts["movesPolished"] = n
+    b, n = move_blob("movesHns", "MoveDataHns.kt"); parts.append(b); counts["movesHns"] = n
 
     b, n = types_blob("speciesTypesRetail", "SpeciesTypes.kt"); parts.append(b); counts["speciesTypesRetail"] = n
     b, n = types_blob("speciesTypesSeaglass", "SpeciesTypesSeaglass.kt"); parts.append(b); counts["speciesTypesSeaglass"] = n
@@ -194,6 +195,7 @@ def main():
     b, n = types_blob("speciesTypesYellow", "SpeciesTypesYellow.kt"); parts.append(b); counts["speciesTypesYellow"] = n
     b, n = types_blob("speciesTypesCrystal", "SpeciesTypesCrystal.kt"); parts.append(b); counts["speciesTypesCrystal"] = n
     b, n = types_blob("speciesTypesPolished", "SpeciesTypesPolishedCrystal.kt"); parts.append(b); counts["speciesTypesPolished"] = n
+    b, n = types_blob("speciesTypesHns", "SpeciesTypesHns.kt"); parts.append(b); counts["speciesTypesHns"] = n
     # National Dex order types (Gen 4/5 companion + Platinum / B2W2 tips) from Black's personal table.
     black_text = (DATA / "Gen5TablesBlack.kt").read_text()
     black_chunk = _map_chunk(black_text, "speciesTypesBlack")
@@ -218,9 +220,11 @@ def main():
     b, n = type_names_blob("typeNamesYellow", "TypeChartYellow.kt", "typeNamesYellow"); parts.append(b); counts["typeNamesYellow"] = n
     b, n = type_names_blob("typeNamesCrystal", "TypeChartCrystal.kt", "typeNamesCrystal"); parts.append(b); counts["typeNamesCrystal"] = n
     b, n = type_names_blob("typeNamesPolished", "TypeChartPolishedCrystal.kt", "typeNamesPolishedCrystal"); parts.append(b); counts["typeNamesPolished"] = n
+    b, n = type_names_blob("typeNamesHns", "TypeChartHns.kt", "typeNamesHns"); parts.append(b); counts["typeNamesHns"] = n
 
     b, n = chart_blob("typeChartRetail", "TypeChart.kt", "typeEffectiveness"); parts.append(b); counts["typeChartRetail"] = n
     b, n = chart_blob("typeChartSeaglass", "TypeChartHns.kt", "typeEffectivenessHns"); parts.append(b); counts["typeChartSeaglass"] = n
+    b, n = chart_blob("typeChartHns", "TypeChartHns.kt", "typeEffectivenessHns"); parts.append(b); counts["typeChartHns"] = n
     b, n = chart_blob("typeChartUnbound", "TypeChartUnbound.kt", "typeEffectivenessUnbound"); parts.append(b); counts["typeChartUnbound"] = n
     # Classic preset uses Gen VI+ chart; "Modern" chart is the alternate.
     b, n = chart_blob("typeChartModernEmerald", "ModernEmeraldGen.kt", "typeChartGen6ModernEmerald"); parts.append(b); counts["typeChartModernEmerald"] = n
@@ -231,11 +235,43 @@ def main():
     b, n = name_blob("speciesNamesYellow", "SpeciesNamesYellow.kt"); parts.append(b); counts["speciesNamesYellow"] = n
     b, n = name_blob("speciesNamesCrystal", "SpeciesNamesCrystal.kt"); parts.append(b); counts["speciesNamesCrystal"] = n
     b, n = name_blob("speciesNamesPolished", "SpeciesNamesPolishedCrystal.kt"); parts.append(b); counts["speciesNamesPolished"] = n
+    b, n = name_blob("speciesNamesHns", "SpeciesNamesHns.kt"); parts.append(b); counts["speciesNamesHns"] = n
 
     parts.append("}\n")
     (OUT / "Gen3BattleBlobs.swift").write_text("".join(parts))
     print("Gen3BattleBlobs:", counts)
     print("itemsSeaglass:", n_items_sg, "movesSeaglass names:", len(moves_sg_names))
+
+    # HnS / Crystal Enhanced name tables into Gen3TableBlobs (species + items + moves).
+    items_hns, n_items_hns = name_blob("itemsHns", "ItemNamesHns.kt")
+    moves_hns_names = []
+    for m in parse_map("MoveDataHns.kt", MOVE_RE):
+        moves_hns_names.append(f"{m.group(1)}|{m.group(2).replace(chr(92)+chr(34), chr(34))}")
+    moves_hns_names.sort(key=lambda s: int(s.split("|", 1)[0]))
+    moves_hns_name_blob = blob("movesHns", moves_hns_names)
+    species_hns, n_sp_hns = name_blob("speciesHns", "SpeciesNamesHns.kt")
+    blobs_path = OUT / "Gen3TableBlobs.swift"
+    t = blobs_path.read_text()
+    for name, chunk in (
+        ("itemsHns", items_hns),
+        ("movesHns", moves_hns_name_blob),
+        ("speciesHns", species_hns),
+    ):
+        if f"static let {name}:" in t:
+            t = re.sub(
+                rf"  static let {name}: String = #\"\"\".*?\"\"\"#\n",
+                chunk,
+                t,
+                count=1,
+                flags=re.S,
+            )
+        else:
+            if t.rstrip().endswith("}"):
+                t = t.rstrip()[:-1] + chunk + "}\n"
+            else:
+                t += chunk
+    blobs_path.write_text(t)
+    print("HnS table blobs:", n_items_hns, "items,", len(moves_hns_names), "moves,", n_sp_hns, "species")
 
 
 if __name__ == "__main__":

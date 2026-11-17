@@ -1040,6 +1040,7 @@ enum SaveEditorCatalog {
     case .retail: return sorted(Gen3Names.speciesRetail, maxId: min(maxId, 412))
     case .unbound: return sorted(Gen3Names.speciesUnbound, maxId: maxId)
     case .modernEmerald: return sorted(Gen3Names.speciesModernEmerald, maxId: min(maxId, 461))
+    case .hns: return sorted(Gen3Names.speciesHns, maxId: maxId)
     case .national, .yellow, .crystal, .polished: return sorted(Gen3Names.speciesNational, maxId: maxId)
     }
   }
@@ -1056,6 +1057,7 @@ enum SaveEditorCatalog {
     case .unbound: maxId = Gen3SaveData.LAST_MOVE_EXPANDED
     case .modernEmerald: maxId = 374
     case .national: maxId = Gen45Personal.gen5MaxMove
+    case .hns: maxId = Gen3SaveData.LAST_MOVE_EXPANDED
     }
     return sorted(names, maxId: maxId)
   }
@@ -1065,6 +1067,7 @@ enum SaveEditorCatalog {
     switch tables {
     case .unbound: return sorted(Gen3Names.itemsUnbound, maxId: maxId)
     case .national: return sorted(Gen3Names.itemsSeaglass, maxId: maxId)
+    case .hns: return sorted(Gen3Names.itemsHns, maxId: maxId)
     case .modernEmerald: return sorted(Gen3Names.itemsModernEmerald, maxId: min(maxId, 397))
     default: return sorted(Gen3Names.itemsRetail, maxId: maxId)
     }

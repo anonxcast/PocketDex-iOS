@@ -132,7 +132,8 @@ final class SaveSession: ObservableObject {
         || why.contains("isn't empty")
         || why.contains("is level")
       if soft && (expanded || formatUsed == .FIRERED_CFRU || formatUsed == .EMERALD_HNS
-                  || formatUsed == .EMERALD_MODERN || formatUsed == .EMERALD_LAZARUS) {
+                  || formatUsed == .EMERALD_MODERN || formatUsed == .EMERALD_LAZARUS
+                  || formatUsed == .EMERALD_WISHES) {
         return (.gen3, .gen3(editor), nil)
       }
       return (.gen3, .gen3(editor), "This save doesn't look like \(formatUsed.label) (\(why)), so it is open read-only.")
@@ -415,6 +416,13 @@ final class SaveSession: ObservableObject {
       // (FireRed-order + expansions) — never this branch.
       if fn.contains("SEAGLASS") || fn.contains("RADICAL") || fn.contains("ROCKET") {
         return .national
+      }
+      // Heart and Soul / Crystal Enhanced — expansion type ids + *Hns name tables.
+      if fn.contains("HEART AND SOUL") || fn.contains("HEARTSOUL")
+          || fn.contains("CRYSTAL ENHANCED") || fn.contains("CRYSENHA")
+          || OptimizedRomCatalog.entry(matchingFileName: romURL.lastPathComponent)?.id == "heart_and_soul"
+          || OptimizedRomCatalog.entry(matchingFileName: romURL.lastPathComponent)?.id == "crystal_enhanced" {
+        return .hns
       }
       if OptimizedRomCatalog.usesExpandedSpecies(fileName: romURL.lastPathComponent),
          !fn.contains("UNBOUND") {
