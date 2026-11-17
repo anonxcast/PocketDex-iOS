@@ -12,6 +12,8 @@ final class PadTouchUIView: UIView {
   private var buttonTouches: [ObjectIdentifier: UInt32] = [:]
   private var dpadTouch: ObjectIdentifier?
   private var heldButtons: UInt32 = 0
+  /// Last D-pad mask sent upstream — avoids flooding on every touchesMoved.
+  private var lastDpadMask: UInt32 = 0
 
   /// Extra hit padding beyond the drawn control (points).
   private let hitSlop: CGFloat = 22
@@ -47,7 +49,7 @@ final class PadTouchUIView: UIView {
     let id = ObjectIdentifier(touch)
     if hitDpad(p) {
       dpadTouch = id
-      onDpadMask?(dpadMask(at: p))
+      pushDpad(dpadMask(at: p))
       return
     }
     if let bit = hitButton(p) {
@@ -61,11 +63,11 @@ final class PadTouchUIView: UIView {
     let id = ObjectIdentifier(touch)
     if dpadTouch == id {
       if hitDpad(p) {
-        onDpadMask?(dpadMask(at: p))
+        pushDpad(dpadMask(at: p))
       } else {
         // Slide off d-pad → release
         dpadTouch = nil
-        onDpadMask?(0)
+        pushDpad(0)
       }
       return
     }
@@ -82,11 +84,17 @@ final class PadTouchUIView: UIView {
     let id = ObjectIdentifier(touch)
     if dpadTouch == id {
       dpadTouch = nil
-      onDpadMask?(0)
+      pushDpad(0)
     }
     if let bit = buttonTouches.removeValue(forKey: id) {
       setButton(bit, down: false)
     }
+  }
+
+  private func pushDpad(_ mask: UInt32) {
+    guard mask != lastDpadMask else { return }
+    lastDpadMask = mask
+    onDpadMask?(mask)
   }
 
   private func setButton(_ bit: UInt32, down: Bool) {

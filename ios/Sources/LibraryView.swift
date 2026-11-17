@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct LibraryView: View {
   @EnvironmentObject private var engine: EmulatorEngine
@@ -8,7 +9,9 @@ struct LibraryView: View {
   @ObservedObject private var recentlyPlayed = RecentlyPlayedStore.shared
   let onPlay: (RomItem) -> Void
   var onOpenGame: ((RomItem) -> Void)? = nil
+  var onEditSave: ((RomItem) -> Void)? = nil
   var onOpenSettings: (() -> Void)? = nil
+  @State private var saveMissingAlert = false
 
   @State private var roms: [RomItem] = []
   @State private var skins: [DeltaSkinItem] = []
@@ -23,76 +26,119 @@ struct LibraryView: View {
   @State private var artworkTarget: ArtworkTarget?
   @State private var romPendingDelete: RomItem?
   @State private var playConfirm: PlayConfirmRequest?
-  @State private var didBackfillArt = false
+  /// Prevents overlapping Libretro backfill passes (Drive sync / re-open).
+  @State private var isBackfillingArt = false
   /// Splash wordmark for ~3s on launch, then crossfades to the active console/section.
   @State private var showBrandIntro = true
   /// Duo closed / outer front display — compact chrome + cover grid (Apple Duo UX).
   @State private var hingeClosed = false
+  /// Viewport of the games ScrollView — read via background GeometryReader (never wraps ScrollView).
+  @State private var gamesViewport: CGSize = .zero
+  /// Settings opens from the floating gear (own page, no console logo).
+  @State private var showSettings = false
+  @Environment(\.verticalSizeClass) private var verticalSizeClass
   @AppStorage("library.selectedConsole") private var storedConsoleRaw: String = ConsoleKind.gba.rawValue
 
+  private var chromeCompact: Bool { hingeClosed || verticalSizeClass == .compact }
+
   var body: some View {
-    // System TabView — on iPhone Duo this becomes the vertical bar *under* the status
-    // island (Music / Notes pattern). Custom trailing safeAreaBar sat left of that
-    // column and left a dead gap; don’t fight the system chrome.
-    TabView(selection: tabSelection) {
-      ForEach(ConsoleKind.allCases) { kind in
-        libraryPage(showsChrome: true) {
-          gamesBody(for: kind)
+    // No shared gray top bar — console logos sit in each tab; settings is a floating gear.
+    ZStack(alignment: .topTrailing) {
+      // Order: GB → GBC → GBA → DS → Import; Skins / Editor land under system More.
+      TabView(selection: tabSelection) {
+        libraryPage(active: destination == .console(.gb)) {
+          gamesBody(for: .gb)
         }
         .tabItem {
-          // UIImage template — SwiftUI `tabItem` drops custom Shape views (icons went blank).
           Label {
-            Text(kind.shortTitle)
+            Text(ConsoleKind.gb.shortTitle)
           } icon: {
-            Image(uiImage: ConsoleTabIcon.image(for: kind))
+            Image(uiImage: ConsoleTabIcon.image(for: .gb))
           }
         }
-        .tag(LibraryDestination.console(kind))
-      }
+        .tag(LibraryDestination.console(.gb))
 
-      libraryPage(showsChrome: true) {
-        skinsBody
-      }
-      .tabItem { Label("Skins", systemImage: "paintbrush.fill") }
-      .tag(LibraryDestination.skins)
+        libraryPage(active: destination == .console(.gbc)) {
+          gamesBody(for: .gbc)
+        }
+        .tabItem {
+          Label {
+            Text(ConsoleKind.gbc.shortTitle)
+          } icon: {
+            Image(uiImage: ConsoleTabIcon.image(for: .gbc))
+          }
+        }
+        .tag(LibraryDestination.console(.gbc))
 
-      libraryPage(showsChrome: true) {
-        SaveEditorListView(
-          roms: roms,
-          engineLoadedStem: engine.loadedRomURL?.deletingPathExtension().lastPathComponent
-        )
-      }
-      .tabItem { Label("Editor", systemImage: "square.and.pencil") }
-      .tag(LibraryDestination.saveEditor)
+        libraryPage(active: destination == .console(.gba)) {
+          gamesBody(for: .gba)
+        }
+        .tabItem {
+          Label {
+            Text(ConsoleKind.gba.shortTitle)
+          } icon: {
+            Image(uiImage: ConsoleTabIcon.image(for: .gba))
+          }
+        }
+        .tag(LibraryDestination.console(.gba))
 
-      libraryPage(showsChrome: false) {
-        SettingsView(showsBackButton: false)
+        libraryPage(active: destination == .console(.nds)) {
+          gamesBody(for: .nds)
+        }
+        .tabItem {
+          Label {
+            Text(ConsoleKind.nds.shortTitle)
+          } icon: {
+            Image(uiImage: ConsoleTabIcon.image(for: .nds))
+          }
+        }
+        .tag(LibraryDestination.console(.nds))
+
+        libraryPage(active: destination == .importRoms) {
+          importBody
+        }
+        .tabItem { Label("Import", systemImage: "square.and.arrow.down") }
+        .tag(LibraryDestination.importRoms)
+
+        libraryPage(active: destination == .skins) {
+          skinsBody
+        }
+        .tabItem { Label("Skins", systemImage: "paintbrush.fill") }
+        .tag(LibraryDestination.skins)
+
+        libraryPage(active: destination == .saveEditor) {
+          SaveEditorListView(
+            roms: roms,
+            engineLoadedStem: engine.loadedRomURL?.deletingPathExtension().lastPathComponent
+          )
+        }
+        .tabItem { Label("Editor", systemImage: "square.and.pencil") }
+        .tag(LibraryDestination.saveEditor)
       }
-      .tabItem { Label("Settings", systemImage: "gearshape.fill") }
-      .tag(LibraryDestination.settings)
+      .tint(CETheme.crystal)
+      .modifier(CompactTabBarChrome())
+
+      floatingChrome
     }
-    .tint(CETheme.crystal)
-    // Keep the Liquid Glass tab chrome compact — scroll morph was ballooning the pill.
-    .modifier(CompactTabBarChrome())
+    .fullScreenCover(isPresented: $showSettings) {
+      SettingsView(showsBackButton: true)
+        .environmentObject(settings)
+        .environmentObject(engine)
+        .preferredColorScheme(settings.appearanceMode.preferredColorScheme)
+    }
     .modifier(DuoHingeClosedObserver { closed in
       hingeClosed = closed
     })
-    .toolbar {
-      if destination != .settings {
-        ToolbarItem(placement: .topBarTrailing) {
-          Button {
-            showImporter = true
-          } label: {
-            // Symbol-first — Duo’s vertical side bar is narrow (Apple Duo bar guidance).
-            Label("Import", systemImage: "square.and.arrow.down")
-              .labelStyle(.iconOnly)
-          }
-          .accessibilityLabel("Import")
-        }
+    .toolbar(.hidden, for: .navigationBar)
+    .toolbarBackground(.hidden, for: .navigationBar)
+    .toolbarBackground(.visible, for: .tabBar)
+    // Same black through the status-bar safe area — no gray bezel above the console logo.
+    .background(CETheme.bg.ignoresSafeArea())
+    .onChange(of: destination) { _, newValue in
+      if newValue == .importRoms {
+        showImporter = true
       }
     }
-    .toolbarBackground(.hidden, for: .navigationBar)
-    .background(GlassChrome.canvas.ignoresSafeArea())
     .fileImporter(
       isPresented: $showImporter,
       allowedContentTypes: RomLibrary.contentTypes + DeltaSkinManager.contentTypes,
@@ -107,6 +153,11 @@ struct LibraryView: View {
       Button("OK", role: .cancel) { importError = nil }
     } message: {
       Text(importError ?? "")
+    }
+    .alert("No save yet", isPresented: $saveMissingAlert) {
+      Button("OK", role: .cancel) {}
+    } message: {
+      Text("Play this game once so PocketDex writes a battery .sav, then Edit Save will open the editor for it.")
     }
     .confirmationDialog(
       "Delete \(romPendingDelete?.displayName ?? "game")?",
@@ -173,58 +224,51 @@ struct LibraryView: View {
         if case .console(let kind) = newValue {
           storedConsoleRaw = kind.rawValue
         }
+        // Plain assignment — animating selection made the bottom pill glitch while scrolling.
         destination = newValue
       }
     )
   }
 
-  @ViewBuilder
   private func libraryPage<Content: View>(
-    showsChrome: Bool,
+    active: Bool,
     @ViewBuilder content: () -> Content
   ) -> some View {
-    // Avoid GeometryReader wrapping the page — it fights TabView scroll-edge sizing.
-    // Compact brand/chrome when Duo is closed (outer display) so content fits the shorter face.
-    VStack(spacing: 0) {
-      if showsChrome {
-        topBar(compact: hingeClosed)
-      }
-      content()
-    }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    LibraryPageTransition(isActive: active, content: content)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
   }
 
-  private func topBar(compact: Bool) -> some View {
-    HStack(spacing: 12) {
-      pocketDexBrand(compact: compact)
+  /// Floating gear + brief PocketDex splash — no full-width gray header bar.
+  private var floatingChrome: some View {
+    let compact = chromeCompact
+    let btn: CGFloat = compact ? 34 : 38
+    return VStack(spacing: 0) {
+      HStack(alignment: .center, spacing: 12) {
+        if showBrandIntro {
+          brandWordmark(compact: compact)
+            .transition(.opacity)
+        }
+        Spacer(minLength: 0)
+        Button {
+          InputHaptics.selectionChange()
+          showSettings = true
+        } label: {
+          Image(systemName: "gearshape.fill")
+            .font(.system(size: compact ? 15 : 17, weight: .semibold))
+            .foregroundStyle(CETheme.text)
+            .frame(width: btn, height: btn)
+            .background(.ultraThinMaterial, in: Circle())
+            .overlay(Circle().stroke(CETheme.border.opacity(0.6), lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Settings")
+      }
+      .padding(.horizontal, 16)
+      .padding(.top, compact ? 8 : 10)
       Spacer(minLength: 0)
     }
-    .padding(.horizontal, 16)
-    .padding(.top, compact ? 10 : 14)
-    .padding(.bottom, compact ? 10 : 12)
-  }
-
-  /// Brand for 3s, then console/section title with icon on the left.
-  private func pocketDexBrand(compact: Bool) -> some View {
-    ZStack {
-      if showBrandIntro {
-        brandWordmark(compact: compact)
-          .transition(.asymmetric(
-            insertion: .opacity,
-            removal: .opacity.combined(with: .scale(scale: 0.96))
-          ))
-      } else {
-        destinationHeader(compact: compact)
-          .transition(.asymmetric(
-            insertion: .opacity.combined(with: .scale(scale: 0.96)),
-            removal: .opacity
-          ))
-      }
-    }
-    .animation(.easeInOut(duration: 0.55), value: showBrandIntro)
-    .animation(.easeInOut(duration: 0.25), value: destination.title)
-    .accessibilityElement(children: .ignore)
-    .accessibilityLabel(showBrandIntro ? "PocketDex" : destination.title)
+    .animation(.easeInOut(duration: 0.6), value: showBrandIntro)
+    .allowsHitTesting(true)
   }
 
   private func brandWordmark(compact: Bool) -> some View {
@@ -240,55 +284,24 @@ struct LibraryView: View {
       }
       .foregroundStyle(CETheme.text)
     }
+    .accessibilityLabel("PocketDex")
   }
 
-  private func destinationHeader(compact: Bool) -> some View {
-    HStack(spacing: compact ? 8 : 10) {
-      destinationHeaderIcon(size: compact ? 22 : 26)
-        .foregroundStyle(Color.white)
-        .frame(width: compact ? 22 : 26, height: compact ? 22 : 26)
-
-      Text(destinationHeaderTitle)
-        .font(CETheme.sans(compact ? 16 : 19, weight: .semibold))
-        .tracking(0.4)
-        .foregroundStyle(CETheme.text)
-        .lineLimit(1)
-    }
-  }
-
-  private var destinationHeaderTitle: String {
-    switch destination {
-    case .console(let kind): return kind.title
-    case .skins: return "Skins"
-    case .saveEditor: return "Save Editor"
-    case .settings: return "Settings"
-    }
-  }
-
-  @ViewBuilder
-  private func destinationHeaderIcon(size: CGFloat) -> some View {
-    switch destination {
-    case .console(let kind):
-      ConsoleRailIcon(kind: kind)
-        .frame(width: size, height: size)
-    case .skins:
-      Image(systemName: "paintbrush.fill")
-        .font(.system(size: size * 0.72, weight: .semibold))
-    case .saveEditor:
-      Image(systemName: "square.and.pencil")
-        .font(.system(size: size * 0.72, weight: .semibold))
-        .foregroundStyle(CETheme.crystal)
-    case .settings:
-      Image(systemName: "gearshape.fill")
-        .font(.system(size: size * 0.72, weight: .semibold))
-    }
+  private func consoleTabLogo(kind: ConsoleKind, compact: Bool) -> some View {
+    ConsoleSystemLogo(kind: kind, height: compact ? 26 : 38)
+      .frame(maxWidth: compact ? 220 : 360, alignment: .leading)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(.horizontal, 16)
+      .padding(.top, compact ? 44 : 52) // Clear the floating gear.
+      .padding(.bottom, compact ? 6 : 8)
+      .accessibilityLabel(kind.title)
   }
 
   private func scheduleBrandIntro() {
     guard showBrandIntro else { return }
     Task { @MainActor in
       try? await Task.sleep(nanoseconds: 3_000_000_000)
-      withAnimation(.easeInOut(duration: 0.55)) {
+      withAnimation(.easeInOut(duration: 0.6)) {
         showBrandIntro = false
       }
     }
@@ -301,63 +314,94 @@ struct LibraryView: View {
   }
 
   private func gamesBody(for kind: ConsoleKind) -> some View {
+    let compact = hingeClosed || verticalSizeClass == .compact
     let list = roms.filter { $0.console == kind }
     let recent = recentlyPlayed.recent(in: list)
-    return Group {
-      if roms.isEmpty {
-        emptyGames
-      } else if list.isEmpty {
-        emptyConsole
-      } else {
-        GeometryReader { geo in
-          // Duo outer is wider/shorter, but content sits left of the vertical system bar —
-          // keep a cover grid there (Apple: compact-width outer). Banner rows only when
-          // truly landscape on an open / large canvas.
-          let outerFace = hingeClosed || geo.size.height < 520
-          let useBanners = !outerFace
-            && geo.size.width > geo.size.height * 1.08
-            && geo.size.height >= 520
-          let colCount = max(2, min(4, Int(geo.size.width / (outerFace ? 140 : 160))))
-          let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: colCount)
+    // Prefer measured viewport; fall back via size class (never wrap ScrollView in GeometryReader —
+    // TabView landscape + that pair creates an infinite content-size loop while scrolling).
+    let viewport = gamesViewport
+    let measured = viewport.width > 1 && viewport.height > 1
+    let outerLandscape = hingeClosed && (
+      verticalSizeClass == .compact
+        || (measured && viewport.width > viewport.height * 1.05)
+    )
+    let shortCanvas = hingeClosed || (measured && viewport.height < 520)
+    let useContinueBanners: Bool = {
+      guard !hingeClosed else { return false }
+      if measured {
+        return viewport.width > viewport.height * 1.08 && viewport.height >= 520
+      }
+      return verticalSizeClass == .compact
+    }()
+    // Cover landscape is wide+short — smaller poster minimum so the grid fills edge-to-edge
+    // instead of two fat columns with empty side margins.
+    let posterMin: CGFloat = {
+      if outerLandscape { return 88 }
+      if shortCanvas { return 108 }
+      return 124
+    }()
+    let gridSpacing: CGFloat = outerLandscape ? 10 : 14
+    let columns = [GridItem(.adaptive(minimum: posterMin), spacing: gridSpacing)]
+    let hPad: CGFloat = outerLandscape ? 10 : 16
+    return VStack(spacing: 0) {
+      // Logo lives in-tab so the system More page never inherits a console wordmark.
+      consoleTabLogo(kind: kind, compact: compact)
+      Group {
+        if roms.isEmpty {
+          emptyGames
+        } else if list.isEmpty {
+          emptyConsole
+        } else {
           ScrollView {
-            LazyVStack(alignment: .leading, spacing: outerFace ? 14 : 18) {
+            LazyVStack(alignment: .leading, spacing: outerLandscape ? 14 : 22) {
               if !recent.isEmpty {
-                librarySectionHeader("Recently Played")
-                if useBanners {
-                  LazyVStack(spacing: 12) {
+                librarySectionHeader("Continue")
+                if useContinueBanners {
+                  VStack(spacing: 12) {
                     ForEach(recent) { rom in
                       gameBannerCard(rom)
                     }
                   }
                 } else {
-                  LazyVGrid(columns: columns, spacing: 14) {
-                    ForEach(recent) { rom in
-                      gameCoverTile(rom)
+                  ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top, spacing: outerLandscape ? 10 : 14) {
+                      ForEach(recent) { rom in
+                        continuePoster(rom, width: outerLandscape ? 96 : (shortCanvas ? 112 : 132))
+                      }
                     }
+                    .padding(.horizontal, hPad)
+                    .padding(.vertical, 2)
                   }
+                  .padding(.horizontal, -hPad)
+                  .scrollBounceBehavior(.basedOnSize, axes: .horizontal)
                 }
               }
 
-              if !recent.isEmpty {
-                librarySectionHeader("All Games")
-              }
-              if useBanners {
-                LazyVStack(spacing: 12) {
-                  ForEach(list) { rom in
-                    gameBannerCard(rom)
-                  }
-                }
-              } else {
-                LazyVGrid(columns: columns, spacing: 14) {
-                  ForEach(list) { rom in
-                    gameCoverTile(rom)
-                  }
+              librarySectionHeader(recent.isEmpty ? "Games" : "All Games")
+              LazyVGrid(columns: columns, spacing: outerLandscape ? 12 : 18) {
+                ForEach(list) { rom in
+                  gamePosterTile(rom)
                 }
               }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, outerFace ? 8 : 12)
-            .id("\(artworkStore.revision)-\(kind.rawValue)-\(recentlyPlayed.datesByKey.count)-\(hingeClosed)")
+            .padding(.horizontal, hPad)
+            .padding(.vertical, outerLandscape ? 6 : 10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .id("\(artworkStore.revision)-\(kind.rawValue)-\(recentlyPlayed.datesByKey.count)-\(hingeClosed)-\(outerLandscape)-\(useContinueBanners)")
+          }
+          .background {
+            GeometryReader { geo in
+              Color.clear
+                .onAppear { gamesViewport = geo.size }
+                .onChange(of: geo.size) { _, newSize in
+                  // Ignore tiny inset jitter from the Liquid Glass pill while scrolling —
+                  // that was rebuilding the grid and making the tab bar flicker.
+                  if abs(newSize.width - gamesViewport.width) > 24
+                      || abs(newSize.height - gamesViewport.height) > 48 {
+                    gamesViewport = newSize
+                  }
+                }
+            }
           }
         }
       }
@@ -369,7 +413,47 @@ struct LibraryView: View {
       .font(CETheme.sans(13, weight: .semibold))
       .foregroundStyle(CETheme.muted)
       .textCase(.uppercase)
-      .tracking(0.6)
+      .tracking(0.8)
+  }
+
+  private func hasBatterySave(_ rom: RomItem) -> Bool {
+    FileManager.default.fileExists(atPath: RomLibrary.savePath(forRom: rom.url).path)
+  }
+
+  private func openSaveEditor(for rom: RomItem) {
+    InputHaptics.selectionChange()
+    guard hasBatterySave(rom) else {
+      saveMissingAlert = true
+      return
+    }
+    onEditSave?(rom)
+  }
+
+  private var importBody: some View {
+    VStack(spacing: 16) {
+      Spacer()
+      Image(systemName: "square.and.arrow.down")
+        .font(.system(size: 40, weight: .semibold))
+        .foregroundStyle(CETheme.crystal)
+      Text("Import ROMs & Skins")
+        .font(CETheme.sans(20, weight: .bold))
+        .foregroundStyle(CETheme.text)
+      Text("Add GB, GBC, GBA, or DS games, plus Delta / Manic skins. Covers apply automatically when found.")
+        .font(CETheme.sans(14))
+        .foregroundStyle(CETheme.muted)
+        .multilineTextAlignment(.center)
+        .padding(.horizontal, 28)
+      Button { showImporter = true } label: {
+        Text("Choose Files…")
+          .font(CETheme.sans(15, weight: .semibold))
+          .foregroundStyle(.black)
+          .padding(.horizontal, 20)
+          .padding(.vertical, 12)
+          .background(CETheme.accent, in: Capsule())
+      }
+      Spacer()
+    }
+    .frame(maxWidth: .infinity)
   }
 
   private var emptyGames: some View {
@@ -452,10 +536,10 @@ struct LibraryView: View {
     reloadSkinSelectionState()
   }
 
-  /// Quietly fill missing covers for games already in the library (Libretro, no account).
+  /// Quietly fill missing covers (Libretro CDN — free, no SteamGridDB account).
+  /// Re-runs whenever the library gains ROMs without art (import, Drive sync, reopen).
   private func backfillArtworkIfNeeded() {
-    guard !didBackfillArt else { return }
-    didBackfillArt = true
+    guard !isBackfillingArt else { return }
     let missing = roms.filter { rom in
       guard rom.console != nil else { return false }
       let key = rom.artworkKey
@@ -463,10 +547,12 @@ struct LibraryView: View {
         || !artworkStore.hasArtwork(forKey: key, kind: .logo)
     }
     guard !missing.isEmpty else { return }
+    isBackfillingArt = true
     Task(priority: .utility) {
       for rom in missing {
         await LibretroArtworkApplier.applyIfNeeded(to: rom)
       }
+      await MainActor.run { isBackfillingArt = false }
     }
   }
 
@@ -663,45 +749,101 @@ struct LibraryView: View {
     destination = dest
   }
 
-  private func gameCoverTile(_ rom: RomItem) -> some View {
+  /// Music/TV poster: cover art with title under, badges on the art.
+  private func gamePosterTile(_ rom: RomItem) -> some View {
     let paused = engine.isPausedRom(rom)
     let optimized = OptimizedRomCatalog.isOptimized(
       fileName: rom.url.lastPathComponent,
       displayName: rom.displayName
     )
-    // Portrait cover grid: no logo/title overlay — box art already carries the branding.
-    return VStack(alignment: .leading, spacing: 8) {
-      ZStack(alignment: .topLeading) {
+    return LibraryGameTapButton(action: { handleGameTap(rom, at: $0) }) {
+      VStack(alignment: .leading, spacing: 8) {
         coverImage(for: rom)
           .aspectRatio(2.0 / 3.0, contentMode: .fit)
-          .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+          .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
           .overlay(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
               .stroke(paused ? CETheme.crystal : CETheme.border, lineWidth: paused ? 2 : 1)
           )
-        VStack(alignment: .leading, spacing: 4) {
-          if paused {
-            Text("PAUSED")
-              .font(CETheme.mono(8))
-              .foregroundStyle(.black)
-              .padding(.horizontal, 5)
-              .padding(.vertical, 2)
-              .background(CETheme.crystal.opacity(0.95), in: Capsule())
+          .overlay(alignment: .topLeading) {
+            if paused {
+              Text("PAUSED")
+                .font(CETheme.mono(8))
+                .foregroundStyle(.black)
+                .padding(.horizontal, 5)
+                .padding(.vertical, 2)
+                .background(CETheme.crystal.opacity(0.95), in: Capsule())
+                .padding(8)
+            }
           }
-          Spacer(minLength: 0)
-          OptimizedStatusBadge(optimized: optimized, compact: true)
-        }
-        .padding(8)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+          .overlay(alignment: .bottomLeading) {
+            OptimizedStatusBadge(optimized: optimized, compact: true)
+              .padding(8)
+          }
+          .shadow(color: .black.opacity(0.35), radius: 10, y: 4)
+
+        Text(rom.displayName)
+          .font(CETheme.sans(13, weight: .semibold))
+          .foregroundStyle(CETheme.text)
+          .lineLimit(3)
+          .minimumScaleFactor(0.8)
+          .multilineTextAlignment(.leading)
+          .fixedSize(horizontal: false, vertical: true)
+          .frame(maxWidth: .infinity, alignment: .leading)
       }
     }
-    .contentShape(Rectangle())
-    .onTapGesture(coordinateSpace: .global) { point in
-      handleGameTap(rom, at: point)
-    }
-    .accessibilityAddTraits(.isButton)
     .accessibilityLabel(rom.displayName)
     .accessibilityHint(settings.libraryOpenMode == .quickPlay ? "Shows Play confirmation" : "Opens game page")
+    .contextMenu { artworkContextMenu(for: rom, landscapeDefault: false) }
+  }
+
+  /// Continue shelf poster (horizontal Music rail).
+  private func continuePoster(_ rom: RomItem, width: CGFloat) -> some View {
+    let paused = engine.isPausedRom(rom)
+    let optimized = OptimizedRomCatalog.isOptimized(
+      fileName: rom.url.lastPathComponent,
+      displayName: rom.displayName
+    )
+    return LibraryGameTapButton(action: { handleGameTap(rom, at: $0) }) {
+      VStack(alignment: .leading, spacing: 8) {
+        coverImage(for: rom)
+          .aspectRatio(2.0 / 3.0, contentMode: .fill)
+          .frame(width: width, height: width * 1.5)
+          .clipped()
+          .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+          .overlay(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+              .stroke(paused ? CETheme.crystal : CETheme.border, lineWidth: paused ? 2 : 1)
+          )
+          .overlay(alignment: .topLeading) {
+            if paused {
+              Text("PAUSED")
+                .font(CETheme.mono(8))
+                .foregroundStyle(.black)
+                .padding(.horizontal, 5)
+                .padding(.vertical, 2)
+                .background(CETheme.crystal.opacity(0.95), in: Capsule())
+                .padding(7)
+            }
+          }
+          .overlay(alignment: .bottomLeading) {
+            OptimizedStatusBadge(optimized: optimized, compact: true)
+              .padding(7)
+          }
+          .shadow(color: .black.opacity(0.4), radius: 12, y: 5)
+
+        Text(rom.displayName)
+          .font(CETheme.sans(12, weight: .semibold))
+          .foregroundStyle(CETheme.text)
+          .lineLimit(3)
+          .minimumScaleFactor(0.8)
+          .multilineTextAlignment(.leading)
+          .fixedSize(horizontal: false, vertical: true)
+          .frame(width: width, alignment: .leading)
+      }
+      .frame(width: width, alignment: .topLeading)
+    }
+    .accessibilityLabel(rom.displayName)
     .contextMenu { artworkContextMenu(for: rom, landscapeDefault: false) }
   }
 
@@ -715,65 +857,62 @@ struct LibraryView: View {
     let cardHeight: CGFloat = hasLogo ? 176 : 132
     let coverH: CGFloat = hasLogo ? 148 : 110
     let coverW: CGFloat = hasLogo ? 99 : 78
-    return ZStack {
-      bannerImage(for: rom)
-        .frame(maxWidth: .infinity)
-        .frame(height: cardHeight)
-        .clipped()
-      LinearGradient(
-        colors: [.black.opacity(0.55), .black.opacity(0.25), .clear],
-        startPoint: .leading,
-        endPoint: .trailing
-      )
-      HStack(alignment: .center, spacing: 14) {
-        coverImage(for: rom)
-          .aspectRatio(2.0 / 3.0, contentMode: .fill)
-          .frame(width: coverW, height: coverH)
+    return LibraryGameTapButton(action: { handleGameTap(rom, at: $0) }) {
+      ZStack {
+        bannerImage(for: rom)
+          .frame(maxWidth: .infinity)
+          .frame(height: cardHeight)
           .clipped()
-          .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-          .overlay(
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-              .stroke(CETheme.border.opacity(0.9), lineWidth: 1.5)
-          )
-          .shadow(color: .black.opacity(0.45), radius: 8, y: 2)
+        LinearGradient(
+          colors: [.black.opacity(0.55), .black.opacity(0.25), .clear],
+          startPoint: .leading,
+          endPoint: .trailing
+        )
+        HStack(alignment: .center, spacing: 14) {
+          coverImage(for: rom)
+            .aspectRatio(2.0 / 3.0, contentMode: .fill)
+            .frame(width: coverW, height: coverH)
+            .clipped()
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .overlay(
+              RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .stroke(CETheme.border.opacity(0.9), lineWidth: 1.5)
+            )
+            .shadow(color: .black.opacity(0.45), radius: 8, y: 2)
 
-        VStack(alignment: .leading, spacing: 6) {
-          HStack(spacing: 6) {
-            if paused {
-              Text("PAUSED")
-                .font(CETheme.mono(9))
-                .foregroundStyle(.black)
-                .padding(.horizontal, 6)
-                .padding(.vertical, 2)
-                .background(CETheme.crystal.opacity(0.95), in: Capsule())
+          VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+              if paused {
+                Text("PAUSED")
+                  .font(CETheme.mono(9))
+                  .foregroundStyle(.black)
+                  .padding(.horizontal, 6)
+                  .padding(.vertical, 2)
+                  .background(CETheme.crystal.opacity(0.95), in: Capsule())
+              }
+              OptimizedStatusBadge(optimized: optimized, compact: true)
             }
-            OptimizedStatusBadge(optimized: optimized, compact: true)
+            gameTitleLabel(for: rom, baseSize: 20, bold: true, maxHeight: hasLogo ? 96 : 52)
           }
-          gameTitleLabel(for: rom, baseSize: 20, bold: true, maxHeight: hasLogo ? 96 : 52)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
+          .frame(maxWidth: .infinity, alignment: .leading)
 
-        Image(systemName: paused ? "pause.fill" : "play.fill")
-          .font(.system(size: 16, weight: .semibold))
-          .symbolRenderingMode(.monochrome)
-          .foregroundStyle(CETheme.crystal.opacity(0.85))
-          .padding(.trailing, 4)
-          .allowsHitTesting(false)
+          Image(systemName: paused ? "pause.fill" : "play.fill")
+            .font(.system(size: 16, weight: .semibold))
+            .symbolRenderingMode(.monochrome)
+            .foregroundStyle(CETheme.crystal.opacity(0.85))
+            .padding(.trailing, 4)
+            .allowsHitTesting(false)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
       }
-      .padding(.horizontal, 14)
-      .padding(.vertical, 10)
+      .frame(height: cardHeight)
+      .clipShape(RoundedRectangle(cornerRadius: CETheme.radius, style: .continuous))
+      .overlay(
+        RoundedRectangle(cornerRadius: CETheme.radius, style: .continuous)
+          .stroke(paused ? CETheme.crystal : CETheme.border, lineWidth: paused ? 2 : 1)
+      )
     }
-    .frame(height: cardHeight)
-    .contentShape(Rectangle())
-    .clipShape(RoundedRectangle(cornerRadius: CETheme.radius, style: .continuous))
-    .overlay(
-      RoundedRectangle(cornerRadius: CETheme.radius, style: .continuous)
-        .stroke(paused ? CETheme.crystal : CETheme.border, lineWidth: paused ? 2 : 1)
-    )
-    .onTapGesture(coordinateSpace: .global) { point in
-      handleGameTap(rom, at: point)
-    }
-    .accessibilityAddTraits(.isButton)
     .accessibilityLabel(rom.displayName)
     .accessibilityHint(settings.libraryOpenMode == .quickPlay ? "Shows Play confirmation" : "Opens game page")
     .contextMenu { artworkContextMenu(for: rom, landscapeDefault: true) }
@@ -811,9 +950,10 @@ struct LibraryView: View {
           weight: bold ? .bold : .semibold
         ))
         .foregroundStyle(CETheme.text)
-        .lineLimit(2)
+        .lineLimit(3)
         .minimumScaleFactor(0.55)
         .multilineTextAlignment(.leading)
+        .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
   }
@@ -867,10 +1007,20 @@ struct LibraryView: View {
         systemImage: engine.isPausedRom(rom) ? "pause.fill" : "play.fill"
       )
     }
+    Button { onOpenGame?(rom) } label: {
+      Label("Open Game Page", systemImage: "rectangle.stack.fill")
+    }
+    Button { openSaveEditor(for: rom) } label: {
+      Label(
+        hasBatterySave(rom) ? "Edit Save" : "Edit Save (needs .sav)",
+        systemImage: "externaldrive.fill.badge.pencil"
+      )
+    }
+    Divider()
     Button {
       artworkTarget = ArtworkTarget(rom: rom, kind: landscapeDefault ? .banner : .cover)
     } label: {
-      Label("Edit Game…", systemImage: "pencil")
+      Label("Edit Artwork…", systemImage: "pencil")
     }
     Button {
       artworkTarget = ArtworkTarget(rom: rom, kind: .cover)
@@ -944,28 +1094,28 @@ private struct SkinCheckmark: View {
   }
 }
 
-/// Library pages: one per console, plus Skins / Save Editor / Settings.
+/// Library pages: consoles + Import / Skins / Save Editor (overflow items appear under system More).
 private enum LibraryDestination: Hashable, Identifiable {
   case console(ConsoleKind)
+  case importRoms
   case skins
   case saveEditor
-  case settings
 
   var id: String {
     switch self {
     case .console(let kind): return "console-\(kind.rawValue)"
+    case .importRoms: return "import"
     case .skins: return "skins"
     case .saveEditor: return "save-editor"
-    case .settings: return "settings"
     }
   }
 
   var title: String {
     switch self {
     case .console(let kind): return kind.title
+    case .importRoms: return "Import"
     case .skins: return "Skins"
     case .saveEditor: return "Save Editor"
-    case .settings: return "Settings"
     }
   }
 }
@@ -982,14 +1132,66 @@ private struct PlayConfirmRequest {
   let point: CGPoint
 }
 
-/// iOS 26+ Liquid Glass tab bars morph/expand on scroll by default — pin them compact.
+/// iOS 26+ Liquid Glass tab bars morph on scroll by default — pin them and freeze appearance.
 private struct CompactTabBarChrome: ViewModifier {
   func body(content: Content) -> some View {
-    if #available(iOS 26.0, *) {
-      content
-        .tabBarMinimizeBehavior(.never)
-    } else {
-      content
+    Group {
+      if #available(iOS 26.0, *) {
+        content
+          .tabBarMinimizeBehavior(.never)
+      } else {
+        content
+      }
+    }
+    .onAppear { Self.applyStableAppearance() }
+  }
+
+  private static func applyStableAppearance() {
+    let appearance = UITabBarAppearance()
+    appearance.configureWithDefaultBackground()
+    // Keep selected / unselected metrics stable so scroll inset changes don’t restyle the pill.
+    let item = UITabBarItemAppearance()
+    item.normal.iconColor = UIColor.secondaryLabel
+    item.selected.iconColor = UIColor.label
+    appearance.stackedLayoutAppearance = item
+    appearance.inlineLayoutAppearance = item
+    appearance.compactInlineLayoutAppearance = item
+    let bar = UITabBar.appearance()
+    bar.standardAppearance = appearance
+    bar.scrollEdgeAppearance = appearance
+    bar.isTranslucent = true
+  }
+}
+
+/// Subtle fade/slide when a library tab becomes the selected page.
+private struct LibraryPageTransition<Content: View>: View {
+  let isActive: Bool
+  let content: Content
+  @State private var visible = false
+
+  init(isActive: Bool, @ViewBuilder content: () -> Content) {
+    self.isActive = isActive
+    self.content = content()
+  }
+
+  var body: some View {
+    content
+      .opacity(visible ? 1 : 0.001)
+      .offset(y: visible ? 0 : 8)
+      .onAppear { playEntranceIfNeeded(isActive) }
+      .onChange(of: isActive) { _, active in
+        playEntranceIfNeeded(active)
+      }
+  }
+
+  private func playEntranceIfNeeded(_ active: Bool) {
+    guard active else {
+      visible = false
+      return
+    }
+    visible = false
+    withAnimation(.easeOut(duration: 0.26)) {
+      visible = true
     }
   }
 }

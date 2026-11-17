@@ -1531,6 +1531,11 @@ fefe7ffe7fffffff1fffffff7f7f7f7f7f7f7f7f7fffffff7fbf7f7f7f7f7f7f7f7f3f3fffff1f7f
         return nationalMap[nat] ?? retailMap[nat] ?? 127
       }
       return 127
+    case .modernEmerald:
+      if let nat = Gen3Names.nationalNumber(species: species, tables: .modernEmerald) {
+        return nationalMap[nat] ?? retailMap[nat] ?? 127
+      }
+      return retailMap[species] ?? nationalMap[species] ?? 127
     case .national:
       return nationalMap[species] ?? retailMap[species] ?? 127
     case .yellow, .crystal, .polished:

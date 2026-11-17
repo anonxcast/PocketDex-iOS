@@ -210,7 +210,7 @@ final class Gen2Sampler: CompanionSampling, @unchecked Sendable {
       count = 0
     }
 
-    var snap = CompanionSnapshot(gameName: c.displayName, tables: c.tables)
+    var snap = CompanionSnapshot(gameName: c.displayName, tables: c.tables, configId: c.id)
 
     if count > 0, let raw = read(c.partyMons, 6 * Gen2ConfigStore.partyMonSize) {
       let nicks = read(c.partyMons + UInt32(Gen2ConfigStore.nicknamesAfterMons), 6 * Gen2ConfigStore.nameLen)

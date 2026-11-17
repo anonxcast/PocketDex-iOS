@@ -56,8 +56,8 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.anonxcast.pocketdex
         PRODUCT_NAME: PocketDex
-        MARKETING_VERSION: "0.10.68"
-        CURRENT_PROJECT_VERSION: "167"
+        MARKETING_VERSION: "0.10.147"
+        CURRENT_PROJECT_VERSION: "227"
         DEVELOPMENT_TEAM: 5TNX7VB7Z6
         CODE_SIGN_STYLE: Automatic
         SWIFT_OBJC_BRIDGING_HEADER: Sources/PocketDex-Bridging-Header.h

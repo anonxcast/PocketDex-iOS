@@ -23,6 +23,7 @@
 		303229E9538B9719C4D2C5B5 /* Gen3SpeciesNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017F6BFA320D59088A9DB74 /* Gen3SpeciesNames.swift */; };
 		324AA29103F7DB44D38F8F40 /* DisplaySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B6F4721D4BA43113E878E /* DisplaySettings.swift */; };
 		32C13130018EC30DCB3D1AC9 /* PokeCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0572FEEC816096E8417442F /* PokeCrypto.swift */; };
+		35E857758E626E554A32CA2B /* Gen5MapBlobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FE5446672FA8CC0A611702 /* Gen5MapBlobs.swift */; };
 		367B60DA61F6E0BF383E6C10 /* Silkscreen-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E93B13D6677AFBDBD4F4067B /* Silkscreen-Regular.ttf */; };
 		38079D79F630AE1846CB9963 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD9A8D8766D1292949BE2591 /* Assets.xcassets */; };
 		389A8F7C3EC8703A8CF717BF /* IBMPlexMono-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2ADE87A5CBF4797573419A8B /* IBMPlexMono-Medium.otf */; };
@@ -33,7 +34,9 @@
 		3F7374902E756E8CEC466E9D /* FrameShaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2F684ACF58920CF2DEC968 /* FrameShaders.swift */; };
 		4327E6EAF75C52AD0731FCB1 /* RetroAchievementsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3121FFA42AE069271149C506 /* RetroAchievementsClient.swift */; };
 		497031CBA36D7F5854612E12 /* pk_nds_gl_stub.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 722D1D653D12EABEC94AF290 /* pk_nds_gl_stub.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		4A68F1731FFBDEA0DC804A1C /* Gen5Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEA8CC71E29B66F28326A34 /* Gen5Config.swift */; };
 		4B94A6CA554DBB3B616A178F /* Gen4Sampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA6DD756758FB4AD7AFAE27 /* Gen4Sampler.swift */; };
+		4E4D2B591D3A0E797EB1DA29 /* melonds-ios-jit.patch in Resources */ = {isa = PBXBuildFile; fileRef = 4E0ED19FD156C5E78772ED17 /* melonds-ios-jit.patch */; };
 		4F0526861C992D51DD8C1444 /* Gen3SaveFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99822624832D384364B8AA87 /* Gen3SaveFormat.swift */; };
 		538F5E936E22F1E3CB4EB81E /* DuoHinge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2520D3F1870552F3F520EF52 /* DuoHinge.swift */; };
 		548A944E3D342414868263E4 /* DeltaSkinManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B50E6C2BADCB534ED7A67A8 /* DeltaSkinManager.swift */; };
@@ -54,6 +57,7 @@
 		6FE1A91DE913AD1E35F55CA9 /* Gen2Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680B2A2F6228791DE41124BA /* Gen2Config.swift */; };
 		71879D16048761A05DFD6753 /* Gen3Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF462F12E906F41C4FB0DA3 /* Gen3Decode.swift */; };
 		72124D472337A620A3952FDA /* ItemIcons in Resources */ = {isa = PBXBuildFile; fileRef = FDA5DFE297B0B0E45F10EE15 /* ItemIcons */; };
+		753A64DCBA8996BA4B2D2934 /* NavigationSwipeBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3F3680D1F0DE8C71F84977 /* NavigationSwipeBack.swift */; };
 		765F28EDD3CB68E88A902CC5 /* LearnsetsNational.bin in Resources */ = {isa = PBXBuildFile; fileRef = 2D58ADA90FBAE000BE66E13D /* LearnsetsNational.bin */; };
 		772AD791D27F9ECC6129DBDE /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3908577A743FA10F530EA /* KeychainStore.swift */; };
 		7911D852AB6F1DE1BEA82D4A /* IBMPlexSans-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = EE37702BF909FD105550CF8C /* IBMPlexSans-Bold.otf */; };
@@ -72,6 +76,7 @@
 		967862D508397A6C94A02E7C /* Gen45Bag.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA28BF951DD9E6D78F3442B /* Gen45Bag.swift */; };
 		98C9B651E6F9D5D610C0319A /* GameScreenshotClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0342449F9D23A41A4A7A47C /* GameScreenshotClient.swift */; };
 		9E22AEC346F9EA5C939D3628 /* Gen3Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA04632FA3FB65B5A6BDD0E6 /* Gen3Gender.swift */; };
+		9E5D11DFFC71F0AFBCA7106D /* LCDSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C30D13294BB6FB0E7AD088 /* LCDSurface.swift */; };
 		A1D26F23C31B1211C1C5F9B4 /* RetroAchievementsPlayHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA30F0CD506D92231D2D8B /* RetroAchievementsPlayHUD.swift */; };
 		A2090B1A81823942F99C8990 /* Gen12Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA039367E745DFFE6535047 /* Gen12Common.swift */; };
 		A372337D3C80534A094E4FBE /* GameSummaryClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8811D2B9061A7BF9FB28DF6 /* GameSummaryClient.swift */; };
@@ -107,7 +112,9 @@
 		E1E8F8A370A8EA69B4487485 /* DeletedCloudNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EF26D3F5C9183441735708 /* DeletedCloudNames.swift */; };
 		E23CFA0322A9FE3726E5493B /* Gen3BattleBlobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1857ED54B822BFD2E8653B /* Gen3BattleBlobs.swift */; };
 		E2C4A88DEAB7489A44F136BF /* IBMPlexSans-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0B6EBC218FA151A153C991F4 /* IBMPlexSans-Regular.otf */; };
+		E5AB6A9CEE2C294E615685C3 /* Gen5Maps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE3A8AC39C863387C2BB0DD /* Gen5Maps.swift */; };
 		E5AD57FA0CA95231A71DB8B7 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5672820A14C56BE73137FE5B /* PressStart2P-Regular.ttf */; };
+		E5D7FA2A5FB3129AA6DCB136 /* MediaPressStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 932537A60DEF784C73FBA64C /* MediaPressStyle.swift */; };
 		E78E733E0F68C0A78694D8AA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1B5DC14FF0CD39B04F0C89 /* SettingsView.swift */; };
 		E860E3C4DAA0B912D1D83009 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = E2EB4EC7DE78307F8FD6AD1D /* CMakeLists.txt */; };
 		EC0E52FE10A52B396BD014E4 /* Gen3BaseStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8CB0802FF5B1F8F9EB048D /* Gen3BaseStats.swift */; };
@@ -118,8 +125,10 @@
 		F1FCBC18A1F337BA5FCA4C03 /* SaveBinary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7C39619C53BB8A67F58342 /* SaveBinary.swift */; };
 		F223366FC55DEBDC56F8B604 /* Gen3Learnsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833B0CEB5DD74678EE1F223 /* Gen3Learnsets.swift */; };
 		F24CB298E7A60C87EFB14875 /* FoldLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D38657C375B3D4E9D4EDAB4C /* FoldLayout.swift */; };
+		F77E87DCC8601D1FE0B44940 /* Gen5Sampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA2A09019E7D3B9F5A5CD1C /* Gen5Sampler.swift */; };
 		F846ADF6EFE49CDE02362C34 /* Gen4Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19055C3C33F65EE6BC82E3D9 /* Gen4Config.swift */; };
 		FA07B445EBF00DF1342A896F /* RomArtworkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D09F740D58A6A793B78269 /* RomArtworkStore.swift */; };
+		FC0797F95FB1E9D570EEE785 /* Gen3HackMapSecBlobs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E996C6FF58EEACB2F0066E /* Gen3HackMapSecBlobs.swift */; };
 		FD26895E921BCE49A5268B16 /* Gen45Mon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D671531F8E96581339DBC67A /* Gen45Mon.swift */; };
 		FD9051FA553318CFA1B8C554 /* Gen3MovePP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728293CA62D38E00F3DA0EC0 /* Gen3MovePP.swift */; };
 /* End PBXBuildFile section */
@@ -140,6 +149,7 @@
 		153026922ED096FF35541D92 /* CompanionRomIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionRomIdentity.swift; sourceTree = "<group>"; };
 		177820AFFD77D0C2ED414EC5 /* IBMPlexSans-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-SemiBold.otf"; sourceTree = "<group>"; };
 		19055C3C33F65EE6BC82E3D9 /* Gen4Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen4Config.swift; sourceTree = "<group>"; };
+		1CA2A09019E7D3B9F5A5CD1C /* Gen5Sampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen5Sampler.swift; sourceTree = "<group>"; };
 		1FA0BAF56BE2C45919217DB1 /* RomIdentityGen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RomIdentityGen.swift; sourceTree = "<group>"; };
 		248A1E2AFBDAB414E388ED63 /* SaveSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveSession.swift; sourceTree = "<group>"; };
 		2520D3F1870552F3F520EF52 /* DuoHinge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuoHinge.swift; sourceTree = "<group>"; };
@@ -155,6 +165,7 @@
 		2FBCF70B05665A4D44C35333 /* Gen2MapBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2MapBlobs.swift; sourceTree = "<group>"; };
 		3121FFA42AE069271149C506 /* RetroAchievementsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetroAchievementsClient.swift; sourceTree = "<group>"; };
 		34501B4C443C382EE7AA5657 /* GameDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailView.swift; sourceTree = "<group>"; };
+		3AE3A8AC39C863387C2BB0DD /* Gen5Maps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen5Maps.swift; sourceTree = "<group>"; };
 		3B1857ED54B822BFD2E8653B /* Gen3BattleBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3BattleBlobs.swift; sourceTree = "<group>"; };
 		3B50E6C2BADCB534ED7A67A8 /* DeltaSkinManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeltaSkinManager.swift; sourceTree = "<group>"; };
 		3C0CA64F6A3BA6B0B748AC82 /* PocketDex.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PocketDex.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,10 +174,12 @@
 		496C9EABF91C6C3BBBB21FEF /* SpeciesIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SpeciesIcons; path = Resources/SpeciesIcons; sourceTree = SOURCE_ROOT; };
 		4B34EF559154E2991D528F4D /* Gen2Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2Save.swift; sourceTree = "<group>"; };
 		4BF38044CD522BDC423FDDF6 /* CompanionDrawerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionDrawerView.swift; sourceTree = "<group>"; };
+		4E0ED19FD156C5E78772ED17 /* melonds-ios-jit.patch */ = {isa = PBXFileReference; path = "melonds-ios-jit.patch"; sourceTree = "<group>"; };
 		5017F6BFA320D59088A9DB74 /* Gen3SpeciesNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3SpeciesNames.swift; sourceTree = "<group>"; };
 		51F9200B4AB4EBF01F5A2AD4 /* Gen3Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Text.swift; sourceTree = "<group>"; };
 		5672820A14C56BE73137FE5B /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
 		581043C4738F9D02E50F8B45 /* EmulatorEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmulatorEngine.swift; sourceTree = "<group>"; };
+		59C30D13294BB6FB0E7AD088 /* LCDSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCDSurface.swift; sourceTree = "<group>"; };
 		5A9C59466DA9892EDCDC44D4 /* DuoSafeAreaProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuoSafeAreaProbe.swift; sourceTree = "<group>"; };
 		5AB26A7A4877A56AF7F64A01 /* LibraryFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryFont.swift; sourceTree = "<group>"; };
 		5BDDE7481C6C5B387B276FE4 /* pk_ios.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pk_ios.h; sourceTree = "<group>"; };
@@ -181,7 +194,9 @@
 		73860CB0244F0E73DEE37E41 /* pk_wide.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk_wide.c; sourceTree = "<group>"; };
 		740F497D0B3C5872AFA1A2E5 /* Gen1Sampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen1Sampler.swift; sourceTree = "<group>"; };
 		74E6993BCBDE7D7186EF1E90 /* Gen4EncounterBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen4EncounterBlobs.swift; sourceTree = "<group>"; };
+		74E996C6FF58EEACB2F0066E /* Gen3HackMapSecBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3HackMapSecBlobs.swift; sourceTree = "<group>"; };
 		7572853537CA66DAB62C4AD7 /* LibretroArtworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibretroArtworkClient.swift; sourceTree = "<group>"; };
+		7C3F3680D1F0DE8C71F84977 /* NavigationSwipeBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSwipeBack.swift; sourceTree = "<group>"; };
 		7CC91C9625E305CB1DB32A97 /* Gen2Polished.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2Polished.swift; sourceTree = "<group>"; };
 		7D6291ECD52F9AD6402F1C12 /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 		7D9C9CF8EDDB627E19FD6CA6 /* Gen5Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen5Save.swift; sourceTree = "<group>"; };
@@ -191,6 +206,7 @@
 		85B3908577A743FA10F530EA /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		8DB8E36953EC24C977EA8389 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		90CF6EBD39664066EC64CE9F /* PocketDex-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PocketDex-Bridging-Header.h"; sourceTree = "<group>"; };
+		932537A60DEF784C73FBA64C /* MediaPressStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPressStyle.swift; sourceTree = "<group>"; };
 		94DCAD1C90AC4CF41AD3F6E4 /* ArtworkPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkPickerSheet.swift; sourceTree = "<group>"; };
 		996D4DA66EEA013AEEB2936C /* pk_wide_gb_compat.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pk_wide_gb_compat.c; sourceTree = "<group>"; };
 		99822624832D384364B8AA87 /* Gen3SaveFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3SaveFormat.swift; sourceTree = "<group>"; };
@@ -211,6 +227,7 @@
 		BAA039367E745DFFE6535047 /* Gen12Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen12Common.swift; sourceTree = "<group>"; };
 		BB8CB0802FF5B1F8F9EB048D /* Gen3BaseStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3BaseStats.swift; sourceTree = "<group>"; };
 		BB997B3D321824987166D84A /* CompanionSampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionSampler.swift; sourceTree = "<group>"; };
+		BCEA8CC71E29B66F28326A34 /* Gen5Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen5Config.swift; sourceTree = "<group>"; };
 		C185B2AB2AD35DA5340F6B82 /* SkinTouchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinTouchView.swift; sourceTree = "<group>"; };
 		C3C502DB64543BD4A0D12AF8 /* SaveModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveModels.swift; sourceTree = "<group>"; };
 		C56CCD459D6F499F1D924C11 /* Gen3Sampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3Sampler.swift; sourceTree = "<group>"; };
@@ -229,6 +246,7 @@
 		E1CA6E9D2D999F0842E2423B /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		E2DCDF1CAD57A06673A4A092 /* Gen2Maps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen2Maps.swift; sourceTree = "<group>"; };
 		E2EB4EC7DE78307F8FD6AD1D /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		E4FE5446672FA8CC0A611702 /* Gen5MapBlobs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen5MapBlobs.swift; sourceTree = "<group>"; };
 		E5B1D33052721BA22994E738 /* Gen1Save.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen1Save.swift; sourceTree = "<group>"; };
 		E72B2E7BF8E9A64C5B20307D /* Gen3BoxMonSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gen3BoxMonSave.swift; sourceTree = "<group>"; };
 		E7CDE62AC21BFF8BA2FD06A7 /* RecentlyPlayedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyPlayedStore.swift; sourceTree = "<group>"; };
@@ -267,6 +285,7 @@
 				F5437F91D859828872CDEB85 /* Gen3BattleData.swift */,
 				0C4035314DBEAF8EA2100B22 /* Gen3Config.swift */,
 				FCF462F12E906F41C4FB0DA3 /* Gen3Decode.swift */,
+				74E996C6FF58EEACB2F0066E /* Gen3HackMapSecBlobs.swift */,
 				C56CCD459D6F499F1D924C11 /* Gen3Sampler.swift */,
 				5017F6BFA320D59088A9DB74 /* Gen3SpeciesNames.swift */,
 				3CAFC860D9C06578FCE2048B /* Gen3TableBlobs.swift */,
@@ -277,6 +296,10 @@
 				B74832700D2D7AD6462E2DE6 /* Gen4MapBlobs.swift */,
 				D568117356D7B081EBECF762 /* Gen4Maps.swift */,
 				ACA6DD756758FB4AD7AFAE27 /* Gen4Sampler.swift */,
+				BCEA8CC71E29B66F28326A34 /* Gen5Config.swift */,
+				E4FE5446672FA8CC0A611702 /* Gen5MapBlobs.swift */,
+				3AE3A8AC39C863387C2BB0DD /* Gen5Maps.swift */,
+				1CA2A09019E7D3B9F5A5CD1C /* Gen5Sampler.swift */,
 				279694569AE34337193273B9 /* ItemIconView.swift */,
 				632490505807D8060BA2A24F /* SpeciesIcon.swift */,
 				039AF27EC116EA5D20BF4048 /* SupportQueueView.swift */,
@@ -305,6 +328,7 @@
 			isa = PBXGroup;
 			children = (
 				E2EB4EC7DE78307F8FD6AD1D /* CMakeLists.txt */,
+				4E0ED19FD156C5E78772ED17 /* melonds-ios-jit.patch */,
 			);
 			path = melonds;
 			sourceTree = "<group>";
@@ -467,7 +491,10 @@
 				34501B4C443C382EE7AA5657 /* GameDetailView.swift */,
 				28DF4EE283A2D59771AE6805 /* GameShaderOverlay.swift */,
 				A935ECCA45B89B4599E63581 /* GlassChrome.swift */,
+				59C30D13294BB6FB0E7AD088 /* LCDSurface.swift */,
 				8DB8E36953EC24C977EA8389 /* LibraryView.swift */,
+				932537A60DEF784C73FBA64C /* MediaPressStyle.swift */,
+				7C3F3680D1F0DE8C71F84977 /* NavigationSwipeBack.swift */,
 				D29B664443C55382E0ECE2FB /* OptimizedRomCatalog.swift */,
 				05277C02EDAA79669E7CA8A3 /* PadTouchView.swift */,
 				7D6291ECD52F9AD6402F1C12 /* PlayView.swift */,
@@ -620,6 +647,7 @@
 				367B60DA61F6E0BF383E6C10 /* Silkscreen-Regular.ttf in Resources */,
 				BAB1D719DD2FE7BBE65EA6AC /* SpeciesIcons in Resources */,
 				DA6E6392EF2D57ECC4B44637 /* VT323-Regular.ttf in Resources */,
+				4E4D2B591D3A0E797EB1DA29 /* melonds-ios-jit.patch in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,6 +697,7 @@
 				234AAEE94072A80C738CCBF2 /* Gen3ConfigsGen.swift in Sources */,
 				71879D16048761A05DFD6753 /* Gen3Decode.swift in Sources */,
 				9E22AEC346F9EA5C939D3628 /* Gen3Gender.swift in Sources */,
+				FC0797F95FB1E9D570EEE785 /* Gen3HackMapSecBlobs.swift in Sources */,
 				F223366FC55DEBDC56F8B604 /* Gen3Learnsets.swift in Sources */,
 				FD9051FA553318CFA1B8C554 /* Gen3MovePP.swift in Sources */,
 				D4DE215F89A79A414DECF1A0 /* Gen3Sampler.swift in Sources */,
@@ -690,15 +719,22 @@
 				6BEFF9FB031F63242C79AAF0 /* Gen4Maps.swift in Sources */,
 				4B94A6CA554DBB3B616A178F /* Gen4Sampler.swift in Sources */,
 				D3AE2D2DD2ED97F1BB7B6F58 /* Gen4Save.swift in Sources */,
+				4A68F1731FFBDEA0DC804A1C /* Gen5Config.swift in Sources */,
+				35E857758E626E554A32CA2B /* Gen5MapBlobs.swift in Sources */,
+				E5AB6A9CEE2C294E615685C3 /* Gen5Maps.swift in Sources */,
+				F77E87DCC8601D1FE0B44940 /* Gen5Sampler.swift in Sources */,
 				1B210C6CE689A7E07A54C8ED /* Gen5Save.swift in Sources */,
 				B8D73903837E8AF104023F0A /* GlassChrome.swift in Sources */,
 				D938140253ED7F488DF89FCC /* GoogleDriveAuth.swift in Sources */,
 				6BB0AF3778DF7382C7A77E47 /* GoogleDriveSync.swift in Sources */,
 				823C3775CDEC47AD429BBDAD /* ItemIconView.swift in Sources */,
 				772AD791D27F9ECC6129DBDE /* KeychainStore.swift in Sources */,
+				9E5D11DFFC71F0AFBCA7106D /* LCDSurface.swift in Sources */,
 				CCCDDA6E1F33CBC48897C65C /* LibraryFont.swift in Sources */,
 				DE8686E9275C91569187D1F8 /* LibraryView.swift in Sources */,
 				56D3506A02A242AF159BF4B3 /* LibretroArtworkClient.swift in Sources */,
+				E5D7FA2A5FB3129AA6DCB136 /* MediaPressStyle.swift in Sources */,
+				753A64DCBA8996BA4B2D2934 /* NavigationSwipeBack.swift in Sources */,
 				E0E3DEAFD7478D33E946A773 /* OptimizedRomCatalog.swift in Sources */,
 				3F53D4E73A977332D77C7CDF /* PadTouchView.swift in Sources */,
 				B1FDDEA5F9C9734A93416A79 /* PlayView.swift in Sources */,
@@ -810,7 +846,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 167;
+				CURRENT_PROJECT_VERSION = 227;
 				DEVELOPMENT_TEAM = 5TNX7VB7Z6;
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -833,7 +869,7 @@
 					"$(SRCROOT)/../build/mgba-ios/Release-iphoneos",
 					"$(SRCROOT)/../build/melonds-ios/Release-iphoneos",
 				);
-				MARKETING_VERSION = 0.10.68;
+				MARKETING_VERSION = 0.10.147;
 				OTHER_CFLAGS = (
 					"-DM_CORE_GBA",
 					"-DM_CORE_GB",
@@ -867,7 +903,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 167;
+				CURRENT_PROJECT_VERSION = 227;
 				DEVELOPMENT_TEAM = 5TNX7VB7Z6;
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -890,7 +926,7 @@
 					"$(SRCROOT)/../build/mgba-ios/Release-iphoneos",
 					"$(SRCROOT)/../build/melonds-ios/Release-iphoneos",
 				);
-				MARKETING_VERSION = 0.10.68;
+				MARKETING_VERSION = 0.10.147;
 				OTHER_CFLAGS = (
 					"-DM_CORE_GBA",
 					"-DM_CORE_GB",

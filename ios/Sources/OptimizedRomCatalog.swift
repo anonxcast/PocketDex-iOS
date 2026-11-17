@@ -101,18 +101,22 @@ enum OptimizedRomCatalog {
     // Emerald hacks
     .init(id: "seaglass", title: "Emerald Seaglass", detail: "v3.0 · Expand + Emerald save format",
           family: .emeraldHacks, features: .playStack, fileHints: ["SEAGLASS"]),
-    .init(id: "modern_emerald", title: "Pokémon Modern Emerald", detail: "v3.6 · Companion HUD + Emerald save editor (no Expand row upstream)",
-          family: .emeraldHacks, features: [.companion, .saveEditor, .shaders],
+    .init(id: "modern_emerald", title: "Pokémon Modern Emerald",
+          detail: "v3.6 · Expand + companion + Modern Emerald save editor",
+          family: .emeraldHacks, features: .playStack,
           fileHints: ["MODERN EMERALD"]),
     .init(id: "heart_and_soul", title: "Pokémon Heart and Soul", detail: "v2.0.6 · Expand + HnS save format + masked species HUD",
           family: .emeraldHacks, features: .playStack,
           fileHints: ["HEART AND SOUL", "HEARTSOUL"]),
-    .init(id: "rowe", title: "Pokémon R.O.W.E.", detail: "v2.1.9.1 · Expand + ROWE party decode + companion",
+    .init(id: "rowe", title: "Pokémon R.O.W.E.", detail: "v2.1.9.1 · Expand/Zoom (EX objects + 12-bit metatiles, Elite Redux–style) + companion + save editor",
           family: .emeraldHacks, features: .playStack,
           fileHints: ["R.O.W.E", "ROWE"]),
     .init(id: "soulgold_gba", title: "Pokémon SoulGold (GBA)", detail: "v1.2.1 · Expand + SoulGold party/battle decode + companion",
           family: .emeraldHacks, features: .playStack,
           fileHints: ["SOULGOLD", "SOUL GOLD", "SOULDGOLD"]),
+    .init(id: "lazarus", title: "Pokémon Lazarus", detail: "v2.0 · Expand + companion + Lazarus Emerald save editor",
+          family: .emeraldHacks, features: .playStack,
+          fileHints: ["LAZARUS"]),
 
     // GB / GBC (Expand where pk_wide_gb tables exist — Red/Blue/Green/Yellow / Crystal / Polished)
     .init(id: "polished", title: "Polished Crystal", detail: "3.2.3 CRC · Expand + Gen 2 companion & editor",
@@ -121,6 +125,16 @@ enum OptimizedRomCatalog {
     .init(id: "crystal", title: "Pokémon Crystal", detail: "English / AU / DE · Expand via pk_wide_gb",
           family: .gameBoy, features: .playStack, fileHints: ["CRYSTAL"],
           excludeHints: ["CRYSTAL ADVANCE", "ADVANCE REDUX", "CRYSTALREDUX"]),
+    .init(id: "gold", title: "Pokémon Gold",
+          detail: "Companion + Gen 2 save editor · Expand unavailable (no pk_wide_gb row)",
+          family: .gameBoy, features: [.companion, .saveEditor, .shaders],
+          fileHints: ["GOLD VERSION", "POKEMON GOLD", "POKEMON_GLD"],
+          excludeHints: ["HEARTGOLD", "HEART GOLD", "SOULGOLD", "SOUL GOLD"]),
+    .init(id: "silver", title: "Pokémon Silver",
+          detail: "Companion + Gen 2 save editor · Expand unavailable (no pk_wide_gb row)",
+          family: .gameBoy, features: [.companion, .saveEditor, .shaders],
+          fileHints: ["SILVER VERSION", "POKEMON SILVER", "POKEMON_SLV"],
+          excludeHints: ["SOULSILVER", "SOUL SILVER"]),
     .init(id: "yellow", title: "Pokémon Yellow", detail: "USA/Europe CRC 7d527d62 · Expand via pk_wide_gb",
           family: .gameBoy, features: .playStack, fileHints: ["YELLOW"]),
     .init(id: "red", title: "Pokémon Red", detail: "USA/Europe CRC 9f7fdd53 · Expand via pk_wide_gb",
@@ -137,6 +151,15 @@ enum OptimizedRomCatalog {
           family: .nintendoDS, features: [.expand, .companion, .shaders, .saveEditor], fileHints: ["HEARTGOLD", "SOULSILVER", "HEART GOLD", "SOUL SILVER"]),
     .init(id: "platinum", title: "Pokémon Platinum", detail: "melonDS Expand · Gen 4 save editor",
           family: .nintendoDS, features: [.expand, .companion, .shaders, .saveEditor], fileHints: ["PLATINUM"]),
+    .init(id: "black_white", title: "Pokémon Black / White",
+          detail: "melonDS Expand · Gen 5 companion + save editor",
+          family: .nintendoDS, features: .playStack,
+          fileHints: ["BLACK VERSION", "WHITE VERSION", "POKEMON BLACK", "POKEMON WHITE"],
+          excludeHints: ["BLACK 2", "WHITE 2", "BLACK2", "WHITE2"]),
+    .init(id: "black2_white2", title: "Pokémon Black 2 / White 2",
+          detail: "melonDS Expand · Gen 5 companion + save editor",
+          family: .nintendoDS, features: .playStack,
+          fileHints: ["BLACK 2", "WHITE 2", "BLACK2", "WHITE2"]),
   ]
 
   static var byFamily: [(OptimizedRomFamily, [OptimizedRomEntry])] {
@@ -151,7 +174,7 @@ enum OptimizedRomCatalog {
     let u = fileName.uppercased()
     if ["RADICAL", "UNBOUND", "SEAGLASS", "ROCKET", "GAIA", "ODYSSEY", "AMETHYST", "IMPERIUM", "CFRU",
         "MODERN EMERALD", "ROWE", "R.O.W.E", "SOULGOLD", "SOUL GOLD", "SOULDGOLD", "HEARTSOUL",
-        "CRYSTAL ADVANCE", "CRYSTALADVANCE", "ADVANCE REDUX"]
+        "LAZARUS", "CRYSTAL ADVANCE", "CRYSTALADVANCE", "ADVANCE REDUX"]
       .contains(where: { u.contains($0) }) {
       return true
     }

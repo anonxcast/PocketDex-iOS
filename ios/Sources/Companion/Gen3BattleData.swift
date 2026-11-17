@@ -92,6 +92,7 @@ enum Gen3BattleData {
   private static let movesRetail = parseMoves(Gen3BattleBlobs.movesRetail)
   private static let movesSeaglass = parseMoves(Gen3BattleBlobs.movesSeaglass)
   private static let movesUnbound = parseMoves(Gen3BattleBlobs.movesUnbound)
+  private static let movesModernEmerald = parseMoves(Gen3BattleBlobs.movesModernEmerald)
   private static let movesYellow = parseMoves(Gen3BattleBlobs.movesYellow)
   private static let movesCrystal = parseMoves(Gen3BattleBlobs.movesCrystal)
   private static let movesPolished = parseMoves(Gen3BattleBlobs.movesPolished)
@@ -99,6 +100,8 @@ enum Gen3BattleData {
   private static let speciesRetail = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesRetail)
   private static let speciesSeaglass = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesSeaglass)
   private static let speciesUnbound = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesUnbound)
+  private static let speciesNational = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesNational)
+  private static let speciesModernEmerald = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesModernEmerald)
   private static let speciesYellow = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesYellow)
   private static let speciesCrystal = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesCrystal)
   private static let speciesPolished = parseSpeciesTypes(Gen3BattleBlobs.speciesTypesPolished)
@@ -106,6 +109,7 @@ enum Gen3BattleData {
   private static let typeNamesRetail = parseNames(Gen3BattleBlobs.typeNamesRetail)
   private static let typeNamesSeaglass = parseNames(Gen3BattleBlobs.typeNamesSeaglass)
   private static let typeNamesUnbound = parseNames(Gen3BattleBlobs.typeNamesUnbound)
+  private static let typeNamesModernEmerald = parseNames(Gen3BattleBlobs.typeNamesModernEmerald)
   private static let typeNamesYellow = parseNames(Gen3BattleBlobs.typeNamesYellow)
   private static let typeNamesCrystal = parseNames(Gen3BattleBlobs.typeNamesCrystal)
   private static let typeNamesPolished = parseNames(Gen3BattleBlobs.typeNamesPolished)
@@ -113,6 +117,7 @@ enum Gen3BattleData {
   private static let chartRetail = parsePairs(Gen3BattleBlobs.typeChartRetail)
   private static let chartSeaglass = parsePairs(Gen3BattleBlobs.typeChartSeaglass)
   private static let chartUnbound = parsePairs(Gen3BattleBlobs.typeChartUnbound)
+  private static let chartModernEmerald = parsePairs(Gen3BattleBlobs.typeChartModernEmerald)
   private static let chartYellow = parsePairs(Gen3BattleBlobs.typeChartYellow)
   private static let chartCrystal = parsePairs(Gen3BattleBlobs.typeChartCrystal)
   private static let chartPolished = parsePairs(Gen3BattleBlobs.typeChartPolished)
@@ -124,6 +129,7 @@ enum Gen3BattleData {
     switch tables {
     case .national: return movesSeaglass[id] ?? movesRetail[id]
     case .unbound: return movesUnbound[id] ?? movesRetail[id]
+    case .modernEmerald: return movesModernEmerald[id] ?? movesRetail[id]
     case .retail: return movesRetail[id]
     case .yellow: return movesYellow[id]
     case .crystal: return movesCrystal[id]
@@ -137,6 +143,7 @@ enum Gen3BattleData {
     switch tables {
     case .national: source = movesSeaglass
     case .unbound: source = movesUnbound
+    case .modernEmerald: source = movesModernEmerald
     case .retail: source = movesRetail
     case .yellow: source = movesYellow
     case .crystal: source = movesCrystal
@@ -146,7 +153,7 @@ enum Gen3BattleData {
     out.reserveCapacity(source.count)
     for (id, info) in source { out[id] = info.name }
     // Expanded / DS tables fall back to retail names for any gaps.
-    if tables == .national || tables == .unbound {
+    if tables == .national || tables == .unbound || tables == .modernEmerald {
       for (id, info) in movesRetail where out[id] == nil { out[id] = info.name }
     }
     return out
@@ -155,8 +162,9 @@ enum Gen3BattleData {
   static func speciesTypes(_ species: Int, tables: Gen3Tables) -> SpeciesTypes? {
     guard species > 0 else { return nil }
     switch tables {
-    case .national: return speciesSeaglass[species] ?? speciesRetail[species]
+    case .national: return speciesNational[species] ?? speciesSeaglass[species] ?? speciesRetail[species]
     case .unbound: return speciesUnbound[species]
+    case .modernEmerald: return speciesModernEmerald[species] ?? speciesRetail[species]
     case .retail: return speciesRetail[species]
     case .yellow: return speciesYellow[species]
     case .crystal: return speciesCrystal[species]
@@ -170,6 +178,7 @@ enum Gen3BattleData {
     switch tables {
     case .national: map = typeNamesSeaglass
     case .unbound: map = typeNamesUnbound
+    case .modernEmerald: map = typeNamesModernEmerald
     case .retail: map = typeNamesRetail
     case .yellow: map = typeNamesYellow
     case .crystal: map = typeNamesCrystal
@@ -183,6 +192,7 @@ enum Gen3BattleData {
     switch tables {
     case .national: chart = chartSeaglass
     case .unbound: chart = chartUnbound
+    case .modernEmerald: chart = chartModernEmerald
     case .retail: chart = chartRetail
     case .yellow: chart = chartYellow
     case .crystal: chart = chartCrystal

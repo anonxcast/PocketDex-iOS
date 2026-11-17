@@ -97,7 +97,7 @@ final class Gen1Sampler: CompanionSampling, @unchecked Sendable {
     let count = min(Int(countByte), 6)
 
     // Yellow / Gen 1 type ids + chart (Ghost vs Psychic immune, Gust = Normal).
-    var snap = CompanionSnapshot(gameName: c.displayName, tables: .yellow)
+    var snap = CompanionSnapshot(gameName: c.displayName, tables: .yellow, configId: c.id)
 
     if count > 0, let raw = read(c.partyMons, count * Gen1ConfigStore.partyMonSize) {
       let nicks = read(c.partyMons + UInt32(Gen1ConfigStore.nicknamesAfterMons), 6 * Gen1ConfigStore.nameLen)

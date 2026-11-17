@@ -1,4 +1,5 @@
 import Foundation
+import QuartzCore
 import SwiftUI
 import UIKit
 
@@ -9,6 +10,8 @@ final class AppSettings: ObservableObject {
 
   private enum Key {
     static let haptics = "settings.hapticsEnabled"
+    /// Softer D-pad path for phones that hitch while sliding (iPhone 16). Off = Duo-responsive.
+    static let dpadLite = "settings.dpadLiteMode"
     static let audio = "settings.audioEnabled"
     static let keepAwake = "settings.keepScreenAwake"
     static let skins = "deltaSkinsEnabled"
@@ -16,6 +19,7 @@ final class AppSettings: ObservableObject {
     static let zoom = "settings.zoomLevel"
     static let autoZoom = "settings.autoZoomIn"
     static let statusBar = "settings.statusBarMode"
+    static let showFps = "settings.showFps"
     static let filter = "settings.screenFilter"
     static let grid = "settings.gridStrength"
     static let smoothing = "settings.smoothing"
@@ -25,10 +29,17 @@ final class AppSettings: ObservableObject {
     static let dsLayout = "settings.dsLayout"
     static let driveAutoSync = "settings.googleDriveAutoSync"
     static let libraryOpen = "settings.libraryOpenMode"
+    static let appearance = "settings.appearanceMode"
   }
 
   @Published var hapticsEnabled: Bool {
     didSet { UserDefaults.standard.set(hapticsEnabled, forKey: Key.haptics) }
+  }
+
+  /// When on: softer D-pad ticks + pad glow once per frame (helps iPhone 16).
+  /// When off (default): full medium haptics and instant pad glow (Duo).
+  @Published var dpadLiteMode: Bool {
+    didSet { UserDefaults.standard.set(dpadLiteMode, forKey: Key.dpadLite) }
   }
 
   @Published var audioEnabled: Bool {
@@ -66,6 +77,11 @@ final class AppSettings: ObservableObject {
 
   @Published var statusBarMode: StatusBarMode {
     didSet { UserDefaults.standard.set(statusBarMode.rawValue, forKey: Key.statusBar) }
+  }
+
+  /// Play top-bar FPS readout (Companion › Settings).
+  @Published var showFps: Bool {
+    didSet { UserDefaults.standard.set(showFps, forKey: Key.showFps) }
   }
 
   @Published var screenFilter: ScreenFilter {
@@ -108,9 +124,15 @@ final class AppSettings: ObservableObject {
     didSet { UserDefaults.standard.set(libraryOpenMode.rawValue, forKey: Key.libraryOpen) }
   }
 
+  /// Library / Settings chrome: System (default), Light, or Dark.
+  @Published var appearanceMode: AppAppearanceMode {
+    didSet { UserDefaults.standard.set(appearanceMode.rawValue, forKey: Key.appearance) }
+  }
+
   private init() {
     let d = UserDefaults.standard
     hapticsEnabled = d.object(forKey: Key.haptics) as? Bool ?? true
+    dpadLiteMode = d.object(forKey: Key.dpadLite) as? Bool ?? false
     audioEnabled = d.object(forKey: Key.audio) as? Bool ?? true
     keepScreenAwake = d.object(forKey: Key.keepAwake) as? Bool ?? true
     skinsEnabled = DeltaSkinManager.isSkinEnabled
@@ -120,6 +142,7 @@ final class AppSettings: ObservableObject {
     zoomLevel = ZoomLevel(rawValue: d.object(forKey: Key.zoom) as? Int ?? 0) ?? .x1
     autoZoomIn = d.object(forKey: Key.autoZoom) as? Bool ?? true
     statusBarMode = StatusBarMode(rawValue: d.string(forKey: Key.statusBar) ?? "") ?? .off
+    showFps = d.object(forKey: Key.showFps) as? Bool ?? true
     screenFilter = ScreenFilter(rawValue: d.string(forKey: Key.filter) ?? "") ?? .none
     gridStrength = GridStrength(rawValue: d.string(forKey: Key.grid) ?? "") ?? .medium
     smoothing = SmoothingMode(rawValue: d.string(forKey: Key.smoothing) ?? "") ?? .off
@@ -130,6 +153,7 @@ final class AppSettings: ObservableObject {
     dsLayout = DsLayoutMode(rawValue: d.string(forKey: Key.dsLayout) ?? "") ?? .oneScreen
     googleDriveAutoSync = d.object(forKey: Key.driveAutoSync) as? Bool ?? true
     libraryOpenMode = LibraryOpenMode(rawValue: d.string(forKey: Key.libraryOpen) ?? "") ?? .gamePage
+    appearanceMode = AppAppearanceMode(rawValue: d.string(forKey: Key.appearance) ?? "") ?? .system
 
     // One-shot: restore the play stack after prefs reset to Original.
     let migrateKey = "settings.restoredExpandPlayStack_v014"
@@ -152,28 +176,41 @@ final class AppSettings: ObservableObject {
 }
 
 enum InputHaptics {
-  private static let buttonGen = UIImpactFeedbackGenerator(style: .soft)
-  private static let dpadGen = UIImpactFeedbackGenerator(style: .light)
+  private static let buttonGen = UIImpactFeedbackGenerator(style: .medium)
+  private static let dpadFullGen = UIImpactFeedbackGenerator(style: .medium)
+  private static let dpadLiteGen = UIImpactFeedbackGenerator(style: .soft)
   private static let selectionGen = UISelectionFeedbackGenerator()
+  private static var lastDpadHapticAt: CFTimeInterval = 0
 
   static func prepare() {
     buttonGen.prepare()
-    dpadGen.prepare()
+    dpadFullGen.prepare()
+    dpadLiteGen.prepare()
     selectionGen.prepare()
   }
 
   @MainActor
   static func buttonPress() {
     guard AppSettings.shared.hapticsEnabled else { return }
-    buttonGen.impactOccurred(intensity: 0.62)
+    buttonGen.impactOccurred(intensity: 0.92)
     buttonGen.prepare()
   }
 
   @MainActor
   static func dpadChange() {
     guard AppSettings.shared.hapticsEnabled else { return }
-    dpadGen.impactOccurred(intensity: 0.38)
-    dpadGen.prepare()
+    let lite = AppSettings.shared.dpadLiteMode
+    let now = CACurrentMediaTime()
+    // Full (Duo): every direction change. Lite (iPhone 16): ~22 Hz cap, no re-prepare.
+    let minInterval: CFTimeInterval = lite ? 0.045 : 0.012
+    guard now - lastDpadHapticAt >= minInterval else { return }
+    lastDpadHapticAt = now
+    if lite {
+      dpadLiteGen.impactOccurred(intensity: 0.62)
+    } else {
+      dpadFullGen.impactOccurred(intensity: 0.72)
+      dpadFullGen.prepare()
+    }
   }
 
   /// Light tick for library rail / tab changes (GB → GBC → GBA…).

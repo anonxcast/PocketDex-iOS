@@ -223,6 +223,14 @@ struct Gen3DexFlagsLayout: Equatable {
         bytes: 54, nationalCount: 430, seenCopies: []
       )
     }
+    if u.contains("MODERN") && u.contains("EMERALD") {
+      // Modern Emerald 3.6 — SB2 pokedex + bag-shifted SB1 seen copies.
+      // Bits are NATIONAL_DEX_* (1…432); storage is NUM_SPECIES-sized (58 bytes).
+      return Gen3DexFlagsLayout(
+        block: .saveBlock2, seenOff: format.pokedexOff + 0x44, caughtOff: format.pokedexOff + 0x10,
+        bytes: 58, nationalCount: 432, seenCopies: [format.seen1Off, format.seen2Off]
+      )
+    }
     if u.contains("UNBOUND") {
       return Gen3DexFlagsLayout(
         block: .saveBlock1, seenOff: 0x310, caughtOff: 0x38D,
@@ -252,6 +260,13 @@ struct Gen3DexFlagsLayout: Equatable {
       return Gen3DexFlagsLayout(
         block: .saveBlock1, seenOff: 0x31F8, caughtOff: 0x3279,
         bytes: 129, nationalCount: 1025, seenCopies: []
+      )
+    }
+    if u.contains("LAZARUS") {
+      // Lazarus v2.0 — companion NATIVE_LAZARUS / POKEDEX_LAZARUS on SB1.
+      return Gen3DexFlagsLayout(
+        block: .saveBlock1, seenOff: 0x32A8, caughtOff: 0x3329,
+        bytes: 129, nationalCount: 1028, seenCopies: []
       )
     }
     // Retail: pokedex struct at SB2+0x18; owned +0x10, seen +0x44 within that struct.

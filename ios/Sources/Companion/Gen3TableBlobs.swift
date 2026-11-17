@@ -2685,6 +2685,444 @@ enum Gen3TableBlobs {
 1024|Terapagos
 1025|Pecharunt
 """#
+  static let speciesModernEmerald: String = #"""
+1|Bulbasaur
+2|Ivysaur
+3|Venusaur
+4|Charmander
+5|Charmeleon
+6|Charizard
+7|Squirtle
+8|Wartortle
+9|Blastoise
+10|Caterpie
+11|Metapod
+12|Butterfree
+13|Weedle
+14|Kakuna
+15|Beedrill
+16|Pidgey
+17|Pidgeotto
+18|Pidgeot
+19|Rattata
+20|Raticate
+21|Spearow
+22|Fearow
+23|Ekans
+24|Arbok
+25|Pikachu
+26|Raichu
+27|Sandshrew
+28|Sandslash
+29|Nidoran♀
+30|Nidorina
+31|Nidoqueen
+32|Nidoran♂
+33|Nidorino
+34|Nidoking
+35|Clefairy
+36|Clefable
+37|Vulpix
+38|Ninetales
+39|Jigglypuff
+40|Wigglytuff
+41|Zubat
+42|Golbat
+43|Oddish
+44|Gloom
+45|Vileplume
+46|Paras
+47|Parasect
+48|Venonat
+49|Venomoth
+50|Diglett
+51|Dugtrio
+52|Meowth
+53|Persian
+54|Psyduck
+55|Golduck
+56|Mankey
+57|Primeape
+58|Growlithe
+59|Arcanine
+60|Poliwag
+61|Poliwhirl
+62|Poliwrath
+63|Abra
+64|Kadabra
+65|Alakazam
+66|Machop
+67|Machoke
+68|Machamp
+69|Bellsprout
+70|Weepinbell
+71|Victreebel
+72|Tentacool
+73|Tentacruel
+74|Geodude
+75|Graveler
+76|Golem
+77|Ponyta
+78|Rapidash
+79|Slowpoke
+80|Slowbro
+81|Magnemite
+82|Magneton
+83|Farfetch'd
+84|Doduo
+85|Dodrio
+86|Seel
+87|Dewgong
+88|Grimer
+89|Muk
+90|Shellder
+91|Cloyster
+92|Gastly
+93|Haunter
+94|Gengar
+95|Onix
+96|Drowzee
+97|Hypno
+98|Krabby
+99|Kingler
+100|Voltorb
+101|Electrode
+102|Exeggcute
+103|Exeggutor
+104|Cubone
+105|Marowak
+106|Hitmonlee
+107|Hitmonchan
+108|Lickitung
+109|Koffing
+110|Weezing
+111|Rhyhorn
+112|Rhydon
+113|Chansey
+114|Tangela
+115|Kangaskhan
+116|Horsea
+117|Seadra
+118|Goldeen
+119|Seaking
+120|Staryu
+121|Starmie
+122|Mr. Mime
+123|Scyther
+124|Jynx
+125|Electabuzz
+126|Magmar
+127|Pinsir
+128|Tauros
+129|Magikarp
+130|Gyarados
+131|Lapras
+132|Ditto
+133|Eevee
+134|Vaporeon
+135|Jolteon
+136|Flareon
+137|Porygon
+138|Omanyte
+139|Omastar
+140|Kabuto
+141|Kabutops
+142|Aerodactyl
+143|Snorlax
+144|Articuno
+145|Zapdos
+146|Moltres
+147|Dratini
+148|Dragonair
+149|Dragonite
+150|Mewtwo
+151|Mew
+152|Chikorita
+153|Bayleef
+154|Meganium
+155|Cyndaquil
+156|Quilava
+157|Typhlosion
+158|Totodile
+159|Croconaw
+160|Feraligatr
+161|Sentret
+162|Furret
+163|Hoothoot
+164|Noctowl
+165|Ledyba
+166|Ledian
+167|Spinarak
+168|Ariados
+169|Crobat
+170|Chinchou
+171|Lanturn
+172|Pichu
+173|Cleffa
+174|Igglybuff
+175|Togepi
+176|Togetic
+177|Natu
+178|Xatu
+179|Mareep
+180|Flaaffy
+181|Ampharos
+182|Bellossom
+183|Marill
+184|Azumarill
+185|Sudowoodo
+186|Politoed
+187|Hoppip
+188|Skiploom
+189|Jumpluff
+190|Aipom
+191|Sunkern
+192|Sunflora
+193|Yanma
+194|Wooper
+195|Quagsire
+196|Espeon
+197|Umbreon
+198|Murkrow
+199|Slowking
+200|Misdreavus
+201|Unown
+202|Wobbuffet
+203|Girafarig
+204|Pineco
+205|Forretress
+206|Dunsparce
+207|Gligar
+208|Steelix
+209|Snubbull
+210|Granbull
+211|Qwilfish
+212|Scizor
+213|Shuckle
+214|Heracross
+215|Sneasel
+216|Teddiursa
+217|Ursaring
+218|Slugma
+219|Magcargo
+220|Swinub
+221|Piloswine
+222|Corsola
+223|Remoraid
+224|Octillery
+225|Delibird
+226|Mantine
+227|Skarmory
+228|Houndour
+229|Houndoom
+230|Kingdra
+231|Phanpy
+232|Donphan
+233|Porygon2
+234|Stantler
+235|Smeargle
+236|Tyrogue
+237|Hitmontop
+238|Smoochum
+239|Elekid
+240|Magby
+241|Miltank
+242|Blissey
+243|Raikou
+244|Entei
+245|Suicune
+246|Larvitar
+247|Pupitar
+248|Tyranitar
+249|Lugia
+250|Ho-oh
+251|Celebi
+277|Treecko
+278|Grovyle
+279|Sceptile
+280|Torchic
+281|Combusken
+282|Blaziken
+283|Mudkip
+284|Marshtomp
+285|Swampert
+286|Poochyena
+287|Mightyena
+288|Zigzagoon
+289|Linoone
+290|Wurmple
+291|Silcoon
+292|Beautifly
+293|Cascoon
+294|Dustox
+295|Lotad
+296|Lombre
+297|Ludicolo
+298|Seedot
+299|Nuzleaf
+300|Shiftry
+301|Nincada
+302|Ninjask
+303|Shedinja
+304|Taillow
+305|Swellow
+306|Shroomish
+307|Breloom
+308|Spinda
+309|Wingull
+310|Pelipper
+311|Surskit
+312|Masquerain
+313|Wailmer
+314|Wailord
+315|Skitty
+316|Delcatty
+317|Kecleon
+318|Baltoy
+319|Claydol
+320|Nosepass
+321|Torkoal
+322|Sableye
+323|Barboach
+324|Whiscash
+325|Luvdisc
+326|Corphish
+327|Crawdaunt
+328|Feebas
+329|Milotic
+330|Carvanha
+331|Sharpedo
+332|Trapinch
+333|Vibrava
+334|Flygon
+335|Makuhita
+336|Hariyama
+337|Electrike
+338|Manectric
+339|Numel
+340|Camerupt
+341|Spheal
+342|Sealeo
+343|Walrein
+344|Cacnea
+345|Cacturne
+346|Snorunt
+347|Glalie
+348|Lunatone
+349|Solrock
+350|Azurill
+351|Spoink
+352|Grumpig
+353|Plusle
+354|Minun
+355|Mawile
+356|Meditite
+357|Medicham
+358|Swablu
+359|Altaria
+360|Wynaut
+361|Duskull
+362|Dusclops
+363|Roselia
+364|Slakoth
+365|Vigoroth
+366|Slaking
+367|Gulpin
+368|Swalot
+369|Tropius
+370|Whismur
+371|Loudred
+372|Exploud
+373|Clamperl
+374|Huntail
+375|Gorebyss
+376|Absol
+377|Shuppet
+378|Banette
+379|Seviper
+380|Zangoose
+381|Relicanth
+382|Aron
+383|Lairon
+384|Aggron
+385|Castform
+386|Volbeat
+387|Illumise
+388|Lileep
+389|Cradily
+390|Anorith
+391|Armaldo
+392|Ralts
+393|Kirlia
+394|Gardevoir
+395|Bagon
+396|Shelgon
+397|Salamence
+398|Beldum
+399|Metang
+400|Metagross
+401|Regirock
+402|Regice
+403|Registeel
+404|Kyogre
+405|Groudon
+406|Rayquaza
+407|Latias
+408|Latios
+409|Jirachi
+410|Deoxys
+411|Chimecho
+412|Ambipom
+413|Arceus
+414|Bonsly
+415|Budew
+416|Chingling
+417|Deoxys
+418|Deoxys
+419|Deoxys
+420|Dusknoir
+421|Electivire
+422|Froslass
+423|Gallade
+424|Glaceon
+425|Gliscor
+426|Happiny
+427|Honchkrow
+428|Leafeon
+429|Lickilicky
+430|Magmortar
+431|Magnezone
+432|Mamoswine
+433|Mantyke
+434|Mismagius
+435|Mime Jr.
+436|Munchlax
+437|Porygon Z
+438|Probopass
+439|Regidrago
+440|Regieleki
+441|Regigigas
+442|Rhyperior
+443|Roserade
+444|Sylveon
+445|Tangrowth
+446|Togekiss
+447|Weavile
+448|Yanmega
+449|Annihilape
+450|Farigiraf
+451|Dudunsparc
+452|Wyrdeer
+453|Ursaluna
+454|Ursaluna
+455|Kleavor
+456|Victini
+457|UNUSED
+458|Unown
+459|Articuno
+460|Zapdos
+461|Moltres
+"""#
   static let itemsRetail: String = #"""
 1|Master Ball
 2|Ultra Ball
@@ -3747,6 +4185,350 @@ enum Gen3TableBlobs {
 725|Reins of Uni
 727|Peat Block
 728|Hisui Rock
+"""#
+  static let itemsModernEmerald: String = #"""
+1|Master Ball
+2|Ultra Ball
+3|Great Ball
+4|Poké Ball
+5|Safari Ball
+6|Net Ball
+7|Dive Ball
+8|Nest Ball
+9|Repeat Ball
+10|Timer Ball
+11|Luxury Ball
+12|Premier Ball
+13|Potion
+14|Antidote
+15|Burn Heal
+16|Ice Heal
+17|Awakening
+18|Parlyz Heal
+19|Full Restore
+20|Max Potion
+21|Hyper Potion
+22|Super Potion
+23|Full Heal
+24|Revive
+25|Max Revive
+26|Fresh Water
+27|Soda Pop
+28|Lemonade
+29|Moomoo Milk
+30|EnergyPowder
+31|Energy Root
+32|Heal Powder
+33|Revival Herb
+34|Ether
+35|Max Ether
+36|Elixir
+37|Max Elixir
+38|Lava Cookie
+39|Blue Flute
+40|Yellow Flute
+41|Red Flute
+42|Black Flute
+43|White Flute
+44|Berry Juice
+45|Sacred Ash
+46|Shoal Salt
+47|Shoal Shell
+48|Red Shard
+49|Blue Shard
+50|Yellow Shard
+51|Green Shard
+52|Growth Mulch
+53|Healing Heart
+63|HP Up
+64|Protein
+65|Iron
+66|Carbos
+67|Calcium
+68|Rare Candy
+69|PP Up
+70|Zinc
+71|PP Max
+73|Guard Spec.
+74|Dire Hit
+75|X Attack
+76|X Defend
+77|X Speed
+78|X Accuracy
+79|X Special
+80|Poké Doll
+81|Fluffy Tail
+82|Big Nugget
+83|Super Repel
+84|Max Repel
+85|Escape Rope
+86|Repel
+93|Sun Stone
+94|Moon Stone
+95|Fire Stone
+96|ThunderStone
+97|Water Stone
+98|Leaf Stone
+103|TinyMushroom
+104|Big Mushroom
+106|Pearl
+107|Big Pearl
+108|Stardust
+109|Star Piece
+110|Nugget
+111|Heart Scale
+112|Exp. Share S
+113|Fairy Gem
+114|Cool Pendant
+115|Sitrus Berry
+116|Chesto Berry
+117|Leftovers
+118|Liechi Berry
+121|Orange Mail
+122|Harbor Mail
+123|Glitter Mail
+124|Mech Mail
+125|Wood Mail
+126|Wave Mail
+127|Bead Mail
+128|Shadow Mail
+129|Tropic Mail
+130|Dream Mail
+131|Fab Mail
+132|Retro Mail
+133|Cheri Berry
+134|Chesto Berry
+135|Pecha Berry
+136|Rawst Berry
+137|Aspear Berry
+138|Leppa Berry
+139|Oran Berry
+140|Persim Berry
+141|Lum Berry
+142|Sitrus Berry
+143|Figy Berry
+144|Wiki Berry
+145|Mago Berry
+146|Aguav Berry
+147|Iapapa Berry
+148|Razz Berry
+149|Bluk Berry
+150|Nanab Berry
+151|Wepear Berry
+152|Pinap Berry
+153|Pomeg Berry
+154|Kelpsy Berry
+155|Qualot Berry
+156|Hondew Berry
+157|Grepa Berry
+158|Tamato Berry
+159|Cornn Berry
+160|Magost Berry
+161|Rabuta Berry
+162|Nomel Berry
+163|Spelon Berry
+164|Pamtre Berry
+165|Watmel Berry
+166|Durin Berry
+167|Belue Berry
+168|Liechi Berry
+169|Ganlon Berry
+170|Salac Berry
+171|Petaya Berry
+172|Apicot Berry
+173|Lansat Berry
+174|Starf Berry
+175|Enigma Berry
+176|Sitrus Berry
+179|BrightPowder
+180|White Herb
+181|Macho Brace
+182|Exp. Share
+183|Quick Claw
+184|Soothe Bell
+185|Mental Herb
+186|Choice Band
+187|King's Rock
+188|SilverPowder
+189|Amulet Coin
+190|Cleanse Tag
+191|Soul Dew
+192|DeepSeaTooth
+193|DeepSeaScale
+194|Smoke Ball
+195|Everstone
+196|Focus Band
+197|Lucky Egg
+198|Scope Lens
+199|Metal Coat
+200|Leftovers
+201|Dragon Scale
+202|Light Ball
+203|Soft Sand
+204|Hard Stone
+205|Miracle Seed
+206|BlackGlasses
+207|Black Belt
+208|Magnet
+209|Mystic Water
+210|Sharp Beak
+211|Poison Barb
+212|NeverMeltIce
+213|Spell Tag
+214|TwistedSpoon
+215|Charcoal
+216|Dragon Fang
+217|Silk Scarf
+218|Up-Grade
+219|Shell Bell
+220|Blue Incense
+221|Lax Incense
+222|Lucky Punch
+223|Metal Powder
+224|Thick Club
+225|Stick
+226|Infin. Repel
+227|Rarecandy Box
+254|Red Scarf
+255|Blue Scarf
+256|Pink Scarf
+257|Green Scarf
+258|Yellow Scarf
+259|Bike
+260|Coin Case
+261|Itemfinder
+262|Old Rod
+263|Good Rod
+264|Super Rod
+265|S.S. Ticket
+266|Contest Pass
+268|Wailmer Pail
+269|Devon Goods
+270|Soot Sack
+271|Basement Key
+272|Acro Bike
+274|Letter
+275|Eon Ticket
+276|Red Orb
+277|Blue Orb
+278|Scanner
+279|Go-Goggles
+280|Meteorite
+281|Rm. 1 Key
+282|Rm. 2 Key
+283|Rm. 4 Key
+284|Rm. 6 Key
+285|Storage Key
+286|Root Fossil
+287|Claw Fossil
+288|Devon Scope
+289|TM01
+290|TM02
+291|TM03
+292|TM04
+293|TM05
+294|TM06
+295|TM07
+296|TM08
+297|TM09
+298|TM10
+299|TM11
+300|TM12
+301|TM13
+302|TM14
+303|TM15
+304|TM16
+305|TM17
+306|TM18
+307|TM19
+308|TM20
+309|TM21
+310|TM22
+311|TM23
+312|TM24
+313|TM25
+314|TM26
+315|TM27
+316|TM28
+317|TM29
+318|TM30
+319|TM31
+320|TM32
+321|TM33
+322|TM34
+323|TM35
+324|TM36
+325|TM37
+326|TM38
+327|TM39
+328|TM40
+329|TM41
+330|TM42
+331|TM43
+332|TM44
+333|TM45
+334|TM46
+335|TM47
+336|TM48
+337|TM49
+338|TM50
+339|HM01
+340|HM02
+341|HM03
+342|HM04
+343|HM05
+344|HM06
+345|HM07
+346|HM08
+349|Outfit Box
+350|Poké Flute
+351|Secret Key
+352|Bike Voucher
+353|Gold Teeth
+354|Old Amber
+355|Card Key
+356|Lift Key
+357|Helix Fossil
+358|Dome Fossil
+359|Silph Scope
+360|Bicycle
+361|Town Map
+362|VS Seeker
+363|Fame Checker
+364|TM Case
+365|Berry Pouch
+366|Teachy TV
+367|Tri-Pass
+368|Rainbow Pass
+369|Tea
+370|MysticTicket
+371|AuroraTicket
+372|Powder Jar
+373|Ruby
+374|Sapphire
+375|Magma Emblem
+376|Old Sea Map
+377|Adamant Mint
+378|Bold Mint
+379|Brave Mint
+380|Calm Mint
+381|Careful Mint
+382|Gentle Mint
+383|Hasty Mint
+384|Impish Mint
+385|Jolly Mint
+386|Lax Mint
+387|Lonely Mint
+388|Mild Mint
+389|Modest Mint
+390|Naive Mint
+391|Naughty Mint
+392|Quiet Mint
+393|Rash Mint
+394|Relaxed Mint
+395|Sassy Mint
+396|Serious Mint
+397|Timid Mint
 """#
   static let movesRetail: String = #"""
 1|Pound
@@ -5028,6 +5810,382 @@ enum Gen3TableBlobs {
 921|Rapid Flow
 922|Rapid Flow
 """#
+  static let movesModernEmerald: String = #"""
+1|Pound
+2|Karate Chop
+3|DoubleSlap
+4|Comet Punch
+5|Mega Punch
+6|Pay Day
+7|Fire Punch
+8|Ice Punch
+9|ThunderPunch
+10|Scratch
+11|ViceGrip
+12|Guillotine
+13|Razor Wind
+14|Swords Dance
+15|Cut
+16|Gust
+17|Wing Attack
+18|Whirlwind
+19|Fly
+20|Bind
+21|Slam
+22|Vine Whip
+23|Stomp
+24|Double Kick
+25|Mega Kick
+26|Jump Kick
+27|Rolling Kick
+28|Sand-Attack
+29|Headbutt
+30|Horn Attack
+31|Fury Attack
+32|Horn Drill
+33|Tackle
+34|Body Slam
+35|Wrap
+36|Take Down
+37|Thrash
+38|Double-Edge
+39|Tail Whip
+40|Poison Sting
+41|Twineedle
+42|Pin Missile
+43|Leer
+44|Bite
+45|Growl
+46|Roar
+47|Sing
+48|Supersonic
+49|SonicBoom
+50|Disable
+51|Acid
+52|Ember
+53|Flamethrower
+54|Mist
+55|Water Gun
+56|Hydro Pump
+57|Surf
+58|Ice Beam
+59|Blizzard
+60|Psybeam
+61|BubbleBeam
+62|Aurora Beam
+63|Hyper Beam
+64|Peck
+65|Drill Peck
+66|Submission
+67|Low Kick
+68|Counter
+69|Seismic Toss
+70|Strength
+71|Absorb
+72|Mega Drain
+73|Leech Seed
+74|Growth
+75|Razor Leaf
+76|SolarBeam
+77|PoisonPowder
+78|Stun Spore
+79|Sleep Powder
+80|Petal Dance
+81|String Shot
+82|Dragon Rage
+83|Fire Spin
+84|ThunderShock
+85|Thunderbolt
+86|Thunder Wave
+87|Thunder
+88|Rock Throw
+89|Earthquake
+90|Fissure
+91|Dig
+92|Toxic
+93|Confusion
+94|Psychic
+95|Hypnosis
+96|Meditate
+97|Agility
+98|Quick Attack
+99|Rage
+100|Teleport
+101|Night Shade
+102|Mimic
+103|Screech
+104|Double Team
+105|Recover
+106|Harden
+107|Minimize
+108|Smokescreen
+109|Confuse Ray
+110|Withdraw
+111|Defense Curl
+112|Barrier
+113|Light Screen
+114|Haze
+115|Reflect
+116|Focus Energy
+117|Bide
+118|Metronome
+119|Mirror Move
+120|Selfdestruct
+121|Egg Bomb
+122|Lick
+123|Smog
+124|Sludge
+125|Bone Club
+126|Fire Blast
+127|Waterfall
+128|Clamp
+129|Swift
+130|Skull Bash
+131|Spike Cannon
+132|Constrict
+133|Amnesia
+134|Kinesis
+135|Softboiled
+136|Hi Jump Kick
+137|Glare
+138|Dream Eater
+139|Poison Gas
+140|Barrage
+141|Leech Life
+142|Lovely Kiss
+143|Sky Attack
+144|Transform
+145|Bubble
+146|Dizzy Punch
+147|Spore
+148|Flash
+149|Psywave
+150|Splash
+151|Acid Armor
+152|Crabhammer
+153|Explosion
+154|Fury Swipes
+155|Bonemerang
+156|Rest
+157|Rock Slide
+158|Hyper Fang
+159|Sharpen
+160|Conversion
+161|Tri Attack
+162|Super Fang
+163|Slash
+164|Substitute
+165|Struggle
+166|Sketch
+167|Triple Kick
+168|Thief
+169|Spider Web
+170|Mind Reader
+171|Nightmare
+172|Flame Wheel
+173|Snore
+174|Curse
+175|Flail
+176|Conversion 2
+177|Aeroblast
+178|Cotton Spore
+179|Reversal
+180|Spite
+181|Powder Snow
+182|Protect
+183|Mach Punch
+184|Scary Face
+185|Faint Attack
+186|Sweet Kiss
+187|Belly Drum
+188|Sludge Bomb
+189|Mud-Slap
+190|Octazooka
+191|Spikes
+192|Zap Cannon
+193|Foresight
+194|Destiny Bond
+195|Perish Song
+196|Icy Wind
+197|Detect
+198|Bone Rush
+199|Lock-On
+200|Outrage
+201|Sandstorm
+202|Giga Drain
+203|Endure
+204|Charm
+205|Rollout
+206|False Swipe
+207|Swagger
+208|Milk Drink
+209|Spark
+210|Fury Cutter
+211|Steel Wing
+212|Mean Look
+213|Attract
+214|Sleep Talk
+215|Heal Bell
+216|Return
+217|Present
+218|Frustration
+219|Safeguard
+220|Pain Split
+221|Sacred Fire
+222|Magnitude
+223|DynamicPunch
+224|Megahorn
+225|DragonBreath
+226|Baton Pass
+227|Encore
+228|Pursuit
+229|Rapid Spin
+230|Sweet Scent
+231|Iron Tail
+232|Metal Claw
+233|Vital Throw
+234|Morning Sun
+235|Synthesis
+236|Moonlight
+237|Hidden Power
+238|Cross Chop
+239|Twister
+240|Rain Dance
+241|Sunny Day
+242|Crunch
+243|Mirror Coat
+244|Psych Up
+245|ExtremeSpeed
+246|AncientPower
+247|Shadow Ball
+248|Future Sight
+249|Rock Smash
+250|Whirlpool
+251|Beat Up
+252|Fake Out
+253|Uproar
+254|Stockpile
+255|Spit Up
+256|Swallow
+257|Heat Wave
+258|Hail
+259|Torment
+260|Flatter
+261|Will-O-Wisp
+262|Memento
+263|Facade
+264|Focus Punch
+265|SmellingSalt
+266|Follow Me
+267|Nature Power
+268|Charge
+269|Taunt
+270|Helping Hand
+271|Trick
+272|Role Play
+273|Wish
+274|Assist
+275|Ingrain
+276|Superpower
+277|Magic Coat
+278|Recycle
+279|Revenge
+280|Brick Break
+281|Yawn
+282|Knock Off
+283|Endeavor
+284|Eruption
+285|Skill Swap
+286|Imprison
+287|Refresh
+288|Grudge
+289|Snatch
+290|Secret Power
+291|Dive
+292|Arm Thrust
+293|Camouflage
+294|Tail Glow
+295|Luster Purge
+296|Mist Ball
+297|FeatherDance
+298|Teeter Dance
+299|Blaze Kick
+300|Mud Sport
+301|Ice Ball
+302|Needle Arm
+303|Slack Off
+304|Hyper Voice
+305|Poison Fang
+306|Crush Claw
+307|Blast Burn
+308|Hydro Cannon
+309|Meteor Mash
+310|Astonish
+311|Weather Ball
+312|Aromatherapy
+313|Fake Tears
+314|Air Cutter
+315|Overheat
+316|Odor Sleuth
+317|Rock Tomb
+318|Silver Wind
+319|Metal Sound
+320|GrassWhistle
+321|Tickle
+322|Cosmic Power
+323|Water Spout
+324|Signal Beam
+325|Shadow Punch
+326|Extrasensory
+327|Sky Uppercut
+328|Sand Tomb
+329|Sheer Cold
+330|Muddy Water
+331|Bullet Seed
+332|Aerial Ace
+333|Icicle Spear
+334|Iron Defense
+335|Block
+336|Howl
+337|Dragon Claw
+338|Frenzy Plant
+339|Bulk Up
+340|Bounce
+341|Mud Shot
+342|Poison Tail
+343|Covet
+344|Volt Tackle
+345|Magical Leaf
+346|Water Sport
+347|Calm Mind
+348|Leaf Blade
+349|Dragon Dance
+350|Rock Blast
+351|Shock Wave
+352|Water Pulse
+353|Doom Desire
+354|Psycho Boost
+355|Dark Pulse
+356|Psycho Cut
+357|Focus Blast
+358|Power Gem
+359|Shadow Claw
+360|Flash Cannon
+361|Air Slash
+362|Bug Buzz
+363|Dragon Pulse
+364|Earth Power
+365|Play Rough
+366|Moonblast
+367|Poison Jab
+368|Heal Pulse
+369|Blood Moon
+370|Judgment
+371|Freez. Glare
+372|Thund. Kick
+373|Fiery Wrath
+374|Searing Shot
+"""#
   static let mapSecFireRed: String = #"""
 88|Pallet Town
 89|Viridian City
@@ -5465,6 +6623,219 @@ enum Gen3TableBlobs {
 194|Frozen Tomb
 195|Island Cave
 196|Dehara Dept.
+"""#
+  static let mapSecModernEmerald: String = #"""
+0|Littleroot Town
+1|Oldale Town
+2|Dewford Town
+3|Lavaridge Town
+4|Fallarbor Town
+5|Verdanturf Town
+6|Pacifidlog Town
+7|Petalburg City
+8|Slateport City
+9|Mauville City
+10|Rustboro City
+11|Fortree City
+12|Lilycove City
+13|Mossdeep City
+14|Sootopolis City
+15|Ever Grande City
+16|Route 101
+17|Route 102
+18|Route 103
+19|Route 104
+20|Route 105
+21|Route 106
+22|Route 107
+23|Route 108
+24|Route 109
+25|Route 110
+26|Route 111
+27|Route 112
+28|Route 113
+29|Route 114
+30|Route 115
+31|Route 116
+32|Route 117
+33|Route 118
+34|Route 119
+35|Route 120
+36|Route 121
+37|Route 122
+38|Route 123
+39|Route 124
+40|Route 125
+41|Route 126
+42|Route 127
+43|Route 128
+44|Route 129
+45|Route 130
+46|Route 131
+47|Route 132
+48|Route 133
+49|Route 134
+50|Underwater
+51|Underwater
+52|Underwater
+53|Underwater
+54|Underwater
+55|Granite Cave
+56|Mt. Chimney
+57|Safari Zone
+58|Battle Frontier
+59|Petalburg Woods
+60|Rusturf Tunnel
+61|Abandoned Ship
+62|New Mauville
+63|Meteor Falls
+64|Meteor Falls
+65|Mt. Pyre
+67|Shoal Cave
+68|Seafloor Cavern
+69|Underwater
+70|Victory Road
+71|Mirage Island
+72|Cave of Origin
+73|Southern Island
+74|Fiery Path
+75|Fiery Path
+76|Jagged Pass
+77|Jagged Pass
+78|Sealed Chamber
+79|Underwater
+80|Scorched Slab
+81|Island Cave
+82|Desert Ruins
+83|Ancient Tomb
+84|Inside of Truck
+85|Sky Pillar
+86|Secret Base
+88|Pallet Town
+89|Viridian City
+90|Pewter City
+91|Cerulean City
+92|Lavender Town
+93|Vermilion City
+94|Celadon City
+95|Fuchsia City
+96|Cinnabar Island
+97|Indigo Plateau
+98|Saffron City
+99|Route 4
+100|Route 10
+101|Route 1
+102|Route 2
+103|Route 3
+104|Route 4
+105|Route 5
+106|Route 6
+107|Route 7
+108|Route 8
+109|Route 9
+110|Route 10
+111|Route 11
+112|Route 12
+113|Route 13
+114|Route 14
+115|Route 15
+116|Route 16
+117|Route 17
+118|Route 18
+119|Route 19
+120|Route 20
+121|Route 21
+122|Route 22
+123|Route 23
+124|Route 24
+125|Route 25
+126|Viridian Forest
+127|Mt. Moon
+128|S.S. Anne
+129|Underground Path
+130|Underground Path
+131|Diglett's Cave
+132|Victory Road
+133|Rocket Hideout
+134|Silph Co.
+135|Pokémon Mansion
+136|Safari Zone
+137|Pokémon League
+138|Rock Tunnel
+139|Seafoam Islands
+140|Pokémon Tower
+141|Cerulean Cave
+142|Power Plant
+143|One Island
+144|Two Island
+145|Three Island
+146|Four Island
+147|Five Island
+148|Seven Island
+149|Six Island
+150|Kindle Road
+151|Treasure Beach
+152|Cape Brink
+153|Bond Bridge
+154|Three Isle Port
+155|Sevii Isle 6
+156|Sevii Isle 7
+157|Route 132 North
+158|Route 110 East
+159|Resort Gorgeous
+160|Water Labyrinth
+161|Five Isle Meadow
+162|Memorial Pillar
+163|Outcast Island
+164|Green Path
+165|Water Path
+166|Ruin Valley
+167|Trainer Tower
+168|Canyon Entrance
+169|Sevault Canyon
+170|Tanoby Ruins
+171|Sevii Isle 22
+172|Sevii Isle 23
+173|Sevii Isle 24
+174|Navel Rock
+175|Mt. Ember
+176|Berry Forest
+177|Icefall Cave
+178|Rocket Warehouse
+179|Trainer Tower
+180|Dotted Hole
+181|Lost Cave
+182|Pattern Bush
+183|Altering Cave
+184|Tanoby Chambers
+185|Three Isle Path
+186|Tanoby Key
+187|Birth Island
+188|Monean Chamber
+189|Liptoo Chamber
+190|Weepth Chamber
+191|Dilford Chamber
+192|Scufib Chamber
+193|Rixy Chamber
+194|Viapois Chamber
+195|Ember Spa
+196|Special Area
+197|Aqua Hideout
+198|Magma Hideout
+199|Mirage Tower
+200|Birth Island
+201|Faraway Island
+202|Artisan Cave
+203|Marine Cave
+204|Underwater
+205|Terra Cave
+206|Underwater
+207|Underwater
+208|Underwater
+209|Desert Underpass
+210|Altering Cave
+211|Navel Rock
+212|Trainer Hill
 """#
   static let itemsSeaglass: String = #"""
 1|Poké Ball
@@ -7231,8 +8602,6 @@ enum Gen3TableBlobs {
 933|G-Max One Blow
 934|G-Max Rapid Flow
 """#
-
-  /// Emerald Seaglass v3.0: game dex number → National/species id (TREECKO=1 … BULBASAUR=141).
   static let seaglassDexNational: String = #"""
 1|252
 2|253
@@ -7664,5 +9033,439 @@ enum Gen3TableBlobs {
 428|1345
 429|1346
 430|1347
+"""#
+  static let modernEmeraldDexSpecies: String = #"""
+1|1
+2|2
+3|3
+4|4
+5|5
+6|6
+7|7
+8|8
+9|9
+10|10
+11|11
+12|12
+13|13
+14|14
+15|15
+16|16
+17|17
+18|18
+19|19
+20|20
+21|21
+22|22
+23|23
+24|24
+25|25
+26|26
+27|27
+28|28
+29|29
+30|30
+31|31
+32|32
+33|33
+34|34
+35|35
+36|36
+37|37
+38|38
+39|39
+40|40
+41|41
+42|42
+43|43
+44|44
+45|45
+46|46
+47|47
+48|48
+49|49
+50|50
+51|51
+52|52
+53|53
+54|54
+55|55
+56|56
+57|57
+58|58
+59|59
+60|60
+61|61
+62|62
+63|63
+64|64
+65|65
+66|66
+67|67
+68|68
+69|69
+70|70
+71|71
+72|72
+73|73
+74|74
+75|75
+76|76
+77|77
+78|78
+79|79
+80|80
+81|81
+82|82
+83|83
+84|84
+85|85
+86|86
+87|87
+88|88
+89|89
+90|90
+91|91
+92|92
+93|93
+94|94
+95|95
+96|96
+97|97
+98|98
+99|99
+100|100
+101|101
+102|102
+103|103
+104|104
+105|105
+106|106
+107|107
+108|108
+109|109
+110|110
+111|111
+112|112
+113|113
+114|114
+115|115
+116|116
+117|117
+118|118
+119|119
+120|120
+121|121
+122|122
+123|123
+124|124
+125|125
+126|126
+127|127
+128|128
+129|129
+130|130
+131|131
+132|132
+133|133
+134|134
+135|135
+136|136
+137|137
+138|138
+139|139
+140|140
+141|141
+142|142
+143|143
+144|144
+145|145
+146|146
+147|147
+148|148
+149|149
+150|150
+151|151
+152|152
+153|153
+154|154
+155|155
+156|156
+157|157
+158|158
+159|159
+160|160
+161|161
+162|162
+163|163
+164|164
+165|165
+166|166
+167|167
+168|168
+169|169
+170|170
+171|171
+172|172
+173|173
+174|174
+175|175
+176|176
+177|177
+178|178
+179|179
+180|180
+181|181
+182|182
+183|183
+184|184
+185|185
+186|186
+187|187
+188|188
+189|189
+190|190
+191|191
+192|192
+193|193
+194|194
+195|195
+196|196
+197|197
+198|198
+199|199
+200|200
+201|201
+202|202
+203|203
+204|204
+205|205
+206|206
+207|207
+208|208
+209|209
+210|210
+211|211
+212|212
+213|213
+214|214
+215|215
+216|216
+217|217
+218|218
+219|219
+220|220
+221|221
+222|222
+223|223
+224|224
+225|225
+226|226
+227|227
+228|228
+229|229
+230|230
+231|231
+232|232
+233|233
+234|234
+235|235
+236|236
+237|237
+238|238
+239|239
+240|240
+241|241
+242|242
+243|243
+244|244
+245|245
+246|246
+247|247
+248|248
+249|249
+250|250
+251|251
+252|277
+253|278
+254|279
+255|280
+256|281
+257|282
+258|283
+259|284
+260|285
+261|286
+262|287
+263|288
+264|289
+265|290
+266|291
+267|292
+268|293
+269|294
+270|295
+271|296
+272|297
+273|298
+274|299
+275|300
+276|304
+277|305
+278|309
+279|310
+280|392
+281|393
+282|394
+283|311
+284|312
+285|306
+286|307
+287|364
+288|365
+289|366
+290|301
+291|302
+292|303
+293|370
+294|371
+295|372
+296|335
+297|336
+298|350
+299|320
+300|315
+301|316
+302|322
+303|355
+304|382
+305|383
+306|384
+307|356
+308|357
+309|337
+310|338
+311|353
+312|354
+313|386
+314|387
+315|363
+316|367
+317|368
+318|330
+319|331
+320|313
+321|314
+322|339
+323|340
+324|321
+325|351
+326|352
+327|308
+328|332
+329|333
+330|334
+331|344
+332|345
+333|358
+334|359
+335|380
+336|379
+337|348
+338|349
+339|323
+340|324
+341|326
+342|327
+343|318
+344|319
+345|388
+346|389
+347|390
+348|391
+349|328
+350|329
+351|385
+352|317
+353|377
+354|378
+355|361
+356|362
+357|369
+358|411
+359|376
+360|360
+361|346
+362|347
+363|341
+364|342
+365|343
+366|373
+367|374
+368|375
+369|381
+370|325
+371|395
+372|396
+373|397
+374|398
+375|399
+376|400
+377|401
+378|402
+379|403
+380|407
+381|408
+382|404
+383|405
+384|406
+385|409
+386|410
+387|435
+388|436
+389|414
+390|433
+391|426
+392|416
+393|415
+394|443
+395|420
+396|412
+397|421
+398|422
+399|423
+400|425
+401|427
+402|429
+403|430
+404|431
+405|432
+406|434
+407|437
+408|438
+409|442
+410|445
+411|446
+412|447
+413|448
+414|428
+415|424
+416|444
+417|449
+418|450
+419|451
+420|439
+421|440
+422|441
+423|413
+424|452
+425|455
+426|453
+427|454
+428|458
+429|456
+430|459
+431|460
+432|461
 """#
 }

@@ -69,6 +69,10 @@ void pk_nds_set_wild_off(bool off);
 void pk_nds_set_keep_start_menu(bool on);
 /** DS CPU BOOST: the ARM9 at twice the DS's clock (fewer of a game's own slow frames). Emu thread, between frames. */
 void pk_nds_set_cpu_boost(bool on);
+/** Host: allow A64 JIT on the next pk_nds_init (iOS: after W^X / CS_DEBUGGED probe). */
+void pk_nds_set_allow_jit(int on);
+/** Whether this session's NDS was created with the A64 JIT (0 = interpreter). */
+int pk_nds_jit_active(void);
 // Action Replay DS codes into melonDS's AREngine (it runs them on the ARM7's VBlank), replacing the ones before:
 // [lengths] words of [words] per cheat, [nCheats] cheats (0 = none). The count loaded; -1 with no DS game. Emu thread.
 int pk_nds_set_cheats(const uint32_t* words, int nWords, const int32_t* lengths, int nCheats);
@@ -92,6 +96,8 @@ void pk_nds_music_stop(void);
 
 // EXPAND (pk_nds_wide.h) on or off: the overworld's 3D drawn past the screen's edges (as far as the window needs). Emu thread.
 void pk_nds_wide_enable(bool on);
+/** Soft Expand: when false, skip pk_nds_wide_frame this tick and reuse the last Expand buffer (audio catch-up). */
+void pk_nds_set_expand_compose(bool on);
 // Whether the coming frame / the one after it are shown (fast-forward runs several a refresh and shows the last): an
 // unseen frame skips the screens' conversion and EXPAND's composing, and EXPAND's slices are drawn only before a seen
 // one. Both true by default. Emu thread, before pk_nds_run_frame.

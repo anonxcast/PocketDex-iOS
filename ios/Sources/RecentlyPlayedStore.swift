@@ -30,7 +30,7 @@ final class RecentlyPlayedStore: ObservableObject {
   }
 
   /// Newest first, capped, only keys still present in `roms`.
-  func recent(in roms: [RomItem], limit: Int = 8) -> [RomItem] {
+  func recent(in roms: [RomItem], limit: Int = 3) -> [RomItem] {
     let byKey = Dictionary(uniqueKeysWithValues: roms.map { ($0.sessionKey, $0) })
     return datesByKey
       .compactMap { key, date -> (RomItem, Date)? in

@@ -50,8 +50,13 @@ private func gen3Pockets(start: Int, items: Int, key: Int, balls: Int, tmhm: Int
 /// Radical Red, Unbound, and other Complete FireRed Upgrade builds.
 /// `EMERALD_HNS` is Heart and Soul v2.0.6: SaveBlock2 0xF34, SaveBlock1 0x3D90 with +4 pad before `pos`,
 /// party at 0x238/0x23C, money at 0x494 (Android LegacyNativeConfigs).
+/// `EMERALD_MODERN` is Modern Emerald 3.6: SaveBlock2 0xF50 with encryption key at +0xBC, Items pocket 90
+/// (bag +0xF0 vs retail), sector checksums over 0xFF4 (Android NATIVE_MODERN_EMERALD).
+/// `EMERALD_LAZARUS` is Lazarus v2.0: SaveBlock2 0xF34 (sector checksum includes +8 past retail
+/// 0xF2C), retail SaveBlock1, encryption key at +0xB0, expansion bag (items 50 / berries 30 /
+/// key 20 / balls 70 / TM 46) from live EWRAM.
 enum Gen3SaveFormat: CaseIterable {
-  case RUBY_SAPPHIRE, EMERALD, EMERALD_HNS, FIRERED_LEAFGREEN, FIRERED_CFRU
+  case RUBY_SAPPHIRE, EMERALD, EMERALD_HNS, EMERALD_MODERN, EMERALD_LAZARUS, FIRERED_LEAFGREEN, FIRERED_CFRU
 
   struct Layout {
     let label: String
@@ -108,6 +113,32 @@ enum Gen3SaveFormat: CaseIterable {
         nationalMagicOff: 0x1A, nationalMagic: 0xDA, nationalVar: 0x4046, nationalVarValue: 0x302, nationalFlag: 0x896,
         linkRsFlag: -1, kanto: false, coinsOff: 0x498,
         pockets: gen3Pockets(start: 0x564, items: 30, key: 30, balls: 16, tmhm: 64, berries: 46), stackMax: 99)
+    case .EMERALD_MODERN:
+      // Items 90 (+0xF0): Key/Balls/TM/Berries and everything after the bag shift; key at SB2+0xBC.
+      return Layout(
+        label: "EMERALD (Modern Emerald)", saveBlock2Size: 0xF50, saveBlock1Size: 0x3E78,
+        storageSize: 0x8F64,
+        partyCountOff: 0x234, partyOff: 0x238, moneyOff: 0x490, encryptionKeyOff: 0xBC,
+        flagsOff: 0x1360, varsOff: 0x148C, seen1Off: 0xA78, seen2Off: 0x3C14,
+        nationalMagicOff: 0x1A, nationalMagic: 0xDA, nationalVar: 0x4046, nationalVarValue: 0x302, nationalFlag: 0x896,
+        linkRsFlag: -1, kanto: false, coinsOff: 0x494,
+        pockets: gen3Pockets(start: 0x560, items: 90, key: 30, balls: 16, tmhm: 64, berries: 46), stackMax: 99)
+    case .EMERALD_LAZARUS:
+      // SB2 grown to 0xF34 (device .sav sector-0 checksum); party/money still retail.
+      // Bag reorder (items→berries→key→balls→TM) from live EWRAM / companion.
+      return Layout(
+        label: "EMERALD (Lazarus)", saveBlock2Size: 0xF34, saveBlock1Size: 0x3D88,
+        partyCountOff: 0x234, partyOff: 0x238, moneyOff: 0x490, encryptionKeyOff: 0xB0,
+        flagsOff: 0x1270, varsOff: 0x139C, seen1Off: 0x988, seen2Off: 0x3B24,
+        nationalMagicOff: 0x1A, nationalMagic: 0xDA, nationalVar: 0x4046, nationalVarValue: 0x302, nationalFlag: 0x896,
+        linkRsFlag: -1, kanto: false, coinsOff: 0x494,
+        pockets: [
+          PocketLayout(pocket: .items, off: 0x560, slots: 50),
+          PocketLayout(pocket: .berries, off: 0x628, slots: 30),
+          PocketLayout(pocket: .key, off: 0x6A0, slots: 20),
+          PocketLayout(pocket: .balls, off: 0x6F0, slots: 70),
+          PocketLayout(pocket: .tmhm, off: 0x808, slots: 46),
+        ], stackMax: 99)
     case .FIRERED_LEAFGREEN:
       return Layout(
         label: "FIRERED / LEAFGREEN", saveBlock2Size: 0xF24, saveBlock1Size: 0x3D68,
@@ -180,6 +211,18 @@ enum Gen3SaveFormat: CaseIterable {
       default: return 0
       }
     }
+    if self == .EMERALD_MODERN {
+      // Payload window is 0xFF4 (pre-footer). Last SB1 / storage sectors are the remainders —
+      // using a full 0xFF4 for id 13 overflowed storageSize (0x8F64) and crashed on open.
+      switch id {
+      case 0: return saveBlock2Size
+      case 1, 2, 3: return Gen3SaveFile.DATA_MODERN
+      case 4: return saveBlock1Size - 3 * Gen3SaveFile.DATA_MODERN
+      case 5...12: return Gen3SaveFile.DATA_MODERN
+      case 13: return storageSize - 8 * Gen3SaveFile.DATA_MODERN
+      default: return 0
+      }
+    }
     switch id {
     case 0: return saveBlock2Size
     case 1...4: return chunk(saveBlock1Size, id - 1)
@@ -227,18 +270,24 @@ enum Gen3SaveFormat: CaseIterable {
       .contains { u.contains($0) }
     let hnsHint = (u.contains("HEART") && u.contains("SOUL") && !u.contains("HEARTGOLD"))
       || u.contains("HEARTSOUL")
+    let modernHint = u.contains("MODERN") && u.contains("EMERALD")
+    let lazarusHint = u.contains("LAZARUS")
     guard let base = forGameCode(code) else {
       // Unknown code — still try CFRU FRLG layout for named hacks.
+      if modernHint { return [.EMERALD_MODERN, .EMERALD, .FIRERED_CFRU] }
       if hnsHint { return [.EMERALD_HNS, .EMERALD, .FIRERED_CFRU] }
+      if lazarusHint { return [.EMERALD_LAZARUS, .EMERALD, .FIRERED_CFRU] }
       return cfruHint ? [.FIRERED_CFRU, .FIRERED_LEAFGREEN, .EMERALD] : []
     }
     switch base {
     case .FIRERED_LEAFGREEN, .FIRERED_CFRU:
       return cfruHint ? [.FIRERED_CFRU, .FIRERED_LEAFGREEN] : [.FIRERED_LEAFGREEN, .FIRERED_CFRU]
-    case .EMERALD, .EMERALD_HNS:
+    case .EMERALD, .EMERALD_HNS, .EMERALD_MODERN, .EMERALD_LAZARUS:
+      if modernHint { return [.EMERALD_MODERN, .EMERALD] }
       // Heart and Soul needs its own sector sizes; other Emerald hacks try retail first.
       if hnsHint { return [.EMERALD_HNS, .EMERALD] }
-      return [.EMERALD, .EMERALD_HNS]
+      if lazarusHint { return [.EMERALD_LAZARUS, .EMERALD] }
+      return [.EMERALD, .EMERALD_HNS, .EMERALD_MODERN, .EMERALD_LAZARUS]
     case .RUBY_SAPPHIRE:
       return [.RUBY_SAPPHIRE]
     }

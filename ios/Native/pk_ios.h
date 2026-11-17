@@ -16,6 +16,14 @@ extern "C" {
  */
 void pk_ios_set_output_sample_rate(double hz);
 
+/**
+ * Call once at app launch (before any DS ROM). Sets CS_DEBUGGED via ptrace(PT_TRACE_ME)
+ * and probes W^X mprotect so melonDS A64 JIT can run at 60 FPS. Safe if already prepared.
+ */
+void pk_ios_prepare_jit(void);
+/** 1 if prepare_jit succeeded (JIT will be used for DS). */
+int pk_ios_jit_ready(void);
+
 /** Init mGBA or melonDS from a local ROM path. Optional save path may be NULL. */
 bool pk_ios_init(const char *rom_path, const char *save_path);
 void pk_ios_deinit(void);
@@ -41,6 +49,15 @@ void pk_ios_run_frame(void);
  * (used for fast-forward so only ~1× samples reach the ring at normal pitch).
  */
 void pk_ios_run_frame_ex(bool keep_audio);
+/**
+ * Run one frame. `keep_audio` as above. When `present_video` is false, skip LCD
+ * convert / Expand compose (DS audio catch-up without the present tax).
+ */
+void pk_ios_run_frame_present(bool keep_audio, bool present_video);
+/** Frames waiting in the audio ring (for catch-up pacing). */
+int pk_ios_audio_queued(void);
+/** Soft target ring depth for the current platform. */
+int pk_ios_audio_target(void);
 
 int pk_ios_video_width(void);
 int pk_ios_video_height(void);

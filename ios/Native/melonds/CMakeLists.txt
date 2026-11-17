@@ -20,8 +20,12 @@ set(ENABLE_OGLRENDERER OFF CACHE BOOL "" FORCE)
 set(ENABLE_GDBSTUB     OFF CACHE BOOL "" FORCE)
 set(ENABLE_LTO_RELEASE OFF CACHE BOOL "" FORCE)
 set(ENABLE_LTO         OFF CACHE BOOL "" FORCE)
+# Interpreter only. Compiling melonDS JIT in (even with allow_jit off) constructs
+# ARMJIT and takes exec memory — that hung or killed every DS boot on iOS.
+set(ARCHITECTURE "ARM64" CACHE STRING "" FORCE)
 set(ENABLE_JIT         OFF CACHE BOOL "" FORCE)
 set(ENABLE_JIT_PROFILING OFF CACHE BOOL "" FORCE)
+add_compile_definitions(ARCHITECTURE_ARM64=1)
 
 include("${MELONDS_DIR}/../patches/apply_melonds_patch.cmake")
 add_subdirectory("${MELONDS_DIR}" "${CMAKE_CURRENT_BINARY_DIR}/melonds" EXCLUDE_FROM_ALL)
@@ -49,7 +53,6 @@ target_include_directories(pknds PRIVATE
   "${IOS_NATIVE}"
 )
 
-# Force ARM64 define the way melonDS headers expect when building for device.
 target_compile_definitions(pknds PRIVATE ARCHITECTURE_ARM64=1)
 target_compile_options(pknds PRIVATE
   -Wno-unused-parameter
@@ -58,11 +61,8 @@ target_compile_options(pknds PRIVATE
 )
 
 target_link_libraries(pknds PUBLIC core ZLIB::ZLIB)
-# dlopen used by Platform DynamicLibrary stubs
 target_link_libraries(pknds PRIVATE ${CMAKE_DL_LIBS})
 
 set_target_properties(pknds PROPERTIES
-  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
-  ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/Release-iphoneos"
-  ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}/Debug-iphoneos"
+  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Release-iphoneos"
 )

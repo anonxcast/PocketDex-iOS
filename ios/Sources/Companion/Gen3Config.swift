@@ -72,6 +72,9 @@ struct NativeConfig {
   var dexNationalCount: Int = 386
 
   var shinyBelow: Int = Gen3Const.shinyBelow
+
+  /// SoulGold / Team Rocket V3 pack `regionMapSectionId` as u16 at mapHeader+0x14 (mapType at +0x18).
+  var mapSecWide: Bool = false
 }
 
 /// Matches Android `DexFlagBlock` — expansion / CFRU put flags in SaveBlock1.
@@ -148,6 +151,7 @@ enum Gen3Config {
       c.partyMonKind = .soulGold(packedAttacks: false)
       c.battleMonLayout = .soulGold
       c.tables = .national
+      c.mapSecWide = true
     case "soulgold_v1_2_1":
       c.speciesMask = 0x07FF
       c.moveMask = 0x07FF
@@ -156,17 +160,37 @@ enum Gen3Config {
       c.partyMonKind = .soulGold(packedAttacks: true)
       c.battleMonLayout = .soulGold
       c.tables = .national
+      c.mapSecWide = true
     case "rowe":
       c.monStride = 0x4C
       c.partyMonKind = .rowe
       c.speciesMask = 0x0FFF
       c.battleMonLayout = .expansion
       c.tables = .national
+    case "team_rocket_v3":
+      c.mapSecWide = true
+      c.tables = .national
     case "modern_emerald":
       // Android: vanilla 0x58 BattlePokemon (iOS codegen wrongly marked .expansion).
       c.battleMonLayout = .vanilla
-      c.tables = .national
+      c.bagPocketOrder = emeraldPocketOrder
+      c.encryptionKeyOff = 0xBC
+      c.moneyOff = 0x490
+      // SB2 pokedex + bag-shifted SB1 seen copies (Items pocket 90).
+      // Flag bits are ME NATIONAL_DEX_* (1…432), not species ids; array is NUM_SPECIES-sized (58 bytes).
+      c.dexEnabled = true
+      c.dexFlagBlock = .saveBlock2
+      c.dexSeenOff = 0x5C
+      c.dexCaughtOff = 0x28
+      c.dexBytes = 58
+      c.dexSeenCopies = [0xA78, 0x3C14]
+      c.dexNationalCount = 432
+      c.tables = .modernEmerald
     case "rocket_edition":
+      c.tables = .national
+    case "lazarus":
+      // National-dex species ids; expansion 0x60 battle mon; encryption key at SB2+0xB0.
+      c.battleMonLayout = .expansion
       c.tables = .national
     case "tmt2":
       c.speciesMask = 0x07FF
@@ -216,6 +240,8 @@ enum Gen3Config {
     "dacb6e40e7f572ddefd2dfa10e99c0da6835b062": "soulgold_v1_2_1", // Soulgold (v1.2.1).gba
     // Crystal Advance Redux — FireRed rev 0 RAM (BPRE 32 MB, no dedicated Poller profile yet)
     "5229160b68e3f2ee804a9e0f90e7a09b01254626": "firered_rev0",
+    // Pokemon Lazarus.gba (device dump / v2.0) — also in RomIdentityGen
+    "7dcdc7e280bc4631487e13dd37e6e0cea04adea6": "lazarus",
   ]
 
   /// Exact companion profile from a GPIO-masked whole-file SHA-1.
@@ -308,6 +334,9 @@ enum Gen3Config {
        let c = generated("soulgold_v1_2_1") {
       return Detection(config: c, match: .header)
     }
+    if fn.contains("LAZARUS") || t.contains("LAZARUS"), let c = generated("lazarus") {
+      return Detection(config: c, match: .header)
+    }
 
     switch code {
     case "BPEE", "BPES", "BPED", "BPEF", "BPEI", "BPEJ":
@@ -326,6 +355,9 @@ enum Gen3Config {
         }
         if fn.contains("SOULGOLD") || fn.contains("SOUL GOLD") || t.contains("SOULGOLD"),
            let c = generated("soulgold_v1_2_1") {
+          return Detection(config: c, match: .header)
+        }
+        if fn.contains("LAZARUS") || t.contains("LAZARUS"), let c = generated("lazarus") {
           return Detection(config: c, match: .header)
         }
         if t.contains("ROGUE") || fn.contains("ROGUE"), let c = generated("emerald_rogue") {

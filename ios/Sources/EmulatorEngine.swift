@@ -14,9 +14,16 @@ final class EmulatorEngine: ObservableObject {
   @Published private(set) var loadedRomURL: URL?
   /// Stable identity for pause/resume matching (`RomItem.sessionKey`).
   @Published private(set) var loadedRomKey: String?
-  @Published private(set) var frameImage: CGImage?
-  /// NDS native 256×384 stack (for touch-LCD crop when Expand presents a wide top).
-  @Published private(set) var ndsNativeFrame: CGImage?
+  /// Last presented frame (screenshots / freeze). Not `@Published` — CALayer hosts push pixels.
+  private(set) var frameImage: CGImage?
+  /// NDS touch-LCD when Expand shows a wide top only.
+  private(set) var ndsNativeFrame: CGImage?
+  /// CALayer LCD presenters — updates do not invalidate PlayView’s SwiftUI tree.
+  let lcdTop = LCDPresenter()
+  let lcdBottom = LCDPresenter()
+  /// Separate hosts for the ONE SCREEN touch popup (one presenter → one CALayer).
+  let lcdTouchTop = LCDPresenter()
+  let lcdTouchBottom = LCDPresenter()
   @Published private(set) var statusText = "Idle"
   @Published var companionHint = "PocketDex companion will read party / bag / map once a Pokémon game is running."
   /// Live companion snapshot (party / bag / map / battle / dex); nil until a supported ROM has been sampled.
@@ -41,10 +48,31 @@ final class EmulatorEngine: ObservableObject {
   private var companionFrameCount = 0
   private var companionGeneration = 0
   private let companionSampleEveryFrames = 15
+  /// NDS frames are heavier (dual LCD); keep companion light so present stays smooth.
+  private let companionSampleEveryFramesNDS = 60
   /// When the companion drawer is open, sample less often so SwiftUI redraws
   /// don't stall CADisplayLink (which underruns audio and sounds slow/poppy).
   var companionDrawerOpen = false
   private var lastAudioEnabled: Bool?
+  /// Last NDS field bits — used to skip unused touch-LCD copies next tick.
+  private var lastNdsFieldBits: Int32 = 0
+  /// Skip CGImage publish when the last emu tick ran long (audio already drained).
+  private var skipPresentStreak = 0
+  /// Never emuQueue.sync from CADisplayLink — a long NDS frame froze Play.
+  private var frameInFlight = false
+  private var frameInFlightSince = 0.0
+  /// Display-link ticks that arrived while emu was busy — drained as audio catch-up.
+  private var pendingEmuTicks = 0
+  private var fpsWindowStart = CACurrentMediaTime()
+  private var fpsWindowCount = 0
+  /// Gen 5 (IRA/IRB/IRD/IRE) — Expand caps depend on JIT.
+  private var ndsGen5Session = false
+  private var ndsJitSession = false
+  /// Cached on the emu queue — never call pk_ios_* from main for these (g_lock stalls Play).
+  private var cachedCoreW = 0
+  private var cachedCoreH = 0
+  private var cachedPlatform = 0
+  private var cachedWideScene = 0
 
   /// Last play-area size used to compute the WIDE window (points).
   private var lastWideDisplay: CGSize = .zero
@@ -56,8 +84,12 @@ final class EmulatorEngine: ObservableObject {
   @Published private(set) var zoomStepCount = 1
   /// Live zoom label (“1× (close)”, “2× out”, …) from actual WIDE math.
   @Published private(set) var zoomStepTitle = "1× (close)"
+  /// Expand on-screen placement (pixel scale + offX/offY). Nil when not in Expand / WIDE.
+  @Published private(set) var widePlacement: WideCameraMath.Placement?
   /// Emulation speed: 1× / 2× / 3× (extra frames per display tick).
   @Published private(set) var speedMultiplier: Int = 1
+  /// Presented frames/sec (display-link completions), updated ~4×/s for the top-bar chip.
+  @Published private(set) var fps: Int = 0
   /// Brief HUD toast after quick save / load (“Saved”, “Loaded”, …).
   @Published private(set) var actionToast: String?
   /// Top-chrome auto-save banner text (animated in / out).
@@ -130,7 +162,6 @@ final class EmulatorEngine: ObservableObject {
   }
 
   func load(romURL: URL, key: String? = nil) {
-    stop()
     let sessionKey = key ?? {
       let stem = romURL.deletingPathExtension().lastPathComponent
         .precomposedStringWithCanonicalMapping
@@ -144,16 +175,19 @@ final class EmulatorEngine: ObservableObject {
     let romPath = romURL.path
     let savePath = save.path
     let title = romTitle(for: romURL)
+
+    // Never emuQueue.sync from main — a stuck NDS frame (Expand/JIT) froze Play forever.
+    tearDownSessionUI(clearIdentity: true)
     statusText = "Loading \(title)…"
     companionHint = "Loading ROM…"
-    isPaused = false
-    isRunning = false
-    loadedRomURL = nil
-    loadedRomKey = nil
 
-    // Large NDS carts must not block the main thread (watchdog). Init on the emu queue.
+    let generation = companionGeneration
+    frameInFlight = false
+    frameInFlightSince = 0
     let q = emuQueue
+    // Plain async (not barrier): a wedged prior frame must not block boot forever.
     q.async { [weak self] in
+      pk_ios_deinit()
       let ok = romPath.withCString { rp in
         savePath.withCString { sp in
           pk_ios_init(rp, sp)
@@ -161,6 +195,8 @@ final class EmulatorEngine: ObservableObject {
       }
       Task { @MainActor [weak self] in
         guard let self else { return }
+        // A newer load superseded this one — drop the result.
+        guard self.companionGeneration == generation else { return }
         self.isRunning = ok
         self.isPaused = false
         self.loadedRomURL = ok ? romURL.standardizedFileURL : nil
@@ -169,8 +205,16 @@ final class EmulatorEngine: ObservableObject {
         self.companionHint = ok
           ? "PocketDex companion is ready."
           : "Load a GB/GBC/GBA/NDS ROM to begin."
+        self.frameInFlight = false
         if ok {
           self.wideSupported = pk_ios_wide_supported()
+          self.cachedPlatform = Int(pk_ios_platform())
+          self.cachedCoreW = Int(pk_ios_core_width())
+          self.cachedCoreH = Int(pk_ios_core_height())
+          self.cachedWideScene = Int(pk_ios_wide_scene())
+          self.ndsGen5Session = false
+          self.ndsJitSession = false
+          // DS v1: stacked LCDs only — no Gen5 Expand throttle until Expand returns.
           self.speedMultiplier = 1
           self.refreshSaveStateFlag()
           self.configureCompanion()
@@ -200,6 +244,7 @@ final class EmulatorEngine: ObservableObject {
     dpadMask = 0
     keyMask = 0
     lastSkinMask = 0
+    PadPressedStore.shared.clear()
     let q = emuQueue
     q.async(flags: .barrier) {
       pk_ios_set_keys(0)
@@ -216,13 +261,13 @@ final class EmulatorEngine: ObservableObject {
 
   /// Continue a paused session from the frozen frame.
   func resume() {
-    guard isPaused, loadedRomURL != nil, loadedRomKey != nil, pk_ios_is_running() else {
-      // Core gone somehow — fall back to a full reload if we still know the ROM.
+    guard isPaused, loadedRomURL != nil, loadedRomKey != nil else {
       if let url = loadedRomURL {
         load(romURL: url, key: loadedRomKey)
       }
       return
     }
+    // Don't pk_ios_is_running() on main — g_lock can stall behind a long NDS frame.
     isPaused = false
     isRunning = true
     if let url = loadedRomURL {
@@ -240,20 +285,48 @@ final class EmulatorEngine: ObservableObject {
   func updateWideView(forDisplay size: CGSize) {
     lastWideDisplay = size
     let settings = AppSettings.shared
-    let fw = Int(pk_ios_core_width())
-    let fh = Int(pk_ios_core_height())
+    // DS v1 / no WIDE row: skip all Expand camera work (no zoom @Published spam).
+    guard isRunning, settings.gameAspect == .expand, wideSupported else {
+      wideZoom.reset()
+      if widePlacement != nil { widePlacement = nil }
+      // Only clear native Expand once — every-tick clear starved the emu thread.
+      if lastWideApplied != nil {
+        lastWideApplied = nil
+        let q = emuQueue
+        q.async { pk_ios_set_wide_view(0, 0, 0, 0) }
+      }
+      return
+    }
+    // Use emu-thread caches only — never take g_lock on main (Play freeze).
+    let fw = cachedCoreW
+    let fh = cachedCoreH
+    let isNds = cachedPlatform == 3
+    let maxW: Int = {
+      if !isNds { return WideCameraMath.maxViewW }
+      if ndsGen5Session && !ndsJitSession { return WideCameraMath.ndsGen5NoJitMaxViewW }
+      return WideCameraMath.ndsMaxViewW
+    }()
+    let maxH: Int = {
+      if !isNds { return WideCameraMath.maxViewH }
+      if ndsGen5Session && !ndsJitSession { return WideCameraMath.ndsGen5NoJitMaxViewH }
+      return WideCameraMath.ndsMaxViewH
+    }()
     // WideCamera math is in screen pixels (Android view size), not SwiftUI points.
     let px = WideCameraMath.pixels(fromPoints: size)
     if fw > 0, fh > 0, px.width > 0, px.height > 0 {
-      zoomStepCount = WideCameraMath.levelCount(
-        viewW: px.width, viewH: px.height, frameW: fw, frameH: fh
+      let steps = WideCameraMath.levelCount(
+        viewW: px.width, viewH: px.height, frameW: fw, frameH: fh, maxW: maxW, maxH: maxH
       )
-      zoomStepTitle = WideCameraMath.title(
+      if zoomStepCount != steps { zoomStepCount = steps }
+      let title = WideCameraMath.title(
         level: settings.zoomLevel.rawValue,
         displayPoints: size,
         frameW: fw,
-        frameH: fh
+        frameH: fh,
+        maxW: maxW,
+        maxH: maxH
       )
+      if zoomStepTitle != title { zoomStepTitle = title }
       // Clamp stored zoom if this display supports fewer steps.
       if settings.zoomLevel.rawValue >= zoomStepCount {
         let clamped = ZoomLevel(rawValue: max(0, zoomStepCount - 1)) ?? .x1
@@ -262,28 +335,22 @@ final class EmulatorEngine: ObservableObject {
         }
       }
     }
-
-    guard isRunning, settings.gameAspect == .expand, pk_ios_wide_supported() else {
-      wideZoom.reset()
-      lastWideApplied = nil
-      let q = emuQueue
-      q.async { pk_ios_set_wide_view(0, 0, 0, 0) }
-      return
-    }
     guard fw > 0, fh > 0, px.width > 0, px.height > 0 else { return }
 
-    let steps = WideCameraMath.levels(viewW: px.width, viewH: px.height, frameW: fw, frameH: fh)
+    let steps = WideCameraMath.levels(
+      viewW: px.width, viewH: px.height, frameW: fw, frameH: fh, maxW: maxW, maxH: maxH
+    )
     guard !steps.isEmpty else { return }
 
-    let scene = Int(pk_ios_wide_scene())
-    // PokeDaisy: battles / menus / (optional) text pull in to 1×; field keeps the chosen zoom.
+    let scene = cachedWideScene
+    // Match PokeDaisy WideCamera: zoom from scene only (not wants_close — that folds TEXT in
+    // even when AUTO ZOOM IN is off). FIELD stays out; TEXT respects the setting; OVERLAY/FADE hold.
     let wantsClose: Bool = {
-      if pk_ios_wide_wants_close() { return true }
       switch scene {
       case 0: return false // FIELD
       case 1: return settings.autoZoomIn // TEXT
       case 2, 5: return false // OVERLAY / FADE — hold
-      default: return true
+      default: return true // BATTLE / MENU / OFF
       }
     }()
     let holdZoom = (scene == 2 || scene == 5)
@@ -297,21 +364,25 @@ final class EmulatorEngine: ObservableObject {
       holdZoom: holdZoom
     )
 
-    guard let win = WideCameraMath.window(
+    guard let place = WideCameraMath.placement(
       scale: scale,
       viewW: px.width,
       viewH: px.height,
       frameW: fw,
-      frameH: fh
+      frameH: fh,
+      maxW: maxW,
+      maxH: maxH
     ) else {
+      if widePlacement != nil { widePlacement = nil }
       let q = emuQueue
       q.async { pk_ios_set_wide_view(0, 0, 0, 0) }
       return
     }
-    let vx = Int32(win.x)
-    let vy = Int32(win.y)
-    let vw = Int32(win.w)
-    let vh = Int32(win.h)
+    widePlacement = place
+    let vx = Int32(place.x)
+    let vy = Int32(place.y)
+    let vw = Int32(place.w)
+    let vh = Int32(place.h)
     // Skip redundant native calls when the integer window hasn't moved.
     if lastWideApplied?.x == vx, lastWideApplied?.y == vy,
        lastWideApplied?.w == vw, lastWideApplied?.h == vh {
@@ -549,12 +620,18 @@ final class EmulatorEngine: ObservableObject {
   private func configureGen4Companion() {
     var code = [CChar](repeating: 0, count: 5)
     guard pk_ios_rom_code(&code) else {
-      companionHint = "Nintendo DS is running. Load HeartGold, SoulSilver, or Platinum for battle move tips."
+      companionHint = "Nintendo DS is running. Load HeartGold, SoulSilver, Platinum, Black / White, or B2 / W2 for battle move tips."
       return
     }
     let codeStr = String(cString: code)
+    if let g5 = Gen5ConfigStore.detect(code: codeStr) {
+      companionSampler = Gen5Sampler(config: g5)
+      companionGameName = g5.displayName
+      companionHint = "\(g5.displayName) — companion connected (party · bag · dex · battle)."
+      return
+    }
     guard let config = Gen4ConfigStore.detect(code: codeStr) else {
-      companionHint = "DS companion battle tips: HeartGold / SoulSilver / Platinum for now (\(codeStr)). Play works."
+      companionHint = "DS companion: HG/SS, Platinum, Black / White, B2 / W2 (\(codeStr)). Play works."
       return
     }
     companionSampler = Gen4Sampler(config: config)
@@ -699,15 +776,22 @@ final class EmulatorEngine: ObservableObject {
     companionHint = "Companion doesn't recognise this GB/GBC title yet (\(titleStr)). It still plays fine."
   }
 
-  /// Every ~15 frames (~4 Hz) sample the companion on the emulator queue and publish on main.
-  /// Drawer open → ~2 Hz so live HUD updates don't starve the display-link / audio.
+  /// Every ~15 frames (~4 Hz; NDS ~2 Hz) sample the companion on the emulator queue and publish on main.
+  /// Drawer open → ~1 Hz so live samples don’t thrash the companion ScrollView while you drag it.
   private func sampleCompanionIfNeeded() {
     guard let sampler = companionSampler else { return }
     companionFrameCount += 1
-    let every = companionDrawerOpen ? companionSampleEveryFrames * 2 : companionSampleEveryFrames
+    let base = (companionSampler is Gen4Sampler || companionSampler is Gen5Sampler)
+      ? companionSampleEveryFramesNDS
+      : companionSampleEveryFrames
+    let every = companionDrawerOpen ? base * 4 : base
     guard companionFrameCount >= every else { return }
     companionFrameCount = 0
     let generation = companionGeneration
+    let drawerOpen = companionDrawerOpen
+    if let g5 = sampler as? Gen5Sampler {
+      g5.lightSample = !drawerOpen
+    }
     emuQueue.async { [weak self] in
       let snap = sampler.sample()
       Task { @MainActor [weak self] in
@@ -753,6 +837,14 @@ final class EmulatorEngine: ObservableObject {
   }
 
   func stop() {
+    tearDownSessionUI(clearIdentity: true)
+    // Async so a wedged emu frame can't block Play / navigation on main.
+    emuQueue.async { pk_ios_deinit() }
+    statusText = "Idle"
+  }
+
+  /// Clear play UI / session flags without waiting on the emu queue.
+  private func tearDownSessionUI(clearIdentity: Bool) {
     stopAutoSaveTimer()
     autoSaveNoticeTask?.cancel()
     displayLink?.invalidate()
@@ -763,39 +855,62 @@ final class EmulatorEngine: ObservableObject {
     dpadMask = 0
     keyMask = 0
     lastSkinMask = 0
+    PadPressedStore.shared.clear()
     companionGeneration += 1
     companionSampler = nil
     companionDrawerOpen = false
     lastAudioEnabled = nil
     wasInBattle = false
     autoSaveInFlight = false
-    emuQueue.sync { pk_ios_deinit() }
+    frameInFlight = false
+    pendingEmuTicks = 0
+    fpsWindowStart = CACurrentMediaTime()
+    fpsWindowCount = 0
+    fps = 0
+    cachedCoreW = 0
+    cachedCoreH = 0
+    cachedPlatform = 0
+    cachedWideScene = 0
+    ndsGen5Session = false
+    ndsJitSession = false
     isRunning = false
     isPaused = false
-    loadedRomURL = nil
-    loadedRomKey = nil
+    if clearIdentity {
+      loadedRomURL = nil
+      loadedRomKey = nil
+    }
     frameImage = nil
     ndsNativeFrame = nil
+    lcdTop.clear()
+    lcdBottom.clear()
+    lcdTouchTop.clear()
+    lcdTouchBottom.clear()
+    lastNdsFieldBits = 0
+    skipPresentStreak = 0
+    frameInFlight = false
+    ndsGen5Session = false
     companion = nil
     companionGameName = nil
     companionMatch = nil
     wideSupported = false
     wideZoom.reset()
     lastWideApplied = nil
+    widePlacement = nil
     speedMultiplier = 1
     hasAnySaveState = false
     actionToast = nil
     autoSaveNotice = nil
     resetDsTouchState()
-    statusText = "Idle"
   }
 
   func setKey(_ bit: UInt32, down: Bool) {
     let wasDown = (buttonMask & bit) != 0
     if down {
+      guard !wasDown else { return }
       buttonMask |= bit
-      if !wasDown { InputHaptics.buttonPress() }
+      InputHaptics.buttonPress()
     } else {
+      guard wasDown else { return }
       buttonMask &= ~bit
     }
     publishKeys()
@@ -803,34 +918,37 @@ final class EmulatorEngine: ObservableObject {
 
   func applyDpadMask(_ mask: UInt32) {
     let next = mask & dpadBits
-    if next != dpadMask {
-      if next != 0 { InputHaptics.dpadChange() }
-      dpadMask = next
-      publishKeys()
-    }
+    guard next != dpadMask else { return }
+    // Tick on every direction change (left ↔ right ↔ up…), rate-limited in InputHaptics.
+    if next != 0 { InputHaptics.dpadChange() }
+    dpadMask = next
+    publishKeys()
   }
 
   func setMask(_ mask: UInt32) {
     // Absolute mask from skin touch layer (owns all bits).
+    guard mask != lastSkinMask else { return }
     let newlyPressed = mask & ~lastSkinMask
+    let dpadChanged = (mask & dpadBits) != (lastSkinMask & dpadBits)
     lastSkinMask = mask
     buttonMask = mask
     dpadMask = 0
-    if newlyPressed != 0 {
-      if newlyPressed & ~dpadBits != 0 {
-        InputHaptics.buttonPress()
-      } else {
-        InputHaptics.dpadChange()
-      }
+    if newlyPressed & ~dpadBits != 0 {
+      InputHaptics.buttonPress()
+    } else if dpadChanged, (mask & dpadBits) != 0 {
+      InputHaptics.dpadChange()
     }
     publishKeys()
   }
 
+  /// Latch keys for the next emu frame. Full D-pad mode updates pad glow immediately;
+  /// lite mode defers glow to the display tick (see `tick`).
   private func publishKeys() {
-    keyMask = buttonMask | dpadMask
-    let mask = keyMask
-    // Sync so a quick tap can’t lose the press before the next frame samples keys.
-    emuQueue.async(flags: .barrier) { pk_ios_set_keys(mask) }
+    let mask = buttonMask | dpadMask
+    keyMask = mask
+    if !AppSettings.shared.dpadLiteMode {
+      PadPressedStore.shared.setMask(mask)
+    }
   }
 
   /// Stylus on the DS bottom LCD. `point` is local to the bottom screen view (maps to 0…255 / 0…191).
@@ -884,7 +1002,7 @@ final class EmulatorEngine: ObservableObject {
     var want = (bits & Self.fieldTouch) != 0 || (bits & Self.fieldTouchBattleMenu) != 0
     let fades = (bits & Self.fieldTouchFades) != 0
     if fades && dsTouchWanted && darkBottom {
-      dsTouchWanted = false
+      if dsTouchWanted { dsTouchWanted = false }
       dsTouchFrames = 0
       dsFadeSeen = true
       dsFadeFrames = 0
@@ -924,13 +1042,15 @@ final class EmulatorEngine: ObservableObject {
       return current
     }
 
-    dsTouchWanted = settle(dsTouchWanted, want, frames: &dsTouchFrames)
-    if dsTouchWanted {
+    let nextWant = settle(dsTouchWanted, want, frames: &dsTouchFrames)
+    if dsTouchWanted != nextWant { dsTouchWanted = nextWant }
+    if nextWant {
       dsFadeSeen = false
       dsFadeFrames = 0
       dsLitFrames = 0
     }
-    dsMenuScreen = settle(dsMenuScreen, menu, frames: &dsMenuFrames)
+    let nextMenu = settle(dsMenuScreen, menu, frames: &dsMenuFrames)
+    if dsMenuScreen != nextMenu { dsMenuScreen = nextMenu }
   }
 
   private func startLoop() {
@@ -947,136 +1067,226 @@ final class EmulatorEngine: ObservableObject {
 
   @objc private func tick() {
     guard isRunning else { return }
+    // Never drop a tick's audio: if emu is busy, remember it and catch up next wake.
+    // Old path returned while frameInFlight → ring starved → scratchy pops.
+    pendingEmuTicks += 1
+    if frameInFlight {
+      if CACurrentMediaTime() - frameInFlightSince > 2.5 {
+        frameInFlight = false
+      } else {
+        return
+      }
+    }
     let speed = max(1, min(3, speedMultiplier))
-    // Keep audio on during FF at normal pitch: only the last frame of each burst
-    // feeds the ring; earlier frames discard samples so output stays ~1× rate.
-    // Only poke the mixer when the setting flips — per-frame volume writes hitch audio.
     let wantAudio = AppSettings.shared.audioEnabled
     if lastAudioEnabled != wantAudio {
       lastAudioEnabled = wantAudio
       audio.setOutputEnabled(wantAudio)
     }
-    // Keep WIDE window in sync with battle/text scenes (auto zoom).
-    if AppSettings.shared.gameAspect == .expand, lastWideDisplay.width > 0 {
-      updateWideView(forDisplay: lastWideDisplay)
-    }
     let settings = AppSettings.shared
     let gbaColors = settings.gbaColors
     let unlit = settings.unlitScreen
-    // Emulate + copy + shaders on emuQueue so Unlit on large WIDE frames
-    // doesn't stall the main run loop (which was causing audio underruns).
-    var outW = 0
-    var outH = 0
-    var fieldBits: Int32 = 0
-    var isNds = false
-    var gotBottom = false
-    emuQueue.sync {
-      for i in 0..<speed {
-        pk_ios_run_frame_ex(i == speed - 1)
-      }
-      isNds = pk_ios_platform() == 3
-      if isNds { fieldBits = Int32(pk_ios_nds_field_bits()) }
-      let w = Int(pk_ios_video_width())
-      let h = Int(pk_ios_video_height())
-      guard w > 0, h > 0, let buf = pk_ios_video_buffer() else { return }
-      let count = w * h
-      let bytes = count * 4
-      if frameScratch.count != bytes {
-        frameScratch = [UInt8](repeating: 0, count: bytes)
-      }
-      frameScratch.withUnsafeMutableBytes { raw in
-        guard let dst = raw.bindMemory(to: UInt8.self).baseAddress else { return }
-        for i in 0..<count {
-          let px = buf[i]
-          let o = i * 4
-          dst[o] = UInt8((px >> 0) & 0xFF)
-          dst[o + 1] = UInt8((px >> 8) & 0xFF)
-          dst[o + 2] = UInt8((px >> 16) & 0xFF)
-          dst[o + 3] = 0xFF
+    let expandOn = settings.gameAspect == .expand && wideSupported
+    let keysThisFrame = keyMask
+    let priorBits = lastNdsFieldBits
+    let wantTouchHint =
+      (priorBits & Self.fieldTouch) != 0
+      || (priorBits & Self.fieldTouchBattleMenu) != 0
+      || (priorBits & Self.fieldMenu) != 0
+      || (priorBits & Self.fieldTouchFades) != 0
+      || dsTouchWanted
+      || dsMenuScreen
+    let needNdsBottom = expandOn && wantTouchHint
+    let deferPresent = skipPresentStreak > 0 && frameImage != nil
+    let generation = companionGeneration
+    let doWideTick = expandOn && lastWideDisplay.width > 0
+    let ticks = min(3, max(1, pendingEmuTicks))
+    pendingEmuTicks = 0
+    frameInFlight = true
+    frameInFlightSince = CACurrentMediaTime()
+    let t0 = frameInFlightSince
+    emuQueue.async { [weak self] in
+      guard let self else { return }
+      pk_ios_set_keys(keysThisFrame)
+      let isNdsHint = self.cachedPlatform == 3
+      let visible = deferPresent ? 0 : 1
+      var ran = 0
+      for i in 0..<ticks {
+        for s in 0..<speed {
+          let lastSpeed = s == speed - 1
+          let presentVideo = (ran < visible) && lastSpeed && i == 0
+          pk_ios_run_frame_present(lastSpeed, presentVideo)
+          ran += 1
         }
       }
-      if gbaColors || unlit {
-        FrameShaders.apply(
-          rgba: &frameScratch,
-          width: w,
-          height: h,
-          gbaColors: gbaColors,
-          unlit: unlit
-        )
+      // DS: if the ring is still low, run quiet catch-up frames (no LCD convert).
+      if isNdsHint || pk_ios_platform() == 3 {
+        let target = pk_ios_audio_target()
+        var guardFrames = 0
+        while pk_ios_audio_queued() < target / 2 && guardFrames < 3 {
+          pk_ios_run_frame_present(true, false)
+          guardFrames += 1
+        }
       }
-      outW = w
-      outH = h
+      let isNds = pk_ios_platform() == 3
+      let fieldBits: Int32 = isNds ? Int32(pk_ios_nds_field_bits()) : 0
+      let coreW = Int(pk_ios_core_width())
+      let coreH = Int(pk_ios_core_height())
+      let wideScene = Int(pk_ios_wide_scene())
+      let plat = Int(pk_ios_platform())
+      var topImage: CGImage?
+      var botImage: CGImage?
+      if !deferPresent,
+         let buf = pk_ios_video_buffer() {
+        let w = Int(pk_ios_video_width())
+        let h = Int(pk_ios_video_height())
+        if w > 0, h > 0 {
+          let count = w * h
+          let bytes = count * 4
+          if self.frameScratch.count != bytes {
+            self.frameScratch = [UInt8](repeating: 0, count: bytes)
+          }
+          self.frameScratch.withUnsafeMutableBytes { raw in
+            guard let dst = raw.bindMemory(to: UInt32.self).baseAddress else { return }
+            if isNds {
+              memcpy(dst, buf, bytes)
+            } else {
+              for i in 0..<count {
+                dst[i] = (buf[i] & 0x00FF_FFFF) | 0xFF00_0000
+              }
+            }
+          }
+          if gbaColors || unlit {
+            FrameShaders.apply(
+              rgba: &self.frameScratch, width: w, height: h, gbaColors: gbaColors, unlit: unlit
+            )
+          }
+          if let data = self.frameScratch.withUnsafeBytes({ raw -> CFData? in
+            guard let base = raw.bindMemory(to: UInt8.self).baseAddress else { return nil }
+            return CFDataCreate(nil, base, bytes)
+          }), let provider = CGDataProvider(data: data) {
+            topImage = CGImage(
+              width: w, height: h, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: w * 4,
+              space: CGColorSpaceCreateDeviceRGB(),
+              bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue),
+              provider: provider, decode: nil, shouldInterpolate: false, intent: .defaultIntent
+            )
+          }
+          if isNds, needNdsBottom {
+            let botBytes = 256 * 192 * 4
+            if self.ndsBottomScratch.count != botBytes {
+              self.ndsBottomScratch = [UInt8](repeating: 0, count: botBytes)
+            }
+            let ok = self.ndsBottomScratch.withUnsafeMutableBytes { raw -> Bool in
+              guard let dst = raw.bindMemory(to: UInt32.self).baseAddress else { return false }
+              return pk_ios_nds_bottom_rgba(dst)
+            }
+            if ok {
+              if gbaColors || unlit {
+                FrameShaders.apply(
+                  rgba: &self.ndsBottomScratch, width: 256, height: 192, gbaColors: gbaColors, unlit: unlit
+                )
+              }
+              if let botData = self.ndsBottomScratch.withUnsafeBytes({ raw -> CFData? in
+                guard let base = raw.bindMemory(to: UInt8.self).baseAddress else { return nil }
+                return CFDataCreate(nil, base, botBytes)
+              }), let botProvider = CGDataProvider(data: botData) {
+                botImage = CGImage(
+                  width: 256, height: 192, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: 256 * 4,
+                  space: CGColorSpaceCreateDeviceRGB(),
+                  bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue),
+                  provider: botProvider, decode: nil, shouldInterpolate: false, intent: .defaultIntent
+                )
+              }
+            }
+          }
+        }
+      }
+      let dt = CACurrentMediaTime() - t0
+      DispatchQueue.main.async { [weak self] in
+        guard let self else { return }
+        self.frameInFlight = false
+        guard self.companionGeneration == generation, self.isRunning else { return }
+        self.cachedPlatform = plat
+        self.cachedCoreW = coreW
+        self.cachedCoreH = coreH
+        self.cachedWideScene = wideScene
+        if isNds {
+          self.lastNdsFieldBits = fieldBits
+          self.updateDsTouchState(bits: fieldBits)
+          // CALayer present is cheap — only skip when a batch was truly late.
+          let slow = 0.022
+          let maxSkip = 1
+          self.skipPresentStreak = dt > slow ? min(maxSkip, self.skipPresentStreak + 1) : 0
+        } else {
+          if self.dsTouchWanted || self.dsMenuScreen || self.dsTouchBlank {
+            self.lastNdsFieldBits = 0
+            self.resetDsTouchState()
+          }
+          self.skipPresentStreak = 0
+        }
+        if !deferPresent, let topImage {
+          self.frameImage = topImage
+          if isNds, topImage.height >= (topImage.width * 3) / 2 {
+            let half = topImage.height / 2
+            let topRect = CGRect(x: 0, y: 0, width: topImage.width, height: half)
+            let botRect = CGRect(x: 0, y: half, width: topImage.width, height: half)
+            let topCrop = topImage.cropping(to: topRect)
+            let botCrop: CGImage? = {
+              if needNdsBottom, let botImage {
+                self.ndsNativeFrame = botImage
+                return botImage
+              }
+              self.ndsNativeFrame = nil
+              return topImage.cropping(to: botRect)
+            }()
+            self.lcdTop.setImage(topCrop)
+            self.lcdTouchTop.setImage(topCrop)
+            self.lcdBottom.setImage(botCrop)
+            self.lcdTouchBottom.setImage(botCrop)
+          } else if isNds {
+            self.lcdTop.setImage(topImage)
+            self.lcdTouchTop.setImage(topImage)
+            if needNdsBottom, let botImage {
+              self.ndsNativeFrame = botImage
+              self.lcdBottom.setImage(botImage)
+              self.lcdTouchBottom.setImage(botImage)
+            } else {
+              self.ndsNativeFrame = nil
+            }
+          } else {
+            self.lcdTop.setImage(topImage)
+            self.ndsNativeFrame = nil
+            self.lcdBottom.clear()
+            self.lcdTouchTop.clear()
+            self.lcdTouchBottom.clear()
+          }
+        }
+        if doWideTick {
+          self.updateWideView(forDisplay: self.lastWideDisplay)
+        }
+        self.notePresentedFrame()
+        if AppSettings.shared.dpadLiteMode {
+          PadPressedStore.shared.setMask(self.keyMask)
+        }
+        self.sampleCompanionIfNeeded()
+        if self.pendingEmuTicks > 0 {
+          self.tick()
+        }
+      }
+    }
+  }
 
-      // Touch LCD while Expand shows a wide top-only present buffer.
-      if isNds {
-        let botBytes = 256 * 192 * 4
-        if ndsBottomScratch.count != botBytes {
-          ndsBottomScratch = [UInt8](repeating: 0, count: botBytes)
-        }
-        gotBottom = ndsBottomScratch.withUnsafeMutableBytes { raw in
-          guard let dst = raw.bindMemory(to: UInt32.self).baseAddress else { return false }
-          return pk_ios_nds_bottom_rgba(dst)
-        }
-        if gotBottom, gbaColors || unlit {
-          FrameShaders.apply(
-            rgba: &ndsBottomScratch,
-            width: 256,
-            height: 192,
-            gbaColors: gbaColors,
-            unlit: unlit
-          )
-        }
-      }
-    }
-    if isNds {
-      updateDsTouchState(bits: fieldBits)
-    } else if dsTouchWanted || dsMenuScreen || dsTouchBlank {
-      resetDsTouchState()
-    }
-    guard outW > 0, outH > 0, frameScratch.count >= outW * outH * 4 else { return }
-    // CFDataCreate copies bytes; safe even though scratch is reused next frame.
-    let data: CFData? = frameScratch.withUnsafeBytes { raw in
-      guard let base = raw.bindMemory(to: UInt8.self).baseAddress else { return nil }
-      return CFDataCreate(nil, base, outW * outH * 4)
-    }
-    guard let data, let provider = CGDataProvider(data: data) else { return }
-    frameImage = CGImage(
-      width: outW,
-      height: outH,
-      bitsPerComponent: 8,
-      bitsPerPixel: 32,
-      bytesPerRow: outW * 4,
-      space: CGColorSpaceCreateDeviceRGB(),
-      bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue),
-      provider: provider,
-      decode: nil,
-      shouldInterpolate: false,
-      intent: .defaultIntent
-    )
-    if isNds, gotBottom, ndsBottomScratch.count >= 256 * 192 * 4 {
-      let botData: CFData? = ndsBottomScratch.withUnsafeBytes { raw in
-        guard let base = raw.bindMemory(to: UInt8.self).baseAddress else { return nil }
-        return CFDataCreate(nil, base, 256 * 192 * 4)
-      }
-      if let botData, let botProvider = CGDataProvider(data: botData) {
-        ndsNativeFrame = CGImage(
-          width: 256,
-          height: 192,
-          bitsPerComponent: 8,
-          bitsPerPixel: 32,
-          bytesPerRow: 256 * 4,
-          space: CGColorSpaceCreateDeviceRGB(),
-          bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue),
-          provider: botProvider,
-          decode: nil,
-          shouldInterpolate: false,
-          intent: .defaultIntent
-        )
-      }
-    } else if !isNds {
-      ndsNativeFrame = nil
-    }
-    sampleCompanionIfNeeded()
+  /// Count completed display ticks; publish smoothed FPS a few times a second.
+  private func notePresentedFrame() {
+    fpsWindowCount += 1
+    let now = CACurrentMediaTime()
+    let elapsed = now - fpsWindowStart
+    guard elapsed >= 0.25 else { return }
+    let measured = Int((Double(fpsWindowCount) / elapsed).rounded())
+    if measured != fps { fps = measured }
+    fpsWindowCount = 0
+    fpsWindowStart = now
   }
 
   deinit {

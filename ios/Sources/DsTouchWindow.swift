@@ -7,6 +7,9 @@ struct DsTouchWindow: View {
   let loading: Bool
   let topImage: CGImage?
   let bottomImage: CGImage?
+  /// Live CALayer presenters (preferred) — static images are freeze-frame only.
+  var topPresenter: LCDPresenter? = nil
+  var bottomPresenter: LCDPresenter? = nil
   let smoothing: SmoothingMode
   let onDismiss: () -> Void
   let onClose: (() -> Void)?
@@ -53,7 +56,7 @@ struct DsTouchWindow: View {
     let w = min(maxW * 0.92, maxH * 0.88 * aspect)
     let h = w / aspect
     framed(width: w, height: h) {
-      lcd(bottomImage, size: CGSize(width: w, height: h), touch: true)
+      lcd(bottomImage, presenter: bottomPresenter, size: CGSize(width: w, height: h), touch: true)
       if loading { loadingOverlay(size: CGSize(width: w, height: h)) }
       if let onClose {
         closeButton(action: onClose)
@@ -71,8 +74,8 @@ struct DsTouchWindow: View {
     let eachW = wPair / 2
     framed(width: wPair, height: h) {
       HStack(spacing: 0) {
-        lcd(topImage, size: CGSize(width: eachW, height: h), touch: false)
-        lcd(bottomImage, size: CGSize(width: eachW, height: h), touch: true)
+        lcd(topImage, presenter: topPresenter, size: CGSize(width: eachW, height: h), touch: false)
+        lcd(bottomImage, presenter: bottomPresenter, size: CGSize(width: eachW, height: h), touch: true)
       }
       if loading { loadingOverlay(size: CGSize(width: wPair, height: h)) }
       if let onClose {
@@ -94,10 +97,13 @@ struct DsTouchWindow: View {
   }
 
   @ViewBuilder
-  private func lcd(_ image: CGImage?, size: CGSize, touch: Bool) -> some View {
+  private func lcd(_ image: CGImage?, presenter: LCDPresenter?, size: CGSize, touch: Bool) -> some View {
     let base = ZStack {
       Color.black
-      if let image {
+      if let presenter {
+        LCDViewRepresentable(presenter: presenter, fill: false)
+          .frame(width: size.width, height: size.height)
+      } else if let image {
         Image(decorative: image, scale: 1)
           .resizable()
           .interpolation(smoothing == .soft ? .medium : .none)

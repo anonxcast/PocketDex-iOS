@@ -17,7 +17,7 @@ actor GameSummaryClient {
   }
 
   func summary(forDisplayName name: String, console: ConsoleKind?) async -> Summary? {
-    if let local = curatedSummary(for: name) {
+    if let local = Self.curatedSummary(for: name) {
       return local
     }
     let queries = searchQueries(for: name, console: console)
@@ -32,6 +32,11 @@ actor GameSummaryClient {
     return nil
   }
 
+  /// Fan-hack blurbs used by the game page before any cached Wikipedia extract.
+  nonisolated static func curatedIfAny(forDisplayName name: String) -> Summary? {
+    curatedSummary(for: name)
+  }
+
   /// True when a cached About title still matches this ROM (rejects e.g. Pokopia for R.O.W.E.).
   nonisolated static func cachedTitleLooksValid(_ title: String, forDisplayName name: String) -> Bool {
     let t = title.lowercased()
@@ -39,12 +44,15 @@ actor GameSummaryClient {
     if n.contains("rowe") || n.contains("r.o.w.e") {
       return t.contains("r.o.w.e") || t.contains("rowe")
     }
+    if n.contains("lazarus") {
+      return t.contains("lazarus")
+    }
     return Self.sharesDistinctiveToken(query: name, title: title)
   }
 
   // MARK: - Curated fan hacks (no reliable Wikipedia page)
 
-  private func curatedSummary(for name: String) -> Summary? {
+  nonisolated private static func curatedSummary(for name: String) -> Summary? {
     let u = name.uppercased()
     if u.contains("ROWE") || u.contains("R.O.W.E") {
       return Summary(
@@ -106,6 +114,19 @@ actor GameSummaryClient {
       return Summary(
         title: "Pokémon Crystal Advance Redux",
         extract: "Pokémon Crystal Advance Redux is a FireRed-based GBA ROM hack that brings the Johto adventure of Gold, Silver, and Crystal to the Game Boy Advance with updated features and quality-of-life changes.",
+        sourceURL: nil
+      )
+    }
+    if u.contains("LAZARUS") {
+      return Summary(
+        title: "Pokémon Lazarus",
+        extract: """
+        Pokémon Lazarus (v2.0) is one of the most played modern Emerald ROM hacks — a full pokeemerald-expansion rebuild (boot splash “PRET × RHH”) rather than a patch on retail Emerald. The adventure is set in Ilios, an original region with its own towns and routes (including places like Acrisia City, Sofos City, Port Pello, and the Sea of Asteri), plus a custom region map and orange trainer card unique to the hack.
+
+        Gameplay leans on expansion-era quality of life and depth: a large National Pokédex (species stored by National Dex number, so Kalos starters like Fennekin show up early), physical/special split and Fairy-era battle rules, and day-and-night wild encounters on many outdoor maps. Night runs from 8 PM to 7 AM on the in-game clock, so the same grass can hide a completely different roster after dark.
+
+        Lazarus keeps a familiar Emerald-style save and party structure while expanding bags, dex flags, and battle data for the newer engine — which is why it’s a favorite for long playthroughs and for companions that can read live party, map, and matchup info.
+        """,
         sourceURL: nil
       )
     }

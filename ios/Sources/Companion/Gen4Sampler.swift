@@ -46,7 +46,7 @@ final class Gen4Sampler: CompanionSampling, @unchecked Sendable {
   }
 
   func sample() -> CompanionSnapshot? {
-    var snap = CompanionSnapshot(gameName: config.displayName, tables: .national)
+    var snap = CompanionSnapshot(gameName: config.displayName, tables: .national, configId: config.id)
     if let body = saveBody() {
       snap.party = readParty(body: body)
       snap.money = readMoney(body: body)
@@ -137,8 +137,9 @@ final class Gen4Sampler: CompanionSampling, @unchecked Sendable {
     return (1...100).contains(level) && (1...999).contains(maxHp) && hp <= maxHp
   }
 
-  static func decodePartyMon(_ raw: [UInt8], off: Int, maxSpecies: Int) -> Mon? {
-    guard off + monSize <= raw.count else { return nil }
+  /// Gen 4 party is 0xEC; Gen 5 reuses the same box crypto with a 0xDC record.
+  static func decodePartyMon(_ raw: [UInt8], off: Int, maxSpecies: Int, monSize: Int = 0xEC) -> Mon? {
+    guard off + monSize <= raw.count, monSize >= boxSize + 10 else { return nil }
     let personality = u32(raw, off)
     let decrypted = u16(raw, off + 4)
     let checksum = u16(raw, off + 6)

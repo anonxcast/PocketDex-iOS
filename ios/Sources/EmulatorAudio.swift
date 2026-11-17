@@ -50,8 +50,8 @@ final class EmulatorAudio {
       let session = AVAudioSession.sharedInstance()
       try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
       try session.setPreferredSampleRate(Double(PK_IOS_AUDIO_SAMPLE_RATE))
-      // ~20 ms callbacks — fewer wakeups, more room before underrun.
-      try session.setPreferredIOBufferDuration(0.02)
+      // ~80 ms callbacks — DS present is heavy; a shallow buffer underruns into pops.
+      try session.setPreferredIOBufferDuration(0.08)
       try session.setActive(true)
       // iOS often keeps 44.1 kHz despite a 48 kHz preference. Drive blip and the
       // source node at the *actual* rate or music plays slow / pitch-shifted.

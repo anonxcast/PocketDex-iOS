@@ -225,6 +225,12 @@ struct SettingsCategoryDetail: View {
                 systemImage: "waveform",
                 isOn: $settings.hapticsEnabled
               )
+              toggleRow(
+                title: "Lighter D-pad",
+                subtitle: "Turn this on if the game lags or acts weird while sliding the D-pad. Leave off for the fullest haptics and pad response.",
+                systemImage: "arrow.up.and.down.and.arrow.left.and.right",
+                isOn: $settings.dpadLiteMode
+              )
             }
             Button {
               onOpenPadEditor?()
@@ -289,6 +295,23 @@ struct SettingsCategoryDetail: View {
             hint("Sign in with Google to back up ROMs, Saves, and States to Drive. After reinstall, sign in again and PocketDex restores everything automatically.")
 
           case .display:
+            settingsCard {
+              VStack(alignment: .leading, spacing: 10) {
+                Text("Appearance")
+                  .font(CETheme.sans(15, weight: .semibold))
+                  .foregroundStyle(CETheme.text)
+                Text("System follows iOS Light / Dark. Light and Dark lock the library chrome.")
+                  .font(CETheme.sans(12))
+                  .foregroundStyle(CETheme.muted)
+                  .fixedSize(horizontal: false, vertical: true)
+                Picker("Appearance", selection: $settings.appearanceMode) {
+                  ForEach(AppAppearanceMode.allCases) { mode in
+                    Text(mode.title).tag(mode)
+                  }
+                }
+                .pickerStyle(.segmented)
+              }
+            }
             settingsCard {
               VStack(alignment: .leading, spacing: 10) {
                 Text("When tapping a game")
@@ -411,6 +434,56 @@ struct SettingsCategoryDetail: View {
               Divider().background(CETheme.border)
               infoRow(title: "Core", value: "mGBA · melonDS")
             }
+
+            aboutSectionLabel("Credits")
+            settingsCard {
+              creditRow(
+                title: "PokeDaisy",
+                body: "Based on PokeDaisy by Lidor Itzhari — https://github.com/lidor30/pokedaisy (GNU GPLv3 with additional credit term)."
+              )
+              Divider().background(CETheme.border)
+              creditRow(
+                title: "mGBA",
+                body: "Game Boy, Game Boy Color, and Game Boy Advance core by Vicki Pfau (endrift) and contributors (Mozilla Public License 2.0) — https://mgba.io"
+              )
+              Divider().background(CETheme.border)
+              creditRow(
+                title: "melonDS",
+                body: "Nintendo DS core by the melonDS team and contributors (GNU GPLv3) — https://melonds.kuribo64.net"
+              )
+              Divider().background(CETheme.border)
+              creditRow(
+                title: "RetroAchievements",
+                body: "Achievement sets and optional in-game tracking via the RetroAchievements Web API / rcheevos (MIT) — https://retroachievements.org"
+              )
+              Divider().background(CETheme.border)
+              creditRow(
+                title: "Libretro thumbnails",
+                body: "Free box art, titles, and logos from the Libretro thumbnails CDN — https://thumbnails.libretro.com"
+              )
+              Divider().background(CETheme.border)
+              creditRow(
+                title: "SteamGridDB",
+                body: "Optional community covers and banners when you add your own API key — https://www.steamgriddb.com"
+              )
+              Divider().background(CETheme.border)
+              creditRow(
+                title: "Delta",
+                body: "Controller skins use the .deltaskin format popularized by Delta (Riley Testut). Console tab silhouettes are from Delta’s open-source Controller Icons. PocketDex is not affiliated with Delta — https://github.com/rileytestut/Delta"
+              )
+              Divider().background(CETheme.border)
+              creditRow(
+                title: "pret & expansions",
+                body: "Companion maps, save layouts, and hack support were checked against the pret decompilations (pokeemerald, pokefirered, pokecrystal, and related projects) and community expansions such as pokeemerald-expansion."
+              )
+              Divider().background(CETheme.border)
+              creditRow(
+                title: "Console wordmarks",
+                body: "Library system logos are public-domain text logos (PD-textlogo) sourced from Wikimedia Commons. Game Boy, Game Boy Color, Game Boy Advance, Nintendo DS, and related marks are trademarks of Nintendo."
+              )
+            }
+
+            aboutSectionLabel("Optimized")
             Button {
               showOptimizedRoms = true
             } label: {
@@ -445,7 +518,8 @@ struct SettingsCategoryDetail: View {
               .overlay(RoundedRectangle(cornerRadius: CETheme.radius).stroke(CETheme.border, lineWidth: 1))
             }
             .buttonStyle(.plain)
-            hint("PocketDex is based on PokeDaisy (GPLv3). Controller skins use the Delta skin format.")
+
+            hint("PocketDex is a fan project, not affiliated with or endorsed by Nintendo, Game Freak, Creatures, or The Pokémon Company. Pokémon and all related names are trademarks of their respective owners. Use your own legally obtained ROM dumps — no games or BIOS are included.")
           }
         }
         .padding(16)
@@ -587,6 +661,32 @@ struct SettingsCategoryDetail: View {
         .foregroundStyle(CETheme.muted)
     }
     .padding(.vertical, 6)
+  }
+
+  private func aboutSectionLabel(_ title: String) -> some View {
+    Text(title.uppercased())
+      .font(CETheme.sans(11, weight: .semibold))
+      .tracking(0.8)
+      .foregroundStyle(CETheme.muted)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding(.horizontal, 4)
+      .padding(.top, 8)
+  }
+
+  private func creditRow(title: String, body: String) -> some View {
+    VStack(alignment: .leading, spacing: 4) {
+      Text(title)
+        .font(CETheme.sans(15, weight: .semibold))
+        .foregroundStyle(CETheme.text)
+      Text(body)
+        .font(CETheme.sans(12))
+        .foregroundStyle(CETheme.muted)
+        .multilineTextAlignment(.leading)
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding(.vertical, 8)
   }
 
   private func hint(_ text: String) -> some View {

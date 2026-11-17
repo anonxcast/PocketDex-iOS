@@ -12,12 +12,26 @@ enum Gen4Maps {
     return d
   }()
 
+  private static let platinum: [Int: String] = {
+    var d: [Int: String] = [:]
+    for line in Gen4MapBlobs.platinumPlaces.split(whereSeparator: \.isNewline) {
+      let parts = line.split(separator: "|", maxSplits: 1)
+      guard parts.count == 2, let id = Int(parts[0]) else { continue }
+      d[id] = String(parts[1])
+    }
+    return d
+  }()
+
   static func placeName(gameId: String, header: Int) -> String? {
+    let id = gameId.lowercased()
+    if id.hasPrefix("platinum") {
+      return platinum[header]
+    }
     // SoulSilver / language variants use the same header table as HeartGold.
-    if gameId.hasPrefix("heartgold") || gameId.hasPrefix("soulsilver") {
+    if id.hasPrefix("heartgold") || id.hasPrefix("soulsilver") {
       return heartGold[header]
     }
-    return heartGold[header]
+    return heartGold[header] ?? platinum[header]
   }
 }
 

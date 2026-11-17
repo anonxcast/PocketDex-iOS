@@ -2,8 +2,8 @@ import SwiftUI
 
 /// Liquid Glass helpers (iOS 26+) with Material fallbacks.
 enum GlassChrome {
-  /// Soft Music-like canvas (not pure black).
-  static let canvas = Color(red: 0.07, green: 0.07, blue: 0.08)
+  /// Soft Music-like canvas — follows Light / Dark.
+  static let canvas = CETheme.bg
 }
 
 extension View {

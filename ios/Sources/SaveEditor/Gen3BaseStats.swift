@@ -898,9 +898,9 @@ enum Gen3BaseStats {
     switch tables {
     case .retail:
       return retailMap[species] ?? nationalMap[species] ?? fallback
-    case .unbound:
-      // Unbound ids are CFRU/DPE — map to National Dex before looking up base stats.
-      if let nat = Gen3Names.nationalNumber(species: species, tables: .unbound) {
+    case .unbound, .modernEmerald:
+      // Unbound / Modern Emerald ids → National Dex before looking up base stats.
+      if let nat = Gen3Names.nationalNumber(species: species, tables: tables) {
         return nationalMap[nat] ?? retailMap[nat] ?? fallback
       }
       return nationalMap[species] ?? retailMap[species] ?? fallback

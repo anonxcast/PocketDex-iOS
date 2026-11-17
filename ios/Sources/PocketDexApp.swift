@@ -9,7 +9,6 @@ struct PocketDexApp: App {
       RootView()
         .environmentObject(engine)
         .environmentObject(AppSettings.shared)
-        .preferredColorScheme(.dark)
     }
   }
 }
@@ -17,6 +16,7 @@ struct PocketDexApp: App {
 enum AppRoute: Hashable {
   case game(RomItem)
   case rom(RomItem)
+  case saveEditor(RomItem)
   case settings
 }
 
@@ -26,32 +26,49 @@ struct RootView: View {
   @State private var path = NavigationPath()
   @State private var didLaunchCloudSync = false
 
+  private var engineLoadedStem: String? {
+    engine.loadedRomURL?.deletingPathExtension().lastPathComponent
+  }
+
   var body: some View {
     NavigationStack(path: $path) {
       LibraryView(
         onPlay: { rom in
-          // Resume if this ROM is paused; otherwise load (replaces any other session).
-          engine.play(rom: rom)
+          // Navigate first — never wait on emu boot (main used to freeze on sync).
           path.append(AppRoute.rom(rom))
+          engine.play(rom: rom)
         },
         onOpenGame: { rom in
           path.append(AppRoute.game(rom))
+        },
+        onEditSave: { rom in
+          path.append(AppRoute.saveEditor(rom))
         }
       )
       .navigationDestination(for: AppRoute.self) { route in
         switch route {
         case .game(let rom):
-          GameDetailView(rom: rom) { playRom in
-            engine.play(rom: playRom)
-            path.append(AppRoute.rom(playRom))
-          }
+          GameDetailView(
+            rom: rom,
+            onPlay: { playRom in
+              path.append(AppRoute.rom(playRom))
+              engine.play(rom: playRom)
+            },
+            onEditSave: { editRom in
+              path.append(AppRoute.saveEditor(editRom))
+            }
+          )
         case .rom(let rom):
           PlayView(rom: rom)
+        case .saveEditor(let rom):
+          SaveEditorHostView(rom: rom, engineLoadedStem: engineLoadedStem)
         case .settings:
           SettingsView()
         }
       }
     }
+    .background(CETheme.bg.ignoresSafeArea())
+    .preferredColorScheme(settings.appearanceMode.preferredColorScheme)
     .task {
       guard !didLaunchCloudSync else { return }
       didLaunchCloudSync = true

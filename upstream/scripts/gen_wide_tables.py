@@ -194,10 +194,13 @@ HACKS = [
              SPRITE_PAL_TAGS=0x03000CF0, OBJ_GFX_VAR_FROM=301, OBJ_GFX_COUNT=300, TEMPLATE_KIND_AT=1,
              SB1_OFFSETS=0xDD8 | 0x1510 << 16)),
     # R.O.W.E.: Emerald's code (mapped), its own maps - 12-bit metatile ids (elevation in the top 4 bits) and a 2048-
-    # metatile primary tileset; gSprites moved (find_wide_addrs.py).
-    dict(name="R.O.W.E. v2.1.9.1", sha1="81bd0f4bfa1c04ab2c6faab1bddd10e8a390ea77", family="EM", mapped=True,
-         pending="the map is found now, but one NPC's sprite isn't drawn and a building comes out of the wrong metatiles",
-         save="rowe", a=dict(METATILE_MASK=0xFFF, PRIMARY_OVERRIDE=2048, SPRITES=0x0201F5D0)),
+    # metatile primary tileset (same map shape as Elite Redux). Expansion ObjectEvent (spriteId +0x23) and Rogue-style
+    # templates (kind at +1, graphicsId u16 at +2). Graphics table is sparse to 1625 and ids 240..255 are real
+    # records (not VAR_OBJ_GFX_ID_*), so VAR_FROM=0xFFFF like Rogue/HnS. find_wide_objects on the ROM + rowe fixture.
+    dict(name="R.O.W.E. v2.1.9.1", sha1="81bd0f4bfa1c04ab2c6faab1bddd10e8a390ea77", family="EX", mapped=True,
+         save="rowe", a=dict(METATILE_MASK=0xFFF, PRIMARY_OVERRIDE=2048, SPRITES=0x02020538,
+                             CONTROLS_LOCKED=0, OBJ_GFX_INFO=0x08DF6C7C, OBJ_GFX_VAR_FROM=0xFFFF,
+                             OBJ_GFX_COUNT=1626, TEMPLATE_KIND_AT=1, SB1_OFFSETS=0x1154 | 0x1880 << 16)),
     # Quetzal: its own SaveBlock1 (pos 0x470 in, the app's NativeConfig), no far-off objects (its own templates).
     dict(name="Quetzal", sha1="d0658315da1e8827f66f15c3d3a000fe747e163e", family="EM", mapped=True, save="quetzal",
          pending="most map frames differ (its own engine: not mapped beyond the RAM yet)",
@@ -224,6 +227,15 @@ HACKS = [
              COORD_OFFSET_Y=0x0203AD1E, SPRITE_ORDER=0x0203A954, GMAIN=0x030014B4, CONTROLS_LOCKED=0x03005644,
              OBJ_GFX_INFO=0x085CE6BC, OBJ_PALETTES=0x085D4234, OBJ_FACING=0x085CE668, ELEVATION_PRIO=0x085D7618,
              SPRITE_PAL_TAGS=0x03006644, OBJ_GFX_VAR_FROM=0x103, SB1_OFFSETS=0xDC0 | 0x14EC << 16)),
+    # Modern Emerald 3.6 (resetes12; public pokeemerald, `make modern`): RAM from Release3.6 nm (matches the
+    # release cart); MAP_GROUPS / object ROM tables from the v3.6 ROM + modern_emerald fixture (find_wide_objects).
+    dict(name="Modern Emerald v3.6", sha1="ab3bc012598d73dce965450df79893aeff97c834", family="EX",
+         save="modern_emerald", boot_file="modern_emerald.txt", script=0x081D940D, a=dict(
+             VMAP=0x030024F4, MAP_HEADER=0x0200C22C, MAP_GROUPS=0x08CDEC28, SAVE_BLOCK1_PTR=0x030036F0,
+             CAMERA_OFFSET=0x03002484, OBJECT_EVENTS=0x0200682C, SPRITES=0x0203D86C, COORD_OFFSET=0x0203EDF8,
+             COORD_OFFSET_Y=0x0203EDFA, SPRITE_ORDER=0x0203EA30, GMAIN=0x03001574, CONTROLS_LOCKED=0x03003B78,
+             OBJ_GFX_INFO=0x0881438C, OBJ_PALETTES=0x088133E8, OBJ_FACING=0x08801AAC, ELEVATION_PRIO=0x0881647C,
+             SPRITE_PAL_TAGS=0x03004B8C, OBJ_GFX_VAR_FROM=0xF0, SB1_OFFSETS=0xD64 | 0x148C << 16)),
     dict(name="Emerald Imperium v1.3.1", sha1="1d20091c4d936f5eb122db8780554dd0829ffb63", family="EX", save="imperium",
          boot=["press B", "wait 30"] * 3, script=0x08200930, a=dict(
              VMAP=0x030050AC, MAP_HEADER=0x0200A68C, MAP_GROUPS=0x08FC2F74, SAVE_BLOCK1_PTR=0x03006218,

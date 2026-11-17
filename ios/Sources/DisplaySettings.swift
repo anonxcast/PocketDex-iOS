@@ -23,6 +23,31 @@ enum LibraryOpenMode: String, CaseIterable, Identifiable {
   }
 }
 
+/// App chrome Light / Dark — default follows iOS Appearance.
+enum AppAppearanceMode: String, CaseIterable, Identifiable {
+  case system
+  case light
+  case dark
+
+  var id: String { rawValue }
+
+  var title: String {
+    switch self {
+    case .system: return "System"
+    case .light: return "Light"
+    case .dark: return "Dark"
+    }
+  }
+
+  var preferredColorScheme: ColorScheme? {
+    switch self {
+    case .system: return nil
+    case .light: return .light
+    case .dark: return .dark
+    }
+  }
+}
+
 /// PokeDaisy-style aspect modes. Expand uses native pk_wide (more map, not a stretch).
 enum GameAspectMode: String, CaseIterable, Identifiable {
   case original, stretch, expand

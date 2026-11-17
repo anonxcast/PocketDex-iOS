@@ -318,6 +318,8 @@ enum Gen3Tables {
   case unbound
   /// National Dex numbers (Gen 4/5 party species, Seaglass-style tables).
   case national
+  /// Modern Emerald v3.6: Emerald ids through 411, then 50 extras (Sylveon=444, …); own items/moves.
+  case modernEmerald
   /// Gen 1 Yellow / Red / Blue type ids, moves, and chart (Gust = Normal, Ghost vs Psychic immune).
   case yellow
   /// Gen 2 Crystal / Gold / Silver type ids, moves, and chart (Steel / Dark era).

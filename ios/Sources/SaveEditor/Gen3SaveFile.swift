@@ -10,6 +10,8 @@ struct Gen3SaveFile {
   static let DATA = 0xF80
   /// CFRU expanded sector payload (Complete-Fire-Red-Upgrade `SECTOR_DATA_SIZE`).
   static let DATA_CFRU = 0xFF0
+  /// Modern Emerald 3.6 checksums the full pre-footer payload (0xFF4), not retail 0xF80.
+  static let DATA_MODERN = 0xFF4
   static let SECTORS_PER_SLOT = 14
   static let ID_OFF = 0xFF4
   static let CHECKSUM_OFF = 0xFF6

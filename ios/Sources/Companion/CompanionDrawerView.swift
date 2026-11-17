@@ -34,6 +34,8 @@ struct CompanionDrawerView: View {
   let onClose: () -> Void
 
   @State private var tab: CompanionTab = .party
+  /// Held copy so live engine publishes don’t remount ScrollView / jump landscape scroll.
+  @State private var heldSnap: CompanionSnapshot?
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
@@ -46,6 +48,14 @@ struct CompanionDrawerView: View {
           .padding(14)
           .frame(maxWidth: .infinity, alignment: .leading)
       }
+      .scrollBounceBehavior(.basedOnSize)
+    }
+    .transaction { $0.animation = nil }
+    .onAppear { heldSnap = engine.companion }
+    .onChange(of: engine.companion) { _, new in
+      var t = Transaction()
+      t.disablesAnimations = true
+      withTransaction(t) { heldSnap = new }
     }
   }
 
@@ -56,10 +66,12 @@ struct CompanionDrawerView: View {
           .font(CETheme.sans(11, weight: .bold))
           .tracking(1.0)
           .foregroundStyle(CETheme.crystal)
-        Text(engine.companion?.gameName ?? engine.companionGameName ?? "Party · Bag · Map · Battle · Dex · Settings")
+        Text(heldSnap?.gameName ?? engine.companionGameName ?? "Party · Bag · Map · Battle · Dex · Settings")
           .font(CETheme.sans(13, weight: .medium))
           .foregroundStyle(CETheme.muted)
-          .lineLimit(1)
+          .lineLimit(2)
+          .minimumScaleFactor(0.85)
+          .fixedSize(horizontal: false, vertical: true)
         if engine.companionMatch == .bestEffort {
           Text("Unverified")
             .font(CETheme.sans(10, weight: .bold))
@@ -111,7 +123,7 @@ struct CompanionDrawerView: View {
   private var content: some View {
     if tab == .settings {
       InGameSettingsTab()
-    } else if let snap = engine.companion {
+    } else if let snap = heldSnap {
       switch tab {
       case .party: PartyTab(snap: snap)
       case .bag: BagTab(snap: snap)
@@ -139,7 +151,7 @@ struct CompanionDrawerView: View {
             .foregroundStyle(CETheme.muted)
         }
         Button {
-          withAnimation(.easeOut(duration: 0.15)) { tab = .settings }
+          tab = .settings
         } label: {
           Text("Open in-game Settings")
             .font(CETheme.sans(14, weight: .semibold))
@@ -161,6 +173,7 @@ private struct CompanionNote: View {
     Text(text)
       .font(CETheme.sans(13))
       .foregroundStyle(CETheme.muted)
+      .fixedSize(horizontal: false, vertical: true)
       .padding(12)
       .frame(maxWidth: .infinity, alignment: .leading)
       .background(CETheme.card, in: RoundedRectangle(cornerRadius: 12))
@@ -232,14 +245,18 @@ private struct HPBar: View {
   }
 
   var body: some View {
-    GeometryReader { geo in
-      ZStack(alignment: .leading) {
-        Capsule().fill(CETheme.hover)
-        Capsule().fill(color).frame(width: geo.size.width * fraction)
+    // ScaleEffect avoids GeometryReader inside ScrollView (landscape jump source).
+    Capsule()
+      .fill(CETheme.hover)
+      .frame(height: 6)
+      .overlay(alignment: .leading) {
+        Capsule()
+          .fill(color)
+          .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+          .scaleEffect(x: fraction, y: 1, anchor: .leading)
       }
-    }
-    .frame(height: 6)
-    .accessibilityLabel("HP \(hp) of \(maxHp)")
+      .clipShape(Capsule())
+      .accessibilityLabel("HP \(hp) of \(maxHp)")
   }
 }
 
@@ -772,8 +789,6 @@ private struct DexTab: View {
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
       }
-    } else if snap.tables == .unbound {
-      CompanionNote("Pokédex flags for Unbound’s expanded layout aren’t mapped yet — party / bag / battle still work.")
     } else {
       CompanionNote("Reading the Pokédex from your save… keep playing or open the in-game Pokédex once so flags update.")
     }
@@ -802,6 +817,7 @@ private struct DexCell: View {
 
   private var known: Bool { seen || caught }
   private var national: Int { Gen3Names.nationalForDexNumber(number, configId: configId) }
+  private var displayName: String { Gen3Names.dexDisplayName(number, configId: configId) }
 
   var body: some View {
     VStack(spacing: 4) {
@@ -814,7 +830,7 @@ private struct DexCell: View {
       Text(String(format: "#%03d", number))
         .font(CETheme.mono(9))
         .foregroundStyle(CETheme.muted)
-      Text(known ? Gen3Names.nationalName(national) : "???")
+      Text(known ? displayName : "???")
         .font(CETheme.sans(10, weight: .medium))
         .foregroundStyle(known ? CETheme.text : CETheme.muted)
         .lineLimit(1)
@@ -842,9 +858,13 @@ private struct DexDetailSheet: View {
   @Environment(\.dismiss) private var dismiss
 
   private var national: Int { Gen3Names.nationalForDexNumber(number, configId: configId) }
-  private var name: String { Gen3Names.nationalName(national) }
+  private var name: String { Gen3Names.dexDisplayName(number, configId: configId) }
   private var types: Gen3BattleData.SpeciesTypes? {
-    Gen3BattleData.speciesTypes(national, tables: .national)
+    if tables == .modernEmerald {
+      let sid = Gen3Names.speciesIdForDexNumber(number, configId: configId)
+      return Gen3BattleData.speciesTypes(sid, tables: .modernEmerald)
+    }
+    return Gen3BattleData.speciesTypes(national, tables: .national)
       ?? Gen3BattleData.speciesTypes(national, tables: tables)
   }
 
@@ -1006,6 +1026,7 @@ private struct InGameSettingsTab: View {
         cycle("Status Bar", settings.statusBarMode.title, "Off or in-game strip") {
           settings.statusBarMode.cycle()
         }
+        toggle("FPS Counter", "Show frames/sec on the play top bar", $settings.showFps)
         toggle(
           "Folder Layout",
           "Game on top, controls below — for Duo book / tabletop fold",

@@ -12,6 +12,7 @@
 #include <mgba/internal/gba/gba.h>
 #include <mgba-util/vfs.h>
 
+#include <dlfcn.h>
 #include <fcntl.h>
 #include <math.h>
 #include <pthread.h>
@@ -19,12 +20,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/mman.h>
+#include <unistd.h>
 
 enum { kAudioRingFrames = 8192 };
 enum { kAudioTempFrames = 4096 };
-enum { kAudioTargetFrames = 2880 }; /* ~60 ms at 48 kHz — stay near this fill level */
+enum { kAudioTargetFrames = 2880 }; /* ~60 ms at 48 kHz — GBA/GB */
+enum { kAudioTargetFramesNds = 5600 }; /* ~117 ms — DS present is heavy; keep a deeper cushion */
 enum { kAudioDisplayFps = 60 };     /* CADisplayLink preferredFramesPerSecond */
 enum { kNdsStackPixels = PK_NDS_W * PK_NDS_H * 2 };
+static int g_jit_ready = 0; /* interpreter only — JIT compiled out of melonDS */
+
+void pk_ios_prepare_jit(void) {
+  g_jit_ready = 0;
+}
+
+int pk_ios_jit_ready(void) {
+  return 0;
+}
 
 /* GBA ~59.7275 fps; NDS ~59.8261 — match Android EmulatorEngine pacing. */
 static const double kGbaNativeFps = 16777216.0 / 280896.0;
@@ -45,11 +58,9 @@ static struct {
   int wideOk; /* pk_wide_configure / pk_wide_gb_configure succeeded */
   char romName[96]; /* basename for Expand soft-map heuristics (e.g. Radical Red) */
 
-  /* melonDS path: stacked top+bottom 256×384 native + optional EXPAND top window. */
+  /* melonDS v1: stacked top+bottom 256×384 only. Expand comes back later, feature by feature. */
   int nds;
   color_t *nds_stack;
-  color_t *nds_wide; /* Expand window (up to PK_WIDE_MAX_VIEW_W × _H) */
-  int nds_wide_on;
 
   int16_t ring[kAudioRingFrames * 2];
   size_t ring_r;
@@ -127,12 +138,16 @@ static void configure_audio_rates_locked(void) {
   blip_set_rates(right, clock, rate);
 }
 
-/* Nudge blip/NDS output so the ring stays near kAudioTargetFrames. */
+static size_t audio_target_frames(void) {
+  return g.nds ? (size_t)kAudioTargetFramesNds : (size_t)kAudioTargetFrames;
+}
+
+/* Nudge blip/NDS output so the ring stays near the platform target. */
 static void audio_rate_control_locked(void) {
   pthread_mutex_lock(&g_audio_lock);
   size_t level = g.ring_count;
   pthread_mutex_unlock(&g_audio_lock);
-  double err = ((double)level - (double)kAudioTargetFrames) / (double)kAudioRingFrames;
+  double err = ((double)level - (double)audio_target_frames()) / (double)kAudioRingFrames;
   /* Keep DRC gentle — wide swings made pitch wander and sounded “slow”. */
   double adj = 1.0 - err * 0.04;
   if (adj < 0.985) adj = 0.985;
@@ -182,19 +197,9 @@ static void nds_present_locked(void) {
   if (!top || !bot) return;
   memcpy(g.nds_stack, top, (size_t)PK_NDS_W * PK_NDS_H * sizeof(color_t));
   memcpy(g.nds_stack + PK_NDS_W * PK_NDS_H, bot, (size_t)PK_NDS_W * PK_NDS_H * sizeof(color_t));
-  /* EXPAND: compose the ultrawide top window; touch LCD stays in nds_stack bottom half. */
-  if (g.nds_wide_on && g.nds_wide && g.wideW > 0 && g.wideH > 0 &&
-      g.wideW <= PK_WIDE_MAX_VIEW_W && g.wideH <= PK_WIDE_MAX_VIEW_H &&
-      pk_nds_wide_draw((uint32_t *)g.nds_wide, g.wideX, g.wideY, g.wideW, g.wideH)) {
-    g.present = g.nds_wide;
-    g.presentW = g.wideW;
-    g.presentH = g.wideH;
-  } else {
-    g.present = g.nds_stack;
-    g.presentW = PK_NDS_W;
-    g.presentH = PK_NDS_H * 2;
-  }
-  /* Core size for zoom math is always one DS LCD. */
+  g.present = g.nds_stack;
+  g.presentW = PK_NDS_W;
+  g.presentH = PK_NDS_H * 2;
   g.vw = (unsigned)PK_NDS_W;
   g.vh = (unsigned)PK_NDS_H;
 }
@@ -224,9 +229,6 @@ static void teardown_locked(void) {
   g.wide = NULL;
   free(g.nds_stack);
   g.nds_stack = NULL;
-  free(g.nds_wide);
-  g.nds_wide = NULL;
-  g.nds_wide_on = 0;
   g.vw = g.vh = 0;
   g.wideX = g.wideY = g.wideW = g.wideH = 0;
   g.presentW = g.presentH = 0;
@@ -324,6 +326,9 @@ static uint32_t soft_hack_wide_crc(const char *code, uint32_t pristineSize) {
   /* R.O.W.E. v2.1.9.1 Experimental */
   if (name_has_ci(g.romName, "rowe") || name_has_ci(g.romName, "r.o.w.e"))
     return 0xad252fd3u;
+  /* Pokémon Lazarus v2.0 — exact CRC 558ae42f; soft-map for renamed dumps. */
+  if (name_has_ci(g.romName, "lazarus"))
+    return 0x558ae42fu;
   /* Radical Red v4.1 — 32 MB BPRE; cart title stays "POKEMON FIRE". */
   if (strcmp(code, "BPRE") == 0 && pristineSize == 0x02000000u &&
       name_has_ci(g.romName, "radical")) {
@@ -331,12 +336,16 @@ static uint32_t soft_hack_wide_crc(const char *code, uint32_t pristineSize) {
   }
   if (strcmp(code, "BPRE") == 0 && name_has_ci(g.romName, "radical"))
     return 0xfba55dd8u;
+  /* Modern Emerald v3.6 — exact CRC 263a1187; soft-map for renamed dumps. */
+  if (name_has_ci(g.romName, "modern") && name_has_ci(g.romName, "emerald"))
+    return 0x263a1187u;
   /* Trimmed retail Emerald (TrashMan) when CRC alias missed.
-   * Skip named expansion hacks (Modern Emerald has no WIDE row — do not soft-map). */
+   * Skip named expansion hacks that keep their own WIDE rows. */
   if (strcmp(code, "BPEE") == 0 && pristineSize > 0 && pristineSize <= 0x01000000u &&
       name_has_ci(g.romName, "emerald") && !name_has_ci(g.romName, "seaglass") &&
       !name_has_ci(g.romName, "modern") && !name_has_ci(g.romName, "rowe") &&
-      !name_has_ci(g.romName, "soulgold") && !name_has_ci(g.romName, "imperium")) {
+      !name_has_ci(g.romName, "soulgold") && !name_has_ci(g.romName, "imperium") &&
+      !name_has_ci(g.romName, "lazarus")) {
     return 0x1f1c08fbu;
   }
   return 0;
@@ -521,26 +530,25 @@ bool pk_ios_init(const char *rom_path, const char *save_path) {
       pthread_mutex_unlock(&g_lock);
       return false;
     }
+    pk_nds_set_allow_jit(0);
     if (!pk_nds_init(rom_path, save_path, PK_IOS_AUDIO_SAMPLE_RATE)) {
       free(stack);
       pthread_mutex_unlock(&g_lock);
       return false;
     }
-    /* Interpreter-only on iOS — ARM9×2 keeps HeartGold closer to full speed. */
     pk_nds_set_cpu_boost(true);
     pk_nds_set_draw(true, true);
-    /* ONE SCREEN: bring the X menu back after a touch-closed app (HG/SS). */
+    pk_nds_wide_enable(false); /* v1: no Expand — dual LCD stack only */
     pk_nds_set_keep_start_menu(true);
     g.nds = 1;
     g.nds_stack = stack;
-    g.nds_wide = calloc((size_t)PK_WIDE_MAX_VIEW_W * (size_t)PK_WIDE_MAX_VIEW_H, sizeof(color_t));
-    g.nds_wide_on = 0;
-    g.wideOk = 1; /* melonDS EXPAND is always available */
+    g.wideOk = 0; /* DS Expand re-added later; default Aspect=Expand must not touch melonDS yet */
     g.vw = (unsigned)PK_NDS_W;
     g.vh = (unsigned)PK_NDS_H;
     nds_present_locked();
     audio_ring_clear();
     configure_audio_rates_locked();
+    fprintf(stderr, "pocketdex: DS up (interpreter, stacked LCDs, Expand off)\n");
     pthread_mutex_unlock(&g_lock);
     return true;
   }
@@ -707,48 +715,63 @@ bool pk_ios_load_state(const char *path) {
   return ok;
 }
 
-void pk_ios_run_frame_ex(bool keep_audio) {
+void pk_ios_run_frame_present(bool keep_audio, bool present_video) {
   pthread_mutex_lock(&g_lock);
   if (keep_audio) audio_rate_control_locked();
   if (g.nds) {
-    /* Skip drawing unseen FF frames, but always prepare the next frame's 3D
-     * (drawNext=true). drawNext=false on an intermediate frame poisons the
-     * shown frame and freezes the picture until speed returns to 1×. */
-    pk_nds_set_draw(keep_audio, true);
+    /* present_video=false: skip LCD convert — audio catch-up when Swift present is behind. */
+    pk_nds_set_draw(present_video, present_video);
     pk_nds_run_frame();
     nds_drain_audio_locked(keep_audio);
-    if (keep_audio || pk_nds_frame_drawn()) nds_present_locked();
+    if (present_video && (keep_audio || pk_nds_frame_drawn())) nds_present_locked();
   } else if (g.core) {
     g.core->runFrame(g.core);
     drain_audio_locked(keep_audio);
-    g.present = g.video;
-    g.presentW = (int)g.vw;
-    g.presentH = (int)g.vh;
-    if (g.wideOk && g.wide && g.wideW > 0 && g.wideH > 0 &&
-        g.wideW <= PK_WIDE_MAX_VIEW_W && g.wideH <= PK_WIDE_MAX_VIEW_H &&
-        sizeof(color_t) == 4) {
-      struct PkWideView v = { g.wideX, g.wideY, g.wideW, g.wideH };
-      /* pk_wide_view is the guarded entry for both consoles: a fault while drawing switches
-       * EXPAND off for this game instead of taking the app down. */
-      int ok = pk_wide_view(g.core, (const uint32_t *)g.video, (uint32_t *)g.wide, v, NULL);
-      if (pk_wide_fault()) {
-        g.wideOk = 0;
-      } else if (ok || is_gb_locked()) {
-        /* Game Boy: always show the window, as PokeDaisy does. Off the map (a battle, a menu
-         * screen) it is the game's frame with bars in the screen's own background colour, so
-         * the zoom eases in and out instead of cutting to a letterboxed frame mid-motion.
-         * GBA keeps this port's earlier behaviour: the plain frame while nothing is drawn. */
-        g.present = g.wide;
-        g.presentW = g.wideW;
-        g.presentH = g.wideH;
+    if (present_video) {
+      g.present = g.video;
+      g.presentW = (int)g.vw;
+      g.presentH = (int)g.vh;
+      if (g.wideOk && g.wide && g.wideW > 0 && g.wideH > 0 &&
+          g.wideW <= PK_WIDE_MAX_VIEW_W && g.wideH <= PK_WIDE_MAX_VIEW_H &&
+          sizeof(color_t) == 4) {
+        struct PkWideView v = { g.wideX, g.wideY, g.wideW, g.wideH };
+        /* pk_wide_view is the guarded entry for both consoles: a fault while drawing switches
+         * EXPAND off for this game instead of taking the app down. */
+        int ok = pk_wide_view(g.core, (const uint32_t *)g.video, (uint32_t *)g.wide, v, NULL);
+        if (pk_wide_fault()) {
+          g.wideOk = 0;
+        } else if (ok || is_gb_locked()) {
+          /* Game Boy: always show the window, as PokeDaisy does. Off the map (a battle, a menu
+           * screen) it is the game's frame with bars in the screen's own background colour, so
+           * the zoom eases in and out instead of cutting to a letterboxed frame mid-motion.
+           * GBA keeps this port's earlier behaviour: the plain frame while nothing is drawn. */
+          g.present = g.wide;
+          g.presentW = g.wideW;
+          g.presentH = g.wideH;
+        }
       }
     }
   }
   pthread_mutex_unlock(&g_lock);
 }
 
+void pk_ios_run_frame_ex(bool keep_audio) {
+  pk_ios_run_frame_present(keep_audio, true);
+}
+
 void pk_ios_run_frame(void) {
   pk_ios_run_frame_ex(true);
+}
+
+int pk_ios_audio_queued(void) {
+  pthread_mutex_lock(&g_audio_lock);
+  int n = (int)g.ring_count;
+  pthread_mutex_unlock(&g_audio_lock);
+  return n;
+}
+
+int pk_ios_audio_target(void) {
+  return (int)audio_target_frames();
 }
 
 int pk_ios_video_width(void) { return g.presentW > 0 ? g.presentW : (int)g.vw; }
@@ -760,12 +783,14 @@ const uint32_t *pk_ios_video_buffer(void) {
 
 void pk_ios_set_wide_view(int x, int y, int w, int h) {
   pthread_mutex_lock(&g_lock);
+  /* DS v1: Expand parked — Aspect→Expand must not touch melonDS until we re-add it. */
+  if (g.nds) {
+    g.wideX = g.wideY = g.wideW = g.wideH = 0;
+    pthread_mutex_unlock(&g_lock);
+    return;
+  }
   if (w <= 0 || h <= 0) {
     g.wideX = g.wideY = g.wideW = g.wideH = 0;
-    if (g.nds && g.nds_wide_on) {
-      pk_nds_wide_enable(false);
-      g.nds_wide_on = 0;
-    }
   } else {
     if (w > PK_WIDE_MAX_VIEW_W) w = PK_WIDE_MAX_VIEW_W;
     if (h > PK_WIDE_MAX_VIEW_H) h = PK_WIDE_MAX_VIEW_H;
@@ -773,13 +798,6 @@ void pk_ios_set_wide_view(int x, int y, int w, int h) {
     g.wideY = y;
     g.wideW = w;
     g.wideH = h;
-    if (g.nds) {
-      if (!g.nds_wide_on) {
-        pk_nds_wide_enable(true);
-        g.nds_wide_on = 1;
-      }
-      pk_nds_wide_window(x, y, w, h);
-    }
   }
   pthread_mutex_unlock(&g_lock);
 }
@@ -851,19 +869,22 @@ int pk_ios_audio_render(int16_t *out, int max_frames) {
   if (!out || max_frames <= 0) return 0;
   pthread_mutex_lock(&g_audio_lock);
   int written = 0;
+  int16_t last_l = 0, last_r = 0;
   while (written < max_frames && g.ring_count > 0) {
     size_t o = g.ring_r * 2;
-    out[written * 2] = g.ring[o];
-    out[written * 2 + 1] = g.ring[o + 1];
+    last_l = g.ring[o];
+    last_r = g.ring[o + 1];
+    out[written * 2] = last_l;
+    out[written * 2 + 1] = last_r;
     g.ring_r = (g.ring_r + 1) % kAudioRingFrames;
     g.ring_count--;
     written++;
   }
   pthread_mutex_unlock(&g_audio_lock);
-  /* Silence on underrun — holding the last sample stretched into a slow drone. */
+  /* Hold last sample on underrun — hard silence pops/scratches when DS present stalls. */
   while (written < max_frames) {
-    out[written * 2] = 0;
-    out[written * 2 + 1] = 0;
+    out[written * 2] = last_l;
+    out[written * 2 + 1] = last_r;
     written++;
   }
   return written;

@@ -1,4 +1,18 @@
 import SwiftUI
+import Combine
+
+/// Pad glow bits — separate from `EmulatorEngine` so D-pad slides don’t invalidate the whole play view / frame path.
+@MainActor
+final class PadPressedStore: ObservableObject {
+  static let shared = PadPressedStore()
+  @Published private(set) var mask: UInt32 = 0
+
+  func setMask(_ next: UInt32) {
+    if mask != next { mask = next }
+  }
+
+  func clear() { setMask(0) }
+}
 
 enum PadStyle {
   static let fill = Color.black.opacity(0.58)
@@ -51,6 +65,8 @@ struct CustomizableVirtualPad: View {
   var onMove: ((PadControlID, CGPoint) -> Void)? = nil
   /// When false, visuals only — UIKit `PadTouchRepresentable` owns hit-testing (snappier + larger targets).
   var handlesTouches: Bool = true
+  /// Live pressed bits (from the emulator) so visuals animate even when UIKit owns touches.
+  var pressedMask: UInt32 = 0
   /// Which controls to draw (GBA omits X/Y; NDS includes them).
   var visibleControls: [PadControlID] = PadControlID.gbaCases
 
@@ -100,7 +116,10 @@ struct CustomizableVirtualPad: View {
     Group {
       switch id {
       case .dpad:
-        SlidingDPad(onMask: onDpadMask, size: w, interactive: touch)
+        SlidingDPad(
+          onMask: onDpadMask, size: w, interactive: touch,
+          externalMask: touch ? nil : (pressedMask & (GbaKey.up | GbaKey.down | GbaKey.left | GbaKey.right))
+        )
           .frame(width: w, height: h)
           .contentShape(Rectangle())
       case .a:
@@ -139,15 +158,23 @@ struct CustomizableVirtualPad: View {
     fontSize: CGFloat = 18,
     interactive: Bool
   ) -> some View {
-    Text(text)
+    let pressed = (pressedMask & bit) != 0
+    return Text(text)
       .font(CETheme.sans(fontSize, weight: .bold))
       .foregroundStyle(PadStyle.label)
       .frame(width: width, height: height)
-      .background(PadStyle.fill, in: RoundedRectangle(cornerRadius: corner, style: .continuous))
+      .background(
+        (pressed ? Color.white.opacity(0.22) : PadStyle.fill),
+        in: RoundedRectangle(cornerRadius: corner, style: .continuous)
+      )
       .overlay(
         RoundedRectangle(cornerRadius: corner, style: .continuous)
-          .stroke(PadStyle.stroke, lineWidth: 1)
+          .stroke(pressed ? Color.white.opacity(0.55) : PadStyle.stroke, lineWidth: pressed ? 1.5 : 1)
       )
+      .scaleEffect(pressed ? 0.88 : 1.0)
+      .brightness(pressed ? 0.06 : 0)
+      // Instant press feedback — springs on every bit flip stuttered the emu loop.
+      .transaction { $0.animation = nil }
       .modifier(PressGestureModifier(enabled: interactive, bit: bit, onKey: onKey))
   }
 
@@ -169,38 +196,45 @@ struct SlidingDPad: View {
   var size: CGFloat = 150
   /// When false (layout editor), no directional gesture so the parent can drag the whole pad.
   var interactive: Bool = true
+  /// When UIKit owns touches, pass the live D-pad bits so chevrons still light up.
+  var externalMask: UInt32? = nil
   @State private var activeMask: UInt32 = 0
+
+  private var displayMask: UInt32 { externalMask ?? activeMask }
+  private var anyPressed: Bool { displayMask != 0 }
 
   var body: some View {
     ZStack {
       RoundedRectangle(cornerRadius: size * 0.12, style: .continuous)
-        .fill(PadStyle.fill)
+        .fill(anyPressed ? Color.white.opacity(0.18) : PadStyle.fill)
         .overlay(
           RoundedRectangle(cornerRadius: size * 0.12, style: .continuous)
-            .stroke(PadStyle.stroke, lineWidth: 1)
+            .stroke(anyPressed ? Color.white.opacity(0.5) : PadStyle.stroke, lineWidth: anyPressed ? 1.5 : 1)
         )
 
       VStack(spacing: 0) {
-        chevron("chevron.up", lit: (activeMask & GbaKey.up) != 0)
+        chevron("chevron.up", lit: (displayMask & GbaKey.up) != 0)
         Spacer(minLength: 0)
-        chevron("chevron.down", lit: (activeMask & GbaKey.down) != 0)
+        chevron("chevron.down", lit: (displayMask & GbaKey.down) != 0)
       }
       .padding(.vertical, size * 0.093)
       .frame(width: size, height: size)
 
       HStack(spacing: 0) {
-        chevron("chevron.left", lit: (activeMask & GbaKey.left) != 0)
+        chevron("chevron.left", lit: (displayMask & GbaKey.left) != 0)
         Spacer(minLength: 0)
-        chevron("chevron.right", lit: (activeMask & GbaKey.right) != 0)
+        chevron("chevron.right", lit: (displayMask & GbaKey.right) != 0)
       }
       .padding(.horizontal, size * 0.093)
       .frame(width: size, height: size)
 
       Circle()
-        .stroke(Color.white.opacity(0.22), lineWidth: 1)
+        .stroke(Color.white.opacity(anyPressed ? 0.4 : 0.22), lineWidth: 1)
         .frame(width: size * 0.24, height: size * 0.24)
     }
     .frame(width: size, height: size)
+    .scaleEffect(anyPressed ? 0.94 : 1.0)
+    .transaction { $0.animation = nil }
     .contentShape(Rectangle())
     .gesture(interactive ? dpadGesture : nil)
   }

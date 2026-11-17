@@ -131,7 +131,8 @@ final class SaveSession: ObservableObject {
         || why.contains("doesn't decode")
         || why.contains("isn't empty")
         || why.contains("is level")
-      if soft && (expanded || formatUsed == .FIRERED_CFRU || formatUsed == .EMERALD_HNS) {
+      if soft && (expanded || formatUsed == .FIRERED_CFRU || formatUsed == .EMERALD_HNS
+                  || formatUsed == .EMERALD_MODERN || formatUsed == .EMERALD_LAZARUS) {
         return (.gen3, .gen3(editor), nil)
       }
       return (.gen3, .gen3(editor), "This save doesn't look like \(formatUsed.label) (\(why)), so it is open read-only.")
@@ -407,6 +408,9 @@ final class SaveSession: ObservableObject {
     case .gen3:
       if isUnboundSave { return .unbound }
       let fn = romURL.lastPathComponent.uppercased()
+      if fn.contains("MODERN") && fn.contains("EMERALD") {
+        return .modernEmerald
+      }
       // Radical Red / Seaglass use National-order ids. Unbound must stay on `.unbound`
       // (FireRed-order + expansions) — never this branch.
       if fn.contains("SEAGLASS") || fn.contains("RADICAL") || fn.contains("ROCKET") {

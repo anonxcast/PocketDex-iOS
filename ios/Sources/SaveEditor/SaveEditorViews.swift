@@ -187,6 +187,7 @@ struct SaveEditorHostView: View {
   let rom: RomItem
   let engineLoadedStem: String?
 
+  @Environment(\.dismiss) private var dismiss
   @State private var session: SaveSession?
   @State private var openError: String?
 
@@ -204,6 +205,9 @@ struct SaveEditorHostView: View {
             .foregroundStyle(CETheme.muted)
             .multilineTextAlignment(.center)
             .padding(.horizontal, 24)
+          Button("Go Back") { dismiss() }
+            .font(CETheme.sans(15, weight: .semibold))
+            .padding(.top, 8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
       } else {
@@ -215,6 +219,10 @@ struct SaveEditorHostView: View {
     .background(CETheme.bg)
     .navigationTitle(rom.name)
     .navigationBarTitleDisplayMode(.inline)
+    // Game pages hide the system bar; restore it here so Back / swipe-pop always work.
+    .toolbar(.visible, for: .navigationBar)
+    .navigationBarBackButtonHidden(false)
+    .navigationSwipeBackEnabled()
     .onAppear(perform: open)
   }
 
@@ -222,7 +230,7 @@ struct SaveEditorHostView: View {
     if let s = SaveSession.open(rom: rom.url, engineLoadedStem: engineLoadedStem) {
       session = s
     } else {
-      openError = "This .sav isn't a recognised Gen 1–5 layout. Save once in-game first. Supported GBA hacks: Radical Red, Unbound, Seaglass, Rocket Edition, Crystal Advance Redux, Modern Emerald, Heart and Soul, SoulGold, R.O.W.E., plus retail R/S/E/FR/LG."
+      openError = "This .sav isn't a recognised Gen 1–5 layout. Save once in-game first. Supported GBA hacks: Radical Red, Unbound, Seaglass, Rocket Edition, Crystal Advance Redux, Modern Emerald, Heart and Soul, SoulGold, R.O.W.E., Lazarus, plus retail R/S/E/FR/LG."
     }
   }
 }
@@ -1031,6 +1039,7 @@ enum SaveEditorCatalog {
     switch tables {
     case .retail: return sorted(Gen3Names.speciesRetail, maxId: min(maxId, 412))
     case .unbound: return sorted(Gen3Names.speciesUnbound, maxId: maxId)
+    case .modernEmerald: return sorted(Gen3Names.speciesModernEmerald, maxId: min(maxId, 461))
     case .national, .yellow, .crystal, .polished: return sorted(Gen3Names.speciesNational, maxId: maxId)
     }
   }
@@ -1045,6 +1054,7 @@ enum SaveEditorCatalog {
     case .polished: maxId = 255
     case .retail: maxId = Gen3SaveData.LAST_MOVE_RETAIL
     case .unbound: maxId = Gen3SaveData.LAST_MOVE_EXPANDED
+    case .modernEmerald: maxId = 374
     case .national: maxId = Gen45Personal.gen5MaxMove
     }
     return sorted(names, maxId: maxId)
@@ -1055,6 +1065,7 @@ enum SaveEditorCatalog {
     switch tables {
     case .unbound: return sorted(Gen3Names.itemsUnbound, maxId: maxId)
     case .national: return sorted(Gen3Names.itemsSeaglass, maxId: maxId)
+    case .modernEmerald: return sorted(Gen3Names.itemsModernEmerald, maxId: min(maxId, 397))
     default: return sorted(Gen3Names.itemsRetail, maxId: maxId)
     }
   }

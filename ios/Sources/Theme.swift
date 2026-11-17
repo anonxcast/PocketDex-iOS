@@ -2,20 +2,53 @@ import SwiftUI
 import UIKit
 
 enum CETheme {
-  /// Music / Liquid Glass canvas — soft graphite, not crushed black.
-  static let bg = Color(red: 0.07, green: 0.07, blue: 0.08)
-  static let elevated = Color(red: 0.10, green: 0.10, blue: 0.11)
-  static let card = Color(red: 0.14, green: 0.14, blue: 0.15).opacity(0.72)
-  static let hover = Color(red: 0.20, green: 0.20, blue: 0.22)
-  static let border = Color.white.opacity(0.14)
-  static let text = Color(red: 0.98, green: 0.98, blue: 0.99)
-  static let muted = Color(red: 0.68, green: 0.68, blue: 0.70)
+  /// Adaptive Music / Liquid Glass surfaces (follow system Light / Dark).
+  /// Dark bg is true black so the status-bar band matches the library canvas (no gray bezel).
+  static let bg = Color(uiColor: UIColor { t in
+    t.userInterfaceStyle == .dark
+      ? UIColor.black
+      : UIColor(red: 0.96, green: 0.96, blue: 0.97, alpha: 1)
+  })
+  static let elevated = Color(uiColor: UIColor { t in
+    t.userInterfaceStyle == .dark
+      ? UIColor(red: 0.08, green: 0.08, blue: 0.09, alpha: 1)
+      : UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1)
+  })
+  static let card = Color(uiColor: UIColor { t in
+    t.userInterfaceStyle == .dark
+      ? UIColor(red: 0.14, green: 0.14, blue: 0.15, alpha: 0.72)
+      : UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.92)
+  })
+  static let hover = Color(uiColor: UIColor { t in
+    t.userInterfaceStyle == .dark
+      ? UIColor(red: 0.20, green: 0.20, blue: 0.22, alpha: 1)
+      : UIColor(red: 0.90, green: 0.90, blue: 0.92, alpha: 1)
+  })
+  static let border = Color(uiColor: UIColor { t in
+    t.userInterfaceStyle == .dark
+      ? UIColor.white.withAlphaComponent(0.14)
+      : UIColor.black.withAlphaComponent(0.10)
+  })
+  static let text = Color(uiColor: UIColor { t in
+    t.userInterfaceStyle == .dark
+      ? UIColor(red: 0.98, green: 0.98, blue: 0.99, alpha: 1)
+      : UIColor(red: 0.08, green: 0.08, blue: 0.10, alpha: 1)
+  })
+  static let muted = Color(uiColor: UIColor { t in
+    t.userInterfaceStyle == .dark
+      ? UIColor(red: 0.68, green: 0.68, blue: 0.70, alpha: 1)
+      : UIColor(red: 0.42, green: 0.42, blue: 0.45, alpha: 1)
+  })
   /// Poké Ball red — primary CTAs, toggles, selected chrome.
   static let accent = Color(red: 0.93, green: 0.28, blue: 0.32)
   /// Deeper red for secondary emphasis / pressed states.
   static let accent2 = Color(red: 0.72, green: 0.18, blue: 0.24)
   /// Soft ice highlight for status, icons, and “active” labels.
-  static let crystal = Color(red: 0.42, green: 0.82, blue: 0.96)
+  static let crystal = Color(uiColor: UIColor { t in
+    t.userInterfaceStyle == .dark
+      ? UIColor(red: 0.42, green: 0.82, blue: 0.96, alpha: 1)
+      : UIColor(red: 0.10, green: 0.55, blue: 0.78, alpha: 1)
+  })
   static let radius: CGFloat = 18
 
   static func sans(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
@@ -89,28 +122,25 @@ enum ConsoleKind: String, CaseIterable, Identifiable {
   }
 }
 
-/// White Poké Ball mark for the PocketDex wordmark.
+/// Poké Ball mark for the PocketDex wordmark (adapts to Light / Dark).
 struct PokeBallMark: View {
   var size: CGFloat = 22
   var body: some View {
     let stroke = max(1.2, size * 0.075)
     ZStack {
-      // Outer shell
       Circle()
-        .strokeBorder(Color.white, lineWidth: stroke)
-      // Equator
+        .strokeBorder(CETheme.text, lineWidth: stroke)
       Rectangle()
-        .fill(Color.white)
+        .fill(CETheme.text)
         .frame(width: size, height: stroke)
-      // Button ring + core
       Circle()
         .fill(CETheme.elevated)
         .frame(width: size * 0.34, height: size * 0.34)
       Circle()
-        .strokeBorder(Color.white, lineWidth: stroke)
+        .strokeBorder(CETheme.text, lineWidth: stroke)
         .frame(width: size * 0.34, height: size * 0.34)
       Circle()
-        .strokeBorder(Color.white, lineWidth: stroke * 0.85)
+        .strokeBorder(CETheme.text, lineWidth: stroke * 0.85)
         .frame(width: size * 0.16, height: size * 0.16)
     }
     .frame(width: size, height: size)
@@ -118,175 +148,124 @@ struct PokeBallMark: View {
   }
 }
 
-/// Handheld glyphs for the library side pill (template white / black when selected).
+/// Handheld glyphs for the library tab / rail — Delta Emulator’s console silhouettes (template).
 struct ConsoleRailIcon: View {
   let kind: ConsoleKind
-  var body: some View {
-    GeometryReader { geo in
-      let s = min(geo.size.width, geo.size.height)
-      Group {
-        switch kind {
-        case .gb:
-          DMGGlyph().frame(width: s * 0.58, height: s * 0.92)
-        case .gbc:
-          GBCGlyph().frame(width: s * 0.58, height: s * 0.92)
-        case .gba:
-          // Exact AGB silhouette from reference art (template asset).
-          Image("ConsoleGBA")
-            .renderingMode(.template)
-            .resizable()
-            .scaledToFit()
-            .frame(width: s * 0.98, height: s * 0.56)
-        case .nds:
-          NDSGlyph().frame(width: s * 0.70, height: s * 0.92)
-        }
-      }
-      .frame(width: geo.size.width, height: geo.size.height)
+
+  private var assetName: String {
+    switch kind {
+    case .gb: return "DeltaIconGB"
+    case .gbc: return "DeltaIconGBC"
+    case .gba: return "DeltaIconGBA"
+    case .nds: return "DeltaIconDS"
     }
-    .accessibilityHidden(true)
+  }
+
+  var body: some View {
+    Image(assetName)
+      .renderingMode(.template)
+      .resizable()
+      .scaledToFit()
+      // Keep GBA’s wide aspect (no uniform shrink — that made it look stubby).
+      .accessibilityHidden(true)
   }
 }
 
-/// UITabBar / `tabItem` only reliably shows `UIImage` templates — not live SwiftUI Paths.
+/// Official console wordmarks for the library chrome title (Wikimedia PD-textlogo assets).
+struct ConsoleSystemLogo: View {
+  let kind: ConsoleKind
+  var height: CGFloat = 36
+
+  private var assetName: String {
+    switch kind {
+    case .gb: return "LogoGB"
+    case .gbc: return "LogoGBC"
+    case .gba: return "LogoGBA"
+    case .nds: return "LogoNDS"
+    }
+  }
+
+  /// GBC (rainbow) + GBA (indigo/white) stay original; GB/NDS tint with theme text.
+  private var usesTemplate: Bool {
+    switch kind {
+    case .gbc, .gba: return false
+    case .gb, .nds: return true
+    }
+  }
+
+  var body: some View {
+    let mark = Image(assetName)
+      .renderingMode(usesTemplate ? .template : .original)
+      .resizable()
+      .interpolation(.high)
+      .antialiased(true)
+      .scaledToFit()
+      .frame(height: kind == .gbc ? height * 1.25 : height)
+      .accessibilityLabel(kind.title)
+    if usesTemplate {
+      mark.foregroundStyle(CETheme.text)
+    } else {
+      mark
+    }
+  }
+}
+
+/// UITabBar / `tabItem` — Delta’s template console PDFs tint white/selected like SF Symbols.
 @MainActor
 enum ConsoleTabIcon {
   private static var cache: [ConsoleKind: UIImage] = [:]
 
+  private static func assetName(for kind: ConsoleKind) -> String {
+    switch kind {
+    case .gb: return "DeltaIconGB"
+    case .gbc: return "DeltaIconGBC"
+    case .gba: return "DeltaIconGBA"
+    case .nds: return "DeltaIconDS"
+    }
+  }
+
+  /// Max fraction of the tab canvas each silhouette may fill (width × height).
+  /// GBA stays wide like Delta — never squash its ~1.86∶1 aspect into a stubby block.
+  private static func maxFill(for kind: ConsoleKind) -> CGSize {
+    switch kind {
+    case .gba: return CGSize(width: 0.78, height: 0.62)
+    case .nds: return CGSize(width: 0.90, height: 0.90)
+    case .gb, .gbc: return CGSize(width: 0.88, height: 0.92)
+    }
+  }
+
   static func image(for kind: ConsoleKind) -> UIImage {
     if let cached = cache[kind] { return cached }
-    let size: CGFloat = 28
-    let content = ConsoleRailIcon(kind: kind)
-      .foregroundStyle(Color.black)
-      .frame(width: size, height: size)
-      .padding(2)
-    let renderer = ImageRenderer(content: content)
-    renderer.scale = 3
-    let raw = renderer.uiImage ?? UIImage()
-    let templated = raw.withRenderingMode(.alwaysTemplate)
+    let name = assetName(for: kind)
+    let base = UIImage(named: name) ?? UIImage(systemName: "gamecontroller.fill")!
+    // Slightly wider canvas so the GBA silhouette can read long, like Delta’s tab icon.
+    let size = CGSize(width: kind == .gba ? 42 : 34, height: 28)
+    let fill = maxFill(for: kind)
+    let renderer = UIGraphicsImageRenderer(size: size)
+    let padded = renderer.image { _ in
+      let aspect = base.size.width / max(1, base.size.height)
+      let maxW = size.width * fill.width
+      let maxH = size.height * fill.height
+      let drawW: CGFloat
+      let drawH: CGFloat
+      if aspect > maxW / maxH {
+        drawW = maxW
+        drawH = maxW / aspect
+      } else {
+        drawH = maxH
+        drawW = maxH * aspect
+      }
+      let rect = CGRect(
+        x: (size.width - drawW) / 2,
+        y: (size.height - drawH) / 2,
+        width: drawW,
+        height: drawH
+      )
+      base.draw(in: rect)
+    }
+    let templated = padded.withRenderingMode(.alwaysTemplate)
     cache[kind] = templated
     return templated
   }
 }
 
-// MARK: - Console glyphs
-
-private struct GlyphDPad: View {
-  var body: some View {
-    GeometryReader { g in
-      let s = min(g.size.width, g.size.height)
-      ZStack {
-        RoundedRectangle(cornerRadius: 1, style: .continuous)
-          .frame(width: s, height: s * 0.36)
-        RoundedRectangle(cornerRadius: 1, style: .continuous)
-          .frame(width: s * 0.36, height: s)
-      }
-      .frame(width: g.size.width, height: g.size.height)
-    }
-  }
-}
-
-/// Original Game Boy (DMG) — tall brick, screen, D-pad, A/B, speaker.
-private struct DMGGlyph: View {
-  var body: some View {
-    GeometryReader { g in
-      let w = g.size.width, h = g.size.height
-      ZStack {
-        RoundedRectangle(cornerRadius: w * 0.13, style: .continuous)
-        RoundedRectangle(cornerRadius: 2, style: .continuous)
-          .frame(width: w * 0.64, height: h * 0.28)
-          .position(x: w * 0.5, y: h * 0.26)
-          .blendMode(.destinationOut)
-        GlyphDPad()
-          .frame(width: w * 0.30, height: w * 0.30)
-          .position(x: w * 0.30, y: h * 0.60)
-          .blendMode(.destinationOut)
-        Circle().frame(width: w * 0.16, height: w * 0.16)
-          .position(x: w * 0.60, y: h * 0.55)
-          .blendMode(.destinationOut)
-        Circle().frame(width: w * 0.16, height: w * 0.16)
-          .position(x: w * 0.78, y: h * 0.66)
-          .blendMode(.destinationOut)
-        VStack(spacing: h * 0.02) {
-          ForEach(0..<4, id: \.self) { _ in
-            Capsule().frame(width: w * 0.30, height: h * 0.012)
-          }
-        }
-        .position(x: w * 0.70, y: h * 0.84)
-        .blendMode(.destinationOut)
-      }
-      .compositingGroup()
-    }
-  }
-}
-
-/// Game Boy Color — rounder shell, power LED, ridges.
-private struct GBCGlyph: View {
-  var body: some View {
-    GeometryReader { g in
-      let w = g.size.width, h = g.size.height
-      ZStack {
-        RoundedRectangle(cornerRadius: w * 0.20, style: .continuous)
-        RoundedRectangle(cornerRadius: 2, style: .continuous)
-          .frame(width: w * 0.68, height: h * 0.26)
-          .position(x: w * 0.5, y: h * 0.24)
-          .blendMode(.destinationOut)
-        Circle()
-          .frame(width: w * 0.10, height: w * 0.10)
-          .position(x: w * 0.80, y: h * 0.10)
-          .blendMode(.destinationOut)
-        GlyphDPad()
-          .frame(width: w * 0.30, height: w * 0.30)
-          .position(x: w * 0.30, y: h * 0.58)
-          .blendMode(.destinationOut)
-        Circle().frame(width: w * 0.16, height: w * 0.16)
-          .position(x: w * 0.60, y: h * 0.53)
-          .blendMode(.destinationOut)
-        Circle().frame(width: w * 0.16, height: w * 0.16)
-          .position(x: w * 0.78, y: h * 0.64)
-          .blendMode(.destinationOut)
-        VStack(spacing: h * 0.025) {
-          ForEach(0..<3, id: \.self) { _ in
-            Capsule().frame(width: w * 0.62, height: h * 0.012)
-          }
-        }
-        .position(x: w * 0.5, y: h * 0.86)
-        .blendMode(.destinationOut)
-      }
-      .compositingGroup()
-    }
-  }
-}
-
-/// Nintendo DS — open clamshell, dual screens, hinge mic.
-private struct NDSGlyph: View {
-  var body: some View {
-    GeometryReader { g in
-      let w = g.size.width, h = g.size.height
-      let r = w * 0.09
-      ZStack {
-        RoundedRectangle(cornerRadius: r, style: .continuous)
-          .frame(width: w, height: h * 0.40)
-          .position(x: w * 0.5, y: h * 0.20)
-        RoundedRectangle(cornerRadius: r, style: .continuous)
-          .frame(width: w, height: h * 0.40)
-          .position(x: w * 0.5, y: h * 0.78)
-        RoundedRectangle(cornerRadius: 2, style: .continuous)
-          .frame(width: w * 0.88, height: h * 0.10)
-          .position(x: w * 0.5, y: h * 0.49)
-        RoundedRectangle(cornerRadius: 2, style: .continuous)
-          .frame(width: w * 0.76, height: h * 0.26)
-          .position(x: w * 0.5, y: h * 0.20)
-          .blendMode(.destinationOut)
-        RoundedRectangle(cornerRadius: 2, style: .continuous)
-          .frame(width: w * 0.76, height: h * 0.26)
-          .position(x: w * 0.5, y: h * 0.76)
-          .blendMode(.destinationOut)
-        Circle()
-          .frame(width: w * 0.09, height: w * 0.09)
-          .position(x: w * 0.5, y: h * 0.49)
-          .blendMode(.destinationOut)
-      }
-      .compositingGroup()
-    }
-  }
-}

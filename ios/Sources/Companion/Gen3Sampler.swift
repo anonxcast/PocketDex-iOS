@@ -102,9 +102,15 @@ final class Gen3Sampler: CompanionSampling, @unchecked Sendable {
       snap.mapGroup = Int(b[4])
       snap.mapNum = Int(b[5])
     }
-    if let sec = readU8(c.mapHeader + 0x14) {
+    if c.mapSecWide {
+      if let b = read(c.mapHeader + 0x14, 2) {
+        let sec = Int(gen3U16(b, 0))
+        snap.mapSec = sec
+        snap.mapSecName = Gen3Names.mapSec(sec, game: c.game, tables: c.tables, configId: c.id)
+      }
+    } else if let sec = readU8(c.mapHeader + 0x14) {
       snap.mapSec = Int(sec)
-      snap.mapSecName = Gen3Names.mapSec(Int(sec), game: c.game)
+      snap.mapSecName = Gen3Names.mapSec(Int(sec), game: c.game, tables: c.tables, configId: c.id)
     }
 
     // --- money ---

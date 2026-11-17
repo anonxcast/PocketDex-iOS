@@ -2,7 +2,7 @@ import PhotosUI
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// Manic EMU / Cocoon-style artwork picker: Photos, Files, or SteamGridDB.
+/// Manic EMU / Cocoon-style artwork picker: Photos, Files, Libretro (free), or SteamGridDB.
 struct ArtworkPickerSheet: View {
   let rom: RomItem
   var initialKind: RomArtworkKind = .cover
@@ -18,6 +18,7 @@ struct ArtworkPickerSheet: View {
   @State private var showSGDB = false
   @State private var errorText: String?
   @State private var busy = false
+  @State private var busyLabel = "Saving…"
   @State private var editedName = ""
 
   var body: some View {
@@ -72,7 +73,7 @@ struct ArtworkPickerSheet: View {
 
         if busy {
           Color.black.opacity(0.35).ignoresSafeArea()
-          ProgressView("Saving…")
+          ProgressView(busyLabel)
             .tint(CETheme.accent)
             .padding(20)
             .background(CETheme.card, in: RoundedRectangle(cornerRadius: CETheme.radius))
@@ -267,10 +268,30 @@ struct ArtworkPickerSheet: View {
       }
       .buttonStyle(.plain)
 
-      Button { showSGDB = true } label: {
-        sourceRow(title: "SteamGridDB", subtitle: "Search community covers & banners", systemImage: "globe")
+      Button { Task { await fetchLibretro() } } label: {
+        sourceRow(
+          title: "Libretro (free)",
+          subtitle: "Auto covers — no account (TrashMan → retail Emerald, …)",
+          systemImage: "square.stack.3d.up"
+        )
       }
       .buttonStyle(.plain)
+      .disabled(busy)
+
+      Button { showSGDB = true } label: {
+        sourceRow(title: "SteamGridDB", subtitle: "Search community covers & banners (API key)", systemImage: "globe")
+      }
+      .buttonStyle(.plain)
+    }
+  }
+
+  private func fetchLibretro() async {
+    busyLabel = "Fetching covers…"
+    busy = true
+    defer { busy = false; busyLabel = "Saving…" }
+    let ok = await LibretroArtworkApplier.applyIfNeeded(to: rom, force: true)
+    if !ok {
+      errorText = "No Libretro cover matched this ROM name."
     }
   }
 

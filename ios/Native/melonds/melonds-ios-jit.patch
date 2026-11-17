@@ -1,0 +1,102 @@
+diff --git a/src/ARMJIT.cpp b/src/ARMJIT.cpp
+index a9489ca..56f6bfc 100644
+--- a/src/ARMJIT.cpp
++++ b/src/ARMJIT.cpp
+@@ -21,6 +21,12 @@
+ #include <string.h>
+ #include <assert.h>
+ #include <unordered_map>
++#if defined(__APPLE__) && defined(__aarch64__)
++#include <TargetConditionals.h>
++#if TARGET_OS_IPHONE
++#include <sys/mman.h>
++#endif
++#endif
+ 
+ #define XXH_STATIC_LINKING_ONLY
+ #include "xxhash/xxhash.h"
+@@ -1159,8 +1165,14 @@ void ARMJIT::ResetBlockCache() noexcept
+ void ARMJIT::JitEnableWrite() noexcept
+ {
+     #if defined(__APPLE__) && defined(__aarch64__)
++        #if TARGET_OS_IPHONE
++            // W^X: RW for codegen. Always allowed (pages start RW).
++            if (JITCompiler.CodeMemBase)
++                mprotect(JITCompiler.CodeMemBase, ARMJIT_Global::CodeMemorySliceSize, PROT_READ | PROT_WRITE);
++        #else
+         if (__builtin_available(macOS 11.0, *))
+             pthread_jit_write_protect_np(false);
++        #endif
+     #elif defined(__NetBSD__)
+         mprotect(JITCompiler.CodeMemBase, ARMJIT_Global::CodeMemorySliceSize, PROT_READ | PROT_WRITE);
+     #endif
+@@ -1169,8 +1181,16 @@ void ARMJIT::JitEnableWrite() noexcept
+ void ARMJIT::JitEnableExecute() noexcept
+ {
+     #if defined(__APPLE__) && defined(__aarch64__)
++        #if TARGET_OS_IPHONE
++            // Riley/Delta pattern: never PROT_EXEC unless host enabled JIT (StikDebug).
++            // Stops Play hanging at 0 FPS when JIT is compiled in but not acquired.
++            if (!ARMJIT_Global::CodeExecAllowed() || !JITCompiler.CodeMemBase)
++                return;
++            mprotect(JITCompiler.CodeMemBase, ARMJIT_Global::CodeMemorySliceSize, PROT_READ | PROT_EXEC);
++        #else
+         if (__builtin_available(macOS 11.0, *))
+             pthread_jit_write_protect_np(true);
++        #endif
+     #elif defined(__NetBSD__)
+         mprotect(JITCompiler.CodeMemBase, ARMJIT_Global::CodeMemorySliceSize, PROT_READ | PROT_EXEC);
+     #endif
+diff --git a/src/ARMJIT_Global.cpp b/src/ARMJIT_Global.cpp
+index e4aa42f..5619ac4 100644
+--- a/src/ARMJIT_Global.cpp
++++ b/src/ARMJIT_Global.cpp
+@@ -7,6 +7,9 @@
+ #include <sys/mman.h>
+ #include <unistd.h>
+ #endif
++#if defined(__APPLE__)
++#include <TargetConditionals.h>
++#endif
+ 
+ #include <stdio.h>
+ #include <stdint.h>
+@@ -20,6 +23,10 @@ namespace ARMJIT_Global
+ {
+ 
+ std::mutex globalMutex;
++static bool s_codeExecAllowed = false;
++
++void SetCodeExecAllowed(bool allowed) { s_codeExecAllowed = allowed; }
++bool CodeExecAllowed() { return s_codeExecAllowed; }
+ 
+ #if defined(__APPLE__) && defined(__aarch64__)
+ #define APPLE_AARCH64
+@@ -60,7 +67,12 @@ void* AllocateCodeMem()
+ #ifdef _WIN32
+     return VirtualAlloc(nullptr, CodeMemorySliceSize, MEM_RESERVE|MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+ #elif defined(APPLE_AARCH64)
++#if TARGET_OS_IPHONE
++    // No MAP_JIT (needs Apple entitlement). RW pages; PROT_EXEC only when CodeExecAllowed.
++    return mmap(NULL, CodeMemorySliceSize, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++#else
+     return mmap(NULL, CodeMemorySliceSize, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_PRIVATE | MAP_ANONYMOUS | MAP_JIT,-1, 0);
++#endif
+ #elif defined(__NetBSD__)
+     return mmap(nullptr, CodeMemorySliceSize, PROT_MPROTECT(PROT_READ | PROT_WRITE | PROT_EXEC), MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+ #else
+diff --git a/src/ARMJIT_Global.h b/src/ARMJIT_Global.h
+index 48d3d51..c5e5b6f 100644
+--- a/src/ARMJIT_Global.h
++++ b/src/ARMJIT_Global.h
+@@ -37,6 +37,10 @@ void DeInit();
+ void* AllocateCodeMem();
+ void FreeCodeMem(void* codeMem);
+ 
++/** iOS: host sets true only after StikDebug / W^X probe — gates PROT_EXEC. */
++void SetCodeExecAllowed(bool allowed);
++bool CodeExecAllowed();
++
+ }
+ 
+ }

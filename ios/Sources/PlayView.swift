@@ -8,6 +8,8 @@ struct PlayView: View {
   let rom: RomItem
 
   @State private var companionOpen = false
+  /// Frozen when the companion opens so live geo.size jitter can’t remount / jump the panel.
+  @State private var companionPanelSize: CGSize = .zero
   @State private var representation: DeltaSkinRepresentation?
   @State private var transformMap: SkinViewTransform?
   @State private var gameScreenRect: CGRect = .zero
@@ -142,19 +144,36 @@ struct PlayView: View {
         // Game framebuffer(s) — NDS ONE SCREEN: top LCD only; touch floats in a modal.
         // Stretch fills the band; Expand/Original keep pixel aspect (Expand still uses a full-size band for WIDE).
         let fillBand = settings.gameAspect == .stretch
+        // CALayer LCD path — avoids rebuilding PlayView every frame via @Published CGImages.
+        let useLayerLCD = !(settings.gameAspect == .expand && engine.wideSupported)
         if isNDS {
-          let topShown = dsOneScreen && dsTouchPopupOpen && !engine.dsMenuScreen
-            ? (dsFrozenTop ?? ndsTopImage)
-            : ndsTopImage
-          gameSurface(in: topScreenRect, image: topShown, fill: fillBand)
-            .onAppear { engine.updateWideView(forDisplay: topScreenRect.size) }
-            .onChange(of: topScreenRect) { _, rect in engine.updateWideView(forDisplay: rect.size) }
-            .onChange(of: settings.gameAspect) { _, _ in engine.updateWideView(forDisplay: topScreenRect.size) }
-            .onChange(of: settings.zoomLevel) { _, _ in engine.updateWideView(forDisplay: topScreenRect.size) }
-            .onChange(of: settings.autoZoomIn) { _, _ in engine.updateWideView(forDisplay: topScreenRect.size) }
-          if !dsOneScreen {
-            gameSurface(in: bottomScreenRect, image: ndsBottomImage, fill: fillBand)
+          let freezeTop = dsOneScreen && dsTouchPopupOpen && !engine.dsMenuScreen && dsFrozenTop != nil
+          Group {
+            if freezeTop, let frozen = dsFrozenTop {
+              gameSurface(in: topScreenRect, image: frozen, fill: fillBand)
+            } else if useLayerLCD {
+              layerLCD(in: topScreenRect, presenter: engine.lcdTop, fill: fillBand)
+            } else {
+              gameSurface(in: topScreenRect, image: ndsTopImage, fill: fillBand)
+            }
           }
+          .onAppear { engine.updateWideView(forDisplay: topScreenRect.size) }
+          .onChange(of: topScreenRect) { _, rect in engine.updateWideView(forDisplay: rect.size) }
+          if !dsOneScreen {
+            if useLayerLCD {
+              layerLCD(in: bottomScreenRect, presenter: engine.lcdBottom, fill: fillBand)
+            } else {
+              gameSurface(in: bottomScreenRect, image: ndsBottomImage, fill: fillBand)
+            }
+          }
+        } else if useLayerLCD {
+          layerLCD(in: gameRect, presenter: engine.lcdTop, fill: fillBand)
+            .onAppear { engine.updateWideView(forDisplay: gameRect.size) }
+            .onChange(of: gameRect) { _, rect in engine.updateWideView(forDisplay: rect.size) }
+            .onChange(of: settings.gameAspect) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
+            .onChange(of: settings.zoomLevel) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
+            .onChange(of: settings.autoZoomIn) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
+            .onChange(of: engine.companion?.inBattle) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
         } else {
           gameSurface(in: gameRect, image: engine.frameImage, fill: fillBand)
             .onAppear { engine.updateWideView(forDisplay: gameRect.size) }
@@ -233,21 +252,13 @@ struct PlayView: View {
           let padLayout = padLayouts.layout(landscape: landscape)
           let padContainer = CGRect(origin: .zero, size: size)
           ZStack {
-            CustomizableVirtualPad(
-              layout: padLayout,
-              isEditing: false,
-              onKey: engine.setKey,
-              onDpadMask: { engine.applyDpadMask($0) },
-              handlesTouches: false,
-              visibleControls: padVisible
-            )
-            PadTouchRepresentable(
+            // Own ObservedObject so D-pad glow doesn’t redraw the whole play canvas.
+            PlayPadChrome(
               layout: padLayout,
               onKey: engine.setKey,
               onDpadMask: { engine.applyDpadMask($0) },
               visibleControls: padVisible
             )
-            .contentShape(Rectangle())
           }
           .frame(width: padContainer.width, height: padContainer.height)
           .position(x: padContainer.midX, y: padContainer.midY)
@@ -284,6 +295,8 @@ struct PlayView: View {
             loading: engine.dsTouchBlank && (engine.dsTouchWanted || engine.dsMenuScreen),
             topImage: ndsTopImage,
             bottomImage: ndsBottomImage,
+            topPresenter: engine.lcdTouchTop,
+            bottomPresenter: engine.lcdTouchBottom,
             smoothing: settings.smoothing,
             onDismiss: {
               if dsTouchManual {
@@ -342,6 +355,7 @@ struct PlayView: View {
                     removal: .opacity.combined(with: .scale(scale: 0.96))
                   )
                 )
+                .animation(.spring(response: 0.42, dampingFraction: 0.82), value: raBanner.id)
             } else if let tip = engine.companion.flatMap({ Gen3BattleData.liveSuggestions(from: $0) }) {
               BattleSuggestChip(foeName: tip.foeName, moves: tip.moves)
                 .frame(maxWidth: .infinity)
@@ -349,6 +363,9 @@ struct PlayView: View {
                 .transition(.opacity)
             } else {
               Spacer(minLength: 8)
+            }
+            if settings.showFps {
+              fpsChromeChip
             }
             speedChromeButton
             if settings.gameAspect == .expand, engine.wideSupported {
@@ -369,6 +386,9 @@ struct PlayView: View {
               .accessibilityLabel("Edit button layout")
             }
             chromeButton(systemName: companionOpen ? "xmark" : "line.3.horizontal") {
+              if !companionOpen {
+                companionPanelSize = size
+              }
               withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) {
                 companionOpen.toggle()
                 engine.companionDrawerOpen = companionOpen
@@ -437,16 +457,39 @@ struct PlayView: View {
         if companionOpen {
           Color.black.opacity(0.45)
             .onTapGesture {
-              withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) { companionOpen = false }
+              withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) {
+                companionOpen = false
+                engine.companionDrawerOpen = false
+              }
             }
             .zIndex(70)
 
-          companionDrawer(height: size.height * (landscape ? 0.78 : 0.56), width: size.width)
-            .transition(.move(edge: .trailing).combined(with: .opacity))
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: landscape ? .trailing : .bottom)
-            .padding(.trailing, max(10, geo.safeAreaInsets.trailing))
-            .padding(.bottom, max(10, geo.safeAreaInsets.bottom))
-            .zIndex(71)
+          // Explicit Spacer layout (not trailing alignment + move transition): Duo cover→inner
+          // display switches briefly report a wrong size/safe-area and the drawer would stick on the left.
+          // Use frozen panel size — remounting on every geo.size tick made landscape scroll jump up.
+          let panel = companionPanelSize.width > 1 ? companionPanelSize : size
+          Group {
+            if landscape {
+              HStack(spacing: 0) {
+                Spacer(minLength: 0)
+                companionDrawer(height: panel.height * 0.78, width: panel.width)
+                  .padding(.trailing, max(10, geo.safeAreaInsets.trailing))
+                  .padding(.bottom, max(10, geo.safeAreaInsets.bottom))
+              }
+            } else {
+              VStack(spacing: 0) {
+                Spacer(minLength: 0)
+                companionDrawer(height: panel.height * 0.56, width: panel.width)
+                  .padding(.horizontal, max(10, min(geo.safeAreaInsets.leading, geo.safeAreaInsets.trailing)))
+                  .padding(.bottom, max(10, geo.safeAreaInsets.bottom))
+              }
+            }
+          }
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          // Keep companion out of inherited chrome animations (RA toast / battle tip).
+          .transaction { $0.animation = nil }
+          .transition(.opacity)
+          .zIndex(71)
         }
       }
       .onAppear {
@@ -461,11 +504,28 @@ struct PlayView: View {
       }
       .onChange(of: companionOpen) { _, open in
         engine.companionDrawerOpen = open
+        if open {
+          companionPanelSize = size
+        } else {
+          companionPanelSize = .zero
+        }
       }
-      .animation(.spring(response: 0.42, dampingFraction: 0.82), value: raHUD.banner?.id)
-      .onChange(of: geo.size) { _, newSize in
+      // Do NOT attach .animation(…, value: raHUD) to this whole ZStack — it was
+      // springing the landscape companion panel and making scroll jump/glitch.
+      .onChange(of: geo.size) { oldSize, newSize in
         let land = newSize.width > newSize.height
         playLandscape = land
+        // Cover ↔ inner (or big rotate): drop the drawer so it doesn’t remount mid-glitch on the wrong edge.
+        let jumped = abs(oldSize.width - newSize.width) > 80 || abs(oldSize.height - newSize.height) > 80
+        if jumped, companionOpen {
+          var t = Transaction()
+          t.disablesAnimations = true
+          withTransaction(t) {
+            companionOpen = false
+            engine.companionDrawerOpen = false
+            companionPanelSize = .zero
+          }
+        }
         reloadSkin(
           viewSize: newSize,
           landscape: land,
@@ -485,6 +545,14 @@ struct PlayView: View {
         reloadSkin(viewSize: size, landscape: landscape, panes: resolvePanes(in: size))
       }
       .onChange(of: hingeClosed) { _, _ in
+        if companionOpen {
+          var t = Transaction()
+          t.disablesAnimations = true
+          withTransaction(t) {
+            companionOpen = false
+            engine.companionDrawerOpen = false
+          }
+        }
         reloadSkin(viewSize: size, landscape: landscape, panes: resolvePanes(in: size))
       }
       .onChange(of: engine.dsTouchWanted) { _, wanted in
@@ -570,6 +638,21 @@ struct PlayView: View {
         .background(CETheme.card.opacity(0.55), in: Circle())
         .overlay(Circle().stroke(CETheme.border.opacity(0.55), lineWidth: 1))
     }
+  }
+
+  private var fpsChromeChip: some View {
+    let n = engine.fps
+    let tint: Color = n >= 55 ? CETheme.crystal : (n >= 40 ? CETheme.accent : Color(red: 1, green: 0.35, blue: 0.32))
+    return Text("\(n)")
+      .font(CETheme.mono(11))
+      .fontWeight(.bold)
+      .foregroundStyle(tint)
+      .frame(minWidth: 36, minHeight: 36)
+      .padding(.horizontal, n >= 100 ? 4 : 0)
+      .background(CETheme.card.opacity(0.55), in: Capsule())
+      .overlay(Capsule().stroke(tint.opacity(0.55), lineWidth: 1))
+      .accessibilityLabel("\(n) frames per second")
+      .allowsHitTesting(false)
   }
 
   private var speedChromeButton: some View {
@@ -745,18 +828,40 @@ struct PlayView: View {
   }
 
   @ViewBuilder
+  private func layerLCD(in rect: CGRect, presenter: LCDPresenter, fill: Bool) -> some View {
+    LCDViewRepresentable(presenter: presenter, fill: fill)
+      .frame(width: max(0, rect.width), height: max(0, rect.height))
+      .clipped()
+      .background(Color.black)
+      .position(x: rect.midX, y: rect.midY)
+      .allowsHitTesting(false)
+      .opacity(rect.width > 1 && rect.height > 1 ? 1 : 0)
+  }
+
+  @ViewBuilder
   private func gameSurface(in rect: CGRect, image: CGImage?, fill: Bool = false) -> some View {
-    ZStack {
+    ZStack(alignment: .topLeading) {
       Color.black.opacity(0.001) // keep hit-free layout size
       if rect.width > 1, rect.height > 1, let image {
-        Image(decorative: image, scale: 1)
-          .resizable()
-          .interpolation(settings.smoothing == .soft ? .medium : .none)
-          // Expand/Original: scale up to the largest size that fits the band (no squash).
-          // Stretch: fill the band (may squash).
-          .aspectRatio(contentMode: fill ? .fill : .fit)
-          .frame(width: rect.width, height: rect.height)
-          .clipped()
+        // Expand: place the WIDE buffer at Android's exact pixel scale + offX/offY so the
+        // original 240×160 frame edge stays on whole screen pixels (no seam shimmer).
+        if settings.gameAspect == .expand, engine.wideSupported, let place = engine.widePlacement {
+          let ns = max(WideCameraMath.nativeScale(), 1)
+          // scale: so one game pixel = place.scale screen pixels (Android windowQuad).
+          // Round offsets to whole points — fractional SwiftUI offsets reintroduce seam shimmer.
+          Image(decorative: image, scale: ns / max(place.scale, 0.01))
+            .interpolation(.none)
+            .offset(x: (place.offX / ns).rounded(.toNearestOrAwayFromZero),
+                    y: (place.offY / ns).rounded(.toNearestOrAwayFromZero))
+        } else {
+          Image(decorative: image, scale: 1)
+            .resizable()
+            .interpolation(settings.smoothing == .soft ? .medium : .none)
+            // Expand/Original: scale up to the largest size that fits the band (no squash).
+            // Stretch: fill the band (may squash).
+            .aspectRatio(contentMode: fill ? .fill : .fit)
+            .frame(width: rect.width, height: rect.height)
+        }
         GameShaderOverlay(
           filter: settings.screenFilter,
           grid: settings.gridStrength,
@@ -768,7 +873,8 @@ struct PlayView: View {
         ProgressView().tint(CETheme.accent)
       }
     }
-    .frame(width: max(0, rect.width), height: max(0, rect.height))
+    .frame(width: max(0, rect.width), height: max(0, rect.height), alignment: .topLeading)
+    .clipped()
     .background(Color.black)
     .clipShape(Rectangle())
     .position(x: rect.midX, y: rect.midY)
@@ -1021,5 +1127,34 @@ struct PlayView: View {
   }
 }
 
-// MARK: - Default pad (Delta / Manic-inspired)
+// MARK: - Play pad (visuals isolated from EmulatorEngine publishes)
+
+private struct PlayPadChrome: View {
+  let layout: TouchPadLayout
+  let onKey: (UInt32, Bool) -> Void
+  let onDpadMask: (UInt32) -> Void
+  let visibleControls: [PadControlID]
+  @ObservedObject private var pressed = PadPressedStore.shared
+
+  var body: some View {
+    ZStack {
+      CustomizableVirtualPad(
+        layout: layout,
+        isEditing: false,
+        onKey: onKey,
+        onDpadMask: onDpadMask,
+        handlesTouches: false,
+        pressedMask: pressed.mask,
+        visibleControls: visibleControls
+      )
+      PadTouchRepresentable(
+        layout: layout,
+        onKey: onKey,
+        onDpadMask: onDpadMask,
+        visibleControls: visibleControls
+      )
+      .contentShape(Rectangle())
+    }
+  }
+}
 

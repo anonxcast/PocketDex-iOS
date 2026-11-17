@@ -8,14 +8,14 @@ actor LibretroArtworkClient {
   private let base = URL(string: "https://thumbnails.libretro.com")!
   private let session: URLSession = {
     let cfg = URLSessionConfiguration.default
-    cfg.timeoutIntervalForRequest = 20
+    cfg.timeoutIntervalForRequest = 30
     cfg.httpAdditionalHeaders = [
       "User-Agent": "PocketDex/1.0 (Libretro thumbnails; personal library)"
     ]
     return URLSession(configuration: cfg)
   }()
 
-  /// Cached directory listings: "system|Boxarts" → filenames
+  /// Cached directory listings: "system|Boxarts" → filenames (only successful fetches).
   private var listingCache: [String: [String]] = [:]
 
   private enum ArtKind: String {
@@ -64,35 +64,48 @@ actor LibretroArtworkClient {
   }
 
   /// Download cover / banner / icon / logo when possible. Missing kinds stay nil.
+  /// Tries `romName` plus any `alternateNames` (cleaned dump titles, display names).
   func fetchBundle(
     for romName: String,
-    console: ConsoleKind
+    console: ConsoleKind,
+    alternateNames: [String] = []
   ) async -> (cover: Data?, banner: Data?, icon: Data?, logo: Data?) {
     guard let system = Self.systemFolder(for: console) else {
       return (nil, nil, nil, nil)
     }
-    let coverName = await bestFilename(romName: romName, system: system, kind: .boxarts)
-    let titleName = await bestFilename(romName: romName, system: system, kind: .titles)
-    let logoName = await bestFilename(romName: romName, system: system, kind: .logos)
+    var seen = Set<String>()
+    let queries = ([romName] + alternateNames)
+      .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+      .filter { !$0.isEmpty && seen.insert(Self.normalize($0)).inserted }
 
-    async let coverTask: Data? = {
-      guard let coverName else { return nil }
-      return await download(system: system, kind: .boxarts, file: coverName)
-    }()
-    async let bannerTask: Data? = {
-      guard let titleName else { return nil }
-      return await download(system: system, kind: .titles, file: titleName)
-    }()
-    async let logoTask: Data? = {
-      guard let logoName else { return nil }
-      return await download(system: system, kind: .logos, file: logoName)
-    }()
+    for query in queries {
+      let coverName = await bestFilename(romName: query, system: system, kind: .boxarts)
+      let titleName = await bestFilename(romName: query, system: system, kind: .titles)
+      let logoName = await bestFilename(romName: query, system: system, kind: .logos)
+      guard coverName != nil || titleName != nil || logoName != nil else { continue }
 
-    let c = await coverTask
-    let b = await bannerTask
-    let logo = await logoTask
-    // Icon falls back to cover when Libretro has no separate badge art.
-    return (c, b ?? c, c, logo)
+      async let coverTask: Data? = {
+        guard let coverName else { return nil }
+        return await download(system: system, kind: .boxarts, file: coverName)
+      }()
+      async let bannerTask: Data? = {
+        guard let titleName else { return nil }
+        return await download(system: system, kind: .titles, file: titleName)
+      }()
+      async let logoTask: Data? = {
+        guard let logoName else { return nil }
+        return await download(system: system, kind: .logos, file: logoName)
+      }()
+
+      let c = await coverTask
+      let b = await bannerTask
+      let logo = await logoTask
+      if c != nil || b != nil || logo != nil {
+        // Icon falls back to cover when Libretro has no separate badge art.
+        return (c, b ?? c, c, logo)
+      }
+    }
+    return (nil, nil, nil, nil)
   }
 
   // MARK: - Match
@@ -227,7 +240,9 @@ actor LibretroArtworkClient {
   /// Strip regions/tags and diacritics for comparison.
   static func normalize(_ name: String) -> String {
     var s = name
-    // Drop parenthetical / bracket tags: (USA), [b1], etc.
+    // GoodTools / scene index: "1986 - Pokemon Emerald (U)(TrashMan)"
+    s = s.replacingOccurrences(of: #"^\s*\d{1,5}\s*[-_.]\s*"#, with: "", options: .regularExpression)
+    // Drop parenthetical / bracket tags: (USA), [b1], (TrashMan), etc.
     s = s.replacingOccurrences(of: #"\([^)]*\)"#, with: " ", options: .regularExpression)
     s = s.replacingOccurrences(of: #"\[[^\]]*\]"#, with: " ", options: .regularExpression)
     s = s.replacingOccurrences(of: #"\{[^}]*\}"#, with: " ", options: .regularExpression)
@@ -239,10 +254,116 @@ actor LibretroArtworkClient {
     let allowed = s.map { ch -> Character in
       (ch.isLetter || ch.isNumber || ch == " ") ? ch : " "
     }
-    return String(allowed)
+    let noise: Set<String> = [
+      "trashman", "nointro", "nonintro", "goodtools", "repack", "trimmed",
+      "fixed", "dump", "rom", "hack", "beta", "proto", "sample", "demo",
+    ]
+    var tokens = String(allowed)
       .split(separator: " ", omittingEmptySubsequences: true)
-      .joined(separator: " ")
-      .lowercased()
+      .map(String.init)
+      .map { $0.lowercased() }
+      .filter { !noise.contains($0) }
+    // Leftover scene numbers after the dash strip ("1986 Pokemon Emerald").
+    while let first = tokens.first, first.allSatisfy(\.isNumber) {
+      tokens.removeFirst()
+    }
+    return tokens.joined(separator: " ")
+  }
+
+  /// Extra search strings when the dump filename is noisy (TrashMan, scene index, …).
+  /// TrashMan / scene retail dumps are aliased to the Libretro retail title first
+  /// (e.g. `Pokemon - Emerald Version (U)(TrashMan)` → `Pokemon - Emerald Version`).
+  static func queryCandidates(
+    romName: String,
+    displayName: String?,
+    console: ConsoleKind? = nil
+  ) -> [String] {
+    var out: [String] = []
+    var seen = Set<String>()
+    func add(_ raw: String?) {
+      guard let raw else { return }
+      let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+      guard !trimmed.isEmpty else { return }
+      let key = normalize(trimmed)
+      guard !key.isEmpty, seen.insert(key).inserted else { return }
+      out.append(trimmed)
+    }
+    // Prefer the retail Libretro title so TrashMan / GoodTools dumps hit box art.
+    add(retailArtworkAlias(romName: romName, console: console))
+    add(romName)
+    add(displayName)
+    let cleaned = normalize(romName)
+    if !cleaned.isEmpty { add(cleaned) }
+    return out
+  }
+
+  /// Map known trimmed/scene retail dumps onto Libretro’s retail cover names.
+  static func retailArtworkAlias(romName: String, console: ConsoleKind?) -> String? {
+    let raw = romName.lowercased()
+    let n = normalize(romName)
+    let isTrashMan = raw.contains("trashman") || raw.contains("trash man")
+    let isSceneIndex = romName.range(of: #"^\s*\d{1,5}\s*[-_.]"#, options: .regularExpression) != nil
+    // Expansion hacks keep BPEE/BPRE headers but must not steal retail covers.
+    let hackNoise = ["seaglass", "modern", "unbound", "radical", "rowe", "theta", "gaia",
+                     "glazed", "imperium", "soulgold", "crystal advance", "lazarus",
+                     "run and bun", "run & bun", "kaizo"]
+    if hackNoise.contains(where: { n.contains($0) || raw.contains($0) }) { return nil }
+
+    let gba = console == nil || console == .gba
+    let gbc = console == nil || console == .gbc
+    let gb = console == nil || console == .gb
+    let nds = console == nil || console == .nds
+
+    // Classic GoodTools zip stem for Emerald (trm-pmeu).
+    if gba, raw.contains("trm-pmeu") || n == "trm pmeu" {
+      return "Pokemon - Emerald Version"
+    }
+
+    guard isTrashMan || isSceneIndex else {
+      // Still alias bare trimmed retail names that already normalize cleanly.
+      if gba {
+        if n == "pokemon emerald" || n == "pokemon emerald version" {
+          return "Pokemon - Emerald Version"
+        }
+        if n == "pokemon firered" || n == "pokemon firered version" || n == "pokemon fire red" {
+          return "Pokemon - FireRed Version"
+        }
+        if n == "pokemon leafgreen" || n == "pokemon leafgreen version" || n == "pokemon leaf green" {
+          return "Pokemon - LeafGreen Version"
+        }
+      }
+      return nil
+    }
+
+    if gba {
+      if n.contains("emerald") { return "Pokemon - Emerald Version" }
+      if n.contains("firered") || n.contains("fire red") { return "Pokemon - FireRed Version" }
+      if n.contains("leafgreen") || n.contains("leaf green") { return "Pokemon - LeafGreen Version" }
+      if n.contains("ruby") { return "Pokemon - Ruby Version" }
+      if n.contains("sapphire") { return "Pokemon - Sapphire Version" }
+    }
+    if gbc {
+      if n.contains("crystal") { return "Pokemon - Crystal Version" }
+      if n.contains("gold") && !n.contains("heart") { return "Pokemon - Gold Version" }
+      if n.contains("silver") && !n.contains("soul") { return "Pokemon - Silver Version" }
+      if n.contains("yellow") { return "Pokemon - Yellow Version" }
+    }
+    if gb {
+      if n.contains("red") && !n.contains("firered") && !n.contains("fire") {
+        return "Pokemon - Red Version"
+      }
+      if n.contains("blue") { return "Pokemon - Blue Version" }
+    }
+    if nds {
+      if n.contains("heartgold") || n.contains("heart gold") {
+        return "Pokemon - HeartGold Version"
+      }
+      if n.contains("soulsilver") || n.contains("soul silver") {
+        return "Pokemon - SoulSilver Version"
+      }
+      if n.contains("platinum") { return "Pokemon - Platinum Version" }
+    }
+    return nil
   }
 
   // MARK: - Network
@@ -262,14 +383,13 @@ actor LibretroArtworkClient {
       let (data, response) = try await session.data(from: url)
       guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode),
             let html = String(data: data, encoding: .utf8) else {
-        listingCache[key] = []
+        // Don't cache failures — first-launch / offline would block covers forever.
         return []
       }
       let names = Self.parseListing(html)
       listingCache[key] = names
       return names
     } catch {
-      listingCache[key] = []
       return []
     }
   }
@@ -327,19 +447,32 @@ actor LibretroArtworkClient {
 
 @MainActor
 enum LibretroArtworkApplier {
-  /// Fill missing cover / banner / icon / logo from Libretro. Quietly skips when nothing matches.
+  /// Fill missing cover / banner / icon / logo from Libretro (free, no account).
+  /// Quietly skips when nothing matches. Set `force` to replace existing art for the ROM.
   @discardableResult
-  static func applyIfNeeded(to rom: RomItem) async -> Bool {
+  static func applyIfNeeded(to rom: RomItem, force: Bool = false) async -> Bool {
     guard let console = rom.console else { return false }
     let key = rom.artworkKey
     let store = RomArtworkStore.shared
-    let needCover = !store.hasArtwork(forKey: key, kind: .cover)
-    let needBanner = !store.hasArtwork(forKey: key, kind: .banner)
-    let needIcon = !store.hasArtwork(forKey: key, kind: .icon)
-    let needLogo = !store.hasArtwork(forKey: key, kind: .logo)
+    let needCover = force || !store.hasArtwork(forKey: key, kind: .cover)
+    let needBanner = force || !store.hasArtwork(forKey: key, kind: .banner)
+    let needIcon = force || !store.hasArtwork(forKey: key, kind: .icon)
+    let needLogo = force || !store.hasArtwork(forKey: key, kind: .logo)
     guard needCover || needBanner || needIcon || needLogo else { return false }
 
-    let bundle = await LibretroArtworkClient.shared.fetchBundle(for: rom.name, console: console)
+    let display = store.displayName(forKey: key)
+    let queries = LibretroArtworkClient.queryCandidates(
+      romName: rom.name,
+      displayName: display,
+      console: console
+    )
+    let primary = queries.first ?? rom.name
+    let alts = Array(queries.dropFirst())
+    let bundle = await LibretroArtworkClient.shared.fetchBundle(
+      for: primary,
+      console: console,
+      alternateNames: alts
+    )
     var wrote = false
     if needCover, let data = bundle.cover {
       try? store.save(imageData: data, forKey: key, kind: .cover)

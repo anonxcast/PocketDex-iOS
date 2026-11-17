@@ -19,6 +19,8 @@ enum Gen3Names {
   static let speciesUnbound: [Int: String] = parse(Gen3TableBlobs.speciesUnbound)
   /// National Dex order (1...1025); used for Pokédex flags (bit n-1 = National #n).
   static let speciesNational: [Int: String] = parse(Gen3TableBlobs.speciesNational)
+  /// Modern Emerald v3.6 (Emerald ids + extras through 461).
+  static let speciesModernEmerald: [Int: String] = parse(Gen3TableBlobs.speciesModernEmerald)
   /// Seaglass game-dex # → National/species id (Hoenn-first numbering).
   private static let seaglassDexNational: [Int: Int] = {
     var out: [Int: Int] = [:]
@@ -31,16 +33,50 @@ enum Gen3Names {
     return out
   }()
 
+  /// Modern Emerald Pokédex flag index (its NATIONAL_DEX_*) → internal species id.
+  private static let modernEmeraldDexSpecies: [Int: Int] = {
+    var out: [Int: Int] = [:]
+    for line in Gen3TableBlobs.modernEmeraldDexSpecies.split(separator: "\n", omittingEmptySubsequences: true) {
+      guard let bar = line.firstIndex(of: "|"),
+            let dex = Int(line[line.startIndex..<bar]),
+            let species = Int(line[line.index(after: bar)...]) else { continue }
+      out[dex] = species
+    }
+    return out
+  }()
+
+  /// Internal species id for a companion dex cell (flag index → species), when the ROM needs it.
+  static func speciesIdForDexNumber(_ n: Int, configId: String) -> Int {
+    switch configId {
+    case "modern_emerald":
+      return modernEmeraldDexSpecies[n] ?? n
+    case "emerald_seaglass":
+      // Seaglass dex cells are already Hoenn-first; map to National for lookups that need it.
+      return seaglassDexNational[n] ?? n
+    default:
+      return n
+    }
+  }
+
   static let itemsRetail: [Int: String] = parse(Gen3TableBlobs.itemsRetail)
   static let itemsUnbound: [Int: String] = parse(Gen3TableBlobs.itemsUnbound)
   /// Emerald Seaglass / pokeemerald-expansion item ids (different from retail).
   static let itemsSeaglass: [Int: String] = parse(Gen3TableBlobs.itemsSeaglass)
+  static let itemsModernEmerald: [Int: String] = parse(Gen3TableBlobs.itemsModernEmerald)
   static let movesRetail: [Int: String] = parse(Gen3TableBlobs.movesRetail)
   static let movesUnbound: [Int: String] = parse(Gen3TableBlobs.movesUnbound)
   static let movesSeaglass: [Int: String] = parse(Gen3TableBlobs.movesSeaglass)
+  static let movesModernEmerald: [Int: String] = parse(Gen3TableBlobs.movesModernEmerald)
   static let mapSecFireRed: [Int: String] = parse(Gen3TableBlobs.mapSecFireRed)
   static let mapSecEmerald: [Int: String] = parse(Gen3TableBlobs.mapSecEmerald)
   static let mapSecUnbound: [Int: String] = parse(Gen3TableBlobs.mapSecUnbound)
+  static let mapSecModernEmerald: [Int: String] = parse(Gen3TableBlobs.mapSecModernEmerald)
+  static let mapSecSoulGold: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecSoulGold)
+  static let mapSecHns: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecHns)
+  static let mapSecRowe: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecRowe)
+  static let mapSecLazarus: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecLazarus)
+  static let mapSecTeamRocket: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecTeamRocket)
+  static let mapSecTeamRocketV3: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecTeamRocketV3)
 
   private static let speciesYellow: [Int: String] = parse(Gen3BattleBlobs.speciesNamesYellow)
   private static let speciesCrystal: [Int: String] = parse(Gen3BattleBlobs.speciesNamesCrystal)
@@ -63,6 +99,9 @@ enum Gen3Names {
     case .unbound:
       // Prefer Unbound’s table; fall back to retail FR ids then National for later gens.
       return speciesUnbound[id] ?? speciesRetail[id] ?? speciesNational[id] ?? "Species #\(id)"
+    case .modernEmerald:
+      if id == 462 { return "Egg" }
+      return speciesModernEmerald[id] ?? speciesRetail[id] ?? "Species #\(id)"
     case .retail:
       if id == 412 { return "Egg" }
       return speciesRetail[id] ?? "Species #\(id)"
@@ -76,6 +115,8 @@ enum Gen3Names {
       return itemsSeaglass[id] ?? itemsRetail[id] ?? "Item #\(id)"
     case .unbound:
       return itemsUnbound[id] ?? itemsRetail[id] ?? "Item #\(id)"
+    case .modernEmerald:
+      return itemsModernEmerald[id] ?? itemsRetail[id] ?? "Item #\(id)"
     case .retail:
       return itemsRetail[id] ?? "Item #\(id)"
     case .yellow, .crystal, .polished:
@@ -87,9 +128,9 @@ enum Gen3Names {
   /// Retail bag-icon id for an item under the active tables (Unbound remaps many item numbers).
   static func itemIconId(_ id: Int, tables: Gen3Tables) -> Int {
     guard id > 0 else { return 0 }
-    if tables != .unbound { return id }
+    if tables != .unbound && tables != .modernEmerald { return id }
     if itemsRetail[id] != nil { return id }
-    let name = item(id, tables: .unbound)
+    let name = item(id, tables: tables)
     if name.hasPrefix("Item #") { return id }
     return retailItemByNormalizedName[normalizeSpeciesName(name)] ?? id
   }
@@ -101,6 +142,8 @@ enum Gen3Names {
       return movesSeaglass[id] ?? movesRetail[id] ?? "Move #\(id)"
     case .unbound:
       return movesUnbound[id] ?? movesRetail[id] ?? "Move #\(id)"
+    case .modernEmerald:
+      return movesModernEmerald[id] ?? movesRetail[id] ?? "Move #\(id)"
     case .retail:
       return movesRetail[id] ?? "Move #\(id)"
     case .yellow:
@@ -113,7 +156,27 @@ enum Gen3Names {
   }
 
   /// MAPSEC name. Retail FireRed's header ids start at 0x58 (Kanto), Emerald's at 0.
-  static func mapSec(_ id: Int, game: Gen3Game) -> String? {
+  /// Hack ROMs use their own region-map tables (SoulGold / HnS / ROWE / Team Rocket).
+  static func mapSec(_ id: Int, game: Gen3Game, tables: Gen3Tables = .retail, configId: String = "") -> String? {
+    switch configId {
+    case "heart_and_soul":
+      return mapSecHns[id] ?? mapSecEmerald[id]
+    case "soulgold", "soulgold_v1_2", "soulgold_v1_2b", "soulgold_v1_2c", "soulgold_v1_2_1":
+      return mapSecSoulGold[id]
+    case "rowe":
+      return mapSecRowe[id] ?? mapSecEmerald[id]
+    case "lazarus":
+      return mapSecLazarus[id] ?? mapSecEmerald[id]
+    case "team_rocket_v3":
+      return mapSecTeamRocketV3[id] ?? mapSecEmerald[id]
+    case "team_rocket":
+      return mapSecTeamRocket[id] ?? mapSecFireRed[id]
+    default:
+      break
+    }
+    if tables == .modernEmerald {
+      return mapSecModernEmerald[id] ?? mapSecEmerald[id]
+    }
     switch game {
     case .emerald: return mapSecEmerald[id]
     case .fireRed: return mapSecFireRed[id]
@@ -125,21 +188,45 @@ enum Gen3Names {
     speciesNational[n] ?? "#\(n)"
   }
 
-  /// Map a game's Pokédex flag index to the National Dex / species id used for names & icons.
-  /// Retail bits are already National; Seaglass (and similar) use Hoenn-first numbering.
+  /// Map a game's Pokédex flag index to the National Dex number used for icons.
+  /// Retail / CFRU / Gen 4–5 bits are already National; Seaglass is Hoenn-first; ME uses its own NATIONAL_DEX_*.
   static func nationalForDexNumber(_ n: Int, configId: String) -> Int {
     switch configId {
     case "emerald_seaglass":
       // Seaglass Hoenn-first dex (#007 = Mudkip, not Squirtle).
       return seaglassDexNational[n] ?? n
+    case "modern_emerald":
+      // Flag bit = ME NATIONAL_DEX_*; resolve species then real National for icons.
+      let sid = modernEmeraldDexSpecies[n] ?? n
+      return nationalNumber(species: sid, tables: .modernEmerald) ?? n
+    case "polished_crystal":
+      return nationalNumber(species: n, tables: .polished) ?? n
+    case "crystal", "gold", "silver":
+      return n  // Gen 2 species id == National for 1…251
+    case "yellow", "red", "blue", "green":
+      return n
     default:
-      // Radical Red / Unbound / retail: flag index is already National / species id.
+      // Radical Red / Unbound / SoulGold / retail / DS: flag index is National.
       return n
     }
   }
 
   static func dexDisplayName(_ n: Int, configId: String) -> String {
-    nationalName(nationalForDexNumber(n, configId: configId))
+    switch configId {
+    case "modern_emerald":
+      return species(speciesIdForDexNumber(n, configId: configId), tables: .modernEmerald)
+    case "polished_crystal":
+      return species(n, tables: .polished)
+    case "crystal", "gold", "silver":
+      return species(n, tables: .crystal)
+    case "yellow", "red", "blue", "green":
+      return species(n, tables: .yellow)
+    case "unbound", "unbound_with_dex", "unbound_fr":
+      // Unbound dex flags are National; prefer National names (Unbound table is species-id keyed).
+      return nationalName(n)
+    default:
+      return nationalName(nationalForDexNumber(n, configId: configId))
+    }
   }
 
   /// Reverse map of National Dex names → numbers (for icon lookup from retail / Unbound ids).
@@ -203,6 +290,7 @@ enum Gen3Names {
   static func nationalNumber(species id: Int, tables: Gen3Tables) -> Int? {
     guard id > 0 else { return nil }
     if id == 0xFD || id == 0xFF || (tables == .retail && id == 412) { return nil } // Egg
+    if tables == .modernEmerald, id == 462 { return nil }
     if tables == .unbound, speciesUnbound[id] == "Egg" || speciesUnbound[id] == "Bad Egg" {
       return nil
     }
@@ -213,9 +301,9 @@ enum Gen3Names {
       // Polished's early ids match National; forms / later entries resolve by name.
       if id <= 251, speciesNational[id] != nil { return id }
       fallthrough
-    case .retail, .unbound:
+    case .retail, .unbound, .modernEmerald:
       let raw = species(id, tables: tables)
-      if raw.hasPrefix("Species #") { return nil }
+      if raw.hasPrefix("Species #") || raw == "Egg" { return nil }
       if let hit = nationalNumber(matchingName: raw) { return hit }
       // Unown B / Deoxys Attack / etc. → base species icon.
       if let space = raw.lastIndex(of: " ") {

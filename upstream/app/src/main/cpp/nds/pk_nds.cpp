@@ -27,6 +27,9 @@
 #include <AREngine.h>
 
 #include <android/log.h>
+#if defined(__APPLE__)
+#include <TargetConditionals.h>
+#endif
 
 #include <algorithm>
 #include <atomic>
@@ -34,6 +37,7 @@
 #include <cstring>
 #include <ctime>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -68,12 +72,14 @@ struct Ds {
     int sampleRate = 48000;
     const PkNdsFieldGame* field = nullptr;   // the field read's table entry for this cart, if any
     bool wide = false;                       // EXPAND on (pk_nds_wide_enable)
+    bool expandCompose = true;               // soft Expand: run pk_nds_wide_frame this tick
     bool draw = true, drawNext = true;       // this frame / the next one is shown (pk_nds_set_draw: fast-forward's skips)
     bool drawn = true;                       // the last frame was drawn (pk_nds_frame_drawn)
     int fieldBits = 0;                       // the field read after the last frame
     bool wildOff = false;                    // WILD ENCOUNTERS OFF (pk_nds_field.cpp holds the map's rates at 0)
     bool keepStartMenu = false;              // DS LAYOUT floats the X menu: it comes back after a screen left by touch
     bool cpuBoost = false;                   // DS CPU BOOST: the ARM9 at twice the DS's clock (setArm9Shift)
+    bool jitOn = false;                      // A64 JIT active this session
     int menuLitFrames = 0;                   // frames this menu screen has been lit (its closing fade comes after)
     int scaleWant = 1;                       // DS RESOLUTION: 1 = the software renderer, 2-8 the GPU's (pk_nds_gl.h)
     bool scalePending = false;
@@ -83,6 +89,8 @@ struct Ds {
 };
 
 Ds* ds = nullptr;
+// Host (pk_ios) sets this before pk_nds_init when W^X JIT is available.
+static int s_allow_jit = 0;
 // The stylus, set from any thread (the bottom screen's view): bit 31 = down, x in bits 8-15, y in bits 0-7.
 std::atomic<u32> touch {0};
 
@@ -220,9 +228,21 @@ bool pk_nds_init(const char* romPath, const char* savePath, int sampleRate)
 
     NDSArgs args;
     args.OutputSampleRate = sampleRate;
-    // JIT with branch/literal caches; fast memory stays off on iOS (SIGSEGV handler would clash with
-    // crash reporting and pk_wide's fault guard). PokeDaisy 1.5.1 enables fastmem on Android.
-    args.JIT = JITArgs {32, true, true, false};
+    // Android: A64 JIT. iOS: only when the host called pk_nds_set_allow_jit(1) after W^X probe.
+#if defined(JIT_ENABLED)
+    if (s_allow_jit) {
+        args.JIT = JITArgs {32, true, true, false};
+        ds->jitOn = true;
+        LOGI("DS JIT: on");
+    } else {
+        args.JIT = std::nullopt;
+        ds->jitOn = false;
+        LOGI("DS JIT: off (interpreter)");
+    }
+#else
+    args.JIT = std::nullopt;
+    ds->jitOn = false;
+#endif
     ds->nds = new NDS(std::move(args), &ds->host);
     ds->nds->Reset();
 
@@ -241,9 +261,14 @@ bool pk_nds_init(const char* romPath, const char* savePath, int sampleRate)
     ds->nds->SetNDSCart(std::move(cart));
     ds->nds->Reset();
     ds->nds->SetupDirectBoot("rom.nds");
-    // PokeDaisy 1.5.1: SoftRenderer on its own thread. The melonDS patch makes EnableRenderThread a
-    // no-op starter and RenderFrame drops leftover work, so fast-forward no longer tears 3D into 2D.
+    // Android: SoftRenderer on its own thread (patch makes EnableRenderThread a no-op starter so FF
+    // doesn't tear 3D into 2D). iOS: keep 3D on the emu thread — the render thread caused visible
+    // hitching without the GLES Expand path to absorb the cost (Black 2 especially).
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+    static_cast<SoftRenderer&>(ds->nds->GPU.GetRenderer3D()).SetThreaded(false, ds->nds->GPU);
+#else
     static_cast<SoftRenderer&>(ds->nds->GPU.GetRenderer3D()).SetThreaded(true, ds->nds->GPU);
+#endif
     setClock();
     setArm9Shift(boostShift());
     ds->nds->Start();
@@ -325,12 +350,19 @@ void pk_nds_run_frame(void)
     if (ds->wide) {
         // The overworld only: the field map on screen with nothing over it (a text box keeps it) - or a battle that's
         // all 3D like it (Black's).
-        bool inBattle = (ds->fieldBits & PK_NDS_FIELD_BATTLE) != 0;
-        bool overworld = ((ds->fieldBits & PK_NDS_FIELD_SCREEN) && !(ds->fieldBits & (PK_NDS_FIELD_MENU | PK_NDS_FIELD_BATTLE))) ||
-            (inBattle && pk_nds_battle_3d(ds->field));
-        bool battle = inBattle && pk_nds_battle_margins(ds->field);
-        pk_nds_wide_gpu_want(overworld || battle);
-        pk_nds_wide_frame(nds, gpu ? ds->topArgb : nds->GPU.Framebuffer[fb][0].get(), draw, overworld, drawNext, battle);
+        if (ds->expandCompose) {
+            bool inBattle = (ds->fieldBits & PK_NDS_FIELD_BATTLE) != 0;
+            bool overworld = ((ds->fieldBits & PK_NDS_FIELD_SCREEN) && !(ds->fieldBits & (PK_NDS_FIELD_MENU | PK_NDS_FIELD_BATTLE))) ||
+                (inBattle && pk_nds_battle_3d(ds->field));
+            bool battle = inBattle && pk_nds_battle_margins(ds->field);
+#if defined(__APPLE__) && TARGET_OS_IPHONE
+            // Soft Expand: keep field Expand; skip battle 3D margins (sky/ground/quads) without GLES.
+            battle = false;
+            if (inBattle) overworld = false;
+#endif
+            pk_nds_wide_gpu_want(overworld || battle);
+            pk_nds_wide_frame(nds, gpu ? ds->topArgb : nds->GPU.Framebuffer[fb][0].get(), draw, overworld, drawNext, battle);
+        }
     }
     ds->presented = false;
     if (gpu && draw) {
@@ -609,6 +641,16 @@ void pk_nds_set_cpu_boost(bool on)
     setArm9Shift(boostShift());
 }
 
+int pk_nds_jit_active(void)
+{
+    return ds && ds->jitOn ? 1 : 0;
+}
+
+void pk_nds_set_allow_jit(int on)
+{
+    s_allow_jit = on ? 1 : 0;
+}
+
 void pk_nds_set_wild_rates(const int32_t* triples, int n) { pk_nds_field_set_rates(triples, n); }
 
 int pk_nds_set_cheats(const uint32_t* words, int nWords, const int32_t* lengths, int nCheats)
@@ -645,6 +687,11 @@ void pk_nds_wide_enable(bool on)
     if (!ds || ds->wide == on) return;
     ds->wide = on;
     pk_nds_wide_set(ds->nds, on);
+}
+
+void pk_nds_set_expand_compose(bool on)
+{
+    if (ds) ds->expandCompose = on;
 }
 
 bool pk_nds_wide_draw(uint32_t* out, int x, int y, int w, int h)
