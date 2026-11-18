@@ -577,14 +577,11 @@ private struct BattleTab: View {
         ?? Gen3BattleCoach.liveAdvice(from: snap) {
         SectionTitle(snap.inBattle ? "Smart Battle Island" : "Smart Island")
         CompanionCard {
-          let oneRow = advice.moves.isEmpty
-          let h: CGFloat = oneRow ? (advice.dataChips.isEmpty ? 40 : 52) : 86
           SmartBattleIsland(
             advice: advice,
-            preferCompact: oneRow,
+            preferCompact: false,
             onCycleTip: { CompanionLiveStore.shared.cycleIslandTip() }
           )
-            .frame(height: h)
         }
       }
 

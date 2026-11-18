@@ -10,6 +10,10 @@ final class CompanionLiveStore: ObservableObject {
   @Published private(set) var snapshot: CompanionSnapshot?
   /// Reactive Smart Island tip (memory + phrase bank + tap cycle).
   @Published private(set) var islandAdvice: Gen3BattleCoach.Advice?
+  /// One-shot island FX (ball throw / catch result) — independent of tip text.
+  @Published private(set) var islandFXPulse: SmartIslandFXPulse?
+  /// Full pulse batch from the latest sample (throw + result in one tick).
+  @Published private(set) var islandFXBatch: [SmartIslandFXPulse] = []
   @Published var hint =
     "PocketDex companion will read party / bag / map once a Pokémon game is running."
   @Published private(set) var gameName: String?
@@ -26,6 +30,7 @@ final class CompanionLiveStore: ObservableObject {
     if snapshot != snap { snapshot = snap }
     let next = SmartIslandMemory.shared.observe(snap)
     if islandAdvice != next { islandAdvice = next }
+    flushPulses()
   }
 
   /// Tap the island to flip secondary tips for the current situation.
@@ -34,6 +39,14 @@ final class CompanionLiveStore: ObservableObject {
     guard let snap = snapshot else { return }
     let next = SmartIslandMemory.shared.observe(snap)
     if islandAdvice != next { islandAdvice = next }
+    flushPulses()
+  }
+
+  private func flushPulses() {
+    let batch = SmartIslandMemory.shared.consumeAllPulses()
+    guard !batch.isEmpty else { return }
+    islandFXBatch = batch
+    islandFXPulse = batch.last
   }
 
   func setGameName(_ name: String?) {
@@ -53,6 +66,8 @@ final class CompanionLiveStore: ObservableObject {
     epilogueClearTask = nil
     snapshot = nil
     islandAdvice = nil
+    islandFXPulse = nil
+    islandFXBatch = []
     gameName = nil
     match = nil
     battleEpilogue = nil
@@ -64,7 +79,7 @@ final class CompanionLiveStore: ObservableObject {
     battleEpilogue = line
     epilogueClearTask?.cancel()
     epilogueClearTask = Task { @MainActor in
-      try? await Task.sleep(nanoseconds: 4_500_000_000)
+      try? await Task.sleep(nanoseconds: 2_000_000_000)
       guard !Task.isCancelled else { return }
       if battleEpilogue == line { battleEpilogue = nil }
     }

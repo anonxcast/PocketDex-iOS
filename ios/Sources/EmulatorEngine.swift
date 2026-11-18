@@ -494,9 +494,9 @@ final class EmulatorEngine: ObservableObject {
     }
     let statePath = RomLibrary.statePath(forRom: url, slot: slot)
     let thumbPath = RomLibrary.stateThumbPath(forRom: url, slot: slot)
-    // Freeze pixels now — frameImage’s provider aliases the live present ring.
-    let thumbPixels = frameImage.flatMap { Self.frozenThumbPixels(from: $0) }
     let artworkKey = Self.artworkKey(forRomURL: url)
+    let gbaColors = AppSettings.shared.gbaColors
+    let unlit = AppSettings.shared.unlitScreen
     let q = emuQueue
     q.async {
       guard pk_ios_is_running() else {
@@ -504,8 +504,10 @@ final class EmulatorEngine: ObservableObject {
         return
       }
       let ok = statePath.path.withCString { pk_ios_save_state($0) }
+      // Capture on the emu queue from the live video buffer — never from
+      // frameImage (aliases the present ring; A=0 + premultiplied → black/white).
       var thumbData: Data?
-      if ok, let thumbPixels {
+      if ok, let thumbPixels = Self.capturePresentThumbPixels(gbaColors: gbaColors, unlit: unlit) {
         thumbData = Self.jpegThumb(from: thumbPixels)
         if let thumbData {
           try? thumbData.write(to: thumbPath, options: [.atomic])
@@ -636,40 +638,43 @@ final class EmulatorEngine: ObservableObject {
     let bytes: [UInt8]
   }
 
-  private static func frozenThumbPixels(from cg: CGImage) -> FrozenThumbPixels? {
-    let w = cg.width
-    let h = cg.height
-    guard w > 0, h > 0 else { return nil }
-    let bpr = w * 4
-    var bytes = [UInt8](repeating: 0, count: bpr * h)
-    let ok = bytes.withUnsafeMutableBytes { raw -> Bool in
-      guard let base = raw.baseAddress else { return false }
-      guard let ctx = CGContext(
-        data: base,
-        width: w,
-        height: h,
-        bitsPerComponent: 8,
-        bytesPerRow: bpr,
-        space: CGColorSpaceCreateDeviceRGB(),
-        bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-      ) else { return false }
-      ctx.interpolationQuality = .none
-      ctx.draw(cg, in: CGRect(x: 0, y: 0, width: w, height: h))
-      return true
+  /// Snapshot `pk_ios_video_buffer` on the emu queue into opaque RGBA for JPEG thumbs.
+  /// Cores often leave A=0; treating that as premultipliedLast made game-page snaps
+  /// come out pure black (or washed-out white after a bad redraw).
+  private static func capturePresentThumbPixels(gbaColors: Bool, unlit: Bool) -> FrozenThumbPixels? {
+    let w = Int(pk_ios_video_width())
+    let h = Int(pk_ios_video_height())
+    guard w > 0, h > 0, let buf = pk_ios_video_buffer() else { return nil }
+    // NDS stacked buffer is top+bottom; prefer the top LCD for the game page.
+    let outH: Int = {
+      if pk_ios_platform() == 3, h >= (w * 3) / 2 { return h / 2 }
+      return h
+    }()
+    let count = w * outH * 4
+    var bytes = [UInt8](repeating: 0, count: count)
+    bytes.withUnsafeMutableBytes { raw in
+      guard let dst = raw.baseAddress else { return }
+      memcpy(dst, buf, count)
     }
-    guard ok else { return nil }
-    // Mild LCD-style darken — raw frames read brighter than the play surface.
-    let gain = 0.88
-    let lift = 0.04
+    // Match the play surface (shaders run on the present ring, not the core buffer).
+    if gbaColors || unlit {
+      FrameShaders.apply(rgba: &bytes, width: w, height: outH, gbaColors: gbaColors, unlit: unlit)
+    }
+    // Force opaque RGB — ignore whatever the core left in A.
+    for i in stride(from: 3, to: bytes.count, by: 4) {
+      bytes[i] = 255
+    }
+    // Mild LCD darken so JPEGs don't look hotter than the play chrome.
+    let gain = 0.92
+    let lift = 0.02
     for i in stride(from: 0, to: bytes.count, by: 4) {
       for c in 0..<3 {
         let v = Double(bytes[i + c]) / 255.0
         let shaped = min(1, max(0, (v - lift) * gain))
         bytes[i + c] = UInt8(shaped * 255.0 + 0.5)
       }
-      bytes[i + 3] = 255
     }
-    return FrozenThumbPixels(width: w, height: h, bytes: bytes)
+    return FrozenThumbPixels(width: w, height: outH, bytes: bytes)
   }
 
   private static func jpegThumb(from pixels: FrozenThumbPixels) -> Data? {
@@ -911,14 +916,22 @@ final class EmulatorEngine: ObservableObject {
   private func sampleCompanionIfNeeded() {
     guard let sampler = companionSampler else { return }
     companionFrameCount += 1
+    let fastCatch = SmartIslandMemory.shared.wantsFastCompanionPoll
     let base: Int = {
       if companionSampler is Gen4Sampler || companionSampler is Gen5Sampler {
+        // Catch shake window — poll faster so Gotcha FX isn't a second late.
+        if fastCatch { return companionDrawerOpen ? 30 : 12 }
         return companionSampleEveryFramesNDS
+      }
+      if fastCatch {
+        // ~5–6 Hz while a ball is unresolved (normal is ~1–1.5 Hz).
+        return companionDrawerOpen ? 20 : 10
       }
       // GB/GBA Expand is tight on budget; ~1 Hz closed, slower if drawer open.
       return companionDrawerOpen ? 90 : 45
     }()
     let every = companionDrawerOpen && (companionSampler is Gen4Sampler || companionSampler is Gen5Sampler)
+      && !fastCatch
       ? base * 4
       : base
     guard companionFrameCount >= every else { return }
@@ -1365,10 +1378,12 @@ final class EmulatorEngine: ObservableObject {
           if let data = CFDataCreateWithBytesNoCopy(
             kCFAllocatorDefault, slot.ptr, bytes, kCFAllocatorNull
           ), let provider = CGDataProvider(data: data) {
+            // noneSkipLast — core buffers leave A unused/0; premultipliedLast made
+            // any CGContext.draw (save thumbs) collapse to black.
             topImage = CGImage(
               width: w, height: h, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: w * 4,
               space: CGColorSpaceCreateDeviceRGB(),
-              bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue),
+              bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue),
               provider: provider, decode: nil, shouldInterpolate: false, intent: .defaultIntent
             )
           }
@@ -1394,7 +1409,7 @@ final class EmulatorEngine: ObservableObject {
                 botImage = CGImage(
                   width: 256, height: 192, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: 256 * 4,
                   space: CGColorSpaceCreateDeviceRGB(),
-                  bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue),
+                  bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue),
                   provider: botProvider, decode: nil, shouldInterpolate: false, intent: .defaultIntent
                 )
               }

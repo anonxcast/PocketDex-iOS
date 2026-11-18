@@ -308,6 +308,31 @@ final class Gen3SaveEditor {
     saveBlock2 = file.saveBlock2
     saveBlock1 = file.saveBlock1
     storage = file.storage
+    // Seaglass / expansion: clear Bad Egg flags on checksum-valid party + PC mons so a
+    // prior plaintext mis-encode (or sticky flag) is repaired on the next Save.
+    repairChecksumValidBadEggFlags()
+  }
+
+  /// Re-encode every checksum-ok mon that still has the Bad Egg bit set.
+  private func repairChecksumValidBadEggFlags() {
+    let count = Int(saveBlock1[file.format.partyCountOff])
+    for i in 0..<min(count, Gen3SaveData.PARTY_SIZE) {
+      let off = file.format.partyOff + i * Gen3SaveData.PARTY_MON_SIZE
+      let mon = Gen3BoxMon.read(saveBlock1, off)
+      guard mon.checksumOk, mon.hasBadEggFlag, !mon.isEmpty else { continue }
+      let fixed = mon.withChanges()
+      for j in 0..<fixed.count { saveBlock1[off + j] = fixed[j] }
+    }
+    for box in 0..<Gen3SaveData.BOXES {
+      for slot in 0..<Gen3SaveData.BOX_SLOTS {
+        let at = BoxSlot(box: box, slot: slot)
+        let off = Gen3SaveData.recordOff(at)
+        let mon = Gen3BoxMon.read(storage, off)
+        guard mon.checksumOk, mon.hasBadEggFlag, !mon.isEmpty else { continue }
+        let fixed = mon.withChanges()
+        for j in 0..<fixed.count { storage[off + j] = fixed[j] }
+      }
+    }
   }
 
   var data: Gen3SaveData {
@@ -558,9 +583,15 @@ final class Gen3SaveEditor {
     if !mon.checksumOk {
       throw Gen3SaveEditError("This Pokémon couldn't be decrypted for editing")
     }
-    // After checksumOk, isBadEgg is only the game's Bad Egg flag bit.
-    if mon.isBadEgg { throw Gen3SaveEditError("Bad Eggs aren't edited") }
+    // Checksum-valid mons with only the Bad Egg flag set are editable — encode() clears it.
     return (mon, level)
+  }
+
+  /// Re-encode a checksum-valid party/PC mon so Bad Egg flag is cleared (Seaglass mis-reads).
+  func repairBadEggFlag(_ at: MonRef) throws {
+    let (mon, _) = try editable(at)
+    guard mon.hasBadEggFlag else { return }
+    try put(at, mon.withChanges())
   }
 
   private func put(_ at: MonRef, _ bytes: [UInt8]) throws {

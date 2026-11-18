@@ -82,12 +82,18 @@ enum Gen3BattleCoach {
   static func composeAdvice(
     from snap: CompanionSnapshot,
     lastWildFoeSpecies: Int,
-    stickySeed: UInt64
+    stickySeed: UInt64,
+    completedTalkTips: Set<String> = []
   ) -> Advice? {
     if snap.inBattle {
       return battleAdvice(from: snap, stickySeed: stickySeed)
     }
-    return fieldAdvice(from: snap, lastWildFoeSpecies: lastWildFoeSpecies, stickySeed: stickySeed)
+    return fieldAdvice(
+      from: snap,
+      lastWildFoeSpecies: lastWildFoeSpecies,
+      stickySeed: stickySeed,
+      completedTalkTips: completedTalkTips
+    )
   }
 
   /// Compact chips for the island strip.
@@ -110,7 +116,8 @@ enum Gen3BattleCoach {
   static func secondaryTips(
     from snap: CompanionSnapshot,
     primary: Advice,
-    lastWildFoeSpecies: Int
+    lastWildFoeSpecies: Int,
+    completedTalkTips: Set<String> = []
   ) -> [Advice] {
     let bag = BagIndex(snap: snap)
     let chips = dataChips(from: snap, bagBalls: bag.ballCount())
@@ -202,6 +209,165 @@ enum Gen3BattleCoach {
       }
     }
 
+    // In-battle alternates: wild catch/chip vs trainer pace/switch.
+    if snap.inBattle {
+      let trainer = snap.isTrainer == true
+      let foeN = primary.foeName
+      if trainer {
+        let pace = PhraseBank.pick(
+          .trainerPace,
+          seed: UInt64(snap.mapSec &* 19),
+          ["foe": foeN, "party": "\(alive)/\(party.count)"]
+        )
+        out.append(Advice(
+          foeName: foeN,
+          headline: pace.0,
+          detail: pace.1,
+          kind: .field,
+          moves: primary.moves,
+          bestMove: primary.bestMove,
+          allyHpPct: primary.allyHpPct,
+          foeHpPct: primary.foeHpPct,
+          partyAlive: alive,
+          partyTotal: party.count,
+          itemHint: bag.inventoryLine(),
+          urgency: "TRAINER",
+          dataChips: chips,
+          foeLevel: primary.foeLevel,
+          foeTypes: primary.foeTypes,
+          battleKind: "Trainer",
+          tipId: "sec.trainer.pace"
+        ))
+      } else {
+        let chip = PhraseBank.pick(
+          .wildChip,
+          seed: UInt64(snap.mapSec &* 23),
+          ["foe": foeN, "fp": "\(primary.foeHpPct ?? 0)", "move": primary.bestMove?.name ?? "a move"]
+        )
+        out.append(Advice(
+          foeName: foeN,
+          headline: chip.0,
+          detail: chip.1,
+          kind: .field,
+          moves: primary.moves,
+          bestMove: primary.bestMove,
+          allyHpPct: primary.allyHpPct,
+          foeHpPct: primary.foeHpPct,
+          partyAlive: alive,
+          partyTotal: party.count,
+          itemHint: bag.inventoryLine(),
+          urgency: "WILD",
+          dataChips: chips,
+          foeLevel: primary.foeLevel,
+          foeTypes: primary.foeTypes,
+          battleKind: "Wild",
+          tipId: "sec.wild.chip"
+        ))
+        if bag.ballCount() > 0 {
+          out.append(Advice(
+            foeName: foeN,
+            headline: "Catch lane open",
+            detail: "Balls \(bag.ballCount()) · soften \(foeN) then throw",
+            kind: .catchBall,
+            moves: primary.moves,
+            bestMove: primary.bestMove,
+            allyHpPct: primary.allyHpPct,
+            foeHpPct: primary.foeHpPct,
+            partyAlive: alive,
+            partyTotal: party.count,
+            itemHint: bag.inventoryLine(),
+            urgency: "CATCH",
+            dataChips: chips,
+            battleKind: "Wild",
+            tipId: "sec.wild.catch"
+          ))
+        }
+      }
+      let flavor = SmartIslandVoice.flavor(
+        species: lead.species, tables: snap.tables, configId: snap.configId
+      )
+      let personal = PhraseBank.pickPersonal(
+        field: false,
+        flavor: flavor,
+        seed: UInt64(lead.species &* 31),
+        vars: SmartIslandVoice.personalVars(
+          leadName: leadName, level: lead.level, pct: leadPct, place: place, foe: foeN, flavor: flavor
+        ),
+        trainer: trainer
+      )
+      out.append(Advice(
+        foeName: foeN,
+        headline: personal.0,
+        detail: personal.1,
+        kind: .field,
+        moves: primary.moves,
+        bestMove: primary.bestMove,
+        allyHpPct: leadPct,
+        foeHpPct: primary.foeHpPct,
+        partyAlive: alive,
+        partyTotal: party.count,
+        itemHint: bag.inventoryLine(),
+        urgency: trainer ? "PARTNER·T" : "PARTNER·W",
+        dataChips: chips,
+        battleKind: trainer ? "Trainer" : "Wild",
+        tipId: "sec.personal.battle.\(lead.species)"
+      ))
+    }
+
+    // Who to talk to (tap-cycle alternates).
+    if !snap.inBattle {
+      for talk in SmartIslandTalkTips.tips(
+        for: snap,
+        stickySeed: UInt64(snap.mapSec &* 17),
+        limit: 2,
+        excluding: completedTalkTips
+      ) {
+        out.append(Advice(
+          foeName: place,
+          headline: talk.headline,
+          detail: talk.detail,
+          kind: .field,
+          moves: primary.moves,
+          bestMove: primary.bestMove,
+          allyHpPct: leadPct,
+          foeHpPct: primary.foeHpPct,
+          partyAlive: alive,
+          partyTotal: party.count,
+          itemHint: bag.inventoryLine(),
+          urgency: talk.urgency,
+          dataChips: chips,
+          tipId: talk.tipId
+        ))
+      }
+      let flavor = SmartIslandVoice.flavor(
+        species: lead.species, tables: snap.tables, configId: snap.configId
+      )
+      let personal = PhraseBank.pickPersonal(
+        field: true,
+        flavor: flavor,
+        seed: UInt64(lead.species &* 13),
+        vars: SmartIslandVoice.personalVars(
+          leadName: leadName, level: lead.level, pct: leadPct, place: place, foe: nil, flavor: flavor
+        )
+      )
+      out.append(Advice(
+        foeName: place,
+        headline: personal.0,
+        detail: personal.1,
+        kind: .field,
+        moves: [],
+        bestMove: nil,
+        allyHpPct: leadPct,
+        foeHpPct: nil,
+        partyAlive: alive,
+        partyTotal: party.count,
+        itemHint: bag.inventoryLine(),
+        urgency: "PARTNER",
+        dataChips: chips,
+        tipId: "sec.personal.\(lead.species)"
+      ))
+    }
+
     // Place / money soft tip.
     let moneyBit = snap.money.map { "₽\($0)" } ?? "—"
     out.append(Advice(
@@ -236,12 +402,31 @@ enum Gen3BattleCoach {
     func inventoryLine() -> String? { bag.inventoryLine() }
   }
 
+  /// itemId → total quantity across pockets (for quest completion).
+  static func itemQuantities(from snap: CompanionSnapshot) -> [Int: Int] {
+    var map: [Int: Int] = [:]
+    for item in snap.bag where item.itemId > 0 && item.quantity > 0 {
+      map[item.itemId, default: 0] += item.quantity
+    }
+    return map
+  }
+
+  /// species → count in party (eggs included when species > 0).
+  static func speciesCounts(from snap: CompanionSnapshot) -> [Int: Int] {
+    var map: [Int: Int] = [:]
+    for mon in snap.party where mon.species > 0 {
+      map[mon.species, default: 0] += 1
+    }
+    return map
+  }
+
   // MARK: - Overworld / field
 
   private static func fieldAdvice(
     from snap: CompanionSnapshot,
     lastWildFoeSpecies: Int,
-    stickySeed: UInt64
+    stickySeed: UInt64,
+    completedTalkTips: Set<String> = []
   ) -> Advice? {
     let party = snap.party.filter { !$0.isEgg && $0.species > 0 }
     guard !party.isEmpty else { return nil }
@@ -333,7 +518,7 @@ enum Gen3BattleCoach {
       let who = Gen3Names.species(worst.mon.species, tables: snap.tables)
       if let heal = bag.bestHeal(missingHp: missing, maxHp: worst.mon.maxHp, forceAny: worst.p <= 25) {
         let line = PhraseBank.pick(
-          worst.p <= 25 ? .criticalHp : .healNudge,
+          worst.p <= 25 ? .criticalHpWild : .healNudge,
           seed: stickySeed &+ UInt64(worst.p),
           [
             "who": who, "item": heal.name, "qty": "\(heal.qty)", "pct": "\(worst.p)",
@@ -368,6 +553,20 @@ enum Gen3BattleCoach {
       return base(headline: line.0, detail: line.1, kind: .field, urgency: "BAG", tipId: "field.balls")
     }
 
+    // Who to talk to — GuideAreas PEOPLE + building heuristics (before soft idle).
+    if stickySeed % 2 == 0,
+       let talk = SmartIslandTalkTips.primaryTip(
+         for: snap, stickySeed: stickySeed, excluding: completedTalkTips
+       ) {
+      return base(
+        headline: talk.headline,
+        detail: talk.detail,
+        kind: .field,
+        urgency: talk.urgency,
+        tipId: talk.tipId
+      )
+    }
+
     // Soft coverage tip vs last wild when seed picks it.
     if lastWildFoeSpecies > 0, stickySeed % 3 == 0 {
       let ranked = Gen3BattleData.suggestions(
@@ -390,8 +589,23 @@ enum Gen3BattleCoach {
       }
     }
 
-    // Soft ongoing coach — phrase bank idle.
-    let line = PhraseBank.pick(
+    // Personal lead voice / soft idle.
+    let flavor = SmartIslandVoice.flavor(
+      species: lead.species, tables: snap.tables, configId: snap.configId
+    )
+    let personal = PhraseBank.pickPersonal(
+      field: true,
+      flavor: flavor,
+      seed: stickySeed &+ UInt64(lead.species),
+      vars: SmartIslandVoice.personalVars(
+        leadName: leadName, level: lead.level, pct: leadPct, place: place, foe: nil, flavor: flavor
+      ).merging([
+        "party": "\(alive)/\(total)",
+        "money": moneyBit,
+        "bag": bagLine ?? "—",
+      ]) { _, b in b }
+    )
+    let idle = PhraseBank.pick(
       .fieldIdle,
       seed: stickySeed,
       [
@@ -404,6 +618,8 @@ enum Gen3BattleCoach {
         "bag": bagLine ?? "—",
       ]
     )
+    // Prefer personal lines most of the time; keep classic idle as variety.
+    let line = stickySeed % 5 == 0 ? idle : personal
     return Advice(
       foeName: place,
       headline: line.0,
@@ -416,9 +632,9 @@ enum Gen3BattleCoach {
       partyAlive: alive,
       partyTotal: total,
       itemHint: bag.battleReadyHint() ?? bagLine,
-      urgency: "FIELD",
+      urgency: stickySeed % 5 == 0 ? "FIELD" : "PARTNER",
       dataChips: chips,
-      tipId: "field.idle"
+      tipId: stickySeed % 5 == 0 ? "field.idle" : "field.personal.\(lead.species)"
     )
   }
 
@@ -524,7 +740,7 @@ enum Gen3BattleCoach {
         return pack(headline: line.0, detail: line.1, kind: .revive, urgency: "FAINTED", tipId: "bat.revive", ally: 0)
       }
       let line = PhraseBank.pick(
-        .fainted,
+        snap.isTrainer == true ? .faintedTrainer : .faintedWild,
         seed: stickySeed,
         ["alive": "\(alive)"]
       )
@@ -552,7 +768,7 @@ enum Gen3BattleCoach {
       if let heal = bag.bestHeal(missingHp: missing, maxHp: allyMax, forceAny: criticalHp) {
         let hpBit = allyHp <= 5 ? "\(allyHp) HP left" : "You \(allyPct)%"
         let line = PhraseBank.pick(
-          .criticalHp,
+          snap.isTrainer == true ? .criticalHpTrainer : .criticalHpWild,
           seed: stickySeed,
           ["item": heal.name, "qty": "\(heal.qty)", "hpBit": hpBit, "foeBit": foeBit, "who": "You", "pct": "\(allyPct)", "hp": "\(allyHp)", "max": "\(allyMax)"]
         )
@@ -560,19 +776,56 @@ enum Gen3BattleCoach {
           headline: line.0,
           detail: line.1,
           kind: .heal,
-          urgency: criticalHp ? "CRITICAL" : "LOW HP",
-          tipId: "bat.heal"
+          urgency: criticalHp ? "CRITICAL" : (snap.isTrainer == true ? "TRAINER HP" : "WILD HP"),
+          tipId: snap.isTrainer == true ? "bat.heal.trainer" : "bat.heal.wild"
         )
       }
       if criticalHp || allyPct <= 25 {
+        let detail = snap.isTrainer == true
+          ? "You \(allyPct)% · trainer fight — heal before their next mon"
+          : "You \(allyPct)% (\(allyHp)/\(allyMax))\(foeBit) · no potion matched"
         return pack(
           headline: "Open bag — heal!",
-          detail: "You \(allyPct)% (\(allyHp)/\(allyMax))\(foeBit) · no potion matched",
+          detail: detail,
           kind: .heal,
           urgency: "CRITICAL",
           tipId: "bat.heal.need"
         )
       }
+    }
+
+    // 3b) Wild: soft chip tip when foe is mid-HP (catch prep) — before setup/switch.
+    if snap.isTrainer != true, let fp = foePct, fp > 40, fp <= 70, allyPct >= 50,
+       let best, best.power > 0, best.pp > 0, stickySeed % 2 == 0 {
+      let line = PhraseBank.pick(
+        .wildChip,
+        seed: stickySeed,
+        ["foe": foeName, "fp": "\(fp)", "move": best.name]
+      )
+      return pack(
+        headline: line.0,
+        detail: "\(line.1) · or \(best.name)",
+        kind: .attack,
+        urgency: "CHIP",
+        tipId: "bat.wild.chip"
+      )
+    }
+
+    // 3c) Trainer: pace tip when party is thin or foe still healthy.
+    if snap.isTrainer == true, allyPct >= 40, let fp = foePct, fp >= 50,
+       stickySeed % 3 == 0 {
+      let line = PhraseBank.pick(
+        .trainerPace,
+        seed: stickySeed,
+        ["foe": foeName, "party": "\(alive)/\(total)"]
+      )
+      return pack(
+        headline: line.0,
+        detail: line.1,
+        kind: .field,
+        urgency: "TRAINER",
+        tipId: "bat.trainer.pace"
+      )
     }
 
     // 4) Wild catch — ball from bag.
@@ -603,11 +856,17 @@ enum Gen3BattleCoach {
        let xItem = bag.bestOffenseBoost(physical: isPhysicalMove(best)) {
       let why = moveWhy(best)
       let line = PhraseBank.pick(
-        .setup,
+        snap.isTrainer == true ? .setupTrainer : .setupWild,
         seed: stickySeed,
-        ["item": xItem.name, "qty": "\(xItem.qty)", "move": best.name, "why": why]
+        ["item": xItem.name, "qty": "\(xItem.qty)", "move": best.name, "why": why, "foe": foeName]
       )
-      return pack(headline: line.0, detail: line.1, kind: .setup, urgency: "SETUP", tipId: "bat.setup")
+      return pack(
+        headline: line.0,
+        detail: line.1,
+        kind: .setup,
+        urgency: snap.isTrainer == true ? "TRAINER SETUP" : "WILD SETUP",
+        tipId: snap.isTrainer == true ? "bat.setup.trainer" : "bat.setup.wild"
+      )
     }
 
     // 6) PP restore when the best damaging move is dry.
@@ -628,38 +887,74 @@ enum Gen3BattleCoach {
       foeSpecies: foeBattle?.species ?? 0,
       allyPct: allyPct
     ) {
+      let trainer = snap.isTrainer == true
       let line = PhraseBank.pick(
-        .switchOut,
+        trainer ? .switchOutTrainer : .switchOutWild,
         seed: stickySeed,
-        ["alt": switchHint.name, "why": switchHint.detail]
+        ["alt": switchHint.name, "why": switchHint.detail, "foe": foeName, "lead": Gen3Names.species(allyBattle?.species ?? 0, tables: snap.tables)]
       )
       return pack(
         headline: line.0,
         detail: line.1,
         kind: .switchOut,
-        urgency: "MATCHUP",
-        tipId: "bat.switch",
+        urgency: trainer ? "TRAINER MATCHUP" : "WILD MATCHUP",
+        tipId: trainer ? "bat.switch.trainer" : "bat.switch.wild",
         itemHint: bag.quickSupportHint(allyPct: allyPct, allyStatus: allyStatus) ?? bagLine
       )
     }
 
-    // 8) Default attack — bag inventory always rides along.
+    // 8) Default attack — wild vs trainer personal voice + bag.
     if let best, best.power > 0 {
+      let trainer = snap.isTrainer == true
       let support = bag.quickSupportHint(allyPct: allyPct, allyStatus: allyStatus)
       let why = moveWhy(best)
-      let cat: PhraseBank.Category = best.multiplierPct >= 200 ? .superEffective
-        : (best.multiplierPct < 100 ? .resisted : .attack)
+      let allyName = Gen3Names.species(allyBattle?.species ?? snap.party.first?.species ?? 0, tables: snap.tables)
+      let flavor = SmartIslandVoice.flavor(
+        species: allyBattle?.species ?? snap.party.first?.species ?? 0,
+        tables: snap.tables,
+        configId: snap.configId
+      )
+      let personal = PhraseBank.pickPersonal(
+        field: false,
+        flavor: flavor,
+        seed: stickySeed &+ UInt64(best.slot),
+        vars: SmartIslandVoice.personalVars(
+          leadName: allyName,
+          level: allyBattle?.level ?? 0,
+          pct: allyPct,
+          place: placeName(snap),
+          foe: foeName,
+          flavor: flavor
+        ),
+        trainer: trainer
+      )
+      let cat: PhraseBank.Category
+      if best.multiplierPct >= 200 {
+        cat = .superEffective
+      } else if best.multiplierPct < 100 {
+        cat = .resisted
+      } else {
+        cat = trainer ? .attackTrainer : .attackWild
+      }
       let line = PhraseBank.pick(
         cat,
         seed: stickySeed,
-        ["move": best.name, "why": why]
+        ["move": best.name, "why": why, "foe": foeName]
       )
+      let detail = stickySeed % 2 == 0 ? "\(line.1) · \(personal.0)" : personal.1
+      let urgency: String = {
+        if best.multiplierPct >= 200 { return "SUPER EFFECTIVE" }
+        if best.stab { return trainer ? "TRAINER STAB" : "WILD STAB" }
+        return trainer ? "TRAINER" : "WILD"
+      }()
       return pack(
         headline: line.0,
-        detail: line.1,
+        detail: detail,
         kind: .attack,
-        urgency: best.multiplierPct >= 200 ? "SUPER EFFECTIVE" : (best.stab ? "STAB" : "FIGHT"),
-        tipId: "bat.atk",
+        urgency: urgency,
+        tipId: trainer
+          ? "bat.atk.trainer.\(allyBattle?.species ?? 0)"
+          : "bat.atk.wild.\(allyBattle?.species ?? 0)",
         itemHint: support ?? bagLine
       )
     }

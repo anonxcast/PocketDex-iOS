@@ -15,7 +15,7 @@ struct OptimizedRomFeatures: OptionSet, Hashable {
     var out: [String] = []
     if contains(.expand) { out.append("Expand / Zoom") }
     if contains(.companion) {
-      out.append("Companion · Smart Island (reactive coach · phrases · tap tips)")
+      out.append("Companion · Smart Island (partner phrases · talk-to tips · tap cycle)")
     }
     if contains(.saveEditor) { out.append("Save Editor") }
     if contains(.shaders) { out.append("Shaders") }

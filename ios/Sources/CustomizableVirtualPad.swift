@@ -144,17 +144,10 @@ struct CustomizableVirtualPad: View {
         faceLabel("R", width: w, height: h, corner: id.cornerRadius * place.scale, bit: GbaKey.r, fontSize: 14, interactive: touch)
       case .save:
         // Visual only in the pad chrome — PlayView owns the real SAVE tap target.
-        Text("SAVE")
-          .font(CETheme.sans(11, weight: .bold))
-          .tracking(1.0)
-          .foregroundStyle(PadStyle.label)
-          .frame(width: w, height: h)
-          .background(PadStyle.fill, in: RoundedRectangle(cornerRadius: id.cornerRadius * place.scale, style: .continuous))
-          .overlay(
-            RoundedRectangle(cornerRadius: id.cornerRadius * place.scale, style: .continuous)
-              .stroke(PadStyle.stroke, lineWidth: 1)
-          )
-          .allowsHitTesting(false)
+        hudChromeLabel("SAVE", width: w, height: h, corner: id.cornerRadius * place.scale)
+      case .touch:
+        // Visual only — PlayView owns the real TOUCH / HIDE tap target on NDS one-screen.
+        hudChromeLabel("TOUCH", width: w, height: h, corner: id.cornerRadius * place.scale)
       }
     }
     .overlay {
@@ -164,6 +157,25 @@ struct CustomizableVirtualPad: View {
           .frame(width: w + 6, height: h + 6)
       }
     }
+  }
+
+  private func hudChromeLabel(
+    _ text: String,
+    width: CGFloat,
+    height: CGFloat,
+    corner: CGFloat
+  ) -> some View {
+    Text(text)
+      .font(CETheme.sans(11, weight: .bold))
+      .tracking(1.0)
+      .foregroundStyle(PadStyle.label)
+      .frame(width: width, height: height)
+      .background(PadStyle.fill, in: RoundedRectangle(cornerRadius: corner, style: .continuous))
+      .overlay(
+        RoundedRectangle(cornerRadius: corner, style: .continuous)
+          .stroke(PadStyle.stroke, lineWidth: 1)
+      )
+      .allowsHitTesting(false)
   }
 
   private func faceLabel(

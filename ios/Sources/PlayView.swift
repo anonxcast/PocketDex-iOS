@@ -446,28 +446,19 @@ struct PlayView: View {
           // Pass taps through to the DS touch window / game under the chrome.
           Spacer().allowsHitTesting(false)
 
-          if isNDS, dsOneScreen {
-            HStack(spacing: 14) {
-              Spacer().allowsHitTesting(false)
-              dsTouchBottomButton
-              Spacer().allowsHitTesting(false)
-            }
-            .padding(.bottom, max(18, geo.safeAreaInsets.bottom + (landscape ? 10 : 22)))
-            .padding(.horizontal, 14)
-          }
         }
         .padding(.leading, geo.safeAreaInsets.leading)
         .padding(.trailing, geo.safeAreaInsets.trailing)
         // Above the DS touch dim so HUD controls stay usable during naming / menus.
         .zIndex(60)
 
-        // Movable SAVE — same normalized coords as Edit Layout (not a fixed chrome slot).
+        // Movable SAVE / TOUCH — same normalized coords as Edit Layout (not fixed chrome slots).
         if !skinActive {
-          let saveLayout = padLayouts.layout(
+          let hudLayout = padLayouts.layout(
             landscape: landscape,
             surface: hingeClosed ? .cover : .inner
           )
-          let savePlace = saveLayout[.save]
+          let savePlace = hudLayout[.save]
           let saveScale = savePlace.scale
           let saveW = PadControlID.save.baseSize.width * saveScale
           let saveH = PadControlID.save.baseSize.height * saveScale
@@ -475,6 +466,17 @@ struct PlayView: View {
             .frame(width: saveW, height: saveH)
             .position(x: savePlace.x * size.width, y: savePlace.y * size.height)
             .zIndex(61)
+
+          if isNDS, dsOneScreen {
+            let touchPlace = hudLayout[.touch]
+            let touchScale = touchPlace.scale
+            let touchW = PadControlID.touch.baseSize.width * touchScale
+            let touchH = PadControlID.touch.baseSize.height * touchScale
+            dsTouchBottomButton
+              .frame(width: touchW, height: touchH)
+              .position(x: touchPlace.x * size.width, y: touchPlace.y * size.height)
+              .zIndex(61)
+          }
         }
 
         if companionOpen {
@@ -742,7 +744,8 @@ struct PlayView: View {
     .accessibilityLabel("Open save states")
   }
 
-  /// Bottom TOUCH control — hide/show the floating second screen without closing the in-game menu.
+  /// TOUCH / HIDE — hide/show the floating second screen without closing the in-game menu.
+  /// Frame size comes from the layout placement (same as SAVE).
   private var dsTouchBottomButton: some View {
     Button {
       toggleDsTouchManual()
@@ -751,7 +754,7 @@ struct PlayView: View {
         .font(CETheme.sans(11, weight: .bold))
         .tracking(1.0)
         .foregroundStyle(dsTouchPopupOpen ? CETheme.crystal : PadStyle.label)
-        .frame(width: 96, height: 38)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
           (dsTouchPopupOpen ? CETheme.crystal.opacity(0.22) : PadStyle.fill),
           in: RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -1330,31 +1333,30 @@ private struct PlayCompanionCenterChrome: View {
   /// Duo front/cover — keep Smart Battle Island on the short face.
   var coverFace: Bool = false
 
+  private var isWelcome: Bool {
+    guard let advice = live.islandAdvice else { return false }
+    return advice.urgency == "WELCOME" || advice.tipId == "evt.welcome"
+  }
+
   var body: some View {
-    if let raBanner {
-      RAAchievementChip(banner: raBanner)
+    // Launch: keep WELCOME on top and tuck the RA chip underneath (don't replace the greeting).
+    if preferInlineIsland, isWelcome, let advice = live.islandAdvice {
+      VStack(spacing: 5) {
+        islandChip(advice)
+        if let raBanner {
+          raChip(raBanner)
+        }
+      }
+      .frame(maxWidth: .infinity)
+      .layoutPriority(-1)
+    } else if let raBanner {
+      raChip(raBanner)
         .frame(maxWidth: .infinity)
         .layoutPriority(-1)
-        .transition(
-          .asymmetric(
-            insertion: .scale(scale: 0.88).combined(with: .opacity).combined(with: .move(edge: .top)),
-            removal: .opacity.combined(with: .scale(scale: 0.96))
-          )
-        )
-        .animation(.spring(response: 0.42, dampingFraction: 0.82), value: raBanner.id)
     } else if preferInlineIsland, let advice = live.islandAdvice {
-      SmartBattleIsland(
-        advice: advice,
-        preferCompact: coverFace,
-        onCycleTip: { live.cycleIslandTip() }
-      )
+      islandChip(advice)
         .frame(maxWidth: .infinity)
         .layoutPriority(-1)
-        .transition(.asymmetric(
-          insertion: .scale(scale: 0.94).combined(with: .opacity),
-          removal: .opacity
-        ))
-        .animation(.spring(response: 0.38, dampingFraction: 0.86), value: advice.headline)
     } else if preferInlineIsland, let epi = live.battleEpilogue {
       Text(epi)
         .font(CETheme.sans(coverFace ? 11 : 13, weight: .bold))
@@ -1372,6 +1374,33 @@ private struct PlayCompanionCenterChrome: View {
     } else {
       Spacer(minLength: 8)
     }
+  }
+
+  private func islandChip(_ advice: Gen3BattleCoach.Advice) -> some View {
+    // Cover stays a bit shorter; inner chrome grows slim→cozy→tall with the island’s own spring.
+    SmartBattleIsland(
+      advice: advice,
+      preferCompact: coverFace,
+      onCycleTip: { live.cycleIslandTip() }
+    )
+    .transition(.asymmetric(
+      insertion: .scale(scale: 0.94).combined(with: .opacity),
+      removal: .opacity
+    ))
+    .animation(.spring(response: 0.42, dampingFraction: 0.86), value: advice.headline)
+    .animation(.spring(response: 0.42, dampingFraction: 0.86), value: advice.kind)
+    .animation(.spring(response: 0.42, dampingFraction: 0.86), value: advice.tipId)
+  }
+
+  private func raChip(_ banner: RetroAchievementsPlayHUD.Banner) -> some View {
+    RAAchievementChip(banner: banner)
+      .transition(
+        .asymmetric(
+          insertion: .scale(scale: 0.88).combined(with: .opacity).combined(with: .move(edge: .top)),
+          removal: .opacity.combined(with: .scale(scale: 0.96))
+        )
+      )
+      .animation(.spring(response: 0.42, dampingFraction: 0.82), value: banner.id)
   }
 }
 

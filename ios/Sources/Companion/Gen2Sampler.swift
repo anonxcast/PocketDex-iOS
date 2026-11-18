@@ -263,13 +263,23 @@ final class Gen2Sampler: CompanionSampling, @unchecked Sendable {
       let backup = read(c.backupMapGroup, 2)
       let bg = Int(backup?[0] ?? 0)
       let bn = Int(backup?[1] ?? 0)
-      snap.mapSecName = Gen2Maps.resolve(
+      let landmark = Gen2Maps.landmarkId(
         gameId: c.id,
         group: snap.mapGroup,
         num: snap.mapNum,
         backupGroup: bg,
         backupNum: bn
       )
+      // Guide talk tips key Gen2 by landmark id (same as Android areaSection).
+      snap.mapSec = landmark
+      snap.mapSecName = Gen2Maps.placeName(gameId: c.id, landmark: landmark)
+        ?? Gen2Maps.resolve(
+          gameId: c.id,
+          group: snap.mapGroup,
+          num: snap.mapNum,
+          backupGroup: bg,
+          backupNum: bn
+        )
     }
 
     if let m = read(c.money, 3) {

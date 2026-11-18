@@ -5,19 +5,23 @@ enum PadControlID: String, CaseIterable, Codable, Identifiable {
   case dpad, a, b, x, y, start, select, l, r
   /// HUD-only — opens save states; not a GBA/NDS key bit.
   case save
+  /// HUD-only (NDS one-screen) — show/hide the floating touch LCD.
+  case touch
 
   var id: String { rawValue }
 
-  /// GBA / GB pads omit X/Y; NDS needs the full set. (No SAVE — HUD overlay.)
+  /// GBA / GB pads omit X/Y; NDS needs the full set. (No SAVE / TOUCH — HUD overlays.)
   static let gbaCases: [PadControlID] = [.dpad, .a, .b, .start, .select, .l, .r]
   static let ndsCases: [PadControlID] = [.dpad, .a, .b, .x, .y, .start, .select, .l, .r]
-  /// Editor draws game keys + movable SAVE.
+  /// Editor draws game keys + movable SAVE (+ TOUCH on NDS).
   static func editorCases(nds: Bool) -> [PadControlID] {
-    (nds ? ndsCases : gbaCases) + [.save]
+    var ids = (nds ? ndsCases : gbaCases) + [.save]
+    if nds { ids.append(.touch) }
+    return ids
   }
 
-  /// True for emulator key bits (PadTouch hits); false for HUD chrome like SAVE.
-  var isGameKey: Bool { self != .save }
+  /// True for emulator key bits (PadTouch hits); false for HUD chrome like SAVE / TOUCH.
+  var isGameKey: Bool { self != .save && self != .touch }
 
   var title: String {
     switch self {
@@ -31,6 +35,7 @@ enum PadControlID: String, CaseIterable, Codable, Identifiable {
     case .l: return "L"
     case .r: return "R"
     case .save: return "Save"
+    case .touch: return "Touch"
     }
   }
 
@@ -41,7 +46,7 @@ enum PadControlID: String, CaseIterable, Codable, Identifiable {
     case .a, .b, .x, .y: return CGSize(width: 64, height: 64)
     case .start, .select: return CGSize(width: 78, height: 34)
     case .l, .r: return CGSize(width: 84, height: 36)
-    case .save: return CGSize(width: 96, height: 38)
+    case .save, .touch: return CGSize(width: 96, height: 38)
     }
   }
 
@@ -49,7 +54,7 @@ enum PadControlID: String, CaseIterable, Codable, Identifiable {
     switch self {
     case .dpad: return 18
     case .a, .b, .x, .y: return 30
-    case .start, .select, .save: return 14
+    case .start, .select, .save, .touch: return 14
     case .l, .r: return 15
     }
   }
@@ -125,7 +130,8 @@ struct TouchPadLayout: Codable, Equatable {
       PadControlID.x.rawValue: .init(x: 0.88, y: 0.76),
       PadControlID.b.rawValue: .init(x: 0.72, y: 0.90),
       PadControlID.a.rawValue: .init(x: 0.88, y: 0.90),
-      PadControlID.save.rawValue: .init(x: 0.50, y: 0.955),
+      PadControlID.save.rawValue: .init(x: 0.32, y: 0.955),
+      PadControlID.touch.rawValue: .init(x: 0.68, y: 0.955),
     ])
   }
 
@@ -141,7 +147,8 @@ struct TouchPadLayout: Codable, Equatable {
       PadControlID.x.rawValue: .init(x: 0.92, y: 0.42),
       PadControlID.b.rawValue: .init(x: 0.82, y: 0.62),
       PadControlID.a.rawValue: .init(x: 0.92, y: 0.62),
-      PadControlID.save.rawValue: .init(x: 0.50, y: 0.92),
+      PadControlID.save.rawValue: .init(x: 0.38, y: 0.92),
+      PadControlID.touch.rawValue: .init(x: 0.62, y: 0.92),
     ])
   }
 
@@ -157,7 +164,8 @@ struct TouchPadLayout: Codable, Equatable {
       PadControlID.x.rawValue: .init(x: 0.90, y: 0.70, scale: 0.9),
       PadControlID.b.rawValue: .init(x: 0.74, y: 0.86, scale: 0.9),
       PadControlID.a.rawValue: .init(x: 0.90, y: 0.86, scale: 0.9),
-      PadControlID.save.rawValue: .init(x: 0.50, y: 0.94, scale: 0.85),
+      PadControlID.save.rawValue: .init(x: 0.32, y: 0.94, scale: 0.85),
+      PadControlID.touch.rawValue: .init(x: 0.68, y: 0.94, scale: 0.85),
     ])
   }
 
@@ -173,7 +181,8 @@ struct TouchPadLayout: Codable, Equatable {
       PadControlID.x.rawValue: .init(x: 0.94, y: 0.48, scale: 0.9),
       PadControlID.b.rawValue: .init(x: 0.84, y: 0.68, scale: 0.9),
       PadControlID.a.rawValue: .init(x: 0.94, y: 0.68, scale: 0.9),
-      PadControlID.save.rawValue: .init(x: 0.50, y: 0.93, scale: 0.85),
+      PadControlID.save.rawValue: .init(x: 0.38, y: 0.93, scale: 0.85),
+      PadControlID.touch.rawValue: .init(x: 0.62, y: 0.93, scale: 0.85),
     ])
   }
 
@@ -203,6 +212,19 @@ struct TouchPadLayout: Codable, Equatable {
     guard controls[PadControlID.save.rawValue] == nil else { return }
     let fallback = Self.default(profile: PadLayoutProfile(surface: surface, landscape: landscape))
     controls[PadControlID.save.rawValue] = fallback[.save]
+  }
+
+  /// Ensure NDS TOUCH/HIDE exists after loading older layout blobs.
+  mutating func ensuringTouchPlacement(landscape: Bool, surface: PadSurface = .inner) {
+    guard controls[PadControlID.touch.rawValue] == nil else { return }
+    let fallback = Self.default(profile: PadLayoutProfile(surface: surface, landscape: landscape))
+    controls[PadControlID.touch.rawValue] = fallback[.touch]
+  }
+
+  /// Backfill HUD chrome placements (SAVE + TOUCH) for older saved layouts.
+  mutating func ensuringHudPlacements(landscape: Bool, surface: PadSurface = .inner) {
+    ensuringSavePlacement(landscape: landscape, surface: surface)
+    ensuringTouchPlacement(landscape: landscape, surface: surface)
   }
 
   mutating func move(_ id: PadControlID, toNormalized point: CGPoint) {
@@ -253,10 +275,10 @@ final class TouchPadLayoutStore: ObservableObject {
     // Cover starts from cover-tuned defaults (not a copy of inner) so front edits stay independent.
     var cp = Self.load(Key.coverPortrait) ?? .defaultCoverPortrait()
     var cl = Self.load(Key.coverLandscape) ?? .defaultCoverLandscape()
-    ip.ensuringSavePlacement(landscape: false, surface: .inner)
-    il.ensuringSavePlacement(landscape: true, surface: .inner)
-    cp.ensuringSavePlacement(landscape: false, surface: .cover)
-    cl.ensuringSavePlacement(landscape: true, surface: .cover)
+    ip.ensuringHudPlacements(landscape: false, surface: .inner)
+    il.ensuringHudPlacements(landscape: true, surface: .inner)
+    cp.ensuringHudPlacements(landscape: false, surface: .cover)
+    cl.ensuringHudPlacements(landscape: true, surface: .cover)
     cl.ensureCoverLandscapeShouldersClear()
     innerPortrait = ip
     innerLandscape = il
@@ -280,7 +302,7 @@ final class TouchPadLayoutStore: ObservableObject {
       layout = coverLandscape
       layout.ensureCoverLandscapeShouldersClear()
     }
-    layout.ensuringSavePlacement(landscape: profile.landscape, surface: profile.surface)
+    layout.ensuringHudPlacements(landscape: profile.landscape, surface: profile.surface)
     return layout
   }
 
@@ -290,7 +312,7 @@ final class TouchPadLayoutStore: ObservableObject {
 
   func save(_ layout: TouchPadLayout, profile: PadLayoutProfile) {
     var next = layout
-    next.ensuringSavePlacement(landscape: profile.landscape, surface: profile.surface)
+    next.ensuringHudPlacements(landscape: profile.landscape, surface: profile.surface)
     switch (profile.surface, profile.landscape) {
     case (.inner, false):
       innerPortrait = next

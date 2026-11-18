@@ -42,6 +42,8 @@ struct Gen3BoxMon {
   /// True when the game set the Bad Egg flag, or we could not decode the record at all.
   /// Plaintext Unbound mons are `checksumOk` and editable even though 0x1C isn't a retail checksum.
   var isBadEgg: Bool { flags & 1 != 0 || !checksumOk }
+  /// Game Bad Egg bit only (checksum may still be valid — repairable).
+  var hasBadEggFlag: Bool { flags & 1 != 0 }
   var otNameBytes: [UInt8] { Array(header[0x14..<0x1B]) }
 
   // Growth (mask strips packed tera/form bits on expansion hacks)
@@ -110,7 +112,7 @@ struct Gen3BoxMon {
     let nick = Gen3Text.encode(nickname.isEmpty ? "POKEMON" : nickname, length: NICKNAME_BYTES)
     for i in 0..<NICKNAME_BYTES { h[0x08 + i] = nick[i] }
     h[0x12] = UInt8(language)
-    h[0x13] = 0 // flags
+    h[0x13] = species > 0 ? 0x02 : 0 // hasSpecies; never Bad Egg on create
     let ot = Array((otNameBytes + [UInt8](repeating: 0xFF, count: 7)).prefix(7))
     for i in 0..<7 { h[0x14 + i] = ot[i] }
     h[0x1B] = 0 // marking
@@ -260,6 +262,12 @@ struct Gen3BoxMon {
     if !checksumOk { return original }   // never re-encode a record we couldn't read
     var out = [UInt8](repeating: 0, count: Gen3BoxMon.SIZE)
     for i in 0..<header.count { out[i] = header[i] }
+    // Clear Bad Egg bit; keep has-species when Growth.species != 0 (Seaglass / expansion).
+    var flagByte = Int(out[0x13])
+    flagByte &= ~0x01
+    if species > 0 { flagByte |= 0x02 } else { flagByte &= ~0x02 }
+    out[0x13] = UInt8(truncatingIfNeeded: flagByte)
+
     var sum = 0
     for i in 0..<24 { sum = (sum + saveU16(data, i * 2)) & 0xFFFF }
 
@@ -302,9 +310,14 @@ struct Gen3BoxMon {
     // Packed-species hacks (HnS / TMT2) must stay on the encrypted path. Treating a
     // failed decrypt as "plaintext" and re-encoding it produces a Bad Egg in-game.
     let packsBits = Gen3SaveData.SPECIES_FIELD_MASK != 0xFFFF
-    if encrypted.checksumOk && isPlausibleSpecies(encrypted.species) {
+
+    // ALWAYS prefer a checksum-valid encrypted record. Seaglass / expansion species
+    // can miss name-table "plausible" checks; falling through to plaintext and
+    // re-encoding those bytes is what creates Bad Eggs after a save edit.
+    if encrypted.checksumOk {
       return encrypted
     }
+
     if !packsBits,
        let plain = readPlaintext(b, off, original: original),
        isPlausibleSpecies(plain.species) {
@@ -315,9 +328,6 @@ struct Gen3BoxMon {
     if let recovered = readBestEffort(b, off, original: original) {
       return recovered
     }
-    // Prefer a checksum-valid encrypted record even when species looks odd (masked
-    // expansion ids); never return an editable plaintext fake for packed formats.
-    if encrypted.checksumOk { return encrypted }
     return encrypted
   }
 
@@ -381,6 +391,10 @@ struct Gen3BoxMon {
   private static func isPlausibleSpecies(_ id: Int) -> Bool {
     guard id > 0, id <= Gen3SaveData.MAX_SPECIES_EXPANDED else { return false }
     if id == 412 { return true } // Bad Egg / Egg slot in retail tables
+    // Active expanded ceiling (Seaglass / RR / etc.) — trust checksumed ids in range.
+    if Gen3SaveData.MAX_SPECIES > Gen3SaveData.MAX_SPECIES_RETAIL, id <= Gen3SaveData.MAX_SPECIES {
+      return true
+    }
     return Gen3Names.speciesUnbound[id] != nil
       || Gen3Names.speciesRetail[id] != nil
       || Gen3Names.speciesNational[id] != nil
