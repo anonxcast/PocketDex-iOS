@@ -19,6 +19,7 @@ struct SettingsView: View {
   var initialCategory: SettingsCategory? = nil
 
   @State private var screen: SettingsScreen = .categories
+  @State private var hingeClosed = false
 
   var body: some View {
     Group {
@@ -37,12 +38,18 @@ struct SettingsView: View {
           screen = .category(.display)
         })
       case .padEditor:
-        PadLayoutEditorView(isPresented: Binding(
-          get: { screen == .padEditor },
-          set: { if !$0 { screen = .category(.controllers) } }
-        ))
+        PadLayoutEditorView(
+          coverFace: hingeClosed,
+          isPresented: Binding(
+            get: { screen == .padEditor },
+            set: { if !$0 { screen = .category(.controllers) } }
+          )
+        )
       }
     }
+    .modifier(DuoHingeClosedObserver { closed in
+      hingeClosed = closed
+    })
     .onAppear {
       if let initialCategory, screen == .categories {
         screen = .category(initialCategory)
@@ -260,8 +267,7 @@ struct SettingsCategoryDetail: View {
             }
             .buttonStyle(.plain)
             Button {
-              TouchPadLayoutStore.shared.reset(landscape: false)
-              TouchPadLayoutStore.shared.reset(landscape: true)
+              TouchPadLayoutStore.shared.resetAll()
             } label: {
               Text("Reset layouts to default")
                 .font(CETheme.sans(13, weight: .semibold))
@@ -269,7 +275,7 @@ struct SettingsCategoryDetail: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 4)
             }
-            hint("Matches Delta’s Touch & Haptics. Layout editing works on the default pad (not Delta skins).")
+            hint("Four separate profiles: Front/Inner × Portrait/Landscape. Editing on the Duo cover never changes the open-phone pads.")
 
           case .audio:
             settingsCard {
@@ -1115,7 +1121,7 @@ struct OptimizedRomsInfoView: View {
 
       HStack(spacing: 8) {
         legendChip("Expand / Zoom", color: CETheme.crystal)
-        legendChip("Companion", color: Color(red: 0.55, green: 0.72, blue: 0.55))
+        legendChip("Companion · Island", color: Color(red: 0.55, green: 0.72, blue: 0.55))
         legendChip("Save Editor", color: Color(red: 0.72, green: 0.58, blue: 0.42))
       }
     }

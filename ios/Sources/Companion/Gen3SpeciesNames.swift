@@ -82,10 +82,13 @@ enum Gen3Names {
   static let mapSecLazarus: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecLazarus)
   static let mapSecTeamRocket: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecTeamRocket)
   static let mapSecTeamRocketV3: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecTeamRocketV3)
+  static let mapSecWishes: [Int: String] = parse(Gen3HackMapSecBlobs.mapSecWishes)
 
   private static let speciesYellow: [Int: String] = parse(Gen3BattleBlobs.speciesNamesYellow)
   private static let speciesCrystal: [Int: String] = parse(Gen3BattleBlobs.speciesNamesCrystal)
   private static let speciesPolished: [Int: String] = parse(Gen3BattleBlobs.speciesNamesPolished)
+  private static let speciesPrism: [Int: String] = parse(Gen3BattleBlobs.speciesNamesPrism)
+  private static let itemsPrism: [Int: String] = parse(Gen3BattleBlobs.itemNamesPrism)
 
   static func species(_ id: Int, tables: Gen3Tables) -> String {
     switch tables {
@@ -104,6 +107,10 @@ enum Gen3Names {
     case .polished:
       if id == 0xFF || id == 0xFD { return "Egg" }
       return speciesPolished[id] ?? nationalName(id)
+    case .prism:
+      // Prism: 253 = Egg (same byte as Crystal), own species ids otherwise.
+      if id == 0xFD || id == 253 { return "Egg" }
+      return speciesPrism[id] ?? "Species #\(id)"
     case .unbound:
       // Prefer Unbound’s table; fall back to retail FR ids then National for later gens.
       return speciesUnbound[id] ?? speciesRetail[id] ?? speciesNational[id] ?? "Species #\(id)"
@@ -129,6 +136,8 @@ enum Gen3Names {
       return itemsModernEmerald[id] ?? itemsRetail[id] ?? "Item #\(id)"
     case .retail:
       return itemsRetail[id] ?? "Item #\(id)"
+    case .prism:
+      return itemsPrism[id] ?? "Item #\(id)"
     case .yellow, .crystal, .polished:
       // GB/GBC item names aren't fully ported yet; keep a stable placeholder.
       return itemsRetail[id] ?? "Item #\(id)"
@@ -166,6 +175,8 @@ enum Gen3Names {
       return Gen3BattleData.moveInfo(id, tables: .crystal)?.name ?? movesRetail[id] ?? "Move #\(id)"
     case .polished:
       return Gen3BattleData.moveInfo(id, tables: .polished)?.name ?? "Move #\(id)"
+    case .prism:
+      return Gen3BattleData.moveInfo(id, tables: .prism)?.name ?? "Move #\(id)"
     }
   }
 
@@ -185,6 +196,8 @@ enum Gen3Names {
       return mapSecTeamRocketV3[id] ?? mapSecEmerald[id]
     case "team_rocket":
       return mapSecTeamRocket[id] ?? mapSecFireRed[id]
+    case "wishes":
+      return mapSecWishes[id] ?? mapSecEmerald[id]
     default:
       break
     }
@@ -215,6 +228,8 @@ enum Gen3Names {
       return nationalNumber(species: sid, tables: .modernEmerald) ?? n
     case "polished_crystal":
       return nationalNumber(species: n, tables: .polished) ?? n
+    case "prism":
+      return nationalNumber(species: n, tables: .prism) ?? n
     case "crystal", "gold", "silver":
       return n  // Gen 2 species id == National for 1…251
     case "yellow", "red", "blue", "green":
@@ -231,6 +246,8 @@ enum Gen3Names {
       return species(speciesIdForDexNumber(n, configId: configId), tables: .modernEmerald)
     case "polished_crystal":
       return species(n, tables: .polished)
+    case "prism":
+      return species(n, tables: .prism)
     case "crystal", "gold", "silver":
       return species(n, tables: .crystal)
     case "yellow", "red", "blue", "green":
@@ -324,9 +341,12 @@ enum Gen3Names {
         if let hit = nationalNumber(matchingName: base) { return hit }
       }
       return id <= 2000 ? id : nil
+    case .prism:
+      // Prism remaps many National names onto its own ids — resolve icons by display name.
+      fallthrough
     case .polished:
       // Polished's early ids match National; forms / later entries resolve by name.
-      if id <= 251, speciesNational[id] != nil { return id }
+      if tables == .polished, id <= 251, speciesNational[id] != nil { return id }
       fallthrough
     case .retail, .unbound, .modernEmerald:
       let raw = species(id, tables: tables)

@@ -53,9 +53,9 @@ final class SaveSession: ObservableObject {
     var found: (SaveGeneration, Backend, String?)?
     switch rom.pathExtension.lowercased() {
     case "gb":
-      found = openGen1(data) ?? openGen2(data)
+      found = openGen1(data) ?? openGen2(rom: rom, data: data)
     case "gbc":
-      found = openGen2(data) ?? openGen1(data)
+      found = openGen2(rom: rom, data: data) ?? openGen1(data)
     case "gba":
       found = openGen3(rom: rom, data: data)
     case "nds":
@@ -85,8 +85,11 @@ final class SaveSession: ObservableObject {
     return (.gen1, .gen1(s), s.checksumIsValid ? nil : "The save's checksum doesn't match, so it is open read-only.")
   }
 
-  private static func openGen2(_ data: Data) -> (SaveGeneration, Backend, String?)? {
-    guard let s = try? Gen2Save.parse(data) else { return nil }
+  private static func openGen2(rom: URL, data: Data) -> (SaveGeneration, Backend, String?)? {
+    let fn = rom.lastPathComponent.uppercased()
+    let preferPrism = fn.contains("PRISM") || fn.contains("POKEPRISM")
+      || OptimizedRomCatalog.entry(matchingFileName: rom.lastPathComponent)?.id == "prism"
+    guard let s = try? Gen2Save.parse(data, preferPrism: preferPrism) else { return nil }
     return (.gen2, .gen2(s), nil)
   }
 
@@ -405,7 +408,13 @@ final class SaveSession: ObservableObject {
     case .gen1: return .yellow
     case .gen2:
       let fn = romURL.lastPathComponent.uppercased()
-      return fn.contains("POLISHED") ? .polished : .crystal
+      if fn.contains("POLISHED") { return .polished }
+      if fn.contains("PRISM") || fn.contains("POKEPRISM")
+          || OptimizedRomCatalog.entry(matchingFileName: romURL.lastPathComponent)?.id == "prism" {
+        return .prism
+      }
+      if case .gen2(let s) = backend, s.variant == .prism { return .prism }
+      return .crystal
     case .gen3:
       if isUnboundSave { return .unbound }
       let fn = romURL.lastPathComponent.uppercased()

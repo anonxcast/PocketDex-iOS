@@ -6,10 +6,11 @@ import UIKit
 enum WideCameraMath {
   static let maxViewW = 800
   static let maxViewH = 800
-  /// Soft melonDS Expand caps (interpreter). Tight enough to hold ~60 FPS on Duo/phone;
-  /// Gen 5 stays smaller (heavier field). JIT path can raise Gen5 to ndsGen5Max* later.
-  static let ndsMaxViewW = 384
-  static let ndsMaxViewH = 288
+  /// Soft melonDS Expand caps (interpreter). PokeDaisy 1.6.1 draws Expand slices on helper
+  /// threads while the next frame runs — Gen 4 can open wider while staying near 60 FPS.
+  /// Gen 5 stays tighter without A64 JIT (heavier field). JIT can raise Gen5 to ndsGen5Max* later.
+  static let ndsMaxViewW = 512
+  static let ndsMaxViewH = 320
   static let ndsGen5MaxViewW = 512
   static let ndsGen5MaxViewH = 384
   static let ndsGen5NoJitMaxViewW = 320
@@ -48,21 +49,28 @@ enum WideCameraMath {
   /// Screen pixels per game pixel for each zoom step (1× first = closest).
   /// Integer scales only — same as Android `WideCamera.levelsFor` — so the original
   /// 240×160 frame edge lands on whole screen pixels (avoids Expand seam shimmer).
+  ///
+  /// `sidesOnly`: lock window height to the console frame (width-only Expand). Prefer
+  /// false — full Expand keeps the view filled during auto-zoom like GBA.
   static func levels(
     viewW: CGFloat,
     viewH: CGFloat,
     frameW: Int,
     frameH: Int,
     maxW: Int = maxViewW,
-    maxH: Int = maxViewH
+    maxH: Int = maxViewH,
+    sidesOnly: Bool = false
   ) -> [CGFloat] {
     guard viewW > 0, viewH > 0, frameW > 0, frameH > 0 else { return [1] }
-    let fit = min(viewW / CGFloat(frameW), viewH / CGFloat(frameH))
+    let vw = viewW
+    let vh = sidesOnly ? CGFloat(frameH) * (viewW / CGFloat(frameW)) : viewH
+    let fit = min(vw / CGFloat(frameW), vh / CGFloat(frameH))
     var out: [CGFloat] = [fit]
     var k = Int(floor(fit))
     if CGFloat(k) == fit { k -= 1 }
     while k >= 1 {
-      if viewW / CGFloat(k) > CGFloat(maxW) || viewH / CGFloat(k) > CGFloat(maxH) { break }
+      if vw / CGFloat(k) > CGFloat(maxW) { break }
+      if !sidesOnly, vh / CGFloat(k) > CGFloat(maxH) { break }
       if out.last! / CGFloat(k) >= minStep {
         out.append(CGFloat(k))
       }
@@ -79,9 +87,13 @@ enum WideCameraMath {
     frameW: Int,
     frameH: Int,
     maxW: Int = maxViewW,
-    maxH: Int = maxViewH
+    maxH: Int = maxViewH,
+    sidesOnly: Bool = false
   ) -> CGFloat {
-    let steps = levels(viewW: viewW, viewH: viewH, frameW: frameW, frameH: frameH, maxW: maxW, maxH: maxH)
+    let steps = levels(
+      viewW: viewW, viewH: viewH, frameW: frameW, frameH: frameH,
+      maxW: maxW, maxH: maxH, sidesOnly: sidesOnly
+    )
     guard steps.indices.contains(level), steps[0] > 0 else { return 1 }
     return steps[0] / steps[level]
   }
@@ -92,9 +104,13 @@ enum WideCameraMath {
     frameW: Int,
     frameH: Int,
     maxW: Int = maxViewW,
-    maxH: Int = maxViewH
+    maxH: Int = maxViewH,
+    sidesOnly: Bool = false
   ) -> Int {
-    levels(viewW: viewW, viewH: viewH, frameW: frameW, frameH: frameH, maxW: maxW, maxH: maxH).count
+    levels(
+      viewW: viewW, viewH: viewH, frameW: frameW, frameH: frameH,
+      maxW: maxW, maxH: maxH, sidesOnly: sidesOnly
+    ).count
   }
 
   /// HUD / settings label for a zoom index given the current play-area size (points).
@@ -104,11 +120,13 @@ enum WideCameraMath {
     frameW: Int,
     frameH: Int,
     maxW: Int = maxViewW,
-    maxH: Int = maxViewH
+    maxH: Int = maxViewH,
+    sidesOnly: Bool = false
   ) -> String {
     let px = pixels(fromPoints: displayPoints)
     let steps = levels(
-      viewW: px.width, viewH: px.height, frameW: frameW, frameH: frameH, maxW: maxW, maxH: maxH
+      viewW: px.width, viewH: px.height, frameW: frameW, frameH: frameH,
+      maxW: maxW, maxH: maxH, sidesOnly: sidesOnly
     )
     let idx = min(max(0, level), max(0, steps.count - 1))
     if idx == 0 { return "1× (close)" }
@@ -128,17 +146,19 @@ enum WideCameraMath {
     frameW: Int,
     frameH: Int,
     maxW: Int = maxViewW,
-    maxH: Int = maxViewH
+    maxH: Int = maxViewH,
+    sidesOnly: Bool = false
   ) -> Placement? {
     guard scale > 0.01, viewW > 0, viewH > 0, frameW > 0, frameH > 0 else { return nil }
     let fw = viewW / scale
-    let fh = viewH / scale
+    // Sides-only: classic Expand — height stays the console frame; only widen left/right.
+    let fh = sidesOnly ? CGFloat(frameH) : viewH / scale
     let fx = CGFloat(frameW) / 2 - fw / 2
-    let fy = CGFloat(frameH) / 2 - fh / 2
+    let fy = sidesOnly ? 0 : CGFloat(frameH) / 2 - fh / 2
     let x = Int(floor(fx))
     let y = Int(floor(fy))
     let w = min(maxW, Int(ceil(fx + fw)) - x)
-    let h = min(maxH, Int(ceil(fy + fh)) - y)
+    let h = sidesOnly ? frameH : min(maxH, Int(ceil(fy + fh)) - y)
     guard w > 0, h > 0 else { return nil }
     // Subpixel nudge so the pasted 240×160 frame edge stays on whole screen pixels.
     let offX = (CGFloat(x) - fx) * scale
@@ -154,10 +174,12 @@ enum WideCameraMath {
     frameW: Int,
     frameH: Int,
     maxW: Int = maxViewW,
-    maxH: Int = maxViewH
+    maxH: Int = maxViewH,
+    sidesOnly: Bool = false
   ) -> (x: Int, y: Int, w: Int, h: Int)? {
     guard let p = placement(
-      scale: scale, viewW: viewW, viewH: viewH, frameW: frameW, frameH: frameH, maxW: maxW, maxH: maxH
+      scale: scale, viewW: viewW, viewH: viewH, frameW: frameW, frameH: frameH,
+      maxW: maxW, maxH: maxH, sidesOnly: sidesOnly
     ) else {
       return nil
     }

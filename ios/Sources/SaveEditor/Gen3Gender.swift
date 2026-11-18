@@ -1538,7 +1538,7 @@ fefe7ffe7fffffff1fffffff7f7f7f7f7f7f7f7f7fffffff7fbf7f7f7f7f7f7f7f7f3f3fffff1f7f
       return retailMap[species] ?? nationalMap[species] ?? 127
     case .national, .hns:
       return nationalMap[species] ?? retailMap[species] ?? 127
-    case .yellow, .crystal, .polished:
+    case .yellow, .crystal, .polished, .prism:
       return nationalMap[species] ?? 127
     }
   }

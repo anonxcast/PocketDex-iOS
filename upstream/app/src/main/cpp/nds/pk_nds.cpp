@@ -286,6 +286,7 @@ void pk_nds_deinit(void)
 {
     if (!ds) return;
     if (ds->nds) {
+        pk_nds_wide_sync();
         pk_nds_flush_save();
         pk_nds_wide_set(nullptr, false);
         pk_nds_gl_end(ds->nds);
@@ -399,6 +400,8 @@ void pk_nds_set_audio_rate(double rate)
 bool pk_nds_flush_save(void)
 {
     if (!ds || !ds->saveDirty) return false;
+    // Async Expand slices still read VRAM — wait before rewriting cart save.
+    pk_nds_wide_sync();
     ds->saveDirty = false;
     writeSaveFile();
     return true;
@@ -424,6 +427,7 @@ int pk_nds_finish_save(int maxFrames)
 bool pk_nds_save_state(const char* path)
 {
     if (!ds) return false;
+    pk_nds_wide_sync();
     Savestate st;
     setArm9Shift(1);
     bool taken = ds->nds->DoSavestate(&st) && !st.Error;
@@ -443,6 +447,7 @@ bool pk_nds_save_state(const char* path)
 bool pk_nds_load_state(const char* path)
 {
     if (!ds) return false;
+    pk_nds_wide_sync();
     std::vector<u8> data;
     if (!readFile(path, data) || data.size() < 16) return false;
     u32 header[4];
@@ -685,6 +690,7 @@ bool pk_nds_frame_drawn(void) { return ds && ds->drawn; }
 void pk_nds_wide_enable(bool on)
 {
     if (!ds || ds->wide == on) return;
+    pk_nds_wide_sync();
     ds->wide = on;
     pk_nds_wide_set(ds->nds, on);
 }

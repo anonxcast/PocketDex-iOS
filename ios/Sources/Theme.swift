@@ -210,7 +210,7 @@ struct ConsoleSystemLogo: View {
   }
 }
 
-/// UITabBar / `tabItem` — Delta’s template console PDFs tint white/selected like SF Symbols.
+/// UITabBar / `tabItem` — Delta’s template console PDFs tint white like SF Symbols.
 @MainActor
 enum ConsoleTabIcon {
   private static var cache: [ConsoleKind: UIImage] = [:]

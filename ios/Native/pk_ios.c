@@ -506,6 +506,9 @@ static void configure_wide_locked(void) {
         soft = 0x7d527d62u;
       else if (name_has_ci(g.romName, "polished"))
         soft = 0xf98367e4u;
+      /* Prism — own GB_ROMS row (0x2e883c15); filename soft-map for renamed dumps. */
+      else if (name_has_ci(g.romName, "prism") || name_has_ci(g.romName, "pokeprism"))
+        soft = 0x2e883c15u;
       /* Crystal Clear — device dump CRC 4d2a5ad5 not in GB_ROMS; RAM matches Clear rows. */
       else if (name_has_ci(g.romName, "clear") && name_has_ci(g.romName, "crystal"))
         soft = 0x17617cdeu;
@@ -517,6 +520,11 @@ static void configure_wide_locked(void) {
       else if (name_has_ci(g.romName, "red") && !name_has_ci(g.romName, "firered") &&
                !name_has_ci(g.romName, "fire") && !name_has_ci(g.romName, "radical"))
         soft = 0x9f7fdd53u;
+      /* Plain Crystal filename when CRC isn't a measured No-Intro build. */
+      else if (name_has_ci(g.romName, "crystal") && !name_has_ci(g.romName, "clear") &&
+               !name_has_ci(g.romName, "legacy") && !name_has_ci(g.romName, "polished") &&
+               !name_has_ci(g.romName, "enhanced") && !name_has_ci(g.romName, "advance"))
+        soft = 0x3358e30au;
       if (soft && pk_wide_knows(soft)) {
         fprintf(stderr, "pocketdex: WIDE GB filename soft-map dump=%08x → %08x (%s)\n",
                 (unsigned)crc, (unsigned)soft, g.romName);

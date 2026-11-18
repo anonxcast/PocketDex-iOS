@@ -143,6 +143,12 @@ enum Gen3Config {
       c.saveBlock1PosOff = 4
       c.battleMonLayout = .heartAndSoul
       c.tables = .hns
+      // HnS: SB2 ptr @ 0x030041D4, SB1 @ 0x030041D8. CE Free Roam IWRAM is +8, same order
+      // (SB2 then SB1) — not SB1 then +4. Wrong SB2 → bag qty stays XOR'd (×40k noise).
+      if c.id == "crystal_enhanced" {
+        c.saveBlock1Ptr = 0x030041E0
+        c.saveBlock2Ptr = 0x030041DC
+      }
     case "soulgold", "soulgold_v1_2", "soulgold_v1_2b", "soulgold_v1_2c":
       c.speciesMask = 0x07FF
       c.moveMask = 0x07FF

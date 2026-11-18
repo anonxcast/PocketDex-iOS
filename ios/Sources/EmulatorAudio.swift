@@ -15,6 +15,7 @@ final class EmulatorAudio {
   /// Preallocated — never malloc on the real-time audio callback.
   private let maxCallbackFrames = 4096
   private let pcmScratch: UnsafeMutablePointer<Int16>
+  private var lastEnsureTime: TimeInterval = 0
 
   init() {
     pcmScratch = .allocate(capacity: maxCallbackFrames * 2)
@@ -28,13 +29,18 @@ final class EmulatorAudio {
 
   func start() {
     generation += 1
-    guard !started else {
-      outputEnabled = true
-      applyVolumeIfNeeded()
-      return
+    outputEnabled = true
+    installSessionObservers()
+    if started {
+      if engine.isRunning {
+        applyVolumeIfNeeded()
+        reactivateSessionIfNeeded()
+        return
+      }
+      // Engine died (route / interruption) while `started` stayed true — rebuild.
+      tearDownEngine()
     }
     configureSessionAndEngine()
-    installSessionObservers()
   }
 
   /// Silence only — never touches `AVAudioEngine.stop()` (that blocked Exit).
@@ -65,17 +71,37 @@ final class EmulatorAudio {
     applyVolumeIfNeeded()
   }
 
+  /// Cheap health check from the play loop — brings audio back after Duo hinge /
+  /// Control Center / Bluetooth route changes that stop AVAudioEngine silently.
+  func ensureRunning() {
+    let now = ProcessInfo.processInfo.systemUptime
+    guard now - lastEnsureTime > 0.5 else { return }
+    lastEnsureTime = now
+    guard outputEnabled else { return }
+    if !started || !engine.isRunning {
+      start()
+      return
+    }
+    applyVolumeIfNeeded()
+    if abs(engine.mainMixerNode.outputVolume) < 0.01, outputEnabled {
+      lastVolume = -1
+      applyVolumeIfNeeded()
+    }
+  }
+
   // MARK: - Engine
 
   private func configureSessionAndEngine() {
     hwRate = Double(PK_IOS_AUDIO_SAMPLE_RATE)
     do {
       let session = AVAudioSession.sharedInstance()
-      try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+      // Game audio — do not mixWithOthers; that left PocketDex silent behind other apps
+      // and after Duo hinge / route changes when we never became the active session.
+      try session.setCategory(.playback, mode: .default, options: [])
       try session.setPreferredSampleRate(Double(PK_IOS_AUDIO_SAMPLE_RATE))
       // ~50 ms — GBC Expand still crackled at 40 ms on underruns; DS uses audio catch-up.
       try session.setPreferredIOBufferDuration(0.05)
-      try session.setActive(true)
+      try session.setActive(true, options: [])
       // iOS often keeps 44.1 kHz despite a 48 kHz preference. Drive blip and the
       // source node at the *actual* rate or music plays slow / pitch-shifted.
       if session.sampleRate > 0 {
@@ -125,6 +151,7 @@ final class EmulatorAudio {
     do {
       try engine.start()
       started = true
+      applyVolumeIfNeeded()
     } catch {
       tearDownEngine()
     }
@@ -148,11 +175,24 @@ final class EmulatorAudio {
     lastVolume = v
   }
 
-  /// iOS screenshots / Control Center can interrupt or stop AVAudioEngine; bring it back.
+  private func reactivateSessionIfNeeded() {
+    let session = AVAudioSession.sharedInstance()
+    do {
+      try session.setActive(true, options: [])
+      if session.sampleRate > 0, abs(session.sampleRate - hwRate) > 1 {
+        // Rate changed under us — full rebuild so blip matches hardware.
+        tearDownEngine()
+        configureSessionAndEngine()
+      }
+    } catch {}
+  }
+
+  /// iOS screenshots / Control Center / Duo hinge can interrupt or stop AVAudioEngine.
   private func recoverAfterInterruption() {
     do {
       let session = AVAudioSession.sharedInstance()
-      try session.setActive(true)
+      try session.setCategory(.playback, mode: .default, options: [])
+      try session.setActive(true, options: [])
       if session.sampleRate > 0, abs(session.sampleRate - hwRate) > 1 {
         hwRate = session.sampleRate
         pk_ios_set_output_sample_rate(hwRate)
@@ -166,11 +206,15 @@ final class EmulatorAudio {
     if !engine.isRunning {
       do {
         try engine.start()
+        lastVolume = -1
         applyVolumeIfNeeded()
       } catch {
         tearDownEngine()
         configureSessionAndEngine()
       }
+    } else {
+      lastVolume = -1
+      applyVolumeIfNeeded()
     }
   }
 
@@ -207,6 +251,15 @@ final class EmulatorAudio {
       nc.addObserver(
         forName: .AVAudioEngineConfigurationChange,
         object: engine,
+        queue: .main
+      ) { [weak self] _ in
+        self?.recoverAfterInterruption()
+      }
+    )
+    observers.append(
+      nc.addObserver(
+        forName: AVAudioSession.routeChangeNotification,
+        object: AVAudioSession.sharedInstance(),
         queue: .main
       ) { [weak self] _ in
         self?.recoverAfterInterruption()

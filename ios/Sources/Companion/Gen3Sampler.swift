@@ -10,6 +10,8 @@ final class Gen3Sampler: CompanionSampling, @unchecked Sendable {
   private static let bagPocketSlots = 255
   private static let bagMaxItems = 300
   private static let maxMoney: UInt32 = 999_999
+  /// pokeemerald-expansion / Quetzal allow stacks up to 9999; anything above is almost always a bad XOR key.
+  private static let maxBagQty = 9999
 
   private var tick = 0
   private var lastBag: [BagItem] = []
@@ -186,28 +188,92 @@ final class Gen3Sampler: CompanionSampling, @unchecked Sendable {
 
   // MARK: - Money / bag
 
+  /// Android uses -1; codegen sometimes emits 0xFFFFFFFF. Either means “no XOR key” (R/S / plain hacks).
+  private func configuredKeyOff() -> UInt32? {
+    guard let off = config.encryptionKeyOff, off != 0xFFFF_FFFF, off < 0x1_0000 else { return nil }
+    return off
+  }
+
+  private func readSaveBlock2Key() -> (key16: UInt16, key32: UInt32)? {
+    guard let off = configuredKeyOff(), let sb2 = saveBlock2(), let k = readU32(sb2 + off) else { return nil }
+    return (UInt16(truncatingIfNeeded: k), k)
+  }
+
+  /// Empty ItemSlots keep `quantity == encryptionKey` (still obfuscated). Majority vote recovers a bad/missing SB2 key.
+  private func deriveKeyFromEmptySlots(_ pockets: [(raw: [UInt8], slots: Int)]) -> UInt16? {
+    var votes: [UInt16: Int] = [:]
+    for (raw, slots) in pockets {
+      for i in 0..<slots {
+        let id = gen3U16(raw, i * 4)
+        let enc = UInt16(gen3U16(raw, i * 4 + 2))
+        if id == 0, enc != 0 {
+          votes[enc, default: 0] += 1
+        }
+      }
+    }
+    return votes.max(by: { $0.value < $1.value })?.key
+  }
+
+  private func bagQtySane(_ encQty: UInt16, key: UInt16) -> Bool {
+    let qty = Int(encQty ^ key)
+    return qty >= 1 && qty <= Self.maxBagQty
+  }
+
+  private func scoreBagKey(_ pockets: [(raw: [UInt8], slots: Int)], key: UInt16) -> (good: Int, bad: Int) {
+    var good = 0
+    var bad = 0
+    for (raw, slots) in pockets {
+      for i in 0..<slots {
+        let id = gen3U16(raw, i * 4)
+        guard id != 0 else { continue }
+        if bagQtySane(UInt16(gen3U16(raw, i * 4 + 2)), key: key) { good += 1 } else { bad += 1 }
+      }
+    }
+    return (good, bad)
+  }
+
+  /// Prefer SaveBlock2 key when it decrypts cleanly; otherwise empty-slot key; else plain 0.
+  private func resolveBagKey16(_ pockets: [(raw: [UInt8], slots: Int)]) -> UInt16 {
+    let sb2 = readSaveBlock2Key()?.key16
+    let derived = deriveKeyFromEmptySlots(pockets)
+    var candidates: [UInt16] = []
+    if let sb2 { candidates.append(sb2) }
+    if let derived, derived != sb2 { candidates.append(derived) }
+    if sb2 != 0, derived != 0 { candidates.append(0) }
+
+    var best: UInt16 = sb2 ?? derived ?? 0
+    var bestScore = Int.min
+    for key in candidates {
+      let (good, bad) = scoreBagKey(pockets, key: key)
+      // Prefer keys that decrypt filled slots; empty bag → keep SB2/derived order.
+      let score = good * 4 - bad * 8 + (key == sb2 ? 1 : 0)
+      if score > bestScore {
+        bestScore = score
+        best = key
+      }
+    }
+    return best
+  }
+
   /// SaveBlock1.money XOR SaveBlock2.encryptionKey (plain on Ruby/Sapphire).
   private func readMoney() -> Int? {
     guard let sb1 = saveBlock1(), let raw = readU32(sb1 + config.moneyOff) else { return nil }
-    let key: UInt32
-    if let off = config.encryptionKeyOff, let sb2 = saveBlock2(), let k = readU32(sb2 + off) {
-      key = k
-    } else {
-      key = 0
+    let key32 = readSaveBlock2Key()?.key32 ?? 0
+    let money = raw ^ key32
+    if money <= Self.maxMoney { return Int(money) }
+    // Wrong SB2/key → try low-16 key only (some builds), then give up (nil beats garbage ₽).
+    if key32 > 0xFFFF {
+      let m16 = raw ^ UInt32(key32 & 0xFFFF)
+      if m16 <= Self.maxMoney { return Int(m16) }
     }
-    let money = raw ^ key
-    return money <= Self.maxMoney ? Int(money) : nil
+    return nil
   }
 
   /// gBagPockets[]: { u32 slotsPtr; u8 capacity } stride 8; slots are { u16 itemId; u16 quantity ^ key }.
   private func readBag() -> [BagItem]? {
     let c = config
-    var key: UInt16 = 0
-    if let off = c.encryptionKeyOff, let sb2 = saveBlock2(), let k = readU32(sb2 + off) {
-      key = UInt16(k & 0xFFFF)
-    }
     guard let pockets = read(c.bagPockets, c.bagPocketCount * Self.bagPocketStride) else { return nil }
-    var out: [BagItem] = []
+    var loaded: [(raw: [UInt8], slots: Int, pocket: Int)] = []
     for p in 0..<c.bagPocketCount {
       let ptr = gen3U32(pockets, p * Self.bagPocketStride)
       let capacity = Int(pockets[p * Self.bagPocketStride + 4])
@@ -216,12 +282,20 @@ final class Gen3Sampler: CompanionSampling, @unchecked Sendable {
       let slots = min(capacity, Self.bagPocketSlots)
       guard let raw = read(ptr, slots * 4) else { continue }
       let pocket = p < c.bagPocketOrder.count ? c.bagPocketOrder[p] : Gen3Pocket.items
+      loaded.append((raw, slots, pocket))
+    }
+    let key = resolveBagKey16(loaded.map { ($0.raw, $0.slots) })
+    var out: [BagItem] = []
+    for (raw, slots, pocket) in loaded {
       var i = 0
       while i < slots && out.count < Self.bagMaxItems {
         let id = gen3U16(raw, i * 4)
         if id != 0 {
-          let qty = UInt16(gen3U16(raw, i * 4 + 2)) ^ key
-          out.append(BagItem(itemId: id, quantity: Int(qty), pocket: pocket, index: out.count))
+          let qty = Int(UInt16(gen3U16(raw, i * 4 + 2)) ^ key)
+          // Drop undecryptable junk (wrong key used to show ×40k+ on every stack).
+          if (1...Self.maxBagQty).contains(qty) {
+            out.append(BagItem(itemId: id, quantity: qty, pocket: pocket, index: out.count))
+          }
         }
         i += 1
       }

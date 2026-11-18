@@ -277,12 +277,14 @@ HACKS = [
              OBJ_GFX_VAR_FROM=0xFFFF, OBJ_GFX_COUNT=0x224, SB1_OFFSETS=0x138C | 0x1ABC << 16)),
     # Wishes of Tomorrow v1.3.0 (FlatFoot Labs; CRC 5A5FC74F): expansion 1.15.3. Field addrs from 1.2.6
     # fixture dumps + IWRAM +0x10 / low-EWRAM +0x10 / high-EWRAM +0x28C..+0x290 / battle +4 vs 1.2.6.
+    # CAMERA / CONTROLS: from 1.3 GetCameraOffsetWithPan + ScriptContext2_* (not +0x10 guess).
+    # METATILE_SIZE: Emerald/Seaglass 16 (default) — not 24; primary attrs match Seaglass layer dist and 16-byte tiles.
     dict(name="Wishes of Tomorrow v1.3.0", sha1="0fb19d1d9ed68b550a4c1f562eaf0977d1007dbc", family="EX",
          save="wishes", boot=["press B", "wait 30"] * 3, a=dict(
              VMAP=0x03002578, MAP_HEADER=0x02001AF8, MAP_GROUPS=0x09086ADC, SAVE_BLOCK1_PTR=0x0300523C,
-             CAMERA_OFFSET=0x03001324, OBJECT_EVENTS=0x020015E4, SPRITES=0x02035B10, COORD_OFFSET=0x0203568A,
+             CAMERA_OFFSET=0x030012DC, OBJECT_EVENTS=0x020015E4, SPRITES=0x02035B10, COORD_OFFSET=0x0203568A,
              COORD_OFFSET_Y=0x0203568C, SPRITE_ORDER=0x02035648, GMAIN=0x03006738, PAN_OFF=12,
-             CONTROLS_LOCKED=0x03001738, METATILE_SIZE=24,
+             CONTROLS_LOCKED=0x0300181B,
              OBJ_GFX_INFO=0x084981B0, OBJ_PALETTES=0x084915BC, OBJ_FACING=0x0848DE50, ELEVATION_PRIO=0x0848E228,
              OBJ_GFX_VAR_FROM=0xFFFF, OBJ_GFX_COUNT=0xF3,
              SB1_OFFSETS=0xCA8 | 0x13A0 << 16, SB1_FLAGS_AT=0x1270)),
@@ -559,7 +561,8 @@ def main():
     ]
     def row(e):
         vals = ", ".join(e["addrs"][s] for s in SLOTS)
-        return f"    {{ 0x{e['crc']}, PK_WIDE_FAMILY_{e['family']}, {{ {vals} }} }},   // {e['name'] or f"{e['code']} rev {e['rev']}"}: {e['file']}"
+        label = e['name'] or ("%s rev %s" % (e['code'], e['rev']))
+        return "    { 0x%s, PK_WIDE_FAMILY_%s, { %s } },   // %s: %s" % (e['crc'], e['family'], vals, label, e['file'])
     lines += [row(e) for e in out if not e.get("pending")]
     lines += ["};", ""]
     # Pending hacks: checked by verify_wide.py (its build defines PK_WIDE_PENDING, which lets WIDE draw them); the app

@@ -266,7 +266,15 @@ def emit_config(resolver, key: str) -> str | None:
     order = pocket_order(resolver, key)
     order_lit = "[" + ", ".join(str(x) for x in order) + "]"
     enc = vals_int["encryptionKeyOff"]
-    if static or key in ("ruby", "sapphire") or key.startswith("port_ax"):
+    # Android: encryptionKeyOff < 0 means plain bag qty / money (no XOR).
+    # hex_u32(-1) used to emit 0xFFFFFFFF, which the sampler treated as a real SB2 offset.
+    if (
+        static
+        or key in ("ruby", "sapphire")
+        or key.startswith("port_ax")
+        or enc < 0
+        or (enc & 0xFFFFFFFF) == 0xFFFFFFFF
+    ):
         enc_lit = "nil"
     else:
         enc_lit = hex_u32(enc)

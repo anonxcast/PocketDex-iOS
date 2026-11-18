@@ -163,7 +163,19 @@ def main():
     b, n = move_blob("movesYellow", "MoveDataYellow.kt"); parts.append(b); counts["movesYellow"] = n
     b, n = move_blob("movesCrystal", "MoveDataCrystal.kt"); parts.append(b); counts["movesCrystal"] = n
     b, n = move_blob("movesPolished", "MoveDataPolishedCrystal.kt"); parts.append(b); counts["movesPolished"] = n
+    b, n = move_blob("movesPrism", "MoveDataPrism.kt"); parts.append(b); counts["movesPrism"] = n
     b, n = move_blob("movesHns", "MoveDataHns.kt"); parts.append(b); counts["movesHns"] = n
+    # Per-hack move tables (ActiveTables.kt) — keep in sync with Gen3BattleData TipProfile.
+    for swift_name, kt in (
+        ("movesWishes", "MoveDataWishes.kt"),
+        ("movesLazarus", "MoveDataLazarus.kt"),
+        ("movesRowe", "MoveDataRowe.kt"),
+        ("movesSoulGold", "MoveDataSoulGold.kt"),
+        ("movesRadicalRed", "MoveDataRadicalRed.kt"),
+        ("movesTeamRocketV3", "MoveDataTeamRocketV3.kt"),
+        ("movesTmt2", "MoveDataTmt2.kt"),
+    ):
+        b, n = move_blob(swift_name, kt); parts.append(b); counts[swift_name] = n
 
     b, n = types_blob("speciesTypesRetail", "SpeciesTypes.kt"); parts.append(b); counts["speciesTypesRetail"] = n
     b, n = types_blob("speciesTypesSeaglass", "SpeciesTypesSeaglass.kt"); parts.append(b); counts["speciesTypesSeaglass"] = n
@@ -195,7 +207,18 @@ def main():
     b, n = types_blob("speciesTypesYellow", "SpeciesTypesYellow.kt"); parts.append(b); counts["speciesTypesYellow"] = n
     b, n = types_blob("speciesTypesCrystal", "SpeciesTypesCrystal.kt"); parts.append(b); counts["speciesTypesCrystal"] = n
     b, n = types_blob("speciesTypesPolished", "SpeciesTypesPolishedCrystal.kt"); parts.append(b); counts["speciesTypesPolished"] = n
+    b, n = types_blob("speciesTypesPrism", "SpeciesTypesPrism.kt"); parts.append(b); counts["speciesTypesPrism"] = n
     b, n = types_blob("speciesTypesHns", "SpeciesTypesHns.kt"); parts.append(b); counts["speciesTypesHns"] = n
+    for swift_name, kt in (
+        ("speciesTypesWishes", "SpeciesTypesWishes.kt"),
+        ("speciesTypesLazarus", "SpeciesTypesLazarus.kt"),
+        ("speciesTypesRowe", "SpeciesTypesRowe.kt"),
+        ("speciesTypesSoulGold", "SpeciesTypesSoulGold.kt"),
+        ("speciesTypesRadicalRed", "SpeciesTypesRadicalRed.kt"),
+        ("speciesTypesTeamRocketV3", "SpeciesTypesTeamRocketV3.kt"),
+        ("speciesTypesTmt2", "SpeciesTypesTmt2.kt"),
+    ):
+        b, n = types_blob(swift_name, kt); parts.append(b); counts[swift_name] = n
     # National Dex order types (Gen 4/5 companion + Platinum / B2W2 tips) from Black's personal table.
     black_text = (DATA / "Gen5TablesBlack.kt").read_text()
     black_chunk = _map_chunk(black_text, "speciesTypesBlack")
@@ -220,7 +243,17 @@ def main():
     b, n = type_names_blob("typeNamesYellow", "TypeChartYellow.kt", "typeNamesYellow"); parts.append(b); counts["typeNamesYellow"] = n
     b, n = type_names_blob("typeNamesCrystal", "TypeChartCrystal.kt", "typeNamesCrystal"); parts.append(b); counts["typeNamesCrystal"] = n
     b, n = type_names_blob("typeNamesPolished", "TypeChartPolishedCrystal.kt", "typeNamesPolishedCrystal"); parts.append(b); counts["typeNamesPolished"] = n
+    b, n = type_names_blob("typeNamesPrism", "TypeChartPrism.kt", "typeNamesPrism"); parts.append(b); counts["typeNamesPrism"] = n
     b, n = type_names_blob("typeNamesHns", "TypeChartHns.kt", "typeNamesHns"); parts.append(b); counts["typeNamesHns"] = n
+    for swift_name, kt, var in (
+        ("typeNamesWishes", "TypeChartWishes.kt", "typeNamesWishes"),
+        ("typeNamesLazarus", "TypeChartLazarus.kt", "typeNamesLazarus"),
+        ("typeNamesRowe", "TypeChartRowe.kt", "typeNamesRowe"),
+        ("typeNamesSoulGold", "TypeChartSoulGold.kt", "typeNamesSoulGold"),
+        ("typeNamesTeamRocketV3", "TypeChartTeamRocketV3.kt", "typeNamesTeamRocketV3"),
+        ("typeNamesTmt2", "TypeChartTmt2.kt", "typeNamesTmt2"),
+    ):
+        b, n = type_names_blob(swift_name, kt, var); parts.append(b); counts[swift_name] = n
 
     b, n = chart_blob("typeChartRetail", "TypeChart.kt", "typeEffectiveness"); parts.append(b); counts["typeChartRetail"] = n
     b, n = chart_blob("typeChartSeaglass", "TypeChartHns.kt", "typeEffectivenessHns"); parts.append(b); counts["typeChartSeaglass"] = n
@@ -231,10 +264,22 @@ def main():
     b, n = chart_blob("typeChartYellow", "TypeChartYellow.kt", "typeEffectivenessYellow"); parts.append(b); counts["typeChartYellow"] = n
     b, n = chart_blob("typeChartCrystal", "TypeChartCrystal.kt", "typeEffectivenessCrystal"); parts.append(b); counts["typeChartCrystal"] = n
     b, n = chart_blob("typeChartPolished", "TypeChartPolishedCrystal.kt", "typeEffectivenessPolishedCrystal"); parts.append(b); counts["typeChartPolished"] = n
+    b, n = chart_blob("typeChartPrism", "TypeChartPrism.kt", "typeEffectivenessPrism"); parts.append(b); counts["typeChartPrism"] = n
+    for swift_name, kt, var in (
+        ("typeChartWishes", "TypeChartWishes.kt", "typeEffectivenessWishes"),
+        ("typeChartLazarus", "TypeChartLazarus.kt", "typeEffectivenessLazarus"),
+        ("typeChartRowe", "TypeChartRowe.kt", "typeEffectivenessRowe"),
+        ("typeChartSoulGold", "TypeChartSoulGold.kt", "typeEffectivenessSoulGold"),
+        ("typeChartTeamRocketV3", "TypeChartTeamRocketV3.kt", "typeEffectivenessTeamRocketV3"),
+        ("typeChartTmt2", "TypeChartTmt2.kt", "typeEffectivenessTmt2"),
+    ):
+        b, n = chart_blob(swift_name, kt, var); parts.append(b); counts[swift_name] = n
     # Species display names for GB/GBC suggestion chips (National-aligned Yellow/Crystal; Polished's own ids).
     b, n = name_blob("speciesNamesYellow", "SpeciesNamesYellow.kt"); parts.append(b); counts["speciesNamesYellow"] = n
     b, n = name_blob("speciesNamesCrystal", "SpeciesNamesCrystal.kt"); parts.append(b); counts["speciesNamesCrystal"] = n
     b, n = name_blob("speciesNamesPolished", "SpeciesNamesPolishedCrystal.kt"); parts.append(b); counts["speciesNamesPolished"] = n
+    b, n = name_blob("speciesNamesPrism", "SpeciesNamesPrism.kt"); parts.append(b); counts["speciesNamesPrism"] = n
+    b, n = name_blob("itemNamesPrism", "ItemNamesPrism.kt"); parts.append(b); counts["itemNamesPrism"] = n
     b, n = name_blob("speciesNamesHns", "SpeciesNamesHns.kt"); parts.append(b); counts["speciesNamesHns"] = n
 
     parts.append("}\n")

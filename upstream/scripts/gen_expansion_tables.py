@@ -262,7 +262,8 @@ GAMES = {
         items_base=0x086AF774 + 0x14, items_stride=0x2C, items_desc_off=-8,
         moves_base=0x086D00FC, moves_stride=0x44, move_bits_off=0x0A,
         chart=0x083DB990, chart_n=21,
-        mapsec_base=0x08CE114C, mapsec_name_off=4,
+        # v1.3.0 gRegionMapEntries at 0x08D34D00 (v1.2.6 was 0x08CE114C); MUNEN VILLAGE still mapsec 0xD1.
+        mapsec_base=0x08D34D00, mapsec_name_off=4,
         # Below 0xD1 (its first own section) only the grid's are placed: Emerald's / Kanto's leftovers keep their rects.
         region_map=dict(image="wishes", layout=0x08CE2D00, w=28, h=15, ox=1, oy=2, none=0xE5, place_min=0xD1),
         checks=dict(species={1: "Bulbasaur", 6: "Charizard", 25: "Pikachu", 94: "Gengar", 155: "Cyndaquil",

@@ -122,6 +122,8 @@ struct SaveStateSheet: View {
             .resizable()
             .interpolation(.none)
             .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.black)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         } else {
           VStack(spacing: 6) {

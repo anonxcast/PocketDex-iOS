@@ -1041,7 +1041,18 @@ enum SaveEditorCatalog {
     case .unbound: return sorted(Gen3Names.speciesUnbound, maxId: maxId)
     case .modernEmerald: return sorted(Gen3Names.speciesModernEmerald, maxId: min(maxId, 461))
     case .hns: return sorted(Gen3Names.speciesHns, maxId: maxId)
-    case .national, .yellow, .crystal, .polished: return sorted(Gen3Names.speciesNational, maxId: maxId)
+    case .national, .yellow, .crystal, .polished:
+      return sorted(Gen3Names.speciesNational, maxId: maxId)
+    case .prism:
+      return (1...254).compactMap { id -> Entry? in
+        let name = Gen3Names.species(id, tables: .prism)
+        guard !name.hasPrefix("Species #"), name != "Egg" || id == 253 else { return nil }
+        return Entry(id: id, name: name)
+      }.sorted {
+        let a = $0.name.localizedCaseInsensitiveCompare($1.name)
+        if a != .orderedSame { return a == .orderedAscending }
+        return $0.id < $1.id
+      }
     }
   }
 
@@ -1053,6 +1064,7 @@ enum SaveEditorCatalog {
     case .yellow: maxId = 165
     case .crystal: maxId = 251
     case .polished: maxId = 255
+    case .prism: maxId = 254
     case .retail: maxId = Gen3SaveData.LAST_MOVE_RETAIL
     case .unbound: maxId = Gen3SaveData.LAST_MOVE_EXPANDED
     case .modernEmerald: maxId = 374
@@ -1069,6 +1081,16 @@ enum SaveEditorCatalog {
     case .national: return sorted(Gen3Names.itemsSeaglass, maxId: maxId)
     case .hns: return sorted(Gen3Names.itemsHns, maxId: maxId)
     case .modernEmerald: return sorted(Gen3Names.itemsModernEmerald, maxId: min(maxId, 397))
+    case .prism:
+      return (1...255).compactMap { id -> Entry? in
+        let name = Gen3Names.item(id, tables: .prism)
+        guard !name.hasPrefix("Item #") else { return nil }
+        return Entry(id: id, name: name)
+      }.sorted {
+        let a = $0.name.localizedCaseInsensitiveCompare($1.name)
+        if a != .orderedSame { return a == .orderedAscending }
+        return $0.id < $1.id
+      }
     default: return sorted(Gen3Names.itemsRetail, maxId: maxId)
     }
   }
@@ -1347,7 +1369,7 @@ struct SaveMonEditorSheet: View {
   }
   private var genderOptions: [Gen3MonGender] {
     if session.generation == .gen2 {
-      return Gen2Gender.options(species: speciesId)
+      return Gen2Gender.options(species: speciesId, tables: tables)
     }
     return Gen3Gender.options(species: speciesId, tables: tables)
   }

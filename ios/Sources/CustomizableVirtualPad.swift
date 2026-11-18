@@ -92,13 +92,17 @@ struct CustomizableVirtualPad: View {
 
   @ViewBuilder
   private func positionedControl(_ id: PadControlID, at point: CGPoint, canvas: CGSize) -> some View {
+    let place = layout[id]
+    let hitW = id.baseSize.width * place.scale
+    let hitH = id.baseSize.height * place.scale
     let visual = controlView(id)
+      .frame(width: hitW, height: hitH)
       .contentShape(Rectangle())
       .position(x: point.x, y: point.y)
     if isEditing {
+      // Drag selects + moves (tap alone was unreliable under the chrome overlay).
       visual
         .highPriorityGesture(editDrag(id: id, canvas: canvas))
-        .onTapGesture { onSelect?(id) }
     } else {
       visual.allowsHitTesting(handlesTouches)
     }
@@ -138,6 +142,19 @@ struct CustomizableVirtualPad: View {
         faceLabel("L", width: w, height: h, corner: id.cornerRadius * place.scale, bit: GbaKey.l, fontSize: 14, interactive: touch)
       case .r:
         faceLabel("R", width: w, height: h, corner: id.cornerRadius * place.scale, bit: GbaKey.r, fontSize: 14, interactive: touch)
+      case .save:
+        // Visual only in the pad chrome — PlayView owns the real SAVE tap target.
+        Text("SAVE")
+          .font(CETheme.sans(11, weight: .bold))
+          .tracking(1.0)
+          .foregroundStyle(PadStyle.label)
+          .frame(width: w, height: h)
+          .background(PadStyle.fill, in: RoundedRectangle(cornerRadius: id.cornerRadius * place.scale, style: .continuous))
+          .overlay(
+            RoundedRectangle(cornerRadius: id.cornerRadius * place.scale, style: .continuous)
+              .stroke(PadStyle.stroke, lineWidth: 1)
+          )
+          .allowsHitTesting(false)
       }
     }
     .overlay {
@@ -181,7 +198,12 @@ struct CustomizableVirtualPad: View {
   private func editDrag(id: PadControlID, canvas: CGSize) -> some Gesture {
     DragGesture(minimumDistance: 0, coordinateSpace: .named("padCanvas"))
       .onChanged { value in
+        onSelect?(id)
         guard canvas.width > 0, canvas.height > 0 else { return }
+        // Ignore tiny finger jitter so a tap can select without nudging the control.
+        let dx = value.translation.width
+        let dy = value.translation.height
+        if (dx * dx + dy * dy) < 36 { return }
         let nx = value.location.x / canvas.width
         let ny = value.location.y / canvas.height
         onMove?(id, CGPoint(x: nx, y: ny))
@@ -301,26 +323,38 @@ struct PadLayoutEditorView: View {
   var gameAspect: GameAspectMode = .expand
   /// Parent binding — more reliable than dismiss() alone inside fullScreenCover.
   var isPresented: Binding<Bool>? = nil
+  /// When set, ignore transient GeometryReader flips (Duo cover ↔ editor can report the wrong size once).
+  private let lockOrientation: Bool
+  /// Duo front/cover vs open-phone inner — layouts never cross-write.
+  private let surface: PadSurface
 
   @State private var draft: TouchPadLayout
   @State private var baseline: TouchPadLayout
-  @State private var selected: PadControlID? = .start
+  @State private var selected: PadControlID? = nil
   @State private var showExitPrompt = false
   @State private var landscape: Bool
 
+  private var profile: PadLayoutProfile {
+    PadLayoutProfile(surface: surface, landscape: landscape)
+  }
+
   init(
     forceLandscape: Bool? = nil,
+    coverFace: Bool = false,
     ndsButtons: Bool = false,
     consoleAspect: CGFloat = 240.0 / 160.0,
     gameAspect: GameAspectMode = .expand,
     isPresented: Binding<Bool>? = nil
   ) {
     let isLandscape = forceLandscape ?? false
-    let saved = TouchPadLayoutStore.shared.layout(landscape: isLandscape)
+    let surface: PadSurface = coverFace ? .cover : .inner
+    let saved = TouchPadLayoutStore.shared.layout(landscape: isLandscape, surface: surface)
     self.ndsButtons = ndsButtons
     self.consoleAspect = consoleAspect
     self.gameAspect = gameAspect
     self.isPresented = isPresented
+    self.lockOrientation = forceLandscape != nil
+    self.surface = surface
     _landscape = State(initialValue: isLandscape)
     _draft = State(initialValue: saved)
     _baseline = State(initialValue: saved)
@@ -336,7 +370,7 @@ struct PadLayoutEditorView: View {
 
   private var isDirty: Bool { draft != baseline }
   private var visibleControls: [PadControlID] {
-    ndsButtons ? PadControlID.ndsCases : PadControlID.gbaCases
+    PadControlID.editorCases(nds: ndsButtons)
   }
 
   var body: some View {
@@ -357,7 +391,11 @@ struct PadLayoutEditorView: View {
           .padding(.horizontal, 14)
           .padding(.vertical, 7)
           .background(CETheme.card.opacity(0.85), in: Capsule())
-          .position(x: size.width / 2, y: min(size.height * 0.22, 140))
+          // Keep the hint out of the L/R shoulder band (cover landscape).
+          .position(
+            x: size.width / 2,
+            y: min(size.height * (surface == .cover && isLand ? 0.48 : 0.22), isLand ? 220 : 140)
+          )
           .allowsHitTesting(false)
 
         CustomizableVirtualPad(
@@ -368,13 +406,15 @@ struct PadLayoutEditorView: View {
           onDpadMask: { _ in },
           onSelect: { selected = $0 },
           onMove: { id, point in
+            if selected != id { selected = id }
             draft.move(id, toNormalized: point)
           },
           visibleControls: visibleControls
         )
         .frame(width: size.width, height: size.height)
+        .zIndex(1)
 
-        // Overlay chrome — does not affect pad coordinate space.
+        // Top chrome — only Save/Exit + Close (+ scale bar) take hits; shoulders stay free.
         VStack(spacing: 0) {
           editorChrome
             .padding(.top, max(8, geo.safeAreaInsets.top))
@@ -382,16 +422,21 @@ struct PadLayoutEditorView: View {
             scaleBar(for: selected)
           }
           Spacer(minLength: 0)
+            .allowsHitTesting(false)
         }
-        .zIndex(80)
+        .zIndex(2)
       }
       .onAppear {
-        syncOrientation(isLand)
+        if !lockOrientation {
+          syncOrientation(isLand)
+        }
         if let selected, !visibleControls.contains(selected) {
           self.selected = .a
         }
       }
       .onChange(of: isLand) { _, newValue in
+        // Cover/outer fullScreenCover sometimes reports a one-frame flipped size — don't swap layouts.
+        guard !lockOrientation else { return }
         handleOrientationChange(newValue)
       }
     }
@@ -413,28 +458,46 @@ struct PadLayoutEditorView: View {
   @ViewBuilder
   private func editorScreenPlaceholders(size: CGSize, landscape: Bool) -> some View {
     let lcdAspect = consoleAspect
-    let statusLift: CGFloat = 52
     let ultraWide = landscape && size.width / max(size.height, 1) > 1.6
+    let coverFace = surface == .cover
+    // Match PlayView cover/outer + ultra-wide top inset so SAVE / pads line up with play.
+    let statusLift: CGFloat = (ultraWide || coverFace || landscape) ? 10 : 52
     let aspect = settings.gameAspect
     switch aspect {
     case .expand, .stretch:
-      let sidePad: CGFloat = ultraWide ? 4 : (landscape ? 6 : 4)
+      let sidePad: CGFloat = (ultraWide || coverFace) ? 4 : (landscape ? 6 : 4)
       let bottomReserve: CGFloat = {
-        if ultraWide { return max(28, size.height * 0.06) }
+        if ultraWide || coverFace { return max(24, size.height * 0.05) }
         if landscape { return size.height * 0.08 }
         return ndsButtons ? max(88, size.height * 0.18) : size.height * 0.22
       }()
-      let col = CGRect(
+      let avail = CGRect(
         x: sidePad,
         y: statusLift,
         width: max(80, size.width - sidePad * 2),
         height: max(80, size.height - statusLift - bottomReserve)
       )
-      // Same full Expand/Stretch band as PlayView (WIDE target); pads align to this canvas.
+      // Match PlayView: portrait Expand letterboxes to console aspect (sides-only WIDE).
+      let col: CGRect = {
+        if landscape { return avail }
+        let viewAspect = avail.width / max(avail.height, 1)
+        if viewAspect > lcdAspect {
+          let h = avail.width / lcdAspect
+          return CGRect(x: avail.minX, y: avail.midY - h / 2, width: avail.width, height: h)
+        }
+        let w = avail.height * lcdAspect
+        return CGRect(x: avail.midX - w / 2, y: avail.minY, width: w, height: avail.height)
+      }()
       placeholderLCD(in: col, aspect: lcdAspect, label: "GAME", fit: false)
     case .original:
-      let bottomReserve: CGFloat = landscape ? size.height * 0.14 : size.height * 0.38
-      let sidePad: CGFloat = landscape ? max(96, size.width * 0.20) : 12
+      let bottomReserve: CGFloat = {
+        if ultraWide || coverFace { return size.height * 0.08 }
+        return landscape ? size.height * 0.14 : size.height * 0.38
+      }()
+      let sidePad: CGFloat = {
+        if ultraWide || coverFace { return max(16, size.width * 0.04) }
+        return landscape ? max(96, size.width * 0.20) : 12
+      }()
       let avail = CGRect(
         x: sidePad,
         y: statusLift,
@@ -491,19 +554,23 @@ struct PadLayoutEditorView: View {
       .accessibilityLabel("Save and exit")
 
       Spacer(minLength: 8)
+        .allowsHitTesting(false)
 
       VStack(spacing: 2) {
         Text("Edit Layout")
           .font(CETheme.sans(15, weight: .bold))
           .foregroundStyle(CETheme.text)
-        Text(landscape ? "Landscape" : "Portrait")
+        Text(profile.title)
           .font(CETheme.sans(11, weight: .medium))
           .foregroundStyle(CETheme.muted)
+          .lineLimit(1)
+          .minimumScaleFactor(0.8)
       }
       .layoutPriority(-1)
       .allowsHitTesting(false)
 
       Spacer(minLength: 8)
+        .allowsHitTesting(false)
 
       Button {
         if isDirty {
@@ -524,8 +591,10 @@ struct PadLayoutEditorView: View {
     }
     .padding(.horizontal, 14)
     .padding(.bottom, 10)
-    .background(CETheme.elevated.opacity(0.94))
-    .contentShape(Rectangle())
+    .background {
+      CETheme.elevated.opacity(0.94)
+        .allowsHitTesting(false)
+    }
   }
 
   private func scaleBar(for id: PadControlID) -> some View {
@@ -534,50 +603,67 @@ struct PadLayoutEditorView: View {
         .font(CETheme.sans(11, weight: .bold))
         .tracking(0.6)
         .foregroundStyle(CETheme.crystal)
-      Spacer()
+      Spacer(minLength: 8)
       Button {
-        draft.setScale(id, draft[id].scale - 0.1)
+        var next = draft
+        next.setScale(id, next[id].scale - 0.1)
+        draft = next
       } label: {
         Image(systemName: "minus")
           .font(.system(size: 13, weight: .bold))
           .foregroundStyle(CETheme.text)
-          .frame(width: 32, height: 32)
-          .background(CETheme.card, in: Circle())
+          .frame(width: 36, height: 36)
+          .background(CETheme.elevated, in: Circle())
+          .contentShape(Circle())
       }
+      .buttonStyle(.plain)
       Text(String(format: "%.0f%%", draft[id].scale * 100))
         .font(CETheme.mono(12))
         .foregroundStyle(CETheme.muted)
         .frame(width: 48)
       Button {
-        draft.setScale(id, draft[id].scale + 0.1)
+        var next = draft
+        next.setScale(id, next[id].scale + 0.1)
+        draft = next
       } label: {
         Image(systemName: "plus")
           .font(.system(size: 13, weight: .bold))
           .foregroundStyle(CETheme.text)
-          .frame(width: 32, height: 32)
-          .background(CETheme.card, in: Circle())
+          .frame(width: 36, height: 36)
+          .background(CETheme.elevated, in: Circle())
+          .contentShape(Circle())
       }
+      .buttonStyle(.plain)
       Button("Reset") {
-        let defaults = landscape ? TouchPadLayout.defaultLandscape() : TouchPadLayout.defaultPortrait()
-        draft[id] = defaults[id]
+        let defaults = TouchPadLayout.default(profile: profile)
+        var next = draft
+        next[id] = defaults[id]
+        draft = next
       }
+      .buttonStyle(.plain)
       .font(CETheme.sans(12, weight: .semibold))
       .foregroundStyle(CETheme.accent)
+      .padding(.horizontal, 8)
+      .padding(.vertical, 8)
+      .contentShape(Rectangle())
     }
     .padding(.horizontal, 16)
     .padding(.vertical, 10)
-    .background(CETheme.card.opacity(0.95))
+    .background {
+      CETheme.card.opacity(0.95)
+        .allowsHitTesting(false)
+    }
   }
 
   private func commitSave() {
-    store.save(draft, landscape: landscape)
+    store.save(draft, profile: profile)
     baseline = draft
   }
 
   private func syncOrientation(_ isLand: Bool) {
     guard landscape != isLand else { return }
     landscape = isLand
-    let saved = store.layout(landscape: isLand)
+    let saved = store.layout(PadLayoutProfile(surface: surface, landscape: isLand))
     draft = saved
     baseline = saved
   }
@@ -585,11 +671,11 @@ struct PadLayoutEditorView: View {
   private func handleOrientationChange(_ isLand: Bool) {
     if isDirty {
       showExitPrompt = false
-      store.save(draft, landscape: landscape)
+      store.save(draft, profile: PadLayoutProfile(surface: surface, landscape: landscape))
       baseline = draft
     }
     landscape = isLand
-    let saved = store.layout(landscape: isLand)
+    let saved = store.layout(PadLayoutProfile(surface: surface, landscape: isLand))
     draft = saved
     baseline = saved
   }

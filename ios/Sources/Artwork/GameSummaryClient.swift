@@ -16,8 +16,8 @@ actor GameSummaryClient {
     var sourceURL: URL?
   }
 
-  func summary(forDisplayName name: String, console: ConsoleKind?) async -> Summary? {
-    if let local = Self.curatedSummary(for: name) {
+  func summary(forDisplayName name: String, console: ConsoleKind?, fileName: String = "") async -> Summary? {
+    if let local = Self.curatedSummary(for: name, fileName: fileName) {
       return local
     }
     let queries = searchQueries(for: name, console: console)
@@ -33,27 +33,51 @@ actor GameSummaryClient {
   }
 
   /// Fan-hack blurbs used by the game page before any cached Wikipedia extract.
-  nonisolated static func curatedIfAny(forDisplayName name: String) -> Summary? {
-    curatedSummary(for: name)
+  nonisolated static func curatedIfAny(forDisplayName name: String, fileName: String = "") -> Summary? {
+    curatedSummary(for: name, fileName: fileName)
   }
 
   /// True when a cached About title still matches this ROM (rejects e.g. Pokopia for R.O.W.E.).
-  nonisolated static func cachedTitleLooksValid(_ title: String, forDisplayName name: String) -> Bool {
+  nonisolated static func cachedTitleLooksValid(_ title: String, forDisplayName name: String, fileName: String = "") -> Bool {
     let t = title.lowercased()
     let n = name.lowercased()
-    if n.contains("rowe") || n.contains("r.o.w.e") {
+    let f = fileName.lowercased()
+    if Self.looksLikeCrystalEnhanced(name: name, fileName: fileName) {
+      // Never keep a retail Pokémon Crystal Wikipedia extract for this GBA Free Roam hack.
+      return t.contains("enhanced") || t.contains("free roam")
+    }
+    if n.contains("rowe") || n.contains("r.o.w.e") || f.contains("rowe") {
       return t.contains("r.o.w.e") || t.contains("rowe")
     }
-    if n.contains("lazarus") {
+    if n.contains("lazarus") || f.contains("lazarus") {
       return t.contains("lazarus")
     }
     return Self.sharesDistinctiveToken(query: name, title: title)
   }
 
+  nonisolated private static func looksLikeCrystalEnhanced(name: String, fileName: String) -> Bool {
+    let u = (name + " " + fileName).uppercased()
+    if u.contains("CRYSENHA") || u.contains("POKECRYSENHA") { return true }
+    if u.contains("CRYSTAL") && u.contains("ENHANCED") { return true }
+    if u.contains("FREE ROAM") && u.contains("CRYSTAL") { return true }
+    return false
+  }
+
   // MARK: - Curated fan hacks (no reliable Wikipedia page)
 
-  nonisolated private static func curatedSummary(for name: String) -> Summary? {
-    let u = name.uppercased()
+  nonisolated private static func curatedSummary(for name: String, fileName: String = "") -> Summary? {
+    let u = (name + " " + fileName).uppercased()
+    if looksLikeCrystalEnhanced(name: name, fileName: fileName) {
+      return Summary(
+        title: "Pokémon Crystal Enhanced",
+        extract: """
+        Pokémon Crystal Enhanced is a Free Roam GBA ROM hack — an open Johto & Kanto sandbox built on the Heart & Soul / pokehns-expansion engine (not Heart and Soul, SoulGold, or retail Game Boy Crystal). New Game drops you in Prof. Elm’s lab to configure your run, pick a briefcase starter, and choose a start town, then explore with gyms in any order while wild and trainer levels scale to your badge count.
+
+        Modern battle rules and expansion quality-of-life sit underneath, with Free Roam modes like Grindless (auto-level to the badge curve), Scalemon, and Gym Shuffle. Field key items replace HM slaves for traversal, trainers don’t chase you, and the Elite Four still needs eight Johto badges. Companion data, guides, and tools live at crystalenhanceddex.app.
+        """,
+        sourceURL: URL(string: "https://crystalenhanceddex.app/")
+      )
+    }
     if u.contains("ROWE") || u.contains("R.O.W.E") {
       return Summary(
         title: "Pokémon R.O.W.E.",
@@ -267,7 +291,10 @@ actor GameSummaryClient {
         queries.append("Pokémon Black and White")
       }
     }
-    if lower.contains("crystal") && (lower.contains("pokemon") || lower.contains("pokémon") || console == .gbc || console == .gb) {
+    // Crystal Enhanced is a GBA Free Roam hack — never fall back to retail Crystal Wikipedia.
+    let isCrystalEnhanced = lower.contains("enhanced") || lower.contains("crysenha")
+    if lower.contains("crystal") && !isCrystalEnhanced
+        && (lower.contains("pokemon") || lower.contains("pokémon") || console == .gbc || console == .gb) {
       queries.append("Pokémon Crystal")
     }
     if lower.contains("gold") && !lower.contains("heart") && !lower.contains("soulgold")

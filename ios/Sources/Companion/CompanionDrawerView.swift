@@ -573,17 +573,31 @@ private struct BattleTab: View {
         }
       }
 
+      if let advice = CompanionLiveStore.shared.islandAdvice
+        ?? Gen3BattleCoach.liveAdvice(from: snap) {
+        SectionTitle(snap.inBattle ? "Smart Battle Island" : "Smart Island")
+        CompanionCard {
+          let oneRow = advice.moves.isEmpty
+          let h: CGFloat = oneRow ? (advice.dataChips.isEmpty ? 40 : 52) : 86
+          SmartBattleIsland(
+            advice: advice,
+            preferCompact: oneRow,
+            onCycleTip: { CompanionLiveStore.shared.cycleIslandTip() }
+          )
+            .frame(height: h)
+        }
+      }
+
       if snap.inBattle {
-        if let tip = Gen3BattleData.liveSuggestions(from: snap) {
-          SectionTitle("Suggested moves")
+        if let advice = CompanionLiveStore.shared.islandAdvice
+          ?? Gen3BattleCoach.liveAdvice(from: snap), !advice.moves.isEmpty {
+
+          SectionTitle("vs \(advice.foeName)")
           CompanionCard {
-            Text("vs \(tip.foeName)")
-              .font(CETheme.sans(12, weight: .semibold))
-              .foregroundStyle(CETheme.crystal)
-            ForEach(tip.moves) { mv in
+            ForEach(advice.moves) { mv in
               HStack(spacing: 8) {
                 Text(mv.name)
-                  .font(CETheme.sans(13, weight: .medium))
+                  .font(CETheme.sans(13, weight: mv.slot == advice.bestMove?.slot ? .bold : .medium))
                   .foregroundStyle(CETheme.text)
                 if !mv.typeName.isEmpty {
                   Text(mv.typeName.uppercased())

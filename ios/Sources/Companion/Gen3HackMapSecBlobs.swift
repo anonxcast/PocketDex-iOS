@@ -1388,4 +1388,236 @@ enum Gen3HackMapSecBlobs {
 211|Navel Rock
 212|Trainer Hill
 """#
+
+  static let mapSecWishes: String = #"""
+0|Littleroot Town
+1|Oldale Town
+2|Dewford Town
+3|Lavaridge Town
+4|Fallarbor Town
+5|Verdanturf Town
+6|Pacifidlog Town
+7|Petalburg City
+8|Slateport City
+9|Mauville City
+10|Rustboro City
+11|Fortree City
+12|Lilycove City
+13|Mossdeep City
+14|Sootopolis City
+15|Ever Grande City
+16|Route 3
+17|Route 102
+18|Route 103
+19|Route 104
+20|Route 105
+21|Route 106
+22|Route 107
+23|Route 108
+24|Route 109
+25|Route 110
+26|Route 111
+27|Route 112
+28|Route 113
+29|Route 114
+30|Route 115
+31|Route 116
+32|Route 117
+33|Route 118
+34|Route 119
+35|Route 120
+36|Route 121
+37|Route 122
+38|Route 123
+39|Route 124
+40|Route 125
+41|Route 126
+42|Route 127
+43|Route 128
+44|Route 129
+45|Route 130
+46|Route 131
+47|Route 132
+48|Route 133
+49|Route 134
+50|Underwater
+51|Underwater
+52|Underwater
+53|Underwater
+54|Underwater
+55|Granite Cave
+56|Mt. Chimney
+57|Safari Zone
+58|Battle Frontier
+59|Petalburg Woods
+60|Rusturf Tunnel
+61|Lifeguard Shack
+62|New Mauville
+63|Meteor Falls
+64|Meteor Falls
+65|Star Summit
+66|Hideout
+67|Shoal Cave
+68|Seafloor Cavern
+69|Underwater
+70|Victory Road
+71|Mirage Island
+72|Cave Of Origin
+73|Southern Island
+74|Fiery Path
+75|Fiery Path
+76|Jagged Pass
+77|Jagged Pass
+78|Sealed Chamber
+79|Underwater
+80|Scorched Slab
+81|Island Cave
+82|Desert Ruins
+83|Ancient Tomb
+84|Inside Of Truck
+85|Sky Pillar
+86|Secret Base
+88|Pallet Town
+89|Viridian City
+90|Pewter City
+91|Cerulean City
+92|Lavender Town
+93|Vermilion City
+94|Celadon City
+95|Fuchsia City
+96|Cinnabar Island
+97|Indigo Plateau
+98|Saffron City
+99|Route 4
+100|Route 10
+101|Route 1
+102|Sennen
+103|Torii Route
+104|Route 4
+105|Route 5
+106|Route 6
+107|Route 7
+108|Route 8
+109|Route 9
+110|Route 10
+111|Route 11
+112|Route 12
+113|Route 13
+114|Route 14
+115|Route 15
+116|Route 16
+117|Route 17
+118|Route 18
+119|Route 19
+120|Route 20
+121|Route 21
+122|Route 22
+123|Route 23
+124|Route 24
+125|Route 25
+126|Viridian Forest
+127|Mt. Moon
+128|S.S. Anne
+129|Underground Path
+130|Underground Path
+131|Diglett's Cave
+132|Victory Road
+133|Rocket Hideout
+134|Silph Co.
+135|Pokémon Mansion
+136|Safari Zone
+137|Pokémon League
+138|Rock Tunnel
+139|Seafoam Islands
+140|Pokémon Tower
+141|Cerulean Cave
+142|Power Plant
+143|One Island
+144|Two Island
+145|Three Island
+146|Four Island
+147|Five Island
+148|Seven Island
+149|Six Island
+150|Kindle Road
+151|Ashlands
+152|Cape Brink
+153|Bond Bridge
+154|Three Isle Port
+155|Resort Gorgeous
+156|Water Labyrinth
+157|Five Isle Meadow
+158|Memorial Pillar
+159|Outcast Island
+160|Green Path
+161|Water Path
+162|Ruin Valley
+163|Trainer Tower
+164|Canyon Entrance
+165|Sevault Canyon
+166|Tanoby Ruins
+167|Sevii Isle 22
+168|Sevii Isle 23
+169|Sevii Isle 24
+170|Navel Rock
+171|Mt. Ember
+172|Berry Forest
+173|Icefall Cave
+174|Rocket Warehouse
+175|Trainer Tower
+176|Dotted Hole
+177|Lost Cave
+178|Pattern Bush
+179|Altering Cave
+180|Tanoby Chambers
+181|Three Isle Path
+182|Tanoby Key
+183|Birth Island
+184|Monean Chamber
+185|Liptoo Chamber
+186|Weepth Chamber
+187|Dilford Chamber
+188|Scufib Chamber
+189|Rixy Chamber
+190|Viapois Chamber
+191|Onsen Springs
+192|Special Area
+193|Aqua Hideout
+194|Magma Hideout
+195|Mirage Tower
+196|Birth Island
+197|Faraway Island
+198|Artisan Cave
+199|Marine Cave
+200|Underwater
+201|Terra Cave
+202|Underwater
+203|Underwater
+204|Underwater
+205|Desert Underpass
+206|Altering Cave
+207|Navel Rock
+208|Trainer Hill
+209|Munen Village
+210|Munen Lake
+211|Melting Mile
+212|Frostwood Town
+213|Mount Munen
+214|Star Summit
+215|Tradewind Town
+216|Shin-tokyo
+217|Sennen Station
+218|Onsen Springs
+219|Ashlands
+220|Walnut Woods
+221|National Park
+222|Pompeii
+223|Munen Tunnel
+224|Distortion World
+225|Celebi Island
+226|Ryuden Island
+227|Prototype Isle
+228|Rebel Hideout
+229|Mega Dimension
+"""#
 }

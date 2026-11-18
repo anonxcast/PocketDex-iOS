@@ -334,6 +334,8 @@ enum Gen3Tables {
   case crystal
   /// Polished Crystal's remapped move / species / type ids (Fairy included).
   case polished
+  /// Pokémon Prism: own species/move ids + Fairy/Gas/Sound/Tri/Prism types (Android *Prism tables).
+  case prism
   /// Heart and Soul / Crystal Enhanced: expansion type ids (Normal=1) + ROM-extracted *Hns tables.
   case hns
 }

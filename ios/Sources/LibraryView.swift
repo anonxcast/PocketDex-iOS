@@ -326,23 +326,11 @@ struct LibraryView: View {
         || (measured && viewport.width > viewport.height * 1.05)
     )
     let shortCanvas = hingeClosed || (measured && viewport.height < 520)
-    let useContinueBanners: Bool = {
-      guard !hingeClosed else { return false }
-      if measured {
-        return viewport.width > viewport.height * 1.08 && viewport.height >= 520
-      }
-      return verticalSizeClass == .compact
-    }()
-    // Cover landscape is wide+short — smaller poster minimum so the grid fills edge-to-edge
-    // instead of two fat columns with empty side margins.
-    let posterMin: CGFloat = {
-      if outerLandscape { return 88 }
-      if shortCanvas { return 108 }
-      return 124
-    }()
-    let gridSpacing: CGFloat = outerLandscape ? 10 : 14
-    let columns = [GridItem(.adaptive(minimum: posterMin), spacing: gridSpacing)]
-    let hPad: CGFloat = outerLandscape ? 10 : 16
+    // Cover portrait: near edge-to-edge banners; keep height capped so logos stay on-screen.
+    let coverPortrait = shortCanvas && !outerLandscape
+    let hPad: CGFloat = outerLandscape ? 12 : (coverPortrait ? 8 : 16)
+    let continuePosterWidth: CGFloat = outerLandscape ? 96 : (shortCanvas ? 100 : 132)
+    let bannerWidth = measured ? max(240, viewport.width - hPad * 2) : 320
     return VStack(spacing: 0) {
       // Logo lives in-tab so the system More page never inherits a console wordmark.
       consoleTabLogo(kind: kind, compact: compact)
@@ -353,41 +341,37 @@ struct LibraryView: View {
           emptyConsole
         } else {
           ScrollView {
-            LazyVStack(alignment: .leading, spacing: outerLandscape ? 14 : 22) {
+            LazyVStack(alignment: .leading, spacing: outerLandscape ? 16 : 24) {
               if !recent.isEmpty {
-                librarySectionHeader("Continue")
-                if useContinueBanners {
-                  VStack(spacing: 12) {
+                librarySectionHeader("Continue Playing")
+                ScrollView(.horizontal, showsIndicators: false) {
+                  HStack(alignment: .top, spacing: outerLandscape ? 14 : 18) {
                     ForEach(recent) { rom in
-                      gameBannerCard(rom)
+                      continuePoster(rom, width: continuePosterWidth)
                     }
                   }
-                } else {
-                  ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .top, spacing: outerLandscape ? 10 : 14) {
-                      ForEach(recent) { rom in
-                        continuePoster(rom, width: outerLandscape ? 96 : (shortCanvas ? 112 : 132))
-                      }
-                    }
-                    .padding(.horizontal, hPad)
-                    .padding(.vertical, 2)
-                  }
-                  .padding(.horizontal, -hPad)
-                  .scrollBounceBehavior(.basedOnSize, axes: .horizontal)
+                  .padding(.horizontal, hPad)
+                  .padding(.vertical, 2)
                 }
+                .padding(.horizontal, -hPad)
+                .scrollBounceBehavior(.basedOnSize, axes: .horizontal)
               }
 
               librarySectionHeader(recent.isEmpty ? "Games" : "All Games")
-              LazyVGrid(columns: columns, spacing: outerLandscape ? 12 : 18) {
+              VStack(spacing: outerLandscape ? 10 : (coverPortrait ? 8 : 14)) {
                 ForEach(list) { rom in
-                  gamePosterTile(rom)
+                  gameBannerCard(
+                    rom,
+                    compact: coverPortrait,
+                    canvasWidth: bannerWidth
+                  )
                 }
               }
             }
             .padding(.horizontal, hPad)
             .padding(.vertical, outerLandscape ? 6 : 10)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .id("\(artworkStore.revision)-\(kind.rawValue)-\(recentlyPlayed.datesByKey.count)-\(hingeClosed)-\(outerLandscape)-\(useContinueBanners)")
+            .id("\(artworkStore.revision)-\(kind.rawValue)-\(recentlyPlayed.datesByKey.count)-\(hingeClosed)-\(outerLandscape)")
           }
           .background {
             GeometryReader { geo in
@@ -749,55 +733,7 @@ struct LibraryView: View {
     destination = dest
   }
 
-  /// Music/TV poster: cover art with title under, badges on the art.
-  private func gamePosterTile(_ rom: RomItem) -> some View {
-    let paused = engine.isPausedRom(rom)
-    let optimized = OptimizedRomCatalog.isOptimized(
-      fileName: rom.url.lastPathComponent,
-      displayName: rom.displayName
-    )
-    return LibraryGameTapButton(action: { handleGameTap(rom, at: $0) }) {
-      VStack(alignment: .leading, spacing: 8) {
-        coverImage(for: rom)
-          .aspectRatio(2.0 / 3.0, contentMode: .fit)
-          .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-          .overlay(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-              .stroke(paused ? CETheme.crystal : CETheme.border, lineWidth: paused ? 2 : 1)
-          )
-          .overlay(alignment: .topLeading) {
-            if paused {
-              Text("PAUSED")
-                .font(CETheme.mono(8))
-                .foregroundStyle(.black)
-                .padding(.horizontal, 5)
-                .padding(.vertical, 2)
-                .background(CETheme.crystal.opacity(0.95), in: Capsule())
-                .padding(8)
-            }
-          }
-          .overlay(alignment: .bottomLeading) {
-            OptimizedStatusBadge(optimized: optimized, compact: true)
-              .padding(8)
-          }
-          .shadow(color: .black.opacity(0.35), radius: 10, y: 4)
-
-        Text(rom.displayName)
-          .font(CETheme.sans(13, weight: .semibold))
-          .foregroundStyle(CETheme.text)
-          .lineLimit(3)
-          .minimumScaleFactor(0.8)
-          .multilineTextAlignment(.leading)
-          .fixedSize(horizontal: false, vertical: true)
-          .frame(maxWidth: .infinity, alignment: .leading)
-      }
-    }
-    .accessibilityLabel(rom.displayName)
-    .accessibilityHint(settings.libraryOpenMode == .quickPlay ? "Shows Play confirmation" : "Opens game page")
-    .contextMenu { artworkContextMenu(for: rom, landscapeDefault: false) }
-  }
-
-  /// Continue shelf poster (horizontal Music rail).
+  /// Continue Playing shelf — portrait covers only.
   private func continuePoster(_ rom: RomItem, width: CGFloat) -> some View {
     let paused = engine.isPausedRom(rom)
     let optimized = OptimizedRomCatalog.isOptimized(
@@ -806,9 +742,11 @@ struct LibraryView: View {
     )
     return LibraryGameTapButton(action: { handleGameTap(rom, at: $0) }) {
       VStack(alignment: .leading, spacing: 8) {
-        coverImage(for: rom)
-          .aspectRatio(2.0 / 3.0, contentMode: .fill)
+        Color.clear
           .frame(width: width, height: width * 1.5)
+          .overlay {
+            coverImage(for: rom)
+          }
           .clipped()
           .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
           .overlay(
@@ -830,16 +768,17 @@ struct LibraryView: View {
             OptimizedStatusBadge(optimized: optimized, compact: true)
               .padding(7)
           }
-          .shadow(color: .black.opacity(0.4), radius: 12, y: 5)
+          .compositingGroup()
+          .shadow(color: .black.opacity(0.32), radius: 7, y: 3)
 
         Text(rom.displayName)
           .font(CETheme.sans(12, weight: .semibold))
           .foregroundStyle(CETheme.text)
-          .lineLimit(3)
+          .lineLimit(2)
           .minimumScaleFactor(0.8)
           .multilineTextAlignment(.leading)
-          .fixedSize(horizontal: false, vertical: true)
-          .frame(width: width, alignment: .leading)
+          .frame(width: width, alignment: .topLeading)
+          .frame(minHeight: 30, alignment: .topLeading)
       }
       .frame(width: width, alignment: .topLeading)
     }
@@ -847,16 +786,37 @@ struct LibraryView: View {
     .contextMenu { artworkContextMenu(for: rom, landscapeDefault: false) }
   }
 
-  private func gameBannerCard(_ rom: RomItem) -> some View {
+  private func gameBannerCard(
+    _ rom: RomItem,
+    compact: Bool = false,
+    canvasWidth: CGFloat = 320
+  ) -> some View {
     let paused = engine.isPausedRom(rom)
     let optimized = OptimizedRomCatalog.isOptimized(
       fileName: rom.url.lastPathComponent,
       displayName: rom.displayName
     )
     let hasLogo = artworkStore.hasArtwork(forKey: rom.artworkKey, kind: .logo)
-    let cardHeight: CGFloat = hasLogo ? 176 : 132
-    let coverH: CGFloat = hasLogo ? 148 : 110
-    let coverW: CGFloat = hasLogo ? 99 : 78
+    // Full width of the face; height follows ~2.4:1 banner ratio but capped so nothing clips off.
+    let cardHeight: CGFloat = {
+      if compact {
+        let fromWidth = canvasWidth / 2.45
+        let cap: CGFloat = hasLogo ? 124 : 104
+        return min(max(fromWidth, 96), cap)
+      }
+      return hasLogo ? 176 : 132
+    }()
+    let vPad: CGFloat = compact ? 6 : 10
+    let hPad: CGFloat = compact ? 8 : 14
+    let coverH = max(56, cardHeight - vPad * 2)
+    let coverW = coverH * (2.0 / 3.0)
+    let corner: CGFloat = compact ? 14 : CETheme.radius
+    let coverCorner: CGFloat = compact ? 8 : 10
+    let titleSize: CGFloat = compact ? 16 : 20
+    // Logo must stay inside the card — never taller than the cover column.
+    let logoMax: CGFloat = compact
+      ? min(coverH - (hasLogo ? 18 : 8), hasLogo ? 72 : 40)
+      : (hasLogo ? 96 : 52)
     return LibraryGameTapButton(action: { handleGameTap(rom, at: $0) }) {
       ZStack {
         bannerImage(for: rom)
@@ -864,52 +824,58 @@ struct LibraryView: View {
           .frame(height: cardHeight)
           .clipped()
         LinearGradient(
-          colors: [.black.opacity(0.55), .black.opacity(0.25), .clear],
+          colors: [
+            .black.opacity(compact ? 0.58 : 0.55),
+            .black.opacity(compact ? 0.28 : 0.25),
+            .clear,
+          ],
           startPoint: .leading,
           endPoint: .trailing
         )
-        HStack(alignment: .center, spacing: 14) {
+        HStack(alignment: .center, spacing: compact ? 10 : 14) {
           coverImage(for: rom)
             .aspectRatio(2.0 / 3.0, contentMode: .fill)
             .frame(width: coverW, height: coverH)
             .clipped()
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: coverCorner, style: .continuous))
             .overlay(
-              RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .stroke(CETheme.border.opacity(0.9), lineWidth: 1.5)
+              RoundedRectangle(cornerRadius: coverCorner, style: .continuous)
+                .stroke(CETheme.border.opacity(0.9), lineWidth: compact ? 1 : 1.5)
             )
-            .shadow(color: .black.opacity(0.45), radius: 8, y: 2)
+            .shadow(color: .black.opacity(0.45), radius: compact ? 5 : 8, y: 2)
 
-          VStack(alignment: .leading, spacing: 6) {
+          VStack(alignment: .leading, spacing: compact ? 3 : 6) {
             HStack(spacing: 6) {
               if paused {
                 Text("PAUSED")
-                  .font(CETheme.mono(9))
+                  .font(CETheme.mono(compact ? 8 : 9))
                   .foregroundStyle(.black)
-                  .padding(.horizontal, 6)
+                  .padding(.horizontal, compact ? 5 : 6)
                   .padding(.vertical, 2)
                   .background(CETheme.crystal.opacity(0.95), in: Capsule())
               }
               OptimizedStatusBadge(optimized: optimized, compact: true)
             }
-            gameTitleLabel(for: rom, baseSize: 20, bold: true, maxHeight: hasLogo ? 96 : 52)
+            gameTitleLabel(for: rom, baseSize: titleSize, bold: true, maxHeight: logoMax)
           }
-          .frame(maxWidth: .infinity, alignment: .leading)
+          .frame(maxWidth: .infinity, maxHeight: coverH, alignment: .leading)
+          .clipped()
 
           Image(systemName: paused ? "pause.fill" : "play.fill")
-            .font(.system(size: 16, weight: .semibold))
+            .font(.system(size: compact ? 14 : 16, weight: .semibold))
             .symbolRenderingMode(.monochrome)
             .foregroundStyle(CETheme.crystal.opacity(0.85))
-            .padding(.trailing, 4)
+            .padding(.trailing, compact ? 2 : 4)
             .allowsHitTesting(false)
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 10)
+        .padding(.horizontal, hPad)
+        .padding(.vertical, vPad)
       }
+      .frame(maxWidth: .infinity)
       .frame(height: cardHeight)
-      .clipShape(RoundedRectangle(cornerRadius: CETheme.radius, style: .continuous))
+      .clipShape(RoundedRectangle(cornerRadius: corner, style: .continuous))
       .overlay(
-        RoundedRectangle(cornerRadius: CETheme.radius, style: .continuous)
+        RoundedRectangle(cornerRadius: corner, style: .continuous)
           .stroke(paused ? CETheme.crystal : CETheme.border, lineWidth: paused ? 2 : 1)
       )
     }
@@ -940,7 +906,9 @@ struct LibraryView: View {
         .resizable()
         .interpolation(.high)
         .scaledToFit()
-        .frame(maxWidth: .infinity, minHeight: maxHeight * 0.72, maxHeight: maxHeight, alignment: .leading)
+        // Fit inside the banner row — never force a tall minHeight that clips off-screen.
+        .frame(maxWidth: .infinity, maxHeight: maxHeight, alignment: .leading)
+        .fixedSize(horizontal: false, vertical: true)
         .shadow(color: .black.opacity(0.55), radius: 4, y: 1)
         .accessibilityLabel(rom.displayName)
     } else {
@@ -1151,8 +1119,14 @@ private struct CompactTabBarChrome: ViewModifier {
     appearance.configureWithDefaultBackground()
     // Keep selected / unselected metrics stable so scroll inset changes don’t restyle the pill.
     let item = UITabBarItemAppearance()
-    item.normal.iconColor = UIColor.secondaryLabel
-    item.selected.iconColor = UIColor.label
+    item.normal.iconColor = .white.withAlphaComponent(0.72)
+    item.selected.iconColor = .white
+    item.normal.titleTextAttributes = [
+      .foregroundColor: UIColor.white.withAlphaComponent(0.72)
+    ]
+    item.selected.titleTextAttributes = [
+      .foregroundColor: UIColor.white
+    ]
     appearance.stackedLayoutAppearance = item
     appearance.inlineLayoutAppearance = item
     appearance.compactInlineLayoutAppearance = item

@@ -906,7 +906,7 @@ enum Gen3BaseStats {
       return nationalMap[species] ?? retailMap[species] ?? fallback
     case .national, .hns:
       return nationalMap[species] ?? retailMap[species] ?? fallback
-    case .yellow, .crystal, .polished:
+    case .yellow, .crystal, .polished, .prism:
       return nationalMap[species] ?? fallback
     }
   }

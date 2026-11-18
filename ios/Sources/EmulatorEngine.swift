@@ -94,6 +94,8 @@ final class EmulatorEngine: ObservableObject {
 
   /// Last play-area size used to compute the WIDE window (points).
   private var lastWideDisplay: CGSize = .zero
+  /// Portrait / Duo cover: Expand only left/right (no top/bottom fill bars).
+  private var wideSidesOnly = false
   /// Eased Expand zoom (PokeDaisy WideCamera tween).
   private let wideZoom = WideZoomTween()
   private var lastWideApplied: (x: Int32, y: Int32, w: Int32, h: Int32)?
@@ -314,8 +316,12 @@ final class EmulatorEngine: ObservableObject {
 
   /// Drive PokeDaisy WIDE / EXPAND: larger window = more map (not a UI stretch).
   /// Auto zoom eases in/out (WideZoomTween) so battle pull-in isn't a hard cut.
-  func updateWideView(forDisplay size: CGSize) {
+  /// `sidesOnly`: legacy width-only Expand (shrinks on-screen height while zooming —
+  /// leave false so GB matches normal GBA auto-zoom).
+  func updateWideView(forDisplay size: CGSize, sidesOnly: Bool? = nil) {
     lastWideDisplay = size
+    if let sidesOnly { wideSidesOnly = sidesOnly }
+    let sides = wideSidesOnly
     let settings = AppSettings.shared
     // No WIDE row / Aspect≠Expand: skip camera work (no zoom spam).
     guard isRunning, settings.gameAspect == .expand, wideSupported else {
@@ -348,7 +354,8 @@ final class EmulatorEngine: ObservableObject {
     let px = WideCameraMath.pixels(fromPoints: size)
     if fw > 0, fh > 0, px.width > 0, px.height > 0 {
       let steps = WideCameraMath.levelCount(
-        viewW: px.width, viewH: px.height, frameW: fw, frameH: fh, maxW: maxW, maxH: maxH
+        viewW: px.width, viewH: px.height, frameW: fw, frameH: fh,
+        maxW: maxW, maxH: maxH, sidesOnly: sides
       )
       if zoomStepCount != steps { zoomStepCount = steps }
       let title = WideCameraMath.title(
@@ -357,7 +364,8 @@ final class EmulatorEngine: ObservableObject {
         frameW: fw,
         frameH: fh,
         maxW: maxW,
-        maxH: maxH
+        maxH: maxH,
+        sidesOnly: sides
       )
       if zoomStepTitle != title { zoomStepTitle = title }
       // Clamp stored zoom if this display supports fewer steps.
@@ -371,7 +379,8 @@ final class EmulatorEngine: ObservableObject {
     guard fw > 0, fh > 0, px.width > 0, px.height > 0 else { return }
 
     let steps = WideCameraMath.levels(
-      viewW: px.width, viewH: px.height, frameW: fw, frameH: fh, maxW: maxW, maxH: maxH
+      viewW: px.width, viewH: px.height, frameW: fw, frameH: fh,
+      maxW: maxW, maxH: maxH, sidesOnly: sides
     )
     guard !steps.isEmpty else { return }
 
@@ -404,7 +413,8 @@ final class EmulatorEngine: ObservableObject {
       frameW: fw,
       frameH: fh,
       maxW: maxW,
-      maxH: maxH
+      maxH: maxH,
+      sidesOnly: sides
     ) else {
       if widePlacement != nil { widePlacement = nil }
       lcdTop.setExpandPlacement(nil)
@@ -484,9 +494,8 @@ final class EmulatorEngine: ObservableObject {
     }
     let statePath = RomLibrary.statePath(forRom: url, slot: slot)
     let thumbPath = RomLibrary.stateThumbPath(forRom: url, slot: slot)
-    // Capture CGImage now; encode JPEG off the main/display-link thread so
-    // PNG of a wide Expand frame can't hitch audio for hundreds of ms.
-    let thumbCG = frameImage
+    // Freeze pixels now — frameImage’s provider aliases the live present ring.
+    let thumbPixels = frameImage.flatMap { Self.frozenThumbPixels(from: $0) }
     let artworkKey = Self.artworkKey(forRomURL: url)
     let q = emuQueue
     q.async {
@@ -496,10 +505,8 @@ final class EmulatorEngine: ObservableObject {
       }
       let ok = statePath.path.withCString { pk_ios_save_state($0) }
       var thumbData: Data?
-      if ok, let thumbCG {
-        let ui = UIImage(cgImage: thumbCG)
-        // JPEG is far cheaper than PNG on large WIDE buffers.
-        thumbData = ui.jpegData(compressionQuality: 0.72)
+      if ok, let thumbPixels {
+        thumbData = Self.jpegThumb(from: thumbPixels)
         if let thumbData {
           try? thumbData.write(to: thumbPath, options: [.atomic])
         }
@@ -622,6 +629,72 @@ final class EmulatorEngine: ObservableObject {
     UIImage(cgImage: cg)
   }
 
+  /// Owned RGBA copy of a present frame (safe after the present ring advances).
+  private struct FrozenThumbPixels: @unchecked Sendable {
+    let width: Int
+    let height: Int
+    let bytes: [UInt8]
+  }
+
+  private static func frozenThumbPixels(from cg: CGImage) -> FrozenThumbPixels? {
+    let w = cg.width
+    let h = cg.height
+    guard w > 0, h > 0 else { return nil }
+    let bpr = w * 4
+    var bytes = [UInt8](repeating: 0, count: bpr * h)
+    let ok = bytes.withUnsafeMutableBytes { raw -> Bool in
+      guard let base = raw.baseAddress else { return false }
+      guard let ctx = CGContext(
+        data: base,
+        width: w,
+        height: h,
+        bitsPerComponent: 8,
+        bytesPerRow: bpr,
+        space: CGColorSpaceCreateDeviceRGB(),
+        bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+      ) else { return false }
+      ctx.interpolationQuality = .none
+      ctx.draw(cg, in: CGRect(x: 0, y: 0, width: w, height: h))
+      return true
+    }
+    guard ok else { return nil }
+    // Mild LCD-style darken — raw frames read brighter than the play surface.
+    let gain = 0.88
+    let lift = 0.04
+    for i in stride(from: 0, to: bytes.count, by: 4) {
+      for c in 0..<3 {
+        let v = Double(bytes[i + c]) / 255.0
+        let shaped = min(1, max(0, (v - lift) * gain))
+        bytes[i + c] = UInt8(shaped * 255.0 + 0.5)
+      }
+      bytes[i + 3] = 255
+    }
+    return FrozenThumbPixels(width: w, height: h, bytes: bytes)
+  }
+
+  private static func jpegThumb(from pixels: FrozenThumbPixels) -> Data? {
+    let bpr = pixels.width * 4
+    return pixels.bytes.withUnsafeBytes { raw -> Data? in
+      guard let base = raw.bindMemory(to: UInt8.self).baseAddress else { return nil }
+      guard let data = CFDataCreate(nil, base, pixels.bytes.count),
+            let provider = CGDataProvider(data: data),
+            let cg = CGImage(
+              width: pixels.width,
+              height: pixels.height,
+              bitsPerComponent: 8,
+              bitsPerPixel: 32,
+              bytesPerRow: bpr,
+              space: CGColorSpaceCreateDeviceRGB(),
+              bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue),
+              provider: provider,
+              decode: nil,
+              shouldInterpolate: false,
+              intent: .defaultIntent
+            ) else { return nil }
+      return UIImage(cgImage: cg).jpegData(compressionQuality: 0.82)
+    }
+  }
+
   private func showToast(_ text: String) {
     actionToast = text
     toastClearTask?.cancel()
@@ -670,7 +743,7 @@ final class EmulatorEngine: ObservableObject {
   private func configureGen4Companion() {
     var code = [CChar](repeating: 0, count: 5)
     guard pk_ios_rom_code(&code) else {
-      companionHint = "Nintendo DS is running. Load HeartGold, SoulSilver, Platinum, Black / White, or B2 / W2 for battle move tips."
+      companionHint = "Nintendo DS is running. Load HeartGold, SoulSilver, Platinum, Black / White, or B2 / W2 for Smart Battle Island."
       return
     }
     let codeStr = String(cString: code)
@@ -813,7 +886,13 @@ final class EmulatorEngine: ObservableObject {
     // GB/GBC: plain SHA-1 — never apply the GBA GPIO mask (it breaks Polished Crystal, etc.).
     let sha1 = loadedRomURL.flatMap { RomSHA1.hexPlain(of: $0) }
 
-    if let g2 = Gen2ConfigStore.detect(title: titleStr, manufacturer: mfrStr, sha1: sha1) {
+    var g2 = Gen2ConfigStore.detect(title: titleStr, manufacturer: mfrStr, sha1: sha1)
+    // Filename soft-map when the header title is blank / odd (device dumps named pokeprism.gbc).
+    if g2 == nil, let name = loadedRomURL?.lastPathComponent.uppercased(),
+       name.contains("PRISM") || name.contains("POKEPRISM") {
+      g2 = Gen2ConfigStore.prism
+    }
+    if let g2 {
       companionSampler = Gen2Sampler(config: g2)
       companionGameName = g2.displayName
       companionHint = "\(g2.displayName) — companion connected. Waiting for save data…"
@@ -911,7 +990,9 @@ final class EmulatorEngine: ObservableObject {
     tearDownSessionUI(clearIdentity: true)
     statusText = "Idle"
     isQuitting = false
-    DispatchQueue.main.async { [weak self] in self?.audio.stop() }
+    // Stop audio now (tear-down is already deferred inside EmulatorAudio). An extra
+    // main.async here raced the next Play session and left games permanently silent.
+    audio.stop()
     emuQueue.async {
       if let save, pk_ios_is_running() {
         _ = save.statePath.path.withCString { pk_ios_save_state($0) }
@@ -936,7 +1017,7 @@ final class EmulatorEngine: ObservableObject {
     // Async so a wedged emu frame can't block Play / navigation on main.
     emuQueue.async { pk_ios_deinit() }
     statusText = "Idle"
-    DispatchQueue.main.async { [weak self] in self?.audio.stop() }
+    audio.stop()
   }
 
   /// Clear play UI / session flags without waiting on the emu queue.
@@ -1153,9 +1234,15 @@ final class EmulatorEngine: ObservableObject {
     InputHaptics.prepare()
     audio.start()
     audio.setOutputEnabled(AppSettings.shared.audioEnabled)
+    lastAudioEnabled = AppSettings.shared.audioEnabled
     AppSettings.shared.applyIdleTimer(playing: true)
     let link = CADisplayLink(target: self, selector: #selector(tick))
+    // Duo / ProMotion are 120 Hz — pin 60 so Soft Expand + audio stay 1 game frame / tick
+    // (PokeDaisy 1.6.1 took back 120 Hz 1× pacing that stuttered DS).
     link.preferredFramesPerSecond = 60
+    if #available(iOS 15.0, *) {
+      link.preferredFrameRateRange = CAFrameRateRange(minimum: 60, maximum: 60, preferred: 60)
+    }
     link.add(to: .main, forMode: .common)
     displayLink = link
     startAutoSaveTimer()
@@ -1178,6 +1265,9 @@ final class EmulatorEngine: ObservableObject {
     if lastAudioEnabled != wantAudio {
       lastAudioEnabled = wantAudio
       audio.setOutputEnabled(wantAudio)
+    }
+    if wantAudio {
+      audio.ensureRunning()
     }
     let settings = AppSettings.shared
     let gbaColors = settings.gbaColors
@@ -1222,13 +1312,22 @@ final class EmulatorEngine: ObservableObject {
           pk_ios_run_frame_present(keepAudio, show)
         }
       }
-      // DS audio catch-up only at 1× (FF already ran speed frames this tick).
-      if speed == 1, isNdsHint || pk_ios_platform() == 3 {
-        let target = pk_ios_audio_target()
-        var guardFrames = 0
-        while pk_ios_audio_queued() < target / 2 && guardFrames < 3 {
-          pk_ios_run_frame_present(true, false)
-          guardFrames += 1
+      // Audio catch-up at 1× when the ring is starving. DS: up to 3 frames.
+      // GB/GBA Expand: up to 2 present-skip frames — Prism WIDE can lag the
+      // display-link beat; underruns pad silence and kill sustained music while
+      // short SFX still poke through.
+      if speed == 1 {
+        let platNow = isNdsHint ? 3 : Int(pk_ios_platform())
+        let catchUp =
+          platNow == 3 || (expandOn && (platNow == 1 || platNow == 2))
+        if catchUp {
+          let target = pk_ios_audio_target()
+          let maxGuard = platNow == 3 ? 3 : 2
+          var guardFrames = 0
+          while pk_ios_audio_queued() < target / 2 && guardFrames < maxGuard {
+            pk_ios_run_frame_present(true, false)
+            guardFrames += 1
+          }
         }
       }
       let isNds = pk_ios_platform() == 3
@@ -1360,7 +1459,14 @@ final class EmulatorEngine: ObservableObject {
             self.lastNdsFieldBits = 0
             self.resetDsTouchState()
           }
-          self.skipPresentStreak = 0
+          // Soft-skip Expand compose when a GB/GBA frame overruns (~20 ms) so
+          // the next tick still feeds audio instead of holding g_lock in WIDE.
+          if expandOn {
+            let slow = 0.020
+            self.skipPresentStreak = dt > slow ? min(1, self.skipPresentStreak + 1) : 0
+          } else {
+            self.skipPresentStreak = 0
+          }
         }
         self.notePresentedFrame()
         if AppSettings.shared.dpadLiteMode {

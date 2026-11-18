@@ -14,7 +14,9 @@ struct OptimizedRomFeatures: OptionSet, Hashable {
   var labels: [String] {
     var out: [String] = []
     if contains(.expand) { out.append("Expand / Zoom") }
-    if contains(.companion) { out.append("Companion") }
+    if contains(.companion) {
+      out.append("Companion · Smart Island (reactive coach · phrases · tap tips)")
+    }
     if contains(.saveEditor) { out.append("Save Editor") }
     if contains(.shaders) { out.append("Shaders") }
     return out
@@ -133,13 +135,17 @@ enum OptimizedRomCatalog {
     // GB / GBC (Expand where pk_wide_gb tables exist — Red/Blue/Green/Yellow / Crystal / Polished)
     .init(id: "polished", title: "Polished Crystal", detail: "3.2.3 CRC · Expand + Gen 2 companion & editor",
           family: .gameBoy, features: .playStack, fileHints: ["POLISHED"]),
+    .init(id: "prism", title: "Pokémon Prism",
+          detail: "v0.95 build 254 · Expand (Prism WIDE profile) + Gen 2 companion & editor",
+          family: .gameBoy, features: .playStack,
+          fileHints: ["PRISM", "POKEPRISM", "POKEMON PRISM"]),
     .init(id: "crystal_clear", title: "Pokémon Crystal Clear",
           detail: "Expand via pk_wide_gb (Clear profile) + Gen 2 companion & editor",
           family: .gameBoy, features: .playStack, fileHints: ["CRYSTAL CLEAR"]),
     // Not Crystal Advance / Redux (GBA hacks) — those are separate unoptimized titles.
     .init(id: "crystal", title: "Pokémon Crystal", detail: "English / AU / DE · Expand via pk_wide_gb",
           family: .gameBoy, features: .playStack, fileHints: ["CRYSTAL"],
-          excludeHints: ["CRYSTAL ADVANCE", "ADVANCE REDUX", "CRYSTALREDUX", "CRYSTAL ENHANCED", "CRYSENHA", "CRYSTAL CLEAR", "CLEAR"]),
+          excludeHints: ["CRYSTAL ADVANCE", "ADVANCE REDUX", "CRYSTALREDUX", "CRYSTAL ENHANCED", "CRYSENHA", "CRYSTAL CLEAR", "CLEAR", "PRISM"]),
     .init(id: "gold", title: "Pokémon Gold",
           detail: "Companion + Gen 2 save editor · Expand unavailable (no pk_wide_gb row)",
           family: .gameBoy, features: [.companion, .saveEditor, .shaders],

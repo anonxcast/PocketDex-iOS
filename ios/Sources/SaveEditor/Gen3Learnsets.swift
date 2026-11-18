@@ -22,7 +22,7 @@ enum Gen3Learnsets {
       national = n
     } else {
       switch tables {
-      case .national, .hns, .yellow, .crystal, .polished: national = species
+      case .national, .hns, .yellow, .crystal, .polished, .prism: national = species
       default: national = nil
       }
     }

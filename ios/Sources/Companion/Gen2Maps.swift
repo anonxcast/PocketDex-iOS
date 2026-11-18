@@ -27,10 +27,13 @@ enum Gen2Maps {
   private static let namesCrystal = parseNames(Gen2MapBlobs.namesCrystal)
   private static let landmarksGoldSilver = parsePairs(Gen2MapBlobs.landmarksGoldSilver)
   private static let namesGoldSilver = parseNames(Gen2MapBlobs.namesGoldSilver)
+  private static let landmarksPrism = parsePairs(Gen2MapBlobs.landmarksPrism)
+  private static let namesPrism = parseNames(Gen2MapBlobs.namesPrism)
 
   private static func tables(forGameId id: String) -> (landmarks: [Int: Int], names: [Int: String]) {
     switch id {
     case "polished_crystal": return (landmarksPolished, namesPolished)
+    case "prism": return (landmarksPrism, namesPrism)
     case "gold", "silver": return (landmarksGoldSilver, namesGoldSilver)
     default: return (landmarksCrystal, namesCrystal)
     }

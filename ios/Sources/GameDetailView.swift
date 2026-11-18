@@ -463,7 +463,13 @@ struct GameDetailView: View {
         }
       }
       if let summarySource {
-        Link("Read more on Wikipedia", destination: summarySource)
+        let host = summarySource.host?.lowercased() ?? ""
+        let linkLabel: String = {
+          if host.contains("wikipedia") { return "Read more on Wikipedia" }
+          if host.contains("crystalenhanceddex") { return "Open Crystal Enhanced Dex" }
+          return "Learn more"
+        }()
+        Link(linkLabel, destination: summarySource)
           .font(CETheme.sans(12, weight: .semibold))
           .foregroundStyle(CETheme.crystal)
       }
@@ -731,7 +737,8 @@ struct GameDetailView: View {
   private func loadSummary() async {
     summarySource = nil
     // Curated fan-hack blurbs always win so About stays fresh when we expand them.
-    if let curated = GameSummaryClient.curatedIfAny(forDisplayName: rom.displayName) {
+    let fileName = rom.url.lastPathComponent
+    if let curated = GameSummaryClient.curatedIfAny(forDisplayName: rom.displayName, fileName: fileName) {
       summaryTitle = curated.title
       summaryBody = curated.extract
       summarySource = curated.sourceURL
@@ -745,7 +752,11 @@ struct GameDetailView: View {
     var meta = artworkStore.meta(forKey: rom.artworkKey) ?? RomArtworkMeta()
     let cachedTitle = meta.summaryTitle ?? ""
     let cachedOK = !cachedTitle.isEmpty
-      && GameSummaryClient.cachedTitleLooksValid(cachedTitle, forDisplayName: rom.displayName)
+      && GameSummaryClient.cachedTitleLooksValid(
+        cachedTitle,
+        forDisplayName: rom.displayName,
+        fileName: fileName
+      )
     if let cached = meta.summary, !cached.isEmpty, cachedOK {
       summaryTitle = cachedTitle
       summaryBody = cached
@@ -764,7 +775,8 @@ struct GameDetailView: View {
 
     if let found = await GameSummaryClient.shared.summary(
       forDisplayName: rom.displayName,
-      console: rom.console
+      console: rom.console,
+      fileName: fileName
     ) {
       summaryTitle = found.title
       summaryBody = found.extract

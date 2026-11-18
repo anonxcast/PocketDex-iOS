@@ -37,12 +37,20 @@ struct PlayView: View {
   @State private var foldDivision: CGRect?
   /// Duo closed → outer/cover skin + single-face play.
   @State private var hingeClosed = false
+  /// Top chrome tray: speed / zoom / folder / edit / companion collapsed behind one chevron.
+  @State private var chromeActionsExpanded = false
   @ObservedObject private var padLayouts = TouchPadLayoutStore.shared
   @StateObject private var raHUD = RetroAchievementsPlayHUD()
 
   private var console: ConsoleKind? { rom.console }
   private var skinActive: Bool { representation != nil }
   private var isNDS: Bool { console == .nds }
+  /// Smart Island (reactive coach) for every catalogued ROM with companion in the play stack.
+  private var smartBattleIslandEnabled: Bool {
+    guard let entry = OptimizedRomCatalog.entry(fileName: rom.url.lastPathComponent, displayName: rom.name)
+    else { return false }
+    return entry.features.contains(.companion)
+  }
   /// ONE SCREEN on a flat phone/iPad; Duo fold / Stacked / dual-screen skins still show both LCDs.
   private var dsOneScreen: Bool {
     isNDS
@@ -146,16 +154,36 @@ struct PlayView: View {
           }
           .onAppear { engine.updateWideView(forDisplay: topScreenRect.size) }
           .onChange(of: topScreenRect) { _, rect in engine.updateWideView(forDisplay: rect.size) }
+          .onChange(of: settings.gameAspect) { _, _ in
+            reloadSkin(viewSize: size, landscape: landscape, panes: panes)
+            engine.updateWideView(forDisplay: topScreenRect.size)
+          }
+          .onChange(of: settings.zoomLevel) { _, _ in engine.updateWideView(forDisplay: topScreenRect.size) }
+          .onChange(of: settings.autoZoomIn) { _, _ in engine.updateWideView(forDisplay: topScreenRect.size) }
           if !dsOneScreen {
             layerLCD(in: bottomScreenRect, presenter: engine.lcdBottom, fill: fillBand)
           }
         } else {
+          // Full Expand (same as GBA): window grows in both axes so auto-zoom keeps
+          // the view filled. Portrait used to be sides-only to hide Prism soft-map
+          // color bars — real GB WIDE rows (Prism/Crystal/…) draw the map vertically.
           layerLCD(in: gameRect, presenter: engine.lcdTop, fill: fillBand)
-            .onAppear { engine.updateWideView(forDisplay: gameRect.size) }
-            .onChange(of: gameRect) { _, rect in engine.updateWideView(forDisplay: rect.size) }
-            .onChange(of: settings.gameAspect) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
-            .onChange(of: settings.zoomLevel) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
-            .onChange(of: settings.autoZoomIn) { _, _ in engine.updateWideView(forDisplay: gameRect.size) }
+            .onAppear { engine.updateWideView(forDisplay: gameRect.size, sidesOnly: false) }
+            .onChange(of: gameRect) { _, rect in
+              engine.updateWideView(forDisplay: rect.size, sidesOnly: false)
+            }
+            .onChange(of: settings.gameAspect) { _, _ in
+              engine.updateWideView(forDisplay: gameRect.size, sidesOnly: false)
+            }
+            .onChange(of: settings.zoomLevel) { _, _ in
+              engine.updateWideView(forDisplay: gameRect.size, sidesOnly: false)
+            }
+            .onChange(of: settings.autoZoomIn) { _, _ in
+              engine.updateWideView(forDisplay: gameRect.size, sidesOnly: false)
+            }
+            .onChange(of: landscape) { _, _ in
+              engine.updateWideView(forDisplay: gameRect.size, sidesOnly: false)
+            }
         }
 
         // ROM failed to boot — clear message instead of a stuck spinner.
@@ -223,7 +251,10 @@ struct PlayView: View {
         // Same full-canvas pad as Edit Layout (normalized coords match 1:1).
         if !skinActive {
           let padVisible = isNDS ? PadControlID.ndsCases : PadControlID.gbaCases
-          let padLayout = padLayouts.layout(landscape: landscape)
+          let padLayout = padLayouts.layout(
+            landscape: landscape,
+            surface: hingeClosed ? .cover : .inner
+          )
           let padContainer = CGRect(origin: .zero, size: size)
           ZStack {
             // Own ObservedObject so D-pad glow doesn’t redraw the whole play canvas.
@@ -297,50 +328,84 @@ struct PlayView: View {
         VStack(spacing: 0) {
           // Companion / FPS chrome observes isolated stores — not EmulatorEngine —
           // so sample + fps ticks do not rebuild the whole play surface.
-          PlayCompanionStatusStrip(statusBarMode: settings.statusBarMode)
+          PlayCompanionStatusStrip(
+            statusBarMode: settings.statusBarMode,
+            coverFace: hingeClosed,
+            smartBattleIsland: smartBattleIslandEnabled
+          )
           HStack(alignment: .center, spacing: 8) {
             chromeButton(systemName: "chevron.left") {
               showLeaveConfirm = true
             }
             .accessibilityLabel("Back to library")
             if settings.statusBarMode != .game {
-              PlayCompanionTitleChip()
+              PlayCompanionTitleChipGate(coverFace: hingeClosed)
             }
-            PlayCompanionCenterChrome(raBanner: raHUD.banner)
+            PlayCompanionCenterChrome(
+              raBanner: raHUD.banner,
+              preferInlineIsland: settings.statusBarMode != .game && smartBattleIslandEnabled,
+              coverFace: hingeClosed
+            )
             if settings.showFps {
               FpsChromeChipView()
             }
-            speedChromeButton
-            if settings.gameAspect == .expand, engine.wideSupported {
-              chromeButton(systemName: "plus.magnifyingglass") {
-                engine.cycleZoom()
+            if chromeActionsExpanded {
+              HStack(spacing: 8) {
+                speedChromeButton
+                if settings.gameAspect == .expand, engine.wideSupported {
+                  chromeButton(systemName: "plus.magnifyingglass") {
+                    engine.cycleZoom()
+                  }
+                  .accessibilityLabel("Cycle zoom \(engine.zoomStepTitle)")
+                }
+                chromeButton(systemName: settings.folderLayout ? "rectangle.split.1x2.fill" : "rectangle.split.1x2") {
+                  settings.folderLayout.toggle()
+                  reloadSkin(viewSize: size, landscape: landscape, panes: resolvePanes(in: size))
+                }
+                .accessibilityLabel(settings.folderLayout ? "Folder layout on" : "Folder layout off")
+                if !skinActive {
+                  chromeButton(systemName: "arrow.up.and.down.and.arrow.left.and.right") {
+                    showPadEditor = true
+                  }
+                  .accessibilityLabel("Edit button layout")
+                }
+                chromeButton(systemName: companionOpen ? "xmark" : "line.3.horizontal") {
+                  if !companionOpen {
+                    companionPanelSize = size
+                  }
+                  withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) {
+                    companionOpen.toggle()
+                    engine.companionDrawerOpen = companionOpen
+                  }
+                  withAnimation(.spring(response: 0.34, dampingFraction: 0.86)) {
+                    chromeActionsExpanded = false
+                  }
+                }
+                .accessibilityLabel("Companion menu")
               }
-              .accessibilityLabel("Cycle zoom \(engine.zoomStepTitle)")
+              .transition(
+                .asymmetric(
+                  insertion: .move(edge: .trailing).combined(with: .opacity).combined(with: .scale(scale: 0.88)),
+                  removal: .move(edge: .trailing).combined(with: .opacity)
+                )
+              )
             }
-            chromeButton(systemName: settings.folderLayout ? "rectangle.split.1x2.fill" : "rectangle.split.1x2") {
-              settings.folderLayout.toggle()
-              reloadSkin(viewSize: size, landscape: landscape, panes: resolvePanes(in: size))
-            }
-            .accessibilityLabel(settings.folderLayout ? "Folder layout on" : "Folder layout off")
-            if !skinActive {
-              chromeButton(systemName: "arrow.up.and.down.and.arrow.left.and.right") {
-                showPadEditor = true
-              }
-              .accessibilityLabel("Edit button layout")
-            }
-            chromeButton(systemName: companionOpen ? "xmark" : "line.3.horizontal") {
-              if !companionOpen {
-                companionPanelSize = size
-              }
-              withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) {
-                companionOpen.toggle()
-                engine.companionDrawerOpen = companionOpen
+            chromeButton(systemName: chromeActionsExpanded ? "chevron.right" : "chevron.left") {
+              withAnimation(.spring(response: 0.34, dampingFraction: 0.86)) {
+                chromeActionsExpanded.toggle()
               }
             }
-            .accessibilityLabel("Companion menu")
+            .accessibilityLabel(chromeActionsExpanded ? "Hide play actions" : "Show play actions")
           }
+          .animation(.spring(response: 0.34, dampingFraction: 0.86), value: chromeActionsExpanded)
           .padding(.horizontal, 14)
-          .padding(.top, settings.statusBarMode == .game ? 6 : max(6, geo.safeAreaInsets.top + 2))
+          .padding(.top, {
+            // Duo cover/outer is short — don't push the LCD down with phone-portrait chrome.
+            if hingeClosed {
+              return settings.statusBarMode == .game ? 4 : max(2, geo.safeAreaInsets.top)
+            }
+            return settings.statusBarMode == .game ? 6 : max(6, geo.safeAreaInsets.top + 2)
+          }())
           .zIndex(1)
 
           if let notice = engine.autoSaveNotice {
@@ -381,21 +446,36 @@ struct PlayView: View {
           // Pass taps through to the DS touch window / game under the chrome.
           Spacer().allowsHitTesting(false)
 
-          HStack(spacing: 14) {
-            Spacer().allowsHitTesting(false)
-            if isNDS, dsOneScreen {
+          if isNDS, dsOneScreen {
+            HStack(spacing: 14) {
+              Spacer().allowsHitTesting(false)
               dsTouchBottomButton
+              Spacer().allowsHitTesting(false)
             }
-            quickSaveButton
-            Spacer().allowsHitTesting(false)
+            .padding(.bottom, max(18, geo.safeAreaInsets.bottom + (landscape ? 10 : 22)))
+            .padding(.horizontal, 14)
           }
-          .padding(.bottom, max(18, geo.safeAreaInsets.bottom + (landscape ? 10 : 22)))
-          .padding(.horizontal, 14)
         }
         .padding(.leading, geo.safeAreaInsets.leading)
         .padding(.trailing, geo.safeAreaInsets.trailing)
         // Above the DS touch dim so HUD controls stay usable during naming / menus.
         .zIndex(60)
+
+        // Movable SAVE — same normalized coords as Edit Layout (not a fixed chrome slot).
+        if !skinActive {
+          let saveLayout = padLayouts.layout(
+            landscape: landscape,
+            surface: hingeClosed ? .cover : .inner
+          )
+          let savePlace = saveLayout[.save]
+          let saveScale = savePlace.scale
+          let saveW = PadControlID.save.baseSize.width * saveScale
+          let saveH = PadControlID.save.baseSize.height * saveScale
+          quickSaveButton
+            .frame(width: saveW, height: saveH)
+            .position(x: savePlace.x * size.width, y: savePlace.y * size.height)
+            .zIndex(61)
+        }
 
         if companionOpen {
           Color.black.opacity(0.45)
@@ -503,7 +583,17 @@ struct PlayView: View {
             engine.companionDrawerOpen = false
           }
         }
-        reloadSkin(viewSize: size, landscape: landscape, panes: resolvePanes(in: size))
+        chromeActionsExpanded = false
+        // Cover ↔ inner swap: wait one turn so geo.size / safeArea settle, then rebuild LCD + pads.
+        let land = size.width > size.height
+        playLandscape = land
+        reloadSkin(viewSize: size, landscape: land, panes: resolvePanes(in: size))
+        DispatchQueue.main.async {
+          let s = geo.size
+          let l = s.width > s.height
+          playLandscape = l
+          reloadSkin(viewSize: s, landscape: l, panes: resolvePanes(in: s))
+        }
       }
       .onChange(of: engine.dsTouchWanted) { _, wanted in
         if wanted, dsOneScreen, !engine.dsMenuScreen, dsFrozenTop == nil {
@@ -536,6 +626,7 @@ struct PlayView: View {
     .fullScreenCover(isPresented: $showPadEditor) {
       PadLayoutEditorView(
         forceLandscape: playLandscape,
+        coverFace: hingeClosed,
         ndsButtons: isNDS,
         consoleAspect: consoleAspect,
         gameAspect: settings.gameAspect,
@@ -690,6 +781,13 @@ struct PlayView: View {
     }
   }
 
+  /// Expand/Stretch play band. Portrait: letterbox to console aspect so WIDE only
+  /// opens left/right (top/bottom overscan is fill-color bars, not the world).
+  private func expandBand(in avail: CGRect, landscape: Bool) -> CGRect {
+    if landscape { return avail }
+    return aspectFit(consoleAspect, in: avail)
+  }
+
   /// Largest 4:3 that covers `rect` (may crop edges) — fills the band without squashing pixels.
   private func aspectFill(_ aspect: CGFloat, in rect: CGRect) -> CGRect {
     let viewAspect = rect.width / max(rect.height, 1)
@@ -705,10 +803,13 @@ struct PlayView: View {
   }
 
   /// Duo hinge wins; Folder setting forces a book split in both orientations.
-  /// GB/GBC/GBA Expand+Stretch skip panes so the LCD can use the whole Duo canvas.
+  /// Expand/Stretch only skip panes in landscape — a full-height portrait canvas makes
+  /// WIDE request a too-tall window and the top/bottom map strips corrupt.
   private func resolvePanes(in size: CGSize) -> FoldPanes? {
+    let landscape = size.width > size.height
     let singleLCDExpand =
-      !isNDS && (settings.gameAspect == .expand || settings.gameAspect == .stretch)
+      !isNDS && landscape
+      && (settings.gameAspect == .expand || settings.gameAspect == .stretch)
     if singleLCDExpand { return nil }
 
     if let fold = foldDivision, fold.width > 8, fold.height > 1,
@@ -723,41 +824,63 @@ struct PlayView: View {
 
   private func fallbackGameRect(in size: CGSize, landscape: Bool, safe: EdgeInsets = EdgeInsets()) -> CGRect {
     // Leave room for translucent pads; center in the full screen (including side black bars).
-    let statusLift: CGFloat = settings.statusBarMode == .game ? 36 : 8
-    let top = max(48, size.height * 0.06) + statusLift + (landscape ? 0 : max(0, safe.top * 0.25))
-    // Ultra-wide Duo: Expand must claim almost the whole canvas so GB/GBC WIDE can grow L/R.
+    // Ultra-wide Duo / closed cover: Expand must claim almost the whole canvas.
     let ultraWide = landscape && size.width / max(size.height, 1) > 1.6
+    let coverFace = hingeClosed
+    let statusLift: CGFloat = {
+      if coverFace || ultraWide {
+        return settings.statusBarMode == .game ? 28 : 4
+      }
+      return settings.statusBarMode == .game ? 36 : 8
+    }()
+    let top: CGFloat = {
+      if coverFace || ultraWide {
+        // Short outer face — keep the LCD flush under chrome instead of a phone-portrait band.
+        return statusLift + max(0, safe.top * 0.15)
+      }
+      return max(48, size.height * 0.06) + statusLift + (landscape ? 0 : max(0, safe.top * 0.25))
+    }()
     switch settings.gameAspect {
     case .expand:
       // Nearly full stage so WIDE can grow left/right; pads overlay the edges.
-      let sidePad: CGFloat = ultraWide ? 4 : (landscape ? 6 : 4)
+      // Portrait (cover + phone): cap height to Android's upright Expand profile so
+      // top/bottom map rebuild stays valid — see WideCameraMath.effectiveViewSize.
+      let sidePad: CGFloat = (ultraWide || coverFace) ? 4 : (landscape ? 6 : 4)
       let bottomReserve: CGFloat = {
-        if ultraWide { return max(28, size.height * 0.06) }
+        if ultraWide || coverFace { return max(24, size.height * 0.05) }
         return landscape ? size.height * 0.08 : size.height * 0.22
       }()
-      return CGRect(
+      let avail = CGRect(
         x: sidePad,
         y: top,
         width: max(80, size.width - sidePad * 2),
         height: max(80, size.height - top - bottomReserve)
       )
+      return expandBand(in: avail, landscape: landscape)
     case .stretch:
       // Same large band as Expand — Stretch only changes pixel fill (squash allowed).
-      let sidePad: CGFloat = ultraWide ? 4 : (landscape ? 6 : 4)
+      let sidePad: CGFloat = (ultraWide || coverFace) ? 4 : (landscape ? 6 : 4)
       let bottomReserve: CGFloat = {
-        if ultraWide { return max(28, size.height * 0.06) }
+        if ultraWide || coverFace { return max(24, size.height * 0.05) }
         return landscape ? size.height * 0.08 : size.height * 0.22
       }()
-      return CGRect(
+      let avail = CGRect(
         x: sidePad,
         y: top,
         width: max(80, size.width - sidePad * 2),
         height: max(80, size.height - top - bottomReserve)
       )
+      return expandBand(in: avail, landscape: landscape)
     case .original:
       // Ultra-wide Duo: still maximize the LCD (letterboxed), don’t leave a tiny left postage stamp.
-      let bottomReserve: CGFloat = ultraWide ? size.height * 0.10 : (landscape ? size.height * 0.14 : size.height * 0.38)
-      let sidePad: CGFloat = ultraWide ? max(24, size.width * 0.06) : (landscape ? max(96, size.width * 0.20) : 12)
+      let bottomReserve: CGFloat = {
+        if ultraWide || coverFace { return size.height * 0.08 }
+        return landscape ? size.height * 0.14 : size.height * 0.38
+      }()
+      let sidePad: CGFloat = {
+        if ultraWide || coverFace { return max(16, size.width * 0.04) }
+        return landscape ? max(96, size.width * 0.20) : 12
+      }()
       let available = CGRect(
         x: sidePad,
         y: top,
@@ -861,8 +984,8 @@ struct PlayView: View {
       case .original:
         gameScreenRect = aspectFit(consoleAspect, in: topPlay)
       case .stretch, .expand:
-        // Full game page so GB/GBC Expand / zoom can use the Duo half (or whole stage).
-        gameScreenRect = topPlay
+        // Game page (top/left). Portrait letterboxes to console aspect (sides-only Expand).
+        gameScreenRect = expandBand(in: topPlay, landscape: landscape)
       }
       topScreenRect = .zero
       bottomScreenRect = .zero
@@ -1061,8 +1184,15 @@ struct PlayView: View {
       let eachH = (col.height - gap) * 0.5
       let topBand = CGRect(x: col.minX, y: col.minY, width: col.width, height: eachH)
       let botBand = CGRect(x: col.minX, y: col.minY + eachH + gap, width: col.width, height: eachH)
-      topScreenRect = aspectFit(lcdAspect, in: topBand)
-      bottomScreenRect = aspectFit(lcdAspect, in: botBand)
+      switch settings.gameAspect {
+      case .expand, .stretch:
+        // Give Soft Expand the full upper band so zoom can grow L/R.
+        topScreenRect = topBand
+        bottomScreenRect = aspectFit(lcdAspect, in: botBand)
+      case .original:
+        topScreenRect = aspectFit(lcdAspect, in: topBand)
+        bottomScreenRect = aspectFit(lcdAspect, in: botBand)
+      }
       gameScreenRect = topScreenRect.union(bottomScreenRect)
       return
     }
@@ -1117,6 +1247,8 @@ private struct PlayPadChrome: View {
 private struct PlayCompanionStatusStrip: View {
   @ObservedObject private var live = CompanionLiveStore.shared
   let statusBarMode: StatusBarMode
+  var coverFace: Bool = false
+  var smartBattleIsland: Bool = true
 
   private var leadMon: Mon? {
     live.snapshot?.party.first(where: { !$0.isEgg && $0.species > 0 })
@@ -1139,8 +1271,26 @@ private struct PlayCompanionStatusStrip: View {
         money: live.snapshot?.money,
         inBattle: live.snapshot?.inBattle == true,
         lead: leadMon,
-        tables: live.snapshot?.tables ?? .retail
+        tables: live.snapshot?.tables ?? .retail,
+        advice: smartBattleIsland ? live.islandAdvice : nil,
+        preferCompactIsland: coverFace,
+        onCycleIslandTip: smartBattleIsland ? { live.cycleIslandTip() } : nil
       )
+    }
+  }
+}
+
+/// Hides the route/lead chip on Duo cover when the island is coaching (battle or field).
+private struct PlayCompanionTitleChipGate: View {
+  @ObservedObject private var live = CompanionLiveStore.shared
+  var coverFace: Bool
+
+  var body: some View {
+    let islandBusy = coverFace && live.islandAdvice != nil
+    if islandBusy {
+      EmptyView()
+    } else {
+      PlayCompanionTitleChip()
     }
   }
 }
@@ -1175,6 +1325,10 @@ private struct PlayCompanionTitleChip: View {
 private struct PlayCompanionCenterChrome: View {
   @ObservedObject private var live = CompanionLiveStore.shared
   let raBanner: RetroAchievementsPlayHUD.Banner?
+  /// When false, the full game status bar already hosts the island — avoid a duplicate.
+  var preferInlineIsland: Bool = true
+  /// Duo front/cover — keep Smart Battle Island on the short face.
+  var coverFace: Bool = false
 
   var body: some View {
     if let raBanner {
@@ -1188,11 +1342,33 @@ private struct PlayCompanionCenterChrome: View {
           )
         )
         .animation(.spring(response: 0.42, dampingFraction: 0.82), value: raBanner.id)
-    } else if let tip = live.snapshot.flatMap({ Gen3BattleData.liveSuggestions(from: $0) }) {
-      BattleSuggestChip(foeName: tip.foeName, moves: tip.moves)
+    } else if preferInlineIsland, let advice = live.islandAdvice {
+      SmartBattleIsland(
+        advice: advice,
+        preferCompact: coverFace,
+        onCycleTip: { live.cycleIslandTip() }
+      )
         .frame(maxWidth: .infinity)
         .layoutPriority(-1)
-        .transition(.opacity)
+        .transition(.asymmetric(
+          insertion: .scale(scale: 0.94).combined(with: .opacity),
+          removal: .opacity
+        ))
+        .animation(.spring(response: 0.38, dampingFraction: 0.86), value: advice.headline)
+    } else if preferInlineIsland, let epi = live.battleEpilogue {
+      Text(epi)
+        .font(CETheme.sans(coverFace ? 11 : 13, weight: .bold))
+        .foregroundStyle(CETheme.text)
+        .lineLimit(2)
+        .minimumScaleFactor(0.75)
+        .padding(.horizontal, 12)
+        .padding(.vertical, coverFace ? 8 : 10)
+        .frame(maxWidth: .infinity)
+        .background(CETheme.card.opacity(0.72), in: Capsule())
+        .overlay(Capsule().stroke(CETheme.crystal.opacity(0.55), lineWidth: 1))
+        .layoutPriority(-1)
+        .transition(.opacity.combined(with: .scale(scale: 0.96)))
+        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: epi)
     } else {
       Spacer(minLength: 8)
     }

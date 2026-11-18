@@ -4218,6 +4218,6796 @@ enum Gen3BattleBlobs {
 933|G-MAX ONE BLOW|18|10
 934|G-MAX RAPID FLOW|12|10
 """#
+  static let movesWishes: String = #"""
+1|Pound|1|40
+2|Karate Chop|2|50
+3|Double Slap|1|15
+4|Comet Punch|1|18
+5|Mega Punch|1|80
+6|Pay Day|1|40
+7|Fire Punch|11|75
+8|Ice Punch|16|75
+9|Thunder Punch|14|75
+10|Scratch|1|40
+11|Vise Grip|1|55
+12|Guillotine|1|1
+13|Razor Wind|1|80
+14|Swords Dance|1|0
+15|Cut|1|50
+16|Gust|3|40
+17|Wing Attack|3|60
+18|Whirlwind|1|0
+19|Fly|3|90
+20|Bind|1|15
+21|Slam|1|80
+22|Vine Whip|13|45
+23|Stomp|1|65
+24|Double Kick|2|30
+25|Mega Kick|1|120
+26|Jump Kick|2|100
+27|Rolling Kick|2|60
+28|Sand Attack|5|0
+29|Headbutt|1|70
+30|Horn Attack|1|65
+31|Fury Attack|1|15
+32|Horn Drill|1|1
+33|Tackle|1|40
+34|Body Slam|1|85
+35|Wrap|1|15
+36|Take Down|1|90
+37|Thrash|1|120
+38|Double-Edge|1|120
+39|Tail Whip|1|0
+40|Poison Sting|4|15
+41|Twineedle|7|25
+42|Pin Missile|7|25
+43|Leer|1|0
+44|Bite|18|60
+45|Growl|1|0
+46|Roar|1|0
+47|Sing|1|0
+48|Supersonic|1|0
+49|Sonic Boom|1|1
+50|Disable|1|0
+51|Acid|4|40
+52|Ember|11|40
+53|Flamethrower|11|90
+54|Mist|16|0
+55|Water Gun|12|40
+56|Hydro Pump|12|110
+57|Surf|12|90
+58|Ice Beam|16|90
+59|Blizzard|16|110
+60|Psybeam|15|65
+61|Bubble Beam|12|65
+62|Aurora Beam|16|65
+63|Hyper Beam|1|150
+64|Peck|3|35
+65|Drill Peck|3|80
+66|Submission|2|80
+67|Low Kick|2|1
+68|Counter|2|1
+69|Seismic Toss|2|1
+70|Strength|1|80
+71|Absorb|13|20
+72|Mega Drain|13|40
+73|Leech Seed|13|0
+74|Growth|1|0
+75|Razor Leaf|13|55
+76|Solar Beam|13|120
+77|Poison Powder|4|0
+78|Stun Spore|13|0
+79|Sleep Powder|13|0
+80|Petal Dance|13|120
+81|String Shot|7|0
+82|Dragon Rage|17|1
+83|Fire Spin|11|35
+84|Thunder Shock|14|40
+85|Thunderbolt|14|90
+86|Thunder Wave|14|0
+87|Thunder|14|110
+88|Rock Throw|6|50
+89|Earthquake|5|100
+90|Fissure|5|1
+91|Dig|5|80
+92|Toxic|4|0
+93|Confusion|15|50
+94|Psychic|15|90
+95|Hypnosis|15|0
+96|Meditate|15|0
+97|Agility|15|0
+98|Quick Attack|1|40
+99|Rage|1|20
+100|Teleport|15|0
+101|Night Shade|8|1
+102|Mimic|1|0
+103|Screech|1|0
+104|Double Team|1|0
+105|Recover|1|0
+106|Harden|1|0
+107|Minimize|1|0
+108|Smokescreen|1|0
+109|Confuse Ray|8|0
+110|Withdraw|12|0
+111|Defense Curl|1|0
+112|Barrier|15|0
+113|Light Screen|15|0
+114|Haze|16|0
+115|Reflect|15|0
+116|Focus Energy|1|0
+117|Bide|1|1
+118|Metronome|1|0
+119|Mirror Move|3|0
+120|Self-Destruct|1|200
+121|Egg Bomb|1|100
+122|Lick|8|30
+123|Smog|4|30
+124|Sludge|4|65
+125|Bone Club|5|65
+126|Fire Blast|11|110
+127|Waterfall|12|80
+128|Clamp|12|35
+129|Swift|1|60
+130|Skull Bash|1|130
+131|Spike Cannon|1|20
+132|Constrict|1|10
+133|Amnesia|15|0
+134|Kinesis|15|0
+135|Soft-Boiled|1|0
+136|High Jump Kick|2|130
+137|Glare|1|0
+138|Dream Eater|15|100
+139|Poison Gas|4|0
+140|Barrage|1|15
+141|Leech Life|7|80
+142|Lovely Kiss|1|0
+143|Sky Attack|3|140
+144|Transform|1|0
+145|Bubble|12|40
+146|Dizzy Punch|1|70
+147|Spore|13|0
+148|Flash|1|0
+149|Psywave|15|1
+150|Splash|1|0
+151|Acid Armor|4|0
+152|Crabhammer|12|100
+153|Explosion|1|250
+154|Fury Swipes|1|18
+155|Bonemerang|5|50
+156|Rest|15|0
+157|Rock Slide|6|75
+158|Hyper Fang|1|80
+159|Sharpen|1|0
+160|Conversion|1|0
+161|Tri Attack|1|80
+162|Super Fang|1|1
+163|Slash|1|70
+164|Substitute|1|0
+165|Struggle|1|50
+166|Sketch|1|0
+167|Triple Kick|2|10
+168|Thief|18|60
+169|Spider Web|7|0
+170|Mind Reader|1|0
+171|Nightmare|8|0
+172|Flame Wheel|11|60
+173|Snore|1|50
+174|Curse|8|0
+175|Flail|1|1
+176|Conversion 2|1|0
+177|Aeroblast|3|100
+178|Cotton Spore|13|0
+179|Reversal|2|1
+180|Spite|8|0
+181|Powder Snow|16|40
+182|Protect|1|0
+183|Mach Punch|2|40
+184|Scary Face|1|0
+185|Feint Attack|18|60
+186|Sweet Kiss|19|0
+187|Belly Drum|1|0
+188|Sludge Bomb|4|90
+189|Mud-Slap|5|20
+190|Octazooka|12|65
+191|Spikes|5|0
+192|Zap Cannon|14|120
+193|Foresight|1|0
+194|Destiny Bond|8|0
+195|Perish Song|1|0
+196|Icy Wind|16|55
+197|Detect|2|0
+198|Bone Rush|5|25
+199|Lock-On|1|0
+200|Outrage|17|120
+201|Sandstorm|6|0
+202|Giga Drain|13|75
+203|Endure|1|0
+204|Charm|19|0
+205|Rollout|6|30
+206|False Swipe|1|40
+207|Swagger|1|0
+208|Milk Drink|1|0
+209|Spark|14|65
+210|Fury Cutter|7|40
+211|Steel Wing|9|70
+212|Mean Look|1|0
+213|Attract|1|0
+214|Sleep Talk|1|0
+215|Heal Bell|1|0
+216|Return|1|1
+217|Present|1|1
+218|Frustration|1|1
+219|Safeguard|1|0
+220|Pain Split|1|0
+221|Sacred Fire|11|100
+222|Magnitude|5|1
+223|Dynamic Punch|2|100
+224|Megahorn|7|120
+225|Dragon Breath|17|60
+226|Baton Pass|1|0
+227|Encore|1|0
+228|Pursuit|18|40
+229|Rapid Spin|1|50
+230|Sweet Scent|1|0
+231|Iron Tail|9|100
+232|Metal Claw|9|50
+233|Vital Throw|2|70
+234|Morning Sun|1|0
+235|Synthesis|13|0
+236|Moonlight|19|0
+237|Hidden Power|1|60
+238|Cross Chop|2|100
+239|Twister|17|40
+240|Rain Dance|12|0
+241|Sunny Day|11|0
+242|Crunch|18|80
+243|Mirror Coat|15|1
+244|Psych Up|1|0
+245|Extreme Speed|1|80
+246|Ancient Power|6|60
+247|Shadow Ball|8|80
+248|Future Sight|15|120
+249|Rock Smash|2|40
+250|Whirlpool|12|35
+251|Beat Up|18|1
+252|Fake Out|1|40
+253|Uproar|1|90
+254|Stockpile|1|0
+255|Spit Up|1|1
+256|Swallow|1|0
+257|Heat Wave|11|95
+258|Hail|16|0
+259|Torment|18|0
+260|Flatter|18|0
+261|Will-O-Wisp|11|0
+262|Memento|18|0
+263|Facade|1|70
+264|Focus Punch|2|150
+265|Smelling Salts|1|70
+266|Follow Me|1|0
+267|Nature Power|1|1
+268|Charge|14|0
+269|Taunt|18|0
+270|Helping Hand|1|0
+271|Trick|15|0
+272|Role Play|15|0
+273|Wish|1|0
+274|Assist|1|0
+275|Ingrain|13|0
+276|Superpower|2|120
+277|Magic Coat|15|0
+278|Recycle|1|0
+279|Revenge|2|60
+280|Brick Break|2|75
+281|Yawn|1|0
+282|Knock Off|18|65
+283|Endeavor|1|1
+284|Eruption|11|150
+285|Skill Swap|15|0
+286|Imprison|15|0
+287|Refresh|1|0
+288|Grudge|8|0
+289|Snatch|18|0
+290|Secret Power|1|70
+291|Dive|12|80
+292|Arm Thrust|2|15
+293|Camouflage|1|0
+294|Tail Glow|7|0
+295|Luster Purge|15|95
+296|Mist Ball|15|95
+297|Feather Dance|3|0
+298|Teeter Dance|1|0
+299|Blaze Kick|11|85
+300|Mud Sport|5|0
+301|Ice Ball|16|30
+302|Needle Arm|13|60
+303|Slack Off|1|0
+304|Hyper Voice|1|90
+305|Poison Fang|4|50
+306|Crush Claw|1|75
+307|Blast Burn|11|150
+308|Hydro Cannon|12|150
+309|Meteor Mash|9|90
+310|Astonish|8|30
+311|Weather Ball|1|50
+312|Aromatherapy|13|0
+313|Fake Tears|18|0
+314|Air Cutter|3|60
+315|Overheat|11|130
+316|Odor Sleuth|1|0
+317|Rock Tomb|6|60
+318|Silver Wind|7|60
+319|Metal Sound|9|0
+320|Grass Whistle|13|0
+321|Tickle|1|0
+322|Cosmic Power|15|0
+323|Water Spout|12|150
+324|Signal Beam|7|75
+325|Shadow Punch|8|60
+326|Extrasensory|15|80
+327|Sky Uppercut|2|85
+328|Sand Tomb|5|35
+329|Sheer Cold|16|1
+330|Muddy Water|12|90
+331|Bullet Seed|13|25
+332|Aerial Ace|3|60
+333|Icicle Spear|16|25
+334|Iron Defense|9|0
+335|Block|1|0
+336|Howl|1|0
+337|Dragon Claw|17|80
+338|Frenzy Plant|13|150
+339|Bulk Up|2|0
+340|Bounce|3|85
+341|Mud Shot|5|55
+342|Poison Tail|4|50
+343|Covet|1|60
+344|Volt Tackle|14|120
+345|Magical Leaf|13|60
+346|Water Sport|12|0
+347|Calm Mind|15|0
+348|Leaf Blade|13|90
+349|Dragon Dance|17|0
+350|Rock Blast|6|25
+351|Shock Wave|14|60
+352|Water Pulse|12|60
+353|Doom Desire|9|140
+354|Psycho Boost|15|140
+355|Roost|3|0
+356|Gravity|15|0
+357|Miracle Eye|15|0
+358|Wake-Up Slap|2|70
+359|Hammer Arm|2|100
+360|Gyro Ball|9|1
+361|Healing Wish|15|0
+362|Brine|12|65
+363|Natural Gift|1|1
+364|Feint|1|30
+365|Pluck|3|60
+366|Tailwind|3|0
+367|Acupressure|1|0
+368|Metal Burst|9|1
+369|U-turn|7|70
+370|Close Combat|2|120
+371|Payback|18|50
+372|Assurance|18|60
+373|Embargo|18|0
+374|Fling|18|1
+375|Psycho Shift|15|0
+376|Trump Card|1|1
+377|Heal Block|15|0
+378|Wring Out|1|120
+379|Power Trick|15|0
+380|Gastro Acid|4|0
+381|Lucky Chant|1|0
+382|Me First|1|0
+383|Copycat|1|0
+384|Power Swap|15|0
+385|Guard Swap|15|0
+386|Punishment|18|60
+387|Last Resort|1|140
+388|Worry Seed|13|0
+389|Sucker Punch|18|70
+390|Toxic Spikes|4|0
+391|Heart Swap|15|0
+392|Aqua Ring|12|0
+393|Magnet Rise|14|0
+394|Flare Blitz|11|120
+395|Force Palm|2|60
+396|Aura Sphere|2|80
+397|Rock Polish|6|0
+398|Poison Jab|4|80
+399|Dark Pulse|18|80
+400|Night Slash|18|70
+401|Aqua Tail|12|90
+402|Seed Bomb|13|80
+403|Air Slash|3|75
+404|X-Scissor|7|80
+405|Bug Buzz|7|90
+406|Dragon Pulse|17|85
+407|Dragon Rush|17|100
+408|Power Gem|6|80
+409|Drain Punch|2|75
+410|Vacuum Wave|2|40
+411|Focus Blast|2|120
+412|Energy Ball|13|90
+413|Brave Bird|3|120
+414|Earth Power|5|90
+415|Switcheroo|18|0
+416|Giga Impact|1|150
+417|Nasty Plot|18|0
+418|Bullet Punch|9|40
+419|Avalanche|16|60
+420|Ice Shard|16|40
+421|Shadow Claw|8|70
+422|Thunder Fang|14|65
+423|Ice Fang|16|65
+424|Fire Fang|11|65
+425|Shadow Sneak|8|40
+426|Mud Bomb|5|65
+427|Psycho Cut|15|70
+428|Zen Headbutt|15|80
+429|Mirror Shot|9|65
+430|Flash Cannon|9|80
+431|Rock Climb|1|90
+432|Defog|3|0
+433|Trick Room|15|0
+434|Draco Meteor|17|130
+435|Discharge|14|80
+436|Lava Plume|11|80
+437|Leaf Storm|13|130
+438|Power Whip|13|120
+439|Rock Wrecker|6|150
+440|Cross Poison|4|70
+441|Gunk Shot|4|120
+442|Iron Head|9|80
+443|Magnet Bomb|9|60
+444|Stone Edge|6|100
+445|Captivate|1|0
+446|Stealth Rock|6|0
+447|Grass Knot|13|1
+448|Chatter|3|65
+449|Judgment|1|100
+450|Bug Bite|7|60
+451|Charge Beam|14|50
+452|Wood Hammer|13|120
+453|Aqua Jet|12|40
+454|Attack Order|7|90
+455|Defend Order|7|0
+456|Heal Order|7|0
+457|Head Smash|6|150
+458|Double Hit|1|35
+459|Roar of Time|17|150
+460|Spacial Rend|17|100
+461|Lunar Dance|15|0
+462|Crush Grip|1|120
+463|Magma Storm|11|100
+464|Dark Void|18|0
+465|Seed Flare|13|120
+466|Ominous Wind|8|60
+467|Shadow Force|8|120
+468|Hone Claws|18|0
+469|Wide Guard|6|0
+470|Guard Split|15|0
+471|Power Split|15|0
+472|Wonder Room|15|0
+473|Psyshock|15|80
+474|Venoshock|4|65
+475|Autotomize|9|0
+476|Rage Powder|7|0
+477|Telekinesis|15|0
+478|Magic Room|15|0
+479|Smack Down|6|50
+480|Storm Throw|2|60
+481|Flame Burst|11|70
+482|Sludge Wave|4|95
+483|Quiver Dance|7|0
+484|Heavy Slam|9|1
+485|Synchronoise|15|120
+486|Electro Ball|14|1
+487|Soak|12|0
+488|Flame Charge|11|50
+489|Coil|4|0
+490|Low Sweep|2|65
+491|Acid Spray|4|40
+492|Foul Play|18|95
+493|Simple Beam|1|0
+494|Entrainment|1|0
+495|After You|1|0
+496|Round|1|60
+497|Echoed Voice|1|40
+498|Chip Away|1|70
+499|Clear Smog|4|50
+500|Stored Power|15|20
+501|Quick Guard|2|0
+502|Ally Switch|15|0
+503|Scald|12|80
+504|Shell Smash|1|0
+505|Heal Pulse|15|0
+506|Hex|8|65
+507|Sky Drop|3|60
+508|Shift Gear|9|0
+509|Circle Throw|2|60
+510|Incinerate|11|60
+511|Quash|18|0
+512|Acrobatics|3|55
+513|Reflect Type|1|0
+514|Retaliate|1|70
+515|Final Gambit|2|1
+516|Bestow|1|0
+517|Inferno|11|100
+518|Water Pledge|12|80
+519|Fire Pledge|11|80
+520|Grass Pledge|13|80
+521|Volt Switch|14|70
+522|Struggle Bug|7|50
+523|Bulldoze|5|60
+524|Frost Breath|16|60
+525|Dragon Tail|17|60
+526|Work Up|1|0
+527|Electroweb|14|55
+528|Wild Charge|14|90
+529|Drill Run|5|80
+530|Dual Chop|17|40
+531|Heart Stamp|15|60
+532|Horn Leech|13|75
+533|Sacred Sword|2|90
+534|Razor Shell|12|75
+535|Heat Crash|11|1
+536|Leaf Tornado|13|65
+537|Steamroller|7|65
+538|Cotton Guard|13|0
+539|Night Daze|18|85
+540|Psystrike|15|100
+541|Tail Slap|1|25
+542|Hurricane|3|110
+543|Head Charge|1|120
+544|Gear Grind|9|50
+545|Searing Shot|11|100
+546|Techno Blast|1|120
+547|Relic Song|1|75
+548|Secret Sword|2|85
+549|Glaciate|16|65
+550|Bolt Strike|14|130
+551|Blue Flare|11|130
+552|Fiery Dance|11|80
+553|Freeze Shock|16|140
+554|Ice Burn|16|140
+555|Snarl|18|55
+556|Icicle Crash|16|85
+557|V-create|11|180
+558|Fusion Flare|11|100
+559|Fusion Bolt|14|100
+560|Flying Press|2|100
+561|Mat Block|2|0
+562|Belch|4|120
+563|Rototiller|5|0
+564|Sticky Web|7|0
+565|Fell Stinger|7|50
+566|Phantom Force|8|90
+567|Trick-or-Treat|8|0
+568|Noble Roar|1|0
+569|Ion Deluge|14|0
+570|Parabolic Charge|14|65
+571|Forest's Curse|13|0
+572|Petal Blizzard|13|90
+573|Freeze-Dry|16|70
+574|Disarming Voice|19|40
+575|Parting Shot|18|0
+576|Topsy-Turvy|18|0
+577|Draining Kiss|19|50
+578|Crafty Shield|19|0
+579|Flower Shield|19|0
+580|Grassy Terrain|13|0
+581|Misty Terrain|19|0
+582|Electrify|14|0
+583|Play Rough|19|90
+584|Fairy Wind|19|40
+585|Moonblast|19|95
+586|Boomburst|1|140
+587|Fairy Lock|19|0
+588|King's Shield|9|0
+589|Play Nice|1|0
+590|Confide|1|0
+591|Diamond Storm|6|100
+592|Steam Eruption|12|110
+593|Hyperspace Hole|15|80
+594|Water Shuriken|12|15
+595|Mystical Fire|11|75
+596|Spiky Shield|13|0
+597|Aromatic Mist|19|0
+598|Eerie Impulse|14|0
+599|Venom Drench|4|0
+600|Powder|7|0
+601|Geomancy|19|0
+602|Magnetic Flux|14|0
+603|Happy Hour|1|0
+604|Electric Terrain|14|0
+605|Dazzling Gleam|19|80
+606|Celebrate|1|0
+607|Hold Hands|1|0
+608|Baby-Doll Eyes|19|0
+609|Nuzzle|14|20
+610|Hold Back|1|40
+611|Infestation|7|20
+612|Power-Up Punch|2|40
+613|Oblivion Wing|3|80
+614|Thousand Arrows|5|90
+615|Thousand Waves|5|90
+616|Land's Wrath|5|90
+617|Light Of Ruin|19|140
+618|Origin Pulse|12|110
+619|Precipice Blades|5|120
+620|Dragon Ascent|3|120
+621|Hyperspace Fury|18|100
+622|Shore Up|5|0
+623|First Impression|7|90
+624|Baneful Bunker|4|0
+625|Spirit Shackle|8|80
+626|Darkest Lariat|18|85
+627|Sparkling Aria|12|90
+628|Ice Hammer|16|100
+629|Floral Healing|19|0
+630|High Horsepower|5|95
+631|Strength Sap|13|0
+632|Solar Blade|13|125
+633|Leafage|13|40
+634|Spotlight|1|0
+635|Toxic Thread|4|0
+636|Laser Focus|1|0
+637|Gear Up|9|0
+638|Throat Chop|18|80
+639|Pollen Puff|7|90
+640|Anchor Shot|9|80
+641|Psychic Terrain|15|0
+642|Lunge|7|80
+643|Fire Lash|11|80
+644|Power Trip|18|20
+645|Burn Up|11|130
+646|Speed Swap|15|0
+647|Smart Strike|9|70
+648|Purify|4|0
+649|Revelation Dance|1|90
+650|Core Enforcer|17|100
+651|Trop Kick|13|70
+652|Instruct|15|0
+653|Beak Blast|3|100
+654|Clanging Scales|17|110
+655|Dragon Hammer|17|90
+656|Brutal Swing|18|60
+657|Aurora Veil|16|0
+658|Shell Trap|11|150
+659|Fleur Cannon|19|130
+660|Psychic Fangs|15|85
+661|Stomping Tantrum|5|75
+662|Shadow Bone|8|85
+663|Accelerock|6|40
+664|Liquidation|12|85
+665|Prismatic Laser|15|160
+666|Spectral Thief|8|90
+667|Sunsteel Strike|9|100
+668|Moongeist Beam|8|100
+669|Tearful Look|1|0
+670|Zing Zap|14|80
+671|Nature's Madness|19|1
+672|Multi-Attack|1|120
+673|Mind Blown|11|150
+674|Plasma Fists|14|100
+675|Photon Geyser|15|100
+676|Zippy Zap|14|80
+677|Splishy Splash|12|90
+678|Floaty Fall|3|90
+679|Pika Papow|14|1
+680|Bouncy Bubble|12|60
+681|Buzzy Buzz|14|60
+682|Sizzly Slide|11|60
+683|Glitzy Glow|15|80
+684|Baddy Bad|18|80
+685|Sappy Seed|13|100
+686|Freezy Frost|16|100
+687|Sparkly Swirl|19|120
+688|Veevee Volley|1|1
+689|Double Iron Bash|9|60
+690|Dynamax Cannon|17|100
+691|Snipe Shot|12|80
+692|Jaw Lock|18|80
+693|Stuff Cheeks|1|0
+694|No Retreat|2|0
+695|Tar Shot|6|0
+696|Magic Powder|15|0
+697|Dragon Darts|17|50
+698|Teatime|1|0
+699|Octolock|2|0
+700|Bolt Beak|14|85
+701|Fishious Rend|12|85
+702|Court Change|1|0
+703|Clangorous Soul|17|0
+704|Body Press|2|80
+705|Decorate|19|0
+706|Drum Beating|13|80
+707|Snap Trap|13|35
+708|Pyro Ball|11|120
+709|Behemoth Blade|9|100
+710|Behemoth Bash|9|100
+711|Aura Wheel|14|110
+712|Breaking Swipe|17|60
+713|Branch Poke|13|40
+714|Overdrive|14|80
+715|Apple Acid|13|80
+716|Grav Apple|13|80
+717|Spirit Break|19|75
+718|Strange Steam|19|90
+719|Life Dew|12|0
+720|Obstruct|18|0
+721|False Surrender|18|80
+722|Meteor Assault|2|150
+723|Eternabeam|17|160
+724|Steel Beam|9|140
+725|Expanding Force|15|80
+726|Steel Roller|9|130
+727|Scale Shot|17|25
+728|Meteor Beam|6|120
+729|Shell Side Arm|4|90
+730|Misty Explosion|19|100
+731|Grassy Glide|13|55
+732|Rising Voltage|14|70
+733|Terrain Pulse|1|50
+734|Skitter Smack|7|70
+735|Burning Jealousy|11|70
+736|Lash Out|18|75
+737|Poltergeist|8|110
+738|Corrosive Gas|4|0
+739|Coaching|2|0
+740|Flip Turn|12|60
+741|Triple Axel|16|20
+742|Dual Wingbeat|3|40
+743|Scorching Sands|5|70
+744|Jungle Healing|13|0
+745|Wicked Blow|18|75
+746|Surging Strikes|12|25
+747|Thunder Cage|14|80
+748|Dragon Energy|17|150
+749|Freezing Glare|15|90
+750|Fiery Wrath|18|90
+751|Thunderous Kick|2|90
+752|Glacial Lance|16|120
+753|Astral Barrage|8|120
+754|Eerie Spell|15|80
+755|Dire Claw|4|80
+756|Psyshield Bash|15|70
+757|Power Shift|1|0
+758|Stone Axe|6|65
+759|Springtide Storm|19|100
+760|Mystical Power|15|70
+761|Raging Fury|11|120
+762|Wave Crash|12|120
+763|Chloroblast|13|150
+764|Mountain Gale|16|100
+765|Victory Dance|2|0
+766|Headlong Rush|5|120
+767|Barb Barrage|4|60
+768|Esper Wing|15|80
+769|Bitter Malice|8|75
+770|Shelter|9|0
+771|Triple Arrows|2|90
+772|Infernal Parade|8|60
+773|Ceaseless Edge|18|65
+774|Bleakwind Storm|3|100
+775|Wildbolt Storm|14|100
+776|Sandsear Storm|5|100
+777|Lunar Blessing|15|0
+778|Take Heart|15|0
+779|Tera Blast|1|80
+780|Silk Trap|7|0
+781|Axe Kick|2|120
+782|Last Respects|8|50
+783|Lumina Crash|15|80
+784|Order Up|17|80
+785|Jet Punch|12|60
+786|Spicy Extract|13|0
+787|Spin Out|9|100
+788|Population Bomb|1|20
+789|Ice Spinner|16|80
+790|Glaive Rush|17|120
+791|Revival Blessing|1|0
+792|Salt Cure|6|40
+793|Triple Dive|12|30
+794|Mortal Spin|4|30
+795|Doodle|1|0
+796|Fillet Away|1|0
+797|Kowtow Cleave|18|85
+798|Flower Trick|13|70
+799|Torch Song|11|80
+800|Aqua Step|12|80
+801|Raging Bull|1|90
+802|Make It Rain|9|120
+803|Ruination|18|1
+804|Collision Course|2|100
+805|Electro Drift|14|100
+806|Shed Tail|1|0
+807|Chilly Reception|16|0
+808|Tidy Up|1|0
+809|Snowscape|16|0
+810|Pounce|7|50
+811|Trailblaze|13|50
+812|Chilling Water|12|50
+813|Hyper Drill|1|100
+814|Twin Beam|15|40
+815|Rage Fist|8|50
+816|Armor Cannon|11|120
+817|Bitter Blade|11|90
+818|Double Shock|14|120
+819|Gigaton Hammer|9|160
+820|Comeuppance|18|1
+821|Aqua Cutter|12|70
+822|Blazing Torque|11|80
+823|Wicked Torque|18|80
+824|Noxious Torque|4|100
+825|Combat Torque|2|100
+826|Magical Torque|19|100
+827|Psyblade|15|80
+828|Hydro Steam|12|80
+829|Blood Moon|1|140
+830|Matcha Gotcha|13|80
+831|Syrup Bomb|13|60
+832|Ivy Cudgel|13|100
+833|Electro Shot|14|130
+834|Tera Starstorm|1|120
+835|Fickle Beam|17|80
+836|Burning Bulwark|11|0
+837|Thunderclap|14|70
+838|Mighty Cleave|6|95
+839|Tachyon Cutter|9|50
+840|Hard Press|9|100
+841|Dragon Cheer|17|0
+842|Alluring Voice|19|80
+843|Temper Flare|11|75
+844|Supercell Slam|14|100
+845|Psychic Noise|15|75
+846|Upper Hand|2|65
+847|Malignant Chain|4|100
+848|Breakneck Blitz|1|1
+849|All-Out Pummeling|2|1
+850|Supersonic Skystrike|3|1
+851|Acid Downpour|4|1
+852|Tectonic Rage|5|1
+853|Continental Crush|6|1
+854|Savage Spin-Out|7|1
+855|Never-Ending Nightmare|8|1
+856|Corkscrew Crash|9|1
+857|Inferno Overdrive|11|1
+858|Hydro Vortex|12|1
+859|Bloom Doom|13|1
+860|Gigavolt Havoc|14|1
+861|Shattered Psyche|15|1
+862|Subzero Slammer|16|1
+863|Devastating Drake|17|1
+864|Black Hole Eclipse|18|1
+865|Twinkle Tackle|19|1
+866|Catastropika|14|210
+867|10,000,000 Volt Thunderbolt|14|195
+868|Stoked Sparksurfer|14|175
+869|Extreme Evoboost|1|0
+870|Pulverizing Pancake|1|210
+871|Genesis Supernova|15|185
+872|Sinister Arrow Raid|8|180
+873|Malicious Moonsault|18|180
+874|Oceanic Operetta|12|195
+875|Splintered Stormshards|6|190
+876|Let's Snuggle Forever|19|190
+877|Clangorous Soulblaze|17|185
+878|Guardian of Alola|19|1
+879|Searing Sunraze Smash|9|200
+880|Menacing Moonraze Maelstrom|8|200
+881|Light That Burns the Sky|15|200
+882|Soul-Stealing 7-Star Strike|8|195
+883|Max Guard|1|0
+884|Max Strike|1|1
+885|Max Knuckle|2|1
+886|Max Airstream|3|1
+887|Max Ooze|4|1
+888|Max Quake|5|1
+889|Max Rockfall|6|1
+890|Max Flutterby|7|1
+891|Max Phantasm|8|1
+892|Max Steelspike|9|10
+893|Max Flare|11|1
+894|Max Geyser|12|1
+895|Max Overgrowth|13|10
+896|Max Lightning|14|1
+897|Max Mindstorm|15|1
+898|Max Hailstorm|16|1
+899|Max Wyrmwind|17|1
+900|Max Darkness|18|1
+901|Max Starfall|19|1
+902|G-Max Vine Lash|13|10
+903|G-Max Wildfire|11|10
+904|G-Max Cannonade|12|10
+905|G-Max Befuddle|7|10
+906|G-Max Volt Crash|14|10
+907|G-Max Gold Rush|1|10
+908|G-Max Chi Strike|2|10
+909|G-Max Terror|8|10
+910|G-Max Foam Burst|12|10
+911|G-Max Resonance|16|10
+912|G-Max Cuddle|1|10
+913|G-Max Replenish|1|10
+914|G-Max Malodor|4|10
+915|G-Max Meltdown|9|10
+916|G-Max Drum Solo|13|10
+917|G-Max Fireball|11|10
+918|G-Max Hydrosnipe|12|10
+919|G-Max Wind Rage|3|10
+920|G-Max Gravitas|15|10
+921|G-Max Stonesurge|12|10
+922|G-Max Volcalith|6|10
+923|G-Max Tartness|13|10
+924|G-Max Sweetness|13|10
+925|G-Max Sandblast|5|10
+926|G-Max Stun Shock|14|10
+927|G-Max Centiferno|11|10
+928|G-Max Smite|19|10
+929|G-Max Snooze|18|10
+930|G-Max Finale|19|10
+931|G-Max Steelsurge|9|10
+932|G-Max Depletion|17|10
+933|G-Max One Blow|18|10
+934|G-Max Rapid Flow|12|10
+"""#
+  static let movesLazarus: String = #"""
+1|Pound|1|40
+2|Karate Chop|2|50
+3|Double Slap|1|15
+4|Comet Punch|1|18
+5|Mega Punch|1|80
+6|Pay Day|1|40
+7|Fire Punch|11|75
+8|Ice Punch|16|75
+9|Thunder Punch|14|75
+10|Scratch|1|40
+11|Vise Grip|1|55
+12|Guillotine|1|1
+13|Razor Wind|1|80
+14|Swords Dance|1|0
+15|Cut|1|50
+16|Gust|3|40
+17|Wing Attack|3|60
+18|Whirlwind|1|0
+19|Fly|3|90
+20|Bind|1|15
+21|Slam|1|70
+22|Vine Whip|13|45
+23|Stomp|1|65
+24|Double Kick|2|30
+25|Mega Kick|1|110
+26|Jump Kick|2|95
+27|Rolling Kick|2|60
+28|Sand Attack|5|0
+29|Headbutt|1|70
+30|Horn Attack|1|65
+31|Fury Attack|1|20
+32|Horn Drill|1|1
+33|Tackle|1|40
+34|Body Slam|1|85
+35|Wrap|1|15
+36|Take Down|1|90
+37|Thrash|1|120
+38|Double-Edge|1|120
+39|Tail Whip|1|0
+40|Poison Sting|4|15
+41|Twineedle|7|25
+42|Pin Missile|7|25
+43|Leer|1|0
+44|Bite|18|60
+45|Growl|1|0
+46|Roar|1|0
+47|Sing|1|0
+48|Supersonic|1|0
+49|Sonic Boom|1|1
+50|Disable|1|0
+51|Acid|4|40
+52|Ember|11|40
+53|Flamethrower|11|90
+54|Mist|16|0
+55|Water Gun|12|40
+56|Hydro Pump|12|110
+57|Surf|12|90
+58|Ice Beam|16|90
+59|Blizzard|16|110
+60|Psybeam|15|65
+61|Bubble Beam|12|65
+62|Aurora Beam|16|65
+63|Hyper Beam|1|150
+64|Peck|3|35
+65|Drill Peck|3|80
+66|Submission|2|80
+67|Low Kick|2|1
+68|Counter|2|1
+69|Seismic Toss|2|1
+70|Strength|6|80
+71|Absorb|13|30
+72|Mega Drain|13|50
+73|Leech Seed|13|0
+74|Growth|1|0
+75|Razor Leaf|13|55
+76|Solar Beam|13|120
+77|Poison Powder|4|0
+78|Stun Spore|13|0
+79|Sleep Powder|13|0
+80|Petal Dance|13|120
+81|String Shot|7|0
+82|Dragon Rage|17|1
+83|Fire Spin|11|50
+84|Thunder Shock|14|40
+85|Thunderbolt|14|90
+86|Thunder Wave|14|0
+87|Thunder|14|110
+88|Rock Throw|6|50
+89|Earthquake|5|100
+90|Fissure|5|1
+91|Dig|5|80
+92|Toxic|4|0
+93|Confusion|15|50
+94|Psychic|15|90
+95|Hypnosis|15|0
+96|Meditate|15|0
+97|Agility|15|0
+98|Quick Attack|1|40
+99|Rage|1|20
+100|Teleport|15|0
+101|Night Shade|8|1
+102|Mimic|1|0
+103|Screech|1|0
+104|Double Team|1|0
+105|Recover|1|0
+106|Harden|1|0
+107|Minimize|1|0
+108|Smokescreen|1|0
+109|Confuse Ray|8|0
+110|Withdraw|12|0
+111|Defense Curl|1|0
+112|Barrier|15|0
+113|Light Screen|15|0
+114|Haze|16|0
+115|Reflect|15|0
+116|Focus Energy|1|0
+117|Bide|1|1
+118|Metronome|1|0
+119|Mirror Move|3|0
+120|Self-Destruct|1|200
+121|Egg Bomb|1|100
+122|Lick|8|30
+123|Smog|4|30
+124|Sludge|4|65
+125|Bone Club|5|65
+126|Fire Blast|11|110
+127|Waterfall|12|80
+128|Clamp|12|35
+129|Swift|1|60
+130|Skull Bash|1|130
+131|Spike Cannon|9|25
+132|Constrict|1|10
+133|Amnesia|15|0
+134|Kinesis|15|0
+135|Soft-Boiled|1|0
+136|High Jump Kick|2|130
+137|Glare|1|0
+138|Dream Eater|15|100
+139|Poison Gas|4|0
+140|Barrage|13|20
+141|Leech Life|7|80
+142|Lovely Kiss|1|0
+143|Sky Attack|3|140
+144|Transform|1|0
+145|Bubble|12|30
+146|Dizzy Punch|1|60
+147|Spore|13|0
+148|Flash|1|50
+149|Psywave|15|1
+150|Splash|1|0
+151|Acid Armor|4|0
+152|Crabhammer|12|90
+153|Explosion|1|250
+154|Fury Swipes|1|18
+155|Bonemerang|5|50
+156|Rest|15|0
+157|Rock Slide|6|75
+158|Hyper Fang|1|80
+159|Sharpen|1|0
+160|Conversion|1|0
+161|Tri Attack|1|80
+162|Super Fang|1|1
+163|Slash|1|70
+164|Substitute|1|0
+165|Struggle|1|50
+166|Sketch|1|0
+167|Triple Kick|2|15
+168|Thief|18|60
+169|Spider Web|7|0
+170|Mind Reader|1|0
+171|Nightmare|8|0
+172|Flame Wheel|11|60
+173|Snore|1|50
+174|Curse|8|0
+175|Flail|1|1
+176|Conversion 2|1|0
+177|Aeroblast|3|100
+178|Cotton Spore|13|0
+179|Reversal|2|1
+180|Spite|8|0
+181|Powder Snow|16|40
+182|Protect|1|0
+183|Mach Punch|2|40
+184|Scary Face|1|0
+185|Feint Attack|18|60
+186|Sweet Kiss|19|0
+187|Belly Drum|1|0
+188|Sludge Bomb|4|90
+189|Mud-Slap|5|20
+190|Octazooka|12|60
+191|Spikes|5|0
+192|Zap Cannon|14|120
+193|Foresight|1|0
+194|Destiny Bond|8|0
+195|Perish Song|1|0
+196|Icy Wind|16|55
+197|Detect|2|0
+198|Bone Rush|5|25
+199|Lock-On|1|0
+200|Outrage|17|120
+201|Sandstorm|6|0
+202|Giga Drain|13|75
+203|Endure|1|0
+204|Charm|19|0
+205|Rollout|6|30
+206|False Swipe|1|40
+207|Swagger|1|0
+208|Milk Drink|1|0
+209|Spark|14|65
+210|Fury Cutter|7|40
+211|Steel Wing|9|70
+212|Mean Look|1|0
+213|Attract|1|0
+214|Sleep Talk|1|0
+215|Heal Bell|1|0
+216|Return|1|1
+217|Present|1|1
+218|Frustration|1|1
+219|Safeguard|1|0
+220|Pain Split|1|0
+221|Sacred Fire|11|100
+222|Magnitude|5|1
+223|Dynamic Punch|2|100
+224|Megahorn|7|120
+225|Dragon Breath|17|60
+226|Baton Pass|1|0
+227|Encore|1|0
+228|Pursuit|18|40
+229|Rapid Spin|1|50
+230|Sweet Scent|1|0
+231|Iron Tail|9|100
+232|Metal Claw|9|50
+233|Vital Throw|2|70
+234|Morning Sun|1|0
+235|Synthesis|13|0
+236|Moonlight|19|0
+237|Hidden Power|1|60
+238|Cross Chop|2|100
+239|Twister|17|40
+240|Rain Dance|12|0
+241|Sunny Day|11|0
+242|Crunch|18|80
+243|Mirror Coat|15|1
+244|Psych Up|1|0
+245|Extreme Speed|1|80
+246|Ancient Power|6|60
+247|Shadow Ball|8|80
+248|Future Sight|15|120
+249|Rock Smash|2|40
+250|Whirlpool|12|50
+251|Beat Up|18|1
+252|Fake Out|1|40
+253|Uproar|1|90
+254|Stockpile|1|0
+255|Spit Up|1|1
+256|Swallow|1|0
+257|Heat Wave|11|95
+258|Hail|16|0
+259|Torment|18|0
+260|Flatter|18|0
+261|Will-O-Wisp|11|0
+262|Memento|18|0
+263|Facade|1|70
+264|Focus Punch|2|150
+265|Smelling Salts|1|70
+266|Follow Me|1|0
+267|Nature Power|1|1
+268|Charge|14|0
+269|Taunt|18|0
+270|Helping Hand|1|0
+271|Trick|15|0
+272|Role Play|15|0
+273|Wish|1|0
+274|Assist|1|0
+275|Ingrain|13|0
+276|Superpower|2|120
+277|Magic Coat|15|0
+278|Recycle|1|0
+279|Revenge|2|60
+280|Brick Break|2|75
+281|Yawn|1|0
+282|Knock Off|18|65
+283|Endeavor|1|1
+284|Eruption|11|150
+285|Skill Swap|15|0
+286|Imprison|15|0
+287|Refresh|1|0
+288|Grudge|8|0
+289|Snatch|18|0
+290|Secret Power|1|70
+291|Dive|12|80
+292|Arm Thrust|2|15
+293|Camouflage|1|0
+294|Tail Glow|7|0
+295|Luster Purge|15|95
+296|Mist Ball|15|95
+297|Feather Dance|3|0
+298|Teeter Dance|1|0
+299|Blaze Kick|11|85
+300|Mud Sport|5|0
+301|Ice Ball|16|30
+302|Needle Arm|13|60
+303|Slack Off|1|0
+304|Hyper Voice|1|90
+305|Poison Fang|4|50
+306|Crush Claw|1|75
+307|Blast Burn|11|150
+308|Hydro Cannon|12|150
+309|Meteor Mash|9|90
+310|Astonish|8|30
+311|Weather Ball|1|50
+312|Aromatherapy|13|0
+313|Fake Tears|18|0
+314|Air Cutter|3|60
+315|Overheat|11|130
+316|Odor Sleuth|1|0
+317|Rock Tomb|6|60
+318|Silver Wind|7|60
+319|Metal Sound|9|0
+320|Grass Whistle|13|0
+321|Tickle|1|0
+322|Cosmic Power|15|0
+323|Water Spout|12|150
+324|Signal Beam|7|75
+325|Shadow Punch|8|60
+326|Extrasensory|15|80
+327|Sky Uppercut|2|85
+328|Sand Tomb|5|35
+329|Sheer Cold|16|1
+330|Muddy Water|12|85
+331|Bullet Seed|13|25
+332|Aerial Ace|3|60
+333|Icicle Spear|16|25
+334|Iron Defense|9|0
+335|Block|1|0
+336|Howl|1|0
+337|Dragon Claw|17|80
+338|Frenzy Plant|13|150
+339|Bulk Up|2|0
+340|Bounce|3|85
+341|Mud Shot|5|55
+342|Poison Tail|4|50
+343|Covet|19|60
+344|Volt Tackle|14|120
+345|Magical Leaf|13|60
+346|Water Sport|12|0
+347|Calm Mind|15|0
+348|Leaf Blade|13|90
+349|Dragon Dance|17|0
+350|Rock Blast|6|25
+351|Shock Wave|14|60
+352|Water Pulse|12|60
+353|Doom Desire|9|140
+354|Psycho Boost|15|140
+355|Roost|3|0
+356|Gravity|15|0
+357|Miracle Eye|15|0
+358|Wake-Up Slap|2|70
+359|Hammer Arm|2|100
+360|Gyro Ball|9|1
+361|Healing Wish|15|0
+362|Brine|12|65
+363|Natural Gift|1|1
+364|Feint|1|30
+365|Pluck|3|60
+366|Tailwind|3|0
+367|Acupressure|1|0
+368|Metal Burst|9|1
+369|U-turn|7|70
+370|Close Combat|2|120
+371|Payback|18|50
+372|Assurance|18|60
+373|Embargo|18|0
+374|Fling|18|1
+375|Psycho Shift|15|0
+376|Trump Card|1|1
+377|Heal Block|15|0
+378|Wring Out|1|1
+379|Power Trick|15|0
+380|Gastro Acid|4|0
+381|Lucky Chant|1|0
+382|Me First|1|0
+383|Copycat|1|0
+384|Power Swap|15|0
+385|Guard Swap|15|0
+386|Punishment|18|60
+387|Last Resort|1|140
+388|Worry Seed|13|0
+389|Sucker Punch|18|70
+390|Toxic Spikes|4|0
+391|Heart Swap|15|0
+392|Aqua Ring|12|0
+393|Magnet Rise|14|0
+394|Flare Blitz|11|120
+395|Force Palm|2|60
+396|Aura Sphere|2|80
+397|Rock Polish|6|0
+398|Poison Jab|4|80
+399|Dark Pulse|18|80
+400|Night Slash|18|70
+401|Aqua Tail|12|85
+402|Seed Bomb|13|80
+403|Air Slash|3|75
+404|X-Scissor|7|80
+405|Bug Buzz|7|90
+406|Dragon Pulse|17|85
+407|Dragon Rush|17|90
+408|Power Gem|6|80
+409|Drain Punch|2|75
+410|Vacuum Wave|2|40
+411|Focus Blast|2|120
+412|Energy Ball|13|90
+413|Brave Bird|3|120
+414|Earth Power|5|90
+415|Switcheroo|18|0
+416|Giga Impact|1|150
+417|Nasty Plot|18|0
+418|Bullet Punch|9|40
+419|Avalanche|16|60
+420|Ice Shard|16|40
+421|Shadow Claw|8|70
+422|Thunder Fang|14|70
+423|Ice Fang|16|70
+424|Fire Fang|11|70
+425|Shadow Sneak|8|40
+426|Mud Bomb|5|65
+427|Psycho Cut|15|70
+428|Zen Headbutt|15|80
+429|Mirror Shot|9|65
+430|Flash Cannon|9|80
+431|Rock Climb|1|90
+432|Defog|3|0
+433|Trick Room|15|0
+434|Draco Meteor|17|130
+435|Discharge|14|80
+436|Lava Plume|11|80
+437|Leaf Storm|13|130
+438|Power Whip|13|120
+439|Rock Wrecker|6|150
+440|Cross Poison|4|70
+441|Gunk Shot|4|120
+442|Iron Head|9|80
+443|Magnet Bomb|9|60
+444|Stone Edge|6|100
+445|Captivate|1|0
+446|Stealth Rock|6|0
+447|Grass Knot|13|1
+448|Chatter|3|70
+449|Judgment|1|100
+450|Bug Bite|7|60
+451|Charge Beam|14|50
+452|Wood Hammer|13|120
+453|Aqua Jet|12|40
+454|Attack Order|7|90
+455|Defend Order|7|0
+456|Heal Order|7|0
+457|Head Smash|6|150
+458|Double Hit|1|40
+459|Roar of Time|17|150
+460|Spacial Rend|17|100
+461|Lunar Dance|15|0
+462|Crush Grip|1|1
+463|Magma Storm|11|100
+464|Dark Void|18|0
+465|Seed Flare|13|120
+466|Ominous Wind|8|60
+467|Shadow Force|8|120
+468|Hone Claws|18|0
+469|Wide Guard|6|0
+470|Guard Split|15|0
+471|Power Split|15|0
+472|Wonder Room|15|0
+473|Psyshock|15|80
+474|Venoshock|4|65
+475|Autotomize|9|0
+476|Rage Powder|7|0
+477|Telekinesis|15|0
+478|Magic Room|15|0
+479|Smack Down|6|50
+480|Storm Throw|2|60
+481|Flame Burst|11|70
+482|Sludge Wave|4|95
+483|Quiver Dance|7|0
+484|Heavy Slam|9|1
+485|Synchronoise|15|120
+486|Electro Ball|14|1
+487|Soak|12|0
+488|Flame Charge|11|50
+489|Coil|4|0
+490|Low Sweep|2|65
+491|Acid Spray|4|40
+492|Foul Play|18|95
+493|Simple Beam|1|0
+494|Entrainment|1|0
+495|After You|1|0
+496|Round|1|60
+497|Echoed Voice|1|40
+498|Chip Away|1|70
+499|Clear Smog|4|50
+500|Stored Power|15|20
+501|Quick Guard|2|0
+502|Ally Switch|15|0
+503|Scald|12|80
+504|Shell Smash|1|0
+505|Heal Pulse|15|0
+506|Hex|8|65
+507|Sky Drop|3|60
+508|Shift Gear|9|0
+509|Circle Throw|2|70
+510|Incinerate|11|60
+511|Quash|18|0
+512|Acrobatics|3|55
+513|Reflect Type|1|0
+514|Retaliate|1|70
+515|Final Gambit|2|1
+516|Bestow|1|0
+517|Inferno|11|100
+518|Water Pledge|12|80
+519|Fire Pledge|11|80
+520|Grass Pledge|13|80
+521|Volt Switch|14|70
+522|Struggle Bug|7|50
+523|Bulldoze|5|60
+524|Frost Breath|16|50
+525|Dragon Tail|17|55
+526|Work Up|1|0
+527|Electroweb|14|55
+528|Wild Charge|14|90
+529|Drill Run|5|80
+530|Dual Chop|17|40
+531|Heart Stamp|15|60
+532|Horn Leech|13|75
+533|Sacred Sword|2|90
+534|Razor Shell|12|75
+535|Heat Crash|11|1
+536|Leaf Tornado|13|65
+537|Steamroller|7|65
+538|Cotton Guard|13|0
+539|Night Daze|18|85
+540|Psystrike|15|100
+541|Tail Slap|1|25
+542|Hurricane|3|110
+543|Head Charge|1|120
+544|Gear Grind|9|50
+545|Searing Shot|11|100
+546|Techno Blast|1|120
+547|Relic Song|1|75
+548|Secret Sword|2|85
+549|Glaciate|16|65
+550|Bolt Strike|14|130
+551|Blue Flare|11|130
+552|Fiery Dance|11|80
+553|Freeze Shock|16|140
+554|Ice Burn|16|140
+555|Snarl|18|55
+556|Icicle Crash|16|85
+557|V-create|11|180
+558|Fusion Flare|11|100
+559|Fusion Bolt|14|100
+560|Flying Press|2|80
+561|Mat Block|2|0
+562|Belch|4|120
+563|Rototiller|5|0
+564|Sticky Web|7|0
+565|Fell Stinger|7|50
+566|Phantom Force|8|90
+567|Trick-or-Treat|8|0
+568|Noble Roar|1|0
+569|Ion Deluge|14|0
+570|Parabolic Charge|14|65
+571|Forest's Curse|13|0
+572|Petal Blizzard|13|90
+573|Freeze-Dry|16|70
+574|Disarming Voice|19|40
+575|Parting Shot|18|0
+576|Topsy-Turvy|18|0
+577|Draining Kiss|19|60
+578|Crafty Shield|19|0
+579|Flower Shield|19|0
+580|Grassy Terrain|13|0
+581|Misty Terrain|19|0
+582|Electrify|14|0
+583|Play Rough|19|90
+584|Fairy Wind|19|40
+585|Moonblast|19|95
+586|Boomburst|1|140
+587|Fairy Lock|19|0
+588|King's Shield|9|0
+589|Play Nice|1|0
+590|Confide|1|0
+591|Diamond Storm|6|100
+592|Steam Eruption|12|110
+593|Hyperspace Hole|15|80
+594|Water Shuriken|12|15
+595|Mystical Fire|11|75
+596|Spiky Shield|13|0
+597|Aromatic Mist|19|0
+598|Eerie Impulse|14|0
+599|Venom Drench|4|0
+600|Powder|7|0
+601|Geomancy|19|0
+602|Magnetic Flux|14|0
+603|Happy Hour|1|0
+604|Electric Terrain|14|0
+605|Dazzling Gleam|19|80
+606|Celebrate|1|0
+607|Hold Hands|1|0
+608|Baby-Doll Eyes|19|0
+609|Nuzzle|14|20
+610|Hold Back|1|40
+611|Infestation|7|20
+612|Power-Up Punch|2|40
+613|Oblivion Wing|3|80
+614|Thousand Arrows|5|90
+615|Thousand Waves|5|90
+616|Land's Wrath|5|90
+617|Light Of Ruin|19|140
+618|Origin Pulse|12|110
+619|Precipice Blades|5|120
+620|Dragon Ascent|3|120
+621|Hyperspace Fury|18|100
+622|Shore Up|5|0
+623|First Impression|7|90
+624|Baneful Bunker|4|0
+625|Spirit Shackle|8|90
+626|Darkest Lariat|18|85
+627|Sparkling Aria|12|90
+628|Ice Hammer|16|100
+629|Floral Healing|19|0
+630|High Horsepower|5|90
+631|Strength Sap|13|0
+632|Solar Blade|13|125
+633|Leafage|13|40
+634|Spotlight|1|0
+635|Toxic Thread|4|0
+636|Laser Focus|1|0
+637|Gear Up|9|0
+638|Throat Chop|18|80
+639|Pollen Puff|7|90
+640|Anchor Shot|9|80
+641|Psychic Terrain|15|0
+642|Lunge|7|80
+643|Fire Lash|11|80
+644|Power Trip|18|20
+645|Burn Up|11|130
+646|Speed Swap|15|0
+647|Smart Strike|9|70
+648|Purify|4|0
+649|Revelation Dance|1|90
+650|Core Enforcer|17|100
+651|Trop Kick|13|70
+652|Instruct|15|0
+653|Beak Blast|11|100
+654|Clanging Scales|17|110
+655|Dragon Hammer|17|90
+656|Brutal Swing|18|60
+657|Aurora Veil|16|0
+658|Shell Trap|11|150
+659|Fleur Cannon|19|130
+660|Psychic Fangs|15|85
+661|Stomping Tantrum|5|75
+662|Shadow Bone|8|85
+663|Accelerock|6|40
+664|Liquidation|12|85
+665|Prismatic Laser|15|160
+666|Spectral Thief|8|90
+667|Sunsteel Strike|9|100
+668|Moongeist Beam|8|95
+669|Tearful Look|1|0
+670|Zing Zap|14|80
+671|Nature's Madness|19|1
+672|Multi-Attack|1|120
+673|Mind Blown|11|150
+674|Plasma Fists|14|100
+675|Photon Geyser|15|100
+676|Zippy Zap|14|80
+677|Splishy Splash|12|90
+678|Floaty Fall|3|90
+679|Pika Papow|14|1
+680|Bouncy Bubble|12|75
+681|Buzzy Buzz|14|60
+682|Sizzly Slide|11|60
+683|Glitzy Glow|15|80
+684|Baddy Bad|18|80
+685|Sappy Seed|13|100
+686|Freezy Frost|16|100
+687|Sparkly Swirl|19|90
+688|Veevee Volley|1|1
+689|Double Iron Bash|9|60
+690|Dynamax Cannon|17|100
+691|Snipe Shot|12|80
+692|Jaw Lock|18|80
+693|Stuff Cheeks|1|0
+694|No Retreat|2|0
+695|Tar Shot|6|0
+696|Magic Powder|15|0
+697|Dragon Darts|17|50
+698|Teatime|1|0
+699|Octolock|2|0
+700|Bolt Beak|14|75
+701|Fishious Rend|12|75
+702|Court Change|1|0
+703|Clangorous Soul|17|0
+704|Body Press|2|80
+705|Decorate|19|0
+706|Drum Beating|13|80
+707|Snap Trap|13|55
+708|Pyro Ball|11|120
+709|Behemoth Blade|9|100
+710|Behemoth Bash|9|100
+711|Aura Wheel|14|110
+712|Breaking Swipe|17|60
+713|Branch Poke|13|40
+714|Overdrive|14|80
+715|Apple Acid|13|80
+716|Grav Apple|13|80
+717|Spirit Break|19|75
+718|Strange Steam|19|90
+719|Life Dew|12|0
+720|Obstruct|18|0
+721|False Surrender|18|80
+722|Meteor Assault|2|150
+723|Eternabeam|17|160
+724|Steel Beam|9|140
+725|Expanding Force|15|80
+726|Steel Roller|9|130
+727|Scale Shot|17|25
+728|Meteor Beam|6|120
+729|Shell Side Arm|4|90
+730|Misty Explosion|19|100
+731|Grassy Glide|13|65
+732|Rising Voltage|14|70
+733|Terrain Pulse|1|50
+734|Skitter Smack|7|65
+735|Burning Jealousy|11|70
+736|Lash Out|18|75
+737|Poltergeist|8|110
+738|Corrosive Gas|4|0
+739|Coaching|2|0
+740|Flip Turn|12|60
+741|Triple Axel|16|20
+742|Dual Wingbeat|3|40
+743|Scorching Sands|5|70
+744|Jungle Healing|13|0
+745|Wicked Blow|18|75
+746|Surging Strikes|12|25
+747|Thunder Cage|14|80
+748|Dragon Energy|17|150
+749|Freezing Glare|15|80
+750|Fiery Wrath|18|90
+751|Thunderous Kick|14|80
+752|Glacial Lance|16|110
+753|Astral Barrage|8|120
+754|Eerie Spell|15|80
+755|Dire Claw|4|70
+756|Psyshield Bash|15|70
+757|Power Shift|1|0
+758|Stone Axe|6|70
+759|Springtide Storm|19|100
+760|Mystical Power|15|70
+761|Raging Fury|11|100
+762|Wave Crash|12|120
+763|Chloroblast|13|150
+764|Mountain Gale|16|90
+765|Victory Dance|2|0
+766|Headlong Rush|5|120
+767|Barb Barrage|4|60
+768|Esper Wing|15|65
+769|Bitter Malice|8|75
+770|Shelter|9|0
+771|Triple Arrows|2|70
+772|Infernal Parade|8|65
+773|Ceaseless Edge|18|65
+774|Bleakwind Storm|3|100
+775|Wildbolt Storm|14|100
+776|Sandsear Storm|5|100
+777|Lunar Blessing|15|0
+778|Take Heart|15|0
+779|Tera Blast|1|80
+780|Silk Trap|7|0
+781|Axe Kick|2|120
+782|Last Respects|8|50
+783|Lumina Crash|15|80
+784|Order Up|17|80
+785|Jet Punch|12|60
+786|Spicy Extract|13|0
+787|Spin Out|9|100
+788|Population Bomb|1|20
+789|Ice Spinner|16|80
+790|Glaive Rush|17|120
+791|Revival Blessing|1|0
+792|Salt Cure|6|40
+793|Triple Dive|12|30
+794|Mortal Spin|4|30
+795|Doodle|1|0
+796|Fillet Away|1|0
+797|Kowtow Cleave|18|85
+798|Flower Trick|13|70
+799|Torch Song|11|80
+800|Aqua Step|12|80
+801|Raging Bull|1|90
+802|Make It Rain|9|120
+803|Ruination|18|1
+804|Collision Course|2|100
+805|Electro Drift|14|100
+806|Shed Tail|1|0
+807|Chilly Reception|16|0
+808|Tidy Up|1|0
+809|Snowscape|16|0
+810|Pounce|7|60
+811|Trailblaze|13|50
+812|Chilling Water|12|50
+813|Hyper Drill|1|100
+814|Twin Beam|15|40
+815|Rage Fist|8|50
+816|Armor Cannon|11|120
+817|Bitter Blade|11|90
+818|Double Shock|14|120
+819|Gigaton Hammer|9|160
+820|Comeuppance|18|1
+821|Aqua Cutter|12|70
+822|Blazing Torque|11|80
+823|Wicked Torque|18|80
+824|Noxious Torque|4|100
+825|Combat Torque|2|100
+826|Magical Torque|19|100
+827|Psyblade|15|80
+828|Hydro Steam|12|80
+829|Blood Moon|1|140
+830|Matcha Gotcha|13|75
+831|Syrup Bomb|13|60
+832|Ivy Cudgel|13|100
+833|Electro Shot|14|130
+834|Tera Starstorm|1|120
+835|Fickle Beam|17|80
+836|Burning Bulwark|11|0
+837|Thunderclap|14|70
+838|Mighty Cleave|6|95
+839|Tachyon Cutter|9|50
+840|Hard Press|9|1
+841|Dragon Cheer|17|0
+842|Alluring Voice|19|80
+843|Temper Flare|11|75
+844|Supercell Slam|14|100
+845|Psychic Noise|15|75
+846|Upper Hand|2|65
+847|Malignant Chain|4|100
+848|Revelation Step|1|55
+849|Deepwater Curse|16|20
+850|Breakneck Blitz|1|1
+851|All Out Pummeling|2|1
+852|Supersonic Skystrike|3|1
+853|Acid Downpour|4|1
+854|Tectonic Rage|5|1
+855|Continental Crush|6|1
+856|Savage Spin Out|7|1
+857|Never Ending Nightmare|8|1
+858|Corkscrew Crash|9|1
+859|Inferno Overdrive|11|1
+860|Hydro Vortex|12|1
+861|Bloom Doom|13|1
+862|Gigavolt Havoc|14|1
+863|Shattered Psyche|15|1
+864|Subzero Slammer|16|1
+865|Devastating Drake|17|1
+866|Black Hole Eclipse|18|1
+867|Twinkle Tackle|19|1
+868|Catastropika|14|210
+869|10000000 Volt Thunderbolt|14|195
+870|Stoked Sparksurfer|14|175
+871|Extreme Evoboost|1|0
+872|Pulverizing Pancake|1|210
+873|Genesis Supernova|15|185
+874|Sinister Arrow Raid|8|180
+875|Malicious Moonsault|18|180
+876|Oceanic Operetta|12|195
+877|Splintered Stormshards|6|190
+878|Let's Snuggle Forever|19|190
+879|Clangorous Soulblaze|17|185
+880|Guardian of Alola|19|1
+881|Searing Sunraze Smash|9|200
+882|Menacing Moonraze Maelstrom|8|200
+883|Light That Burns The Sky|15|200
+884|Soul Stealing 7 Star Strike|8|195
+885|Max Guard|1|0
+886|Max Strike|1|1
+887|Max Knuckle|2|1
+888|Max Airstream|3|1
+889|Max Ooze|4|1
+890|Max Quake|5|1
+891|Max Rockfall|6|1
+892|Max Flutterby|7|1
+893|Max Phantasm|8|1
+894|Max Steelspike|9|10
+895|Max Flare|11|1
+896|Max Geyser|12|1
+897|Max Overgrowth|13|10
+898|Max Lightning|14|1
+899|Max Mindstorm|15|1
+900|Max Hailstorm|16|1
+901|Max Wyrmwind|17|1
+902|Max Darkness|18|1
+903|Max Starfall|19|1
+904|G-Max Vine Lash|13|10
+905|G-Max Wildfire|11|10
+906|G-Max Canonade|12|10
+907|G-Max Befuddle|7|10
+908|G-Max Volt Crash|14|10
+909|G-Max Gold Rush|1|10
+910|G-Max Chi Strike|2|10
+911|G-Max Terror|8|10
+912|G-Max Foam Burst|12|10
+913|G-Max Resonance|16|10
+914|G-Max Cuddle|1|10
+915|G-Max Replenish|1|10
+916|G-Max Malodor|4|10
+917|G-Max Meltdown|9|10
+918|G-Max Drum Solo|13|10
+919|G-Max Fireball|11|10
+920|G-Max Hydrosnipe|12|10
+921|G-Max Wind Rage|3|10
+922|G-Max Gravitas|15|10
+923|G-Max Stonesurge|12|10
+924|G-Max Volcalith|6|10
+925|G-Max Tartness|13|10
+926|G-Max Sweetness|13|10
+927|G-Max Sandblast|5|10
+928|G-Max Stun Shock|14|10
+929|G-Max Centiferno|11|10
+930|G-Max Smite|19|10
+931|G-Max Snooze|18|10
+932|G-Max Finale|19|10
+933|G-Max Steelsurge|9|10
+934|G-Max Depletion|17|10
+935|G-Max One Blow|18|10
+936|G-Max Rapid Flow|12|10
+"""#
+  static let movesRowe: String = #"""
+1|Pound|0|40
+2|Karate Chop|1|50
+3|Double Slap|0|15
+4|Comet Punch|1|25
+5|Mega Punch|0|80
+6|Pay Day|0|60
+7|Fire Punch|10|75
+8|Ice Punch|15|75
+9|Thunder Punch|13|75
+10|Scratch|0|40
+11|Vise Grip|11|60
+12|Guillotine|0|1
+13|Razor Wind|2|110
+14|Swords Dance|0|0
+15|Cut|8|70
+16|Gust|2|40
+17|Wing Attack|2|60
+18|Whirlwind|0|0
+19|Fly|2|110
+20|Bind|0|15
+21|Slam|0|80
+22|Vine Whip|12|45
+23|Stomp|0|65
+24|Double Kick|1|30
+25|Mega Kick|0|120
+26|Jump Kick|1|100
+27|Rolling Kick|1|60
+28|Sand Attack|4|0
+29|Headbutt|0|70
+30|Horn Attack|0|65
+31|Fury Attack|0|15
+32|Horn Drill|0|1
+33|Tackle|0|40
+34|Body Slam|0|85
+35|Wrap|0|15
+36|Take Down|0|90
+37|Thrash|0|120
+38|Double-Edge|0|120
+39|Tail Whip|0|0
+40|Poison Sting|3|15
+41|Twineedle|6|35
+42|Pin Missile|6|25
+43|Leer|0|0
+44|Bite|17|60
+45|Growl|0|0
+46|Roar|0|0
+47|Sing|0|0
+48|Supersonic|0|0
+49|Sonic Boom|0|1
+50|Disable|0|0
+51|Acid|3|40
+52|Ember|10|40
+53|Flamethrower|10|90
+54|Mist|15|0
+55|Water Gun|11|40
+56|Hydro Pump|11|110
+57|Surf|11|90
+58|Ice Beam|15|90
+59|Blizzard|15|110
+60|Psybeam|14|65
+61|Bubble Beam|11|65
+62|Aurora Beam|15|65
+63|Hyper Beam|0|150
+64|Peck|2|35
+65|Drill Peck|2|80
+66|Submission|1|80
+67|Low Kick|1|1
+68|Counter|1|1
+69|Seismic Toss|1|1
+70|Strength|1|80
+71|Absorb|12|20
+72|Mega Drain|12|60
+73|Leech Seed|12|0
+74|Growth|12|0
+75|Razor Leaf|12|55
+76|Solar Beam|12|120
+77|Poison Powder|3|0
+78|Stun Spore|12|0
+79|Sleep Powder|12|0
+80|Petal Dance|12|120
+81|String Shot|6|0
+82|Dragon Rage|16|1
+83|Fire Spin|10|35
+84|Thunder Shock|13|40
+85|Thunderbolt|13|90
+86|Thunder Wave|13|0
+87|Thunder|13|110
+88|Rock Throw|5|50
+89|Earthquake|4|100
+90|Fissure|4|1
+91|Dig|4|80
+92|Toxic|3|0
+93|Confusion|14|50
+94|Psychic|14|90
+95|Hypnosis|14|0
+96|Meditate|14|0
+97|Agility|14|0
+98|Quick Attack|0|40
+99|Rage|0|20
+100|Teleport|14|0
+101|Night Shade|7|1
+102|Mimic|0|0
+103|Screech|0|0
+104|Double Team|0|0
+105|Recover|0|0
+106|Harden|0|0
+107|Minimize|0|0
+108|Smokescreen|0|0
+109|Confuse Ray|7|0
+110|Withdraw|11|0
+111|Defense Curl|0|0
+112|Barrier|14|0
+113|Light Screen|14|0
+114|Haze|15|0
+115|Reflect|14|0
+116|Focus Energy|0|0
+117|Bide|0|1
+118|Metronome|0|0
+119|Mirror Move|2|0
+120|Self-Destruct|0|200
+121|Egg Bomb|0|100
+122|Lick|7|40
+123|Smog|3|35
+124|Sludge|3|65
+125|Bone Club|4|65
+126|Fire Blast|10|120
+127|Waterfall|11|80
+128|Clamp|11|35
+129|Swift|0|60
+130|Skull Bash|0|130
+131|Spike Cannon|0|20
+132|Constrict|0|10
+133|Amnesia|14|0
+134|Kinesis|14|0
+135|Soft-Boiled|0|0
+136|High Jump Kick|1|130
+137|Glare|0|0
+138|Dream Eater|14|100
+139|Poison Gas|3|0
+140|Barrage|0|15
+141|Leech Life|6|80
+142|Lovely Kiss|0|0
+143|Sky Attack|2|140
+144|Transform|0|0
+145|Bubble|11|40
+146|Dizzy Punch|0|70
+147|Spore|12|0
+148|Flash|0|0
+149|Psywave|14|1
+150|Splash|0|0
+151|Acid Armor|3|0
+152|Crabhammer|11|100
+153|Explosion|0|250
+154|Fury Swipes|0|18
+155|Bonemerang|4|50
+156|Rest|14|0
+157|Rock Slide|5|75
+158|Hyper Fang|0|80
+159|Sharpen|0|0
+160|Conversion|0|0
+161|Tri Attack|0|80
+162|Super Fang|0|1
+163|Slash|0|70
+164|Substitute|0|0
+165|Struggle|0|50
+166|Sketch|0|0
+167|Triple Kick|1|25
+168|Thief|17|60
+169|Spider Web|6|0
+170|Mind Reader|0|0
+171|Nightmare|7|0
+172|Flame Wheel|10|60
+173|Snore|0|50
+174|Curse|7|0
+175|Flail|0|1
+176|Conversion 2|0|0
+177|Aeroblast|2|100
+178|Cotton Spore|12|0
+179|Reversal|1|1
+180|Spite|7|0
+181|Powder Snow|15|40
+182|Protect|0|0
+183|Mach Punch|1|40
+184|Scary Face|0|0
+185|Faint Attack|17|60
+186|Sweet Kiss|18|0
+187|Belly Drum|0|0
+188|Sludge Bomb|3|90
+189|Mud-Slap|4|20
+190|Octazooka|11|65
+191|Spikes|4|0
+192|Zap Cannon|13|120
+193|Foresight|0|0
+194|Destiny Bond|7|0
+195|Perish Song|0|0
+196|Icy Wind|15|55
+197|Detect|1|0
+198|Bone Rush|4|30
+199|Lock-On|0|0
+200|Outrage|16|120
+201|Sandstorm|5|0
+202|Giga Drain|12|75
+203|Endure|0|0
+204|Charm|18|0
+205|Rollout|5|30
+206|False Swipe|0|60
+207|Swagger|0|0
+208|Milk Drink|0|0
+209|Spark|13|65
+210|Fury Cutter|6|40
+211|Steel Wing|8|70
+212|Mean Look|0|0
+213|Attract|0|0
+214|Sleep Talk|0|0
+215|Heal Bell|0|0
+216|Return|0|1
+217|Present|0|90
+218|Frustration|0|1
+219|Safeguard|0|0
+220|Pain Split|0|0
+221|Sacred Fire|10|100
+222|Magnitude|4|1
+223|Dynamic Punch|1|100
+224|Megahorn|6|120
+225|Dragon Breath|16|60
+226|Baton Pass|0|0
+227|Encore|0|0
+228|Pursuit|17|40
+229|Rapid Spin|0|50
+230|Sweet Scent|0|0
+231|Iron Tail|8|100
+232|Metal Claw|8|60
+233|Vital Throw|1|70
+234|Morning Sun|0|0
+235|Synthesis|12|0
+236|Moonlight|18|0
+237|Hidden Power|0|60
+238|Cross Chop|1|100
+239|Twister|16|40
+240|Rain Dance|11|0
+241|Sunny Day|10|0
+242|Crunch|17|80
+243|Mirror Coat|14|1
+244|Psych Up|0|0
+245|Extreme Speed|0|80
+246|Ancient Power|5|75
+247|Shadow Ball|7|80
+248|Future Sight|14|120
+249|Rock Smash|1|40
+250|Whirlpool|11|50
+251|Beat Up|17|15
+252|Fake Out|0|40
+253|Uproar|0|90
+254|Stockpile|0|0
+255|Spit Up|0|1
+256|Swallow|0|0
+257|Heat Wave|10|95
+258|Hail|15|0
+259|Torment|17|0
+260|Flatter|17|0
+261|Will-o-Wisp|10|0
+262|Memento|17|0
+263|Facade|0|70
+264|Focus Punch|1|150
+265|Smelling Salts|0|70
+266|Follow Me|0|0
+267|Nature Power|0|0
+268|Charge|13|0
+269|Taunt|17|0
+270|Helping Hand|0|0
+271|Trick|14|0
+272|Role Play|14|0
+273|Wish|0|0
+274|Assist|0|0
+275|Ingrain|12|0
+276|Superpower|1|120
+277|Magic Coat|14|0
+278|Recycle|0|0
+279|Revenge|1|60
+280|Brick Break|1|75
+281|Yawn|0|0
+282|Knock Off|17|65
+283|Endeavor|0|1
+284|Eruption|10|150
+285|Skill Swap|14|0
+286|Imprison|14|0
+287|Refresh|0|0
+288|Grudge|7|0
+289|Snatch|17|0
+290|Secret Power|0|60
+291|Dive|11|110
+292|Arm Thrust|1|25
+293|Camouflage|0|0
+294|Tail Glow|6|0
+295|Luster Purge|14|70
+296|Mist Ball|14|70
+297|Feather Dance|2|0
+298|Teeter Dance|0|0
+299|Blaze Kick|10|85
+300|Mud Sport|4|0
+301|Ice Ball|15|30
+302|Needle Arm|12|80
+303|Slack Off|0|0
+304|Hyper Voice|0|90
+305|Poison Fang|3|75
+306|Crush Claw|0|75
+307|Blast Burn|10|150
+308|Hydro Cannon|11|150
+309|Meteor Mash|8|90
+310|Astonish|7|30
+311|Weather Ball|0|50
+312|Aromatherapy|12|0
+313|Fake Tears|17|0
+314|Air Cutter|2|60
+315|Overheat|10|130
+316|Odor Sleuth|0|0
+317|Rock Tomb|5|60
+318|Silver Wind|6|60
+319|Metal Sound|8|0
+320|Grass Whistle|12|0
+321|Tickle|0|0
+322|Cosmic Power|14|0
+323|Water Spout|11|150
+324|Signal Beam|6|75
+325|Shadow Punch|7|80
+326|Extrasensory|14|80
+327|Sky Uppercut|1|85
+328|Sand Tomb|4|50
+329|Sheer Cold|15|1
+330|Muddy Water|11|90
+331|Bullet Seed|12|25
+332|Aerial Ace|2|60
+333|Icicle Spear|15|25
+334|Iron Defense|8|0
+335|Block|0|0
+336|Howl|0|0
+337|Dragon Claw|16|80
+338|Frenzy Plant|12|150
+339|Bulk Up|1|0
+340|Bounce|2|85
+341|Mud Shot|4|55
+342|Poison Tail|3|50
+343|Covet|0|60
+344|Volt Tackle|13|90
+345|Magical Leaf|12|60
+346|Water Sport|11|0
+347|Calm Mind|14|0
+348|Leaf Blade|12|90
+349|Dragon Dance|16|0
+350|Rock Blast|5|25
+351|Shock Wave|13|60
+352|Water Pulse|11|60
+353|Doom Desire|8|140
+354|Psycho Boost|14|140
+355|Roost|2|0
+356|Gravity|14|0
+357|Miracle Eye|14|0
+358|Wake-Up Slap|1|70
+359|Hammer Arm|1|100
+360|Gyro Ball|8|1
+361|Healing Wish|14|0
+362|Brine|11|65
+363|Natural Gift|0|1
+364|Feint|0|30
+365|Pluck|2|60
+366|Tailwind|2|0
+367|Acupressure|0|0
+368|Metal Burst|8|0
+369|U-turn|6|70
+370|Close Combat|1|120
+371|Payback|17|50
+372|Assurance|17|60
+373|Embargo|17|0
+374|Fling|17|1
+375|Psycho Shift|14|0
+376|Trump Card|0|0
+377|Heal Block|14|0
+378|Wring Out|0|0
+379|Power Trick|14|0
+380|Gastro Acid|3|0
+381|Lucky Chant|0|0
+382|Me First|0|0
+383|Copycat|0|0
+384|Power Swap|14|0
+385|Guard Swap|14|0
+386|Punishment|17|60
+387|Last Resort|0|140
+388|Worry Seed|12|0
+389|Sucker Punch|17|70
+390|Toxic Spikes|3|0
+391|Heart Swap|14|0
+392|Aqua Ring|11|0
+393|Magnet Rise|13|0
+394|Flare Blitz|10|120
+395|Force Palm|1|60
+396|Aura Sphere|1|80
+397|Rock Polish|5|0
+398|Poison Jab|3|80
+399|Dark Pulse|17|80
+400|Night Slash|17|70
+401|Aqua Tail|11|90
+402|Seed Bomb|12|80
+403|Air Slash|2|75
+404|X-Scissor|6|80
+405|Bug Buzz|6|90
+406|Dragon Pulse|16|85
+407|Dragon Rush|16|100
+408|Power Gem|5|80
+409|Drain Punch|1|75
+410|Vacuum Wave|1|40
+411|Focus Blast|1|120
+412|Energy Ball|12|90
+413|Brave Bird|2|120
+414|Earth Power|4|90
+415|Switcheroo|17|0
+416|Giga Impact|0|150
+417|Nasty Plot|17|0
+418|Bullet Punch|8|40
+419|Avalanche|15|60
+420|Ice Shard|15|40
+421|Shadow Claw|7|80
+422|Thunder Fang|13|75
+423|Ice Fang|15|75
+424|Fire Fang|10|75
+425|Shadow Sneak|7|40
+426|Mud Bomb|4|65
+427|Psycho Cut|14|70
+428|Zen Headbutt|14|80
+429|Mirror Shot|8|65
+430|Flash Cannon|8|80
+431|Rock Climb|0|90
+432|Defog|2|0
+433|Trick Room|14|0
+434|Draco Meteor|16|130
+435|Discharge|13|80
+436|Lava Plume|10|80
+437|Leaf Storm|12|130
+438|Power Whip|12|120
+439|Rock Wrecker|5|150
+440|Cross Poison|3|70
+441|Gunk Shot|3|120
+442|Iron Head|8|80
+443|Magnet Bomb|8|60
+444|Stone Edge|5|100
+445|Captivate|0|0
+446|Stealth Rock|5|0
+447|Grass Knot|12|1
+448|Chatter|2|70
+449|Judgment|0|100
+450|Bug Bite|6|60
+451|Charge Beam|13|50
+452|Wood Hammer|12|120
+453|Aqua Jet|11|40
+454|Attack Order|6|90
+455|Defend Order|6|0
+456|Heal Order|6|0
+457|Head Smash|5|150
+458|Double Hit|0|35
+459|Roar of Time|16|150
+460|Spacial Rend|16|100
+461|Lunar Dance|14|0
+462|Crush Grip|0|1
+463|Magma Storm|10|100
+464|Dark Void|17|0
+465|Seed Flare|12|120
+466|Ominous Wind|7|60
+467|Shadow Force|7|130
+468|Hone Claws|17|0
+469|Wide Guard|5|0
+470|Guard Split|14|0
+471|Power Split|14|0
+472|Wonder Room|14|0
+473|Psyshock|14|80
+474|Venoshock|3|65
+475|Autotomize|8|0
+476|Rage Powder|6|0
+477|Telekinesis|14|0
+478|Magic Room|14|0
+479|Smack Down|5|50
+480|Storm Throw|1|60
+481|Flame Burst|10|70
+482|Sludge Wave|3|95
+483|Quiver Dance|6|0
+484|Heavy Slam|8|1
+485|Synchronoise|14|120
+486|Electro Ball|13|1
+487|Soak|11|0
+488|Flame Charge|10|50
+489|Coil|3|0
+490|Low Sweep|1|65
+491|Acid Spray|3|40
+492|Foul Play|17|95
+493|Simple Beam|0|0
+494|Entrainment|0|0
+495|After You|0|0
+496|Round|0|60
+497|Echoed Voice|0|40
+498|Chip Away|0|70
+499|Clear Smog|3|50
+500|Stored Power|14|20
+501|Quick Guard|1|0
+502|Ally Switch|14|0
+503|Scald|11|80
+504|Shell Smash|0|0
+505|Heal Pulse|14|0
+506|Hex|7|65
+507|Sky Drop|2|60
+508|Shift Gear|8|0
+509|Circle Throw|1|60
+510|Incinerate|10|60
+511|Quash|17|0
+512|Acrobatics|2|55
+513|Reflect Type|0|0
+514|Retaliate|0|70
+515|Final Gambit|1|1
+516|Bestow|0|0
+517|Inferno|10|120
+518|Water Pledge|11|80
+519|Fire Pledge|10|80
+520|Grass Pledge|12|80
+521|Volt Switch|13|70
+522|Struggle Bug|6|50
+523|Bulldoze|4|60
+524|Frost Breath|15|60
+525|Dragon Tail|16|60
+526|Work Up|0|0
+527|Electroweb|13|55
+528|Wild Charge|13|90
+529|Drill Run|4|80
+530|Dual Chop|16|40
+531|Heart Stamp|14|60
+532|Horn Leech|12|75
+533|Sacred Sword|1|90
+534|Razor Shell|11|75
+535|Heat Crash|10|1
+536|Leaf Tornado|12|60
+537|Steamroller|6|65
+538|Cotton Guard|12|0
+539|Night Daze|17|90
+540|Psystrike|14|100
+541|Tail Slap|0|25
+542|Hurricane|2|110
+543|Head Charge|0|120
+544|Gear Grind|8|50
+545|Searing Shot|10|100
+546|Techno Blast|0|120
+547|Relic Song|0|75
+548|Secret Sword|1|85
+549|Glaciate|15|65
+550|Bolt Strike|13|130
+551|Blue Flare|10|130
+552|Fiery Dance|10|80
+553|Freeze Shock|15|140
+554|Ice Burn|15|140
+555|Snarl|17|55
+556|Icicle Crash|15|85
+557|V-create|10|180
+558|Fusion Flare|10|100
+559|Fusion Bolt|13|100
+560|Flying Press|1|100
+561|Mat Block|1|0
+562|Belch|3|120
+563|Rototiller|4|0
+564|Sticky Web|6|0
+565|Fell Stinger|6|50
+566|Phantom Force|7|110
+567|Trick-or-Treat|7|0
+568|Noble Roar|0|0
+569|Ion Deluge|13|0
+570|Parabolic Charge|13|65
+571|Forest's Curse|12|0
+572|Petal Blizzard|12|80
+573|Freeze Dry|15|70
+574|Disarming Voice|18|40
+575|Parting Shot|17|0
+576|Topsy Turvy|17|0
+577|Draining Kiss|18|50
+578|Crafty Shield|18|0
+579|Flower Shield|18|0
+580|Grassy Terrain|12|0
+581|Misty Terrain|18|0
+582|Electrify|13|0
+583|Play Rough|18|90
+584|Fairy Wind|18|60
+585|Moonblast|18|95
+586|Boomburst|0|140
+587|Fairy Lock|18|0
+588|King's Shield|8|0
+589|Play Nice|0|0
+590|Confide|0|0
+591|Diamond Storm|5|100
+592|Steam Eruption|11|110
+593|Hyperspace Hole|14|80
+594|Water Shuriken|11|15
+595|Mystical Fire|10|75
+596|Spiky Shield|12|0
+597|Aromatic Mist|18|0
+598|Eerie Impulse|13|0
+599|Venom Drench|3|0
+600|Powder|6|0
+601|Geomancy|18|0
+602|Magnetic Flux|13|0
+603|Happy Hour|0|0
+604|Electric Terrain|13|0
+605|Dazzling Gleam|18|80
+606|Celebrate|0|0
+607|Hold Hands|0|0
+608|Baby-Doll Eyes|18|0
+609|Nuzzle|13|20
+610|Hold Back|0|60
+611|Infestation|6|50
+612|Power-Up Punch|1|40
+613|Oblivion Wing|2|80
+614|Thousand Arrows|4|90
+615|Thousand Waves|4|90
+616|Land's Wrath|4|90
+617|Light of Ruin|18|140
+618|Origin Pulse|11|110
+619|Precipice Blades|4|120
+620|Dragon Ascent|2|120
+621|Hyperspace Fury|17|100
+622|Shore Up|4|0
+623|First Impression|6|100
+624|Baneful Bunker|3|0
+625|Spirit Shackle|7|90
+626|Darkest Lariat|17|85
+627|Sparkling Aria|11|90
+628|Ice Hammer|15|100
+629|Floral Healing|18|0
+630|High Horsepower|4|95
+631|Strength Sap|12|0
+632|Solar Blade|12|125
+633|Leafage|12|40
+634|Spotlight|0|0
+635|Toxic Thread|3|0
+636|Laser Focus|0|0
+637|Gear Up|8|0
+638|Throat Chop|17|80
+639|Pollen Puff|6|90
+640|Anchor Shot|8|80
+641|Psychic Terrain|14|0
+642|Lunge|6|80
+643|Fire Lash|10|90
+644|Power Trip|17|20
+645|Burn Up|10|130
+646|Speed Swap|14|0
+647|Smart Strike|8|70
+648|Purify|3|0
+649|Revelation Dance|0|90
+650|Core Enforcer|16|100
+651|Trop Kick|12|85
+652|Instruct|14|0
+653|Beak Blast|2|120
+654|Clanging Scales|16|110
+655|Dragon Hammer|16|100
+656|Brutal Swing|17|60
+657|Aurora Veil|15|0
+658|Shell Trap|10|150
+659|Fleur Cannon|18|130
+660|Psychic Fangs|14|75
+661|Stomping Tantrum|4|75
+662|Shadow Bone|7|85
+663|Accelerock|5|40
+664|Liquidation|11|85
+665|Prismatic Laser|14|160
+666|Spectral Thief|7|90
+667|Sunsteel Strike|8|100
+668|Moongeist Beam|7|100
+669|Tearful Look|0|0
+670|Zing Zap|13|80
+671|Nature's Madness|18|1
+672|Multi-Attack|0|120
+673|Mind Blown|10|150
+674|Plasma Fists|13|100
+675|Photon Geyser|14|100
+676|Zippy Zap|13|80
+677|Splishy Splash|11|90
+678|Floaty Fall|2|90
+679|Pika Papow|13|1
+680|Bouncy Bubble|11|60
+681|Buzzy Buzz|13|60
+682|Sizzly Slide|10|60
+683|Glitzy Glow|14|80
+684|Baddy Bad|17|80
+685|Sappy Seed|12|100
+686|Freezy Frost|15|100
+687|Sparkly Swirl|18|120
+688|Veevee Volley|0|1
+689|Double Iron Bash|8|60
+690|Dynamax Cannon|16|100
+691|Snipe Shot|11|70
+692|Jaw Lock|17|90
+693|Stuff Cheeks|0|0
+694|No Retreat|1|0
+695|Tar Shot|5|0
+696|Magic Powder|14|0
+697|Dragon Darts|16|50
+698|Teatime|0|0
+699|Octolock|1|0
+700|Bolt Beak|13|85
+701|Fishious Rend|11|85
+702|Court Change|0|0
+703|Clangorous Soul|16|0
+704|Body Press|1|80
+705|Decorate|18|0
+706|Drum Beating|12|80
+707|Snap Trap|8|90
+708|Pyro Ball|10|100
+709|Behemoth Blade|8|100
+710|Behemoth Bash|8|100
+711|Aura Wheel|13|110
+712|Breaking Swipe|16|60
+713|Branch Poke|12|40
+714|Overdrive|13|80
+715|Apple Acid|12|90
+716|Grav Apple|12|90
+717|Spirit Break|18|75
+718|Strange Steam|18|90
+719|Life Dew|11|0
+720|Obstruct|17|0
+721|False Surrender|17|80
+722|Meteor Assault|1|150
+723|Eternabeam|16|160
+724|Steel Beam|8|140
+725|Expanding Force|14|80
+726|Steel Roller|8|130
+727|Scale Shot|16|25
+728|Meteor Beam|5|120
+729|Shell Side Arm|3|90
+730|Misty Explosion|18|150
+731|Grassy Glide|12|55
+732|Rising Voltage|13|70
+733|Terrain Pulse|0|50
+734|Skitter Smack|6|70
+735|Burning Jealousy|10|70
+736|Lash Out|17|90
+737|Poltergeist|7|110
+738|Corrosive Gas|3|0
+739|Coaching|1|0
+740|Flip Turn|11|60
+741|Triple Axel|15|35
+742|Dual Wingbeat|2|40
+743|Scorching Sands|4|70
+744|Jungle Healing|12|0
+745|Wicked Blow|17|80
+746|Surging Strikes|11|25
+747|Thunder Cage|13|80
+748|Dragon Energy|16|150
+749|Freezing Glare|14|90
+750|Fiery Wrath|17|90
+751|Thunderous Kick|13|80
+752|Glacial Lance|15|130
+753|Astral Barrage|7|120
+754|Eerie Spell|14|80
+755|Alluring Voice|18|80
+756|Wave Crash|11|120
+757|Gigaton Hammer|8|160
+758|Aqua Cutter|11|70
+759|Aqua Step|11|60
+760|Armor Cannon|10|120
+761|Axe Kick|1|120
+762|Bitter Blade|10|90
+763|Blazing Torque|10|80
+764|Blood Moon|0|140
+765|Burning Bulwark|10|0
+766|Chilling Water|11|50
+767|Chilly Reception|15|0
+768|Collision Course|1|100
+769|Combat Torque|1|100
+770|Comeuppance|17|1
+771|Doodle|0|0
+772|Double Shock|13|120
+773|Dragon Cheer|16|0
+774|Electro Drift|13|100
+775|Electro Shot|13|130
+776|Fickle Beam|16|80
+777|Fillet Away|0|0
+778|Flower Trick|12|60
+779|Glaive Rush|16|120
+780|Hard Press|8|100
+781|Hydro Steam|11|80
+782|Hyper Drill|0|100
+783|Ice Spinner|15|80
+784|Ivy Cudgel|12|100
+785|Jet Punch|11|60
+786|Kowtow Cleave|17|85
+787|Last Respects|7|50
+788|Lumina Crash|14|80
+789|Magical Torque|18|100
+790|Make It Rain|8|120
+791|Malignant Chain|3|100
+792|Matcha Gotcha|12|80
+793|Mighty Cleave|5|95
+794|Mortal Spin|3|30
+795|Noxious Torque|3|100
+796|Order Up|16|80
+797|Population Bomb|0|20
+798|Pounce|6|50
+799|Psyblade|14|80
+800|Psychic Noise|14|75
+801|Rage Fist|7|50
+802|Raging Bull|0|90
+803|Revival Blessing|0|0
+804|Ruination|17|1
+805|Salt Cure|5|40
+806|Shed Tail|0|0
+807|Silk Trap|6|0
+808|Snowscape|15|0
+809|Spicy Extract|12|0
+810|Spin Out|8|100
+811|Supercell Slam|13|100
+812|Syrup Bomb|12|60
+813|Tachyon Cutter|8|50
+814|Temper Flare|10|75
+815|Tera Blast|0|80
+816|Tera Starstorm|0|120
+817|Thunderclap|13|70
+818|Tidy Up|0|0
+819|Trailblaze|12|50
+820|Triple Dive|11|30
+821|Twin Beam|14|40
+822|Upper Hand|1|65
+823|Wicked Torque|17|80
+824|Neutral Pulse|0|80
+825|Seasonal Beam|0|80
+826|Raging Fury|10|120
+827|Hit-o-nome|0|0
+828|Trick-o-nome|0|0
+829|Amp-o-nome|0|0
+830|Weak-o-nome|0|0
+831|Torch Song|10|60
+832|Inverse Room|14|0
+833|Barb Barrage|0|0
+834|Bitter Malice|0|0
+835|BleakwindStorm|0|0
+836|Ceaseless Edge|17|65
+837|Chloroblast|0|0
+838|Dire Claw|3|80
+839|Esper Wing|14|80
+840|Headlong Rush|4|120
+841|InfernalParade|0|0
+842|Lunar Blessing|0|0
+843|Mountain Gale|15|120
+844|Mystical Power|14|70
+845|Power Shift|0|0
+846|PsyshieldBash|14|90
+847|SandsearStorm|0|0
+848|Shelter|8|0
+849|SpringtdeStorm|0|0
+850|Stone Axe|5|65
+851|Take Heart|14|0
+852|Triple Arrows|1|90
+853|Victory Dance|0|0
+854|WildboltStorm|0|0
+855|10MVoltThndrblt|0|0
+856|Acid Downpour|0|0
+857|AllOutPummeling|0|0
+858|BlackHolEclipse|0|0
+859|Bloom Doom|0|0
+860|BreakNeck Blitz|0|0
+861|Catastropika|0|0
+862|ClngrsSoulblaze|0|0
+863|ContinntlCrush|0|0
+864|CorkscrewCrash|0|0
+865|DvstatingDrake|0|0
+866|ExtremeEvoboost|0|0
+867|GensisSuperNova|0|0
+868|Gigavolt Havoc|0|0
+869|GuardianOfAlola|0|0
+870|Hydro Vortex|0|0
+871|InfrnoOverdrive|0|0
+872|LetsSnuggleForvr|0|0
+873|BurnsTheSky|0|0
+874|MalicsMoonsault|0|0
+875|MnacngMoonraze|0|0
+876|NvrEndNightmare|0|0
+877|OceanicOperetta|0|0
+878|PulvrzngPancake|0|0
+879|Savage Spin Out|0|0
+880|SearingSunraze|0|0
+881|ShatteredPsyche|0|0
+882|SnstrArrowRaid|0|0
+883|SoulSteal7Star|0|0
+884|SplntrdStrmshrd|0|0
+885|StokdSparksurfr|0|0
+886|SubzeroSlammer|0|0
+887|SuprSonicSkystk|0|0
+888|Tectonic Rage|0|0
+889|Twinkle Tackle|0|0
+890|Max Airstream|0|0
+891|Max Darkness|0|0
+892|Max Flare|0|0
+893|Max Flutterby|0|0
+894|Max Geyser|0|0
+895|Max Guard|0|0
+896|Max Hailstorm|0|0
+897|Max Knuckle|0|0
+898|Max Lightning|0|0
+899|Max Mindstorm|0|0
+900|Max Ooze|0|0
+901|Max Overgrowth|0|0
+902|Max Phantasm|0|0
+903|Max Quake|0|0
+904|Max Rockfall|0|0
+905|Max Starfall|0|0
+906|Max Steelspike|0|0
+907|Max Strike|0|0
+908|Max Wyrmwind|0|0
+909|G-MaxBefuddle|0|0
+910|G-MaxCannonade|0|0
+911|G-MaxCentiferno|0|0
+912|G-MaxChiStrike|0|0
+913|G-Max Cuddle|0|0
+914|G-MaxDepletion|0|0
+915|G-MaxDrumSolo|0|0
+916|G-Max Finale|0|0
+917|G-MaxFireball|0|0
+918|G-MaxFoamBurst|0|0
+919|G-MaxGoldRush|0|0
+920|G-MaxGravitas|0|0
+921|G-MaxHydrosnipe|0|0
+922|G-Max Malodor|0|0
+923|G-MaxMeltdown|0|0
+924|G-Max One Blow|0|0
+925|G-MaxRapidFlow|0|0
+926|G-MaxReplenish|0|0
+927|G-MaxResonance|0|0
+928|G-MaxSandblast|0|0
+929|G-Max Smite|0|0
+930|G-Max Snooze|0|0
+931|G-MaxSteelsurge|0|0
+932|G-MaxStonesurge|0|0
+933|G-MaxStunShock|0|0
+934|G-MaxSweetness|0|0
+935|G-MaxTartness|0|0
+936|G-Max Terror|0|0
+937|G-MaxVineLash|0|0
+938|G-MaxVolcalith|0|0
+939|G-MaxVoltCrash|0|0
+940|G-Max Wildfire|0|0
+941|G-Max WindRage|0|0
+942|Placeholder|0|0
+"""#
+  static let movesSoulGold: String = #"""
+1|Pound|1|40
+2|Karate Chop|2|50
+3|Double Slap|1|15
+4|Comet Punch|1|18
+5|Mega Punch|1|80
+6|Pay Day|1|40
+7|Fire Punch|11|75
+8|Ice Punch|16|75
+9|Thunder Punch|14|75
+10|Scratch|1|40
+11|Vise Grip|1|55
+12|Guillotine|1|150
+13|Razor Wind|1|80
+14|Swords Dance|1|0
+15|Cut|9|50
+16|Gust|3|40
+17|Wing Attack|3|60
+18|Whirlwind|1|0
+19|Fly|3|90
+20|Bind|1|15
+21|Slam|1|80
+22|Vine Whip|13|45
+23|Stomp|1|65
+24|Double Kick|2|30
+25|Mega Kick|1|120
+26|Jump Kick|2|100
+27|Rolling Kick|2|60
+28|Sand Attack|5|0
+29|Headbutt|1|70
+30|Horn Attack|1|65
+31|Fury Attack|1|15
+32|Horn Drill|1|150
+33|Tackle|1|40
+34|Body Slam|1|85
+35|Wrap|1|15
+36|Take Down|1|90
+37|Thrash|1|120
+38|Double-Edge|1|120
+39|Tail Whip|1|0
+40|Poison Sting|4|15
+41|Twineedle|7|25
+42|Pin Missile|7|25
+43|Leer|1|0
+44|Bite|18|60
+45|Growl|1|0
+46|Roar|1|0
+47|Sing|1|0
+48|Supersonic|1|0
+49|Sonic Boom|1|1
+50|Disable|1|0
+51|Acid|4|40
+52|Ember|11|40
+53|Flamethrower|11|90
+54|Mist|16|0
+55|Water Gun|12|40
+56|Hydro Pump|12|110
+57|Surf|12|90
+58|Ice Beam|16|90
+59|Blizzard|16|110
+60|Psybeam|15|65
+61|Bubble Beam|12|65
+62|Aurora Beam|16|65
+63|Hyper Beam|1|150
+64|Peck|3|35
+65|Drill Peck|3|80
+66|Submission|2|80
+67|Low Kick|2|1
+68|Counter|2|1
+69|Seismic Toss|2|1
+70|Strength|1|80
+71|Absorb|13|20
+72|Mega Drain|13|40
+73|Leech Seed|13|0
+74|Growth|1|0
+75|Razor Leaf|13|55
+76|Solar Beam|13|120
+77|Poison Powder|4|0
+78|Stun Spore|13|0
+79|Sleep Powder|13|0
+80|Petal Dance|13|120
+81|String Shot|7|0
+82|Dragon Rage|17|1
+83|Fire Spin|11|35
+84|Thunder Shock|14|40
+85|Thunderbolt|14|90
+86|Thunder Wave|14|0
+87|Thunder|14|110
+88|Rock Throw|6|50
+89|Earthquake|5|100
+90|Fissure|5|150
+91|Dig|5|80
+92|Toxic|4|0
+93|Confusion|15|50
+94|Psychic|15|90
+95|Hypnosis|15|0
+96|Meditate|15|0
+97|Agility|15|0
+98|Quick Attack|1|40
+99|Rage|1|20
+100|Teleport|15|0
+101|Night Shade|8|1
+102|Mimic|1|0
+103|Screech|1|0
+104|Double Team|1|0
+105|Recover|1|0
+106|Harden|1|0
+107|Minimize|1|0
+108|Smokescreen|1|0
+109|Confuse Ray|8|0
+110|Withdraw|12|0
+111|Defense Curl|1|0
+112|Barrier|15|0
+113|Light Screen|15|0
+114|Haze|16|0
+115|Reflect|15|0
+116|Focus Energy|1|0
+117|Bide|1|1
+118|Metronome|1|0
+119|Mirror Move|3|0
+120|Self-Destruct|1|200
+121|Egg Bomb|1|100
+122|Lick|8|30
+123|Smog|4|30
+124|Sludge|4|65
+125|Bone Club|5|65
+126|Fire Blast|11|110
+127|Waterfall|12|80
+128|Clamp|12|35
+129|Swift|1|60
+130|Skull Bash|1|130
+131|Spike Cannon|1|20
+132|Constrict|1|10
+133|Amnesia|15|0
+134|Kinesis|15|0
+135|Soft-Boiled|1|0
+136|High Jump Kick|2|130
+137|Glare|1|0
+138|Dream Eater|15|100
+139|Poison Gas|4|0
+140|Barrage|1|15
+141|Leech Life|7|80
+142|Lovely Kiss|1|0
+143|Sky Attack|3|140
+144|Transform|1|0
+145|Bubble|12|40
+146|Dizzy Punch|1|70
+147|Spore|13|0
+148|Flash|1|0
+149|Psywave|15|1
+150|Splash|1|0
+151|Acid Armor|4|0
+152|Crabhammer|12|100
+153|Explosion|1|250
+154|Fury Swipes|1|18
+155|Bonemerang|5|50
+156|Rest|15|0
+157|Rock Slide|6|75
+158|Hyper Fang|1|80
+159|Sharpen|1|0
+160|Conversion|1|0
+161|Tri Attack|1|80
+162|Super Fang|1|1
+163|Slash|1|80
+164|Substitute|1|0
+165|Struggle|1|50
+166|Sketch|1|0
+167|Triple Kick|2|10
+168|Thief|18|60
+169|Spider Web|7|0
+170|Mind Reader|1|0
+171|Nightmare|8|0
+172|Flame Wheel|11|60
+173|Snore|1|50
+174|Curse|8|0
+175|Flail|1|1
+176|Conversion 2|1|0
+177|Aeroblast|3|100
+178|Cotton Spore|13|0
+179|Reversal|2|1
+180|Spite|8|0
+181|Powder Snow|16|40
+182|Protect|1|0
+183|Mach Punch|2|40
+184|Scary Face|1|0
+185|Feint Attack|18|60
+186|Sweet Kiss|19|0
+187|Belly Drum|1|0
+188|Sludge Bomb|4|90
+189|Mud-Slap|5|20
+190|Octazooka|12|65
+191|Spikes|5|0
+192|Zap Cannon|14|120
+193|Foresight|1|0
+194|Destiny Bond|8|0
+195|Perish Song|1|0
+196|Icy Wind|16|55
+197|Detect|2|0
+198|Bone Rush|5|25
+199|Lock-On|1|0
+200|Outrage|17|120
+201|Sandstorm|6|0
+202|Giga Drain|13|75
+203|Endure|1|0
+204|Charm|19|0
+205|Rollout|6|30
+206|False Swipe|1|40
+207|Swagger|1|0
+208|Milk Drink|1|0
+209|Spark|14|65
+210|Fury Cutter|7|40
+211|Steel Wing|9|70
+212|Mean Look|1|0
+213|Attract|1|0
+214|Sleep Talk|1|0
+215|Heal Bell|1|0
+216|Return|1|1
+217|Present|1|1
+218|Frustration|1|1
+219|Safeguard|1|0
+220|Pain Split|1|0
+221|Sacred Fire|11|100
+222|Magnitude|5|1
+223|Dynamic Punch|2|100
+224|Megahorn|7|120
+225|Dragon Breath|17|60
+226|Baton Pass|1|0
+227|Encore|1|0
+228|Pursuit|18|40
+229|Rapid Spin|1|50
+230|Sweet Scent|1|0
+231|Iron Tail|9|100
+232|Metal Claw|9|50
+233|Vital Throw|2|70
+234|Morning Sun|1|0
+235|Synthesis|13|0
+236|Moonlight|19|0
+237|Hidden Power|1|60
+238|Cross Chop|2|100
+239|Twister|17|40
+240|Rain Dance|12|0
+241|Sunny Day|11|0
+242|Crunch|18|80
+243|Mirror Coat|15|1
+244|Psych Up|1|0
+245|Extreme Speed|1|80
+246|Ancient Power|6|60
+247|Shadow Ball|8|80
+248|Future Sight|15|120
+249|Rock Smash|2|40
+250|Whirlpool|12|35
+251|Beat Up|18|1
+252|Fake Out|1|40
+253|Uproar|1|90
+254|Stockpile|1|0
+255|Spit Up|1|1
+256|Swallow|1|0
+257|Heat Wave|11|95
+258|Hail|16|0
+259|Torment|18|0
+260|Flatter|18|0
+261|Will-O-Wisp|11|0
+262|Memento|18|0
+263|Facade|1|70
+264|Focus Punch|2|150
+265|Smelling Salts|1|70
+266|Follow Me|1|0
+267|Nature Power|1|1
+268|Charge|14|0
+269|Taunt|18|0
+270|Helping Hand|1|0
+271|Trick|15|0
+272|Role Play|15|0
+273|Wish|1|0
+274|Assist|1|0
+275|Ingrain|13|0
+276|Superpower|2|120
+277|Magic Coat|15|0
+278|Recycle|1|0
+279|Revenge|2|60
+280|Brick Break|2|75
+281|Yawn|1|0
+282|Knock Off|18|65
+283|Endeavor|1|1
+284|Eruption|11|150
+285|Skill Swap|15|0
+286|Imprison|15|0
+287|Refresh|1|0
+288|Grudge|8|0
+289|Snatch|18|0
+290|Secret Power|1|70
+291|Dive|12|80
+292|Arm Thrust|2|15
+293|Camouflage|1|0
+294|Tail Glow|7|0
+295|Luster Purge|15|95
+296|Mist Ball|15|95
+297|Feather Dance|3|0
+298|Teeter Dance|1|0
+299|Blaze Kick|11|85
+300|Mud Sport|5|0
+301|Ice Ball|16|30
+302|Needle Arm|13|60
+303|Slack Off|1|0
+304|Hyper Voice|1|90
+305|Poison Fang|4|50
+306|Crush Claw|1|75
+307|Blast Burn|11|150
+308|Hydro Cannon|12|150
+309|Meteor Mash|9|90
+310|Astonish|8|30
+311|Weather Ball|1|50
+312|Aromatherapy|13|0
+313|Fake Tears|18|0
+314|Air Cutter|3|60
+315|Overheat|11|130
+316|Odor Sleuth|1|0
+317|Rock Tomb|6|60
+318|Silver Wind|7|60
+319|Metal Sound|9|0
+320|Grass Whistle|13|0
+321|Tickle|1|0
+322|Cosmic Power|15|0
+323|Water Spout|12|150
+324|Signal Beam|7|75
+325|Shadow Punch|8|60
+326|Extrasensory|15|80
+327|Sky Uppercut|2|85
+328|Sand Tomb|5|35
+329|Sheer Cold|16|150
+330|Muddy Water|12|90
+331|Bullet Seed|13|25
+332|Aerial Ace|3|60
+333|Icicle Spear|16|25
+334|Iron Defense|9|0
+335|Block|1|0
+336|Howl|1|0
+337|Dragon Claw|17|80
+338|Frenzy Plant|13|150
+339|Bulk Up|2|0
+340|Bounce|3|85
+341|Mud Shot|5|55
+342|Poison Tail|4|50
+343|Covet|19|40
+344|Volt Tackle|14|120
+345|Magical Leaf|13|60
+346|Water Sport|12|0
+347|Calm Mind|15|0
+348|Leaf Blade|13|90
+349|Dragon Dance|17|0
+350|Rock Blast|6|25
+351|Shock Wave|14|60
+352|Water Pulse|12|60
+353|Doom Desire|9|140
+354|Psycho Boost|15|140
+355|Roost|3|0
+356|Gravity|15|0
+357|Miracle Eye|15|0
+358|Wake-Up Slap|2|70
+359|Hammer Arm|2|100
+360|Gyro Ball|9|1
+361|Healing Wish|15|0
+362|Brine|12|65
+363|Natural Gift|1|1
+364|Feint|1|30
+365|Pluck|3|60
+366|Tailwind|3|0
+367|Acupressure|1|0
+368|Metal Burst|9|1
+369|U-turn|7|70
+370|Close Combat|2|120
+371|Payback|18|50
+372|Assurance|18|60
+373|Embargo|18|0
+374|Fling|18|1
+375|Psycho Shift|15|0
+376|Trump Card|1|1
+377|Heal Block|15|0
+378|Wring Out|1|120
+379|Power Trick|15|0
+380|Gastro Acid|4|0
+381|Lucky Chant|1|0
+382|Me First|1|0
+383|Copycat|1|0
+384|Power Swap|15|0
+385|Guard Swap|15|0
+386|Punishment|18|60
+387|Last Resort|1|140
+388|Worry Seed|13|0
+389|Sucker Punch|18|70
+390|Toxic Spikes|4|0
+391|Heart Swap|15|0
+392|Aqua Ring|12|0
+393|Magnet Rise|14|0
+394|Flare Blitz|11|120
+395|Force Palm|2|60
+396|Aura Sphere|2|80
+397|Rock Polish|6|0
+398|Poison Jab|4|80
+399|Dark Pulse|18|80
+400|Night Slash|18|70
+401|Aqua Tail|12|90
+402|Seed Bomb|13|80
+403|Air Slash|3|75
+404|X-Scissor|7|80
+405|Bug Buzz|7|90
+406|Dragon Pulse|17|85
+407|Dragon Rush|17|100
+408|Power Gem|6|80
+409|Drain Punch|2|75
+410|Vacuum Wave|2|40
+411|Focus Blast|2|120
+412|Energy Ball|13|90
+413|Brave Bird|3|120
+414|Earth Power|5|90
+415|Switcheroo|18|0
+416|Giga Impact|1|150
+417|Nasty Plot|18|0
+418|Bullet Punch|9|40
+419|Avalanche|16|60
+420|Ice Shard|16|40
+421|Shadow Claw|8|70
+422|Thunder Fang|14|65
+423|Ice Fang|16|65
+424|Fire Fang|11|65
+425|Shadow Sneak|8|40
+426|Mud Bomb|5|65
+427|Psycho Cut|15|70
+428|Zen Headbutt|15|80
+429|Mirror Shot|9|65
+430|Flash Cannon|9|80
+431|Rock Climb|1|90
+432|Defog|3|0
+433|Trick Room|15|0
+434|Draco Meteor|17|130
+435|Discharge|14|80
+436|Lava Plume|11|80
+437|Leaf Storm|13|130
+438|Power Whip|13|120
+439|Rock Wrecker|6|150
+440|Cross Poison|4|70
+441|Gunk Shot|4|120
+442|Iron Head|9|80
+443|Magnet Bomb|9|60
+444|Stone Edge|6|100
+445|Captivate|1|0
+446|Stealth Rock|6|0
+447|Grass Knot|13|1
+448|Chatter|3|65
+449|Judgment|1|100
+450|Bug Bite|7|60
+451|Charge Beam|14|50
+452|Wood Hammer|13|120
+453|Aqua Jet|12|40
+454|Attack Order|7|90
+455|Defend Order|7|0
+456|Heal Order|7|0
+457|Head Smash|6|150
+458|Double Hit|1|35
+459|Roar of Time|17|150
+460|Spacial Rend|17|100
+461|Lunar Dance|15|0
+462|Crush Grip|1|120
+463|Magma Storm|11|100
+464|Dark Void|18|0
+465|Seed Flare|13|120
+466|Ominous Wind|8|60
+467|Shadow Force|8|120
+468|Hone Claws|18|0
+469|Wide Guard|6|0
+470|Guard Split|15|0
+471|Power Split|15|0
+472|Wonder Room|15|0
+473|Psyshock|15|80
+474|Venoshock|4|65
+475|Autotomize|9|0
+476|Rage Powder|7|0
+477|Telekinesis|15|0
+478|Magic Room|15|0
+479|Smack Down|6|50
+480|Storm Throw|2|60
+481|Flame Burst|11|70
+482|Sludge Wave|4|95
+483|Quiver Dance|7|0
+484|Heavy Slam|9|1
+485|Synchronoise|15|120
+486|Electro Ball|14|1
+487|Soak|12|0
+488|Flame Charge|11|50
+489|Coil|4|0
+490|Low Sweep|2|65
+491|Acid Spray|4|40
+492|Foul Play|18|95
+493|Simple Beam|1|0
+494|Entrainment|1|0
+495|After You|1|0
+496|Round|1|60
+497|Echoed Voice|1|40
+498|Chip Away|1|70
+499|Clear Smog|4|50
+500|Stored Power|15|20
+501|Quick Guard|2|0
+502|Ally Switch|15|0
+503|Scald|12|80
+504|Shell Smash|1|0
+505|Heal Pulse|15|0
+506|Hex|8|65
+507|Sky Drop|3|60
+508|Shift Gear|9|0
+509|Circle Throw|2|60
+510|Incinerate|11|60
+511|Quash|18|0
+512|Acrobatics|3|55
+513|Reflect Type|1|0
+514|Retaliate|1|70
+515|Final Gambit|2|1
+516|Bestow|1|0
+517|Inferno|11|100
+518|Water Pledge|12|80
+519|Fire Pledge|11|80
+520|Grass Pledge|13|80
+521|Volt Switch|14|70
+522|Struggle Bug|7|50
+523|Bulldoze|5|60
+524|Frost Breath|16|60
+525|Dragon Tail|17|60
+526|Work Up|1|0
+527|Electroweb|14|55
+528|Wild Charge|14|90
+529|Drill Run|5|80
+530|Dual Chop|17|40
+531|Heart Stamp|15|60
+532|Horn Leech|13|75
+533|Sacred Sword|2|90
+534|Razor Shell|12|75
+535|Heat Crash|11|1
+536|Leaf Tornado|13|65
+537|Steamroller|7|65
+538|Cotton Guard|13|0
+539|Night Daze|18|85
+540|Psystrike|15|100
+541|Tail Slap|1|25
+542|Hurricane|3|110
+543|Head Charge|1|120
+544|Gear Grind|9|50
+545|Searing Shot|11|100
+546|Techno Blast|1|120
+547|Relic Song|1|75
+548|Secret Sword|2|85
+549|Glaciate|16|65
+550|Bolt Strike|14|130
+551|Blue Flare|11|130
+552|Fiery Dance|11|80
+553|Freeze Shock|16|140
+554|Ice Burn|16|140
+555|Snarl|18|55
+556|Icicle Crash|16|85
+557|V-create|11|180
+558|Fusion Flare|11|100
+559|Fusion Bolt|14|100
+560|Flying Press|2|100
+561|Mat Block|2|0
+562|Belch|4|120
+563|Rototiller|5|0
+564|Sticky Web|7|0
+565|Fell Stinger|7|50
+566|Phantom Force|8|90
+567|Trick-or-Treat|8|0
+568|Noble Roar|1|0
+569|Ion Deluge|14|0
+570|Parabolic Charge|14|65
+571|Forest's Curse|13|0
+572|Petal Blizzard|13|90
+573|Freeze-Dry|16|70
+574|Disarming Voice|19|40
+575|Parting Shot|18|0
+576|Topsy-Turvy|18|0
+577|Draining Kiss|19|50
+578|Crafty Shield|19|0
+579|Flower Shield|19|0
+580|Grassy Terrain|13|0
+581|Misty Terrain|19|0
+582|Electrify|14|0
+583|Play Rough|19|90
+584|Fairy Wind|19|40
+585|Moonblast|19|95
+586|Boomburst|1|140
+587|Fairy Lock|19|0
+588|King's Shield|9|0
+589|Play Nice|1|0
+590|Confide|1|0
+591|Diamond Storm|6|100
+592|Steam Eruption|12|110
+593|Hyperspace Hole|15|80
+594|Water Shuriken|12|15
+595|Mystical Fire|11|75
+596|Spiky Shield|13|0
+597|Aromatic Mist|19|0
+598|Eerie Impulse|14|0
+599|Venom Drench|4|0
+600|Powder|7|0
+601|Geomancy|19|0
+602|Magnetic Flux|14|0
+603|Happy Hour|1|0
+604|Electric Terrain|14|0
+605|Dazzling Gleam|19|80
+606|Celebrate|1|0
+607|Hold Hands|1|0
+608|Baby-Doll Eyes|19|0
+609|Nuzzle|14|20
+610|Hold Back|1|40
+611|Infestation|7|20
+612|Power-Up Punch|2|40
+613|Oblivion Wing|3|80
+614|Thousand Arrows|5|90
+615|Thousand Waves|5|90
+616|Land's Wrath|5|90
+617|Light Of Ruin|19|140
+618|Origin Pulse|12|110
+619|Precipice Blades|5|120
+620|Dragon Ascent|3|120
+621|Hyperspace Fury|18|100
+622|Shore Up|5|0
+623|First Impression|7|100
+624|Baneful Bunker|4|0
+625|Spirit Shackle|8|80
+626|Darkest Lariat|18|85
+627|Sparkling Aria|12|90
+628|Ice Hammer|16|100
+629|Floral Healing|19|0
+630|High Horsepower|5|95
+631|Strength Sap|13|0
+632|Solar Blade|13|125
+633|Leafage|13|40
+634|Spotlight|1|0
+635|Toxic Thread|4|0
+636|Laser Focus|1|0
+637|Gear Up|9|0
+638|Throat Chop|18|80
+639|Pollen Puff|7|90
+640|Anchor Shot|9|80
+641|Psychic Terrain|15|0
+642|Lunge|7|80
+643|Fire Lash|11|80
+644|Power Trip|18|20
+645|Burn Up|11|130
+646|Speed Swap|15|0
+647|Smart Strike|9|70
+648|Purify|4|0
+649|Revelation Dance|1|90
+650|Core Enforcer|17|100
+651|Trop Kick|13|70
+652|Instruct|15|0
+653|Beak Blast|3|100
+654|Clanging Scales|17|110
+655|Dragon Hammer|17|90
+656|Brutal Swing|18|60
+657|Aurora Veil|16|0
+658|Shell Trap|11|150
+659|Fleur Cannon|19|130
+660|Psychic Fangs|15|85
+661|Stomping Tantrum|5|75
+662|Shadow Bone|8|85
+663|Accelerock|6|40
+664|Liquidation|12|85
+665|Prismatic Laser|15|160
+666|Spectral Thief|8|90
+667|Sunsteel Strike|9|100
+668|Moongeist Beam|8|100
+669|Tearful Look|1|0
+670|Zing Zap|14|80
+671|Nature's Madness|19|1
+672|Multi-Attack|1|120
+673|Mind Blown|11|150
+674|Plasma Fists|14|100
+675|Photon Geyser|15|100
+676|Zippy Zap|14|60
+677|Splishy Splash|12|90
+678|Floaty Fall|3|90
+679|Pika Papow|14|1
+680|Bouncy Bubble|12|60
+681|Buzzy Buzz|14|60
+682|Sizzly Slide|11|60
+683|Glitzy Glow|15|80
+684|Baddy Bad|18|80
+685|Sappy Seed|13|100
+686|Freezy Frost|16|100
+687|Sparkly Swirl|19|120
+688|Veevee Volley|1|1
+689|Double Iron Bash|9|60
+690|Dynamax Cannon|17|100
+691|Snipe Shot|12|85
+692|Jaw Lock|18|80
+693|Stuff Cheeks|1|0
+694|No Retreat|2|0
+695|Tar Shot|6|0
+696|Magic Powder|15|0
+697|Dragon Darts|17|50
+698|Teatime|1|0
+699|Octolock|2|0
+700|Bolt Beak|14|85
+701|Fishious Rend|12|85
+702|Court Change|1|0
+703|Clangorous Soul|17|0
+704|Body Press|2|80
+705|Decorate|19|0
+706|Drum Beating|13|80
+707|Snap Trap|13|35
+708|Pyro Ball|11|120
+709|Behemoth Blade|9|100
+710|Behemoth Bash|9|100
+711|Aura Wheel|14|110
+712|Breaking Swipe|17|60
+713|Branch Poke|13|40
+714|Overdrive|14|80
+715|Apple Acid|13|80
+716|Grav Apple|13|80
+717|Spirit Break|19|75
+718|Strange Steam|19|90
+719|Life Dew|12|0
+720|Obstruct|18|0
+721|False Surrender|18|80
+722|Meteor Assault|2|170
+723|Eternabeam|17|160
+724|Steel Beam|9|140
+725|Expanding Force|15|80
+726|Steel Roller|9|130
+727|Scale Shot|17|25
+728|Meteor Beam|6|120
+729|Shell Side Arm|4|90
+730|Misty Explosion|19|100
+731|Grassy Glide|13|55
+732|Rising Voltage|14|70
+733|Terrain Pulse|1|50
+734|Skitter Smack|7|70
+735|Burning Jealousy|11|70
+736|Lash Out|18|75
+737|Poltergeist|8|110
+738|Corrosive Gas|4|0
+739|Coaching|2|0
+740|Flip Turn|12|60
+741|Triple Axel|16|20
+742|Dual Wingbeat|3|40
+743|Scorching Sands|5|70
+744|Jungle Healing|13|0
+745|Wicked Blow|18|75
+746|Surging Strikes|12|25
+747|Thunder Cage|14|80
+748|Dragon Energy|17|150
+749|Freezing Glare|15|90
+750|Fiery Wrath|18|90
+751|Thunderous Kick|2|90
+752|Glacial Lance|16|120
+753|Astral Barrage|8|120
+754|Eerie Spell|15|80
+755|Dire Claw|4|80
+756|Psyshield Bash|15|70
+757|Power Shift|1|0
+758|Stone Axe|6|65
+759|Springtide Storm|19|100
+760|Mystical Power|15|70
+761|Raging Fury|11|120
+762|Wave Crash|12|120
+763|Chloroblast|13|150
+764|Mountain Gale|16|100
+765|Victory Dance|2|0
+766|Headlong Rush|5|120
+767|Barb Barrage|4|60
+768|Esper Wing|15|80
+769|Bitter Malice|8|75
+770|Shelter|9|0
+771|Triple Arrows|2|90
+772|Infernal Parade|8|60
+773|Ceaseless Edge|18|65
+774|Bleakwind Storm|3|100
+775|Wildbolt Storm|14|100
+776|Sandsear Storm|5|100
+777|Lunar Blessing|15|0
+778|Take Heart|15|0
+779|Tera Blast|1|80
+780|Silk Trap|7|0
+781|Axe Kick|2|120
+782|Last Respects|8|50
+783|Lumina Crash|15|80
+784|Order Up|17|80
+785|Jet Punch|12|60
+786|Spicy Extract|13|0
+787|Spin Out|9|100
+788|Population Bomb|1|20
+789|Ice Spinner|16|80
+790|Glaive Rush|17|120
+791|Revival Blessing|1|0
+792|Salt Cure|6|40
+793|Triple Dive|12|30
+794|Mortal Spin|4|30
+795|Doodle|1|0
+796|Fillet Away|1|0
+797|Kowtow Cleave|18|85
+798|Flower Trick|13|70
+799|Torch Song|11|80
+800|Aqua Step|12|80
+801|Raging Bull|1|90
+802|Make It Rain|9|120
+803|Ruination|18|1
+804|Collision Course|2|100
+805|Electro Drift|14|100
+806|Shed Tail|1|0
+807|Chilly Reception|16|0
+808|Tidy Up|1|0
+809|Snowscape|16|0
+810|Pounce|7|50
+811|Trailblaze|13|50
+812|Chilling Water|12|50
+813|Hyper Drill|1|100
+814|Twin Beam|15|40
+815|Rage Fist|8|50
+816|Armor Cannon|11|120
+817|Bitter Blade|11|90
+818|Double Shock|14|120
+819|Gigaton Hammer|9|160
+820|Comeuppance|18|1
+821|Aqua Cutter|12|70
+822|Blazing Torque|11|80
+823|Wicked Torque|18|80
+824|Noxious Torque|4|100
+825|Combat Torque|2|100
+826|Magical Torque|19|100
+827|Psyblade|15|80
+828|Hydro Steam|12|80
+829|Blood Moon|1|140
+830|Matcha Gotcha|13|80
+831|Syrup Bomb|13|60
+832|Ivy Cudgel|13|100
+833|Electro Shot|14|130
+834|Tera Starstorm|1|120
+835|Fickle Beam|17|80
+836|Burning Bulwark|11|0
+837|Thunderclap|14|70
+838|Mighty Cleave|6|95
+839|Tachyon Cutter|9|50
+840|Hard Press|9|100
+841|Dragon Cheer|17|0
+842|Alluring Voice|19|80
+843|Temper Flare|11|75
+844|Supercell Slam|14|100
+845|Psychic Noise|15|75
+846|Upper Hand|2|65
+847|Malignant Chain|4|100
+848|Shadow Blast|18|100
+849|Breakneck Blitz|1|1
+850|All-Out Pummeling|2|1
+851|Supersonic Skystrike|3|1
+852|Acid Downpour|4|1
+853|Tectonic Rage|5|1
+854|Continental Crush|6|1
+855|Savage Spin-Out|7|1
+856|Never-Ending Nightmare|8|1
+857|Corkscrew Crash|9|1
+858|Inferno Overdrive|11|1
+859|Hydro Vortex|12|1
+860|Bloom Doom|13|1
+861|Gigavolt Havoc|14|1
+862|Shattered Psyche|15|1
+863|Subzero Slammer|16|1
+864|Devastating Drake|17|1
+865|Black Hole Eclipse|18|1
+866|Twinkle Tackle|19|1
+867|Catastropika|14|210
+868|10,000,000 Volt Thunderbolt|14|195
+869|Stoked Sparksurfer|14|175
+870|Extreme Evoboost|1|0
+871|Pulverizing Pancake|1|210
+872|Genesis Supernova|15|185
+873|Sinister Arrow Raid|8|180
+874|Malicious Moonsault|18|180
+875|Oceanic Operetta|12|195
+876|Splintered Stormshards|6|190
+877|Let's Snuggle Forever|19|190
+878|Clangorous Soulblaze|17|185
+879|Guardian of Alola|19|1
+880|Searing Sunraze Smash|9|200
+881|Menacing Moonraze Maelstrom|8|200
+882|Light That Burns the Sky|15|200
+883|Soul-Stealing 7-Star Strike|8|195
+884|Max Guard|1|0
+885|Max Strike|1|1
+886|Max Knuckle|2|1
+887|Max Airstream|3|1
+888|Max Ooze|4|1
+889|Max Quake|5|1
+890|Max Rockfall|6|1
+891|Max Flutterby|7|1
+892|Max Phantasm|8|1
+893|Max Steelspike|9|10
+894|Max Flare|11|1
+895|Max Geyser|12|1
+896|Max Overgrowth|13|10
+897|Max Lightning|14|1
+898|Max Mindstorm|15|1
+899|Max Hailstorm|16|1
+900|Max Wyrmwind|17|1
+901|Max Darkness|18|1
+902|Max Starfall|19|1
+903|G-Max Vine Lash|13|10
+904|G-Max Wildfire|11|10
+905|G-Max Cannonade|12|10
+906|G-Max Befuddle|7|10
+907|G-Max Volt Crash|14|10
+908|G-Max Gold Rush|1|10
+909|G-Max Chi Strike|2|10
+910|G-Max Terror|8|10
+911|G-Max Foam Burst|12|10
+912|G-Max Resonance|16|10
+913|G-Max Cuddle|1|10
+914|G-Max Replenish|1|10
+915|G-Max Malodor|4|10
+916|G-Max Meltdown|9|10
+917|G-Max Drum Solo|13|10
+918|G-Max Fireball|11|10
+919|G-Max Hydrosnipe|12|10
+920|G-Max Wind Rage|3|10
+921|G-Max Gravitas|15|10
+922|G-Max Stonesurge|12|10
+923|G-Max Volcalith|6|10
+924|G-Max Tartness|13|10
+925|G-Max Sweetness|13|10
+926|G-Max Sandblast|5|10
+927|G-Max Stun Shock|14|10
+928|G-Max Centiferno|11|10
+929|G-Max Smite|19|10
+930|G-Max Snooze|18|10
+931|G-Max Finale|19|10
+932|G-Max Steelsurge|9|10
+933|G-Max Depletion|17|10
+934|G-Max One Blow|18|10
+935|G-Max Rapid Flow|12|10
+"""#
+  static let movesRadicalRed: String = #"""
+1|Pound|0|40
+2|Karate Chop|1|50
+3|Double Slap|0|15
+4|Comet Punch|0|18
+5|Mega Punch|0|80
+6|Pay Day|0|40
+7|Fire Punch|10|75
+8|Ice Punch|15|75
+9|Thunder Punch|13|75
+10|Scratch|0|40
+11|Vise Grip|0|55
+12|Guillotine|0|1
+13|Razor Wind|0|80
+14|Swords Dance|0|0
+15|Cut|8|75
+16|Gust|2|40
+17|Wing Attack|2|60
+18|Whirlwind|0|0
+19|Fly|2|90
+20|Bind|0|15
+21|Slam|0|80
+22|Vine Whip|12|45
+23|Stomp|0|65
+24|Double Kick|1|30
+25|Mega Kick|0|120
+26|Jump Kick|1|100
+27|Rolling Kick|1|60
+28|Sand Attack|4|0
+29|Headbutt|0|70
+30|Horn Attack|0|65
+31|Fury Attack|0|20
+32|Horn Drill|0|1
+33|Tackle|0|40
+34|Body Slam|0|85
+35|Wrap|0|15
+36|Take Down|0|90
+37|Thrash|0|120
+38|Double-Edge|0|120
+39|Tail Whip|0|0
+40|Poison Sting|3|15
+41|Twineedle|6|25
+42|Pin Missile|6|25
+43|Leer|0|0
+44|Bite|17|60
+45|Growl|0|0
+46|Roar|0|0
+47|Sing|0|0
+48|Supersonic|0|0
+49|Sonic Boom|0|1
+50|Disable|0|0
+51|Acid|3|40
+52|Ember|10|40
+53|Flamethrower|10|90
+54|Mist|15|0
+55|Water Gun|11|40
+56|Hydro Pump|11|110
+57|Surf|11|90
+58|Ice Beam|15|90
+59|Blizzard|15|110
+60|Psybeam|14|65
+61|Bubble Beam|11|65
+62|Aurora Beam|15|65
+63|Hyper Beam|0|150
+64|Peck|2|35
+65|Drill Peck|2|80
+66|Submission|1|80
+67|Low Kick|1|1
+68|Counter|1|1
+69|Seismic Toss|1|1
+70|Strength|0|80
+71|Absorb|12|25
+72|Mega Drain|12|60
+73|Leech Seed|12|0
+74|Growth|0|0
+75|Razor Leaf|12|55
+76|Solar Beam|12|120
+77|Poison Powder|3|0
+78|Stun Spore|12|0
+79|Sleep Powder|12|0
+80|Petal Dance|12|120
+81|String Shot|6|0
+82|Dragon Rage|16|1
+83|Fire Spin|10|35
+84|Thunder Shock|13|40
+85|Thunderbolt|13|90
+86|Thunder Wave|13|0
+87|Thunder|13|110
+88|Rock Throw|5|50
+89|Earthquake|4|100
+90|Soul Robbery|14|100
+91|Dig|4|80
+92|Toxic|3|0
+93|Confusion|14|50
+94|Psychic|14|90
+95|Hypnosis|14|0
+96|Meditate|14|0
+97|Agility|14|0
+98|Quick Attack|0|40
+99|Rage|0|20
+100|Teleport|14|0
+101|Night Shade|7|1
+102|Mimic|0|0
+103|Screech|0|0
+104|Double Team|0|0
+105|Recover|0|0
+106|Harden|0|0
+107|Minimize|0|0
+108|Smokescreen|0|0
+109|Confuse Ray|7|0
+110|Withdraw|11|0
+111|Defense Curl|0|0
+112|Barrier|14|0
+113|Light Screen|14|0
+114|Haze|15|0
+115|Reflect|14|0
+116|Focus Energy|0|0
+117|Bide|0|1
+118|Metronome|0|0
+119|Mirror Move|2|0
+120|Self-Destruct|0|100
+121|Egg Bomb|0|100
+122|Lick|7|30
+123|Smog|3|30
+124|Sludge|3|65
+125|Bone Club|4|65
+126|Fire Blast|10|110
+127|Waterfall|11|80
+128|Clamp|11|35
+129|Swift|0|60
+130|Skull Bash|0|130
+131|Spike Cannon|0|20
+132|Constrict|0|10
+133|Amnesia|14|0
+134|Kinesis|14|0
+135|Soft-Boiled|0|0
+136|High Jump Kick|1|130
+137|Glare|0|0
+138|Dream Eater|14|100
+139|Poison Gas|3|0
+140|Barrage|0|15
+141|Leech Life|6|80
+142|Lovely Kiss|0|0
+143|Sky Attack|2|140
+144|Transform|0|0
+145|Bubble|11|40
+146|Dizzy Punch|0|70
+147|Spore|12|0
+148|Flash|13|60
+149|Psywave|14|1
+150|Splash|0|0
+151|Acid Armor|3|0
+152|Crabhammer|11|100
+153|Explosion|0|150
+154|Fury Swipes|0|18
+155|Bonemerang|4|50
+156|Rest|14|0
+157|Rock Slide|5|75
+158|Hyper Fang|0|80
+159|Sharpen|0|0
+160|Dark Hole|17|100
+161|Tri Attack|0|90
+162|Super Fang|0|1
+163|Slash|0|70
+164|Substitute|0|0
+165|Struggle|9|50
+166|Sketch|0|0
+167|Triple Kick|1|20
+168|Thief|17|60
+169|Spider Web|6|0
+170|Mind Reader|0|0
+171|Nightmare|7|0
+172|Flame Wheel|10|60
+173|Snore|0|50
+174|Curse|7|0
+175|Flail|0|1
+176|Conversion 2|0|0
+177|Aeroblast|2|100
+178|Cotton Spore|12|0
+179|Reversal|1|1
+180|Spite|7|0
+181|Powder Snow|15|40
+182|Protect|0|0
+183|Mach Punch|1|40
+184|Scary Face|0|0
+185|Feint Attack|17|60
+186|Sweet Kiss|23|0
+187|Belly Drum|0|0
+188|Sludge Bomb|3|90
+189|Mud-Slap|4|40
+190|Octazooka|11|80
+191|Spikes|4|0
+192|Zap Cannon|13|120
+193|Foresight|0|0
+194|Destiny Bond|7|0
+195|Perish Song|0|0
+196|Icy Wind|15|55
+197|Detect|1|0
+198|Bone Rush|4|25
+199|Lock-On|0|0
+200|Outrage|16|120
+201|Sandstorm|5|0
+202|Giga Drain|12|75
+203|Endure|0|0
+204|Charm|23|0
+205|Rollout|5|30
+206|False Swipe|0|40
+207|Swagger|0|0
+208|Milk Drink|0|0
+209|Spark|13|65
+210|Fury Cutter|6|40
+211|Steel Wing|8|70
+212|Mean Look|0|0
+213|Attract|0|0
+214|Sleep Talk|0|0
+215|Heal Bell|0|0
+216|Return|0|1
+217|Present|0|1
+218|Frustration|0|1
+219|Safeguard|0|0
+220|Pain Split|0|1
+221|Sacred Fire|10|100
+222|Magnitude|4|1
+223|Dynamic Punch|1|100
+224|Megahorn|6|120
+225|Dragon Breath|16|60
+226|Baton Pass|0|0
+227|Encore|0|0
+228|Pursuit|17|40
+229|Rapid Spin|0|50
+230|Sweet Scent|0|0
+231|Iron Tail|8|100
+232|Metal Claw|8|50
+233|Vital Throw|1|70
+234|Morning Sun|0|0
+235|Synthesis|12|0
+236|Moonlight|23|0
+237|Hidden Power|0|60
+238|Cross Chop|1|100
+239|Twister|16|40
+240|Rain Dance|11|0
+241|Sunny Day|10|0
+242|Crunch|17|80
+243|Mirror Coat|14|1
+244|Psych Up|0|0
+245|Extreme Speed|0|80
+246|Ancient Power|5|60
+247|Shadow Ball|7|80
+248|Future Sight|14|120
+249|Rock Smash|1|60
+250|Whirlpool|11|35
+251|Beat Up|17|25
+252|Fake Out|0|40
+253|Uproar|0|90
+254|Stockpile|0|0
+255|Spit Up|0|1
+256|Swallow|0|0
+257|Heat Wave|10|95
+258|Snowscape|15|0
+259|Torment|17|0
+260|Flatter|17|0
+261|Will-O-Wisp|10|0
+262|Memento|17|0
+263|Facade|0|70
+264|Focus Punch|1|150
+265|Smelling Salts|1|70
+266|Follow Me|0|0
+267|Nature Power|0|0
+268|Charge|13|0
+269|Taunt|17|0
+270|Helping Hand|0|0
+271|Trick|14|0
+272|Role Play|14|0
+273|Wish|0|0
+274|Assist|0|0
+275|Ingrain|12|0
+276|Superpower|1|120
+277|Magic Coat|14|0
+278|Recycle|0|0
+279|Revenge|1|60
+280|Brick Break|1|75
+281|Yawn|0|0
+282|Knock Off|17|65
+283|Endeavor|0|1
+284|Eruption|10|150
+285|Skill Swap|14|0
+286|Imprison|14|0
+287|Refresh|0|0
+288|Grudge|7|0
+289|Snatch|17|0
+290|Secret Power|0|70
+291|Dive|11|80
+292|Arm Thrust|1|25
+293|Camouflage|0|0
+294|Tail Glow|6|0
+295|Luster Purge|14|95
+296|Mist Ball|14|95
+297|Feather Dance|2|0
+298|Teeter Dance|0|0
+299|Blaze Kick|10|85
+300|Mud Sport|4|0
+301|Ice Ball|15|30
+302|Needle Arm|12|95
+303|Slack Off|0|0
+304|Hyper Voice|0|90
+305|Poison Fang|3|75
+306|Crush Claw|0|75
+307|Blast Burn|10|160
+308|Hydro Cannon|11|160
+309|Meteor Mash|8|90
+310|Astonish|7|30
+311|Weather Ball|0|50
+312|Aromatherapy|12|0
+313|Fake Tears|17|0
+314|Air Cutter|2|60
+315|Overheat|10|130
+316|Odor Sleuth|0|0
+317|Rock Tomb|5|60
+318|Silver Wind|6|60
+319|Metal Sound|8|0
+320|Grass Whistle|12|0
+321|Tickle|0|0
+322|Cosmic Power|14|0
+323|Water Spout|11|150
+324|Signal Beam|6|75
+325|Shadow Punch|7|80
+326|Extrasensory|14|80
+327|Sky Uppercut|1|85
+328|Sand Tomb|4|35
+329|Sheer Cold|15|1
+330|Muddy Water|11|95
+331|Bullet Seed|12|25
+332|Aerial Ace|2|60
+333|Icicle Spear|15|25
+334|Iron Defense|8|0
+335|Block|0|0
+336|Howl|0|0
+337|Dragon Claw|16|80
+338|Frenzy Plant|12|160
+339|Bulk Up|1|0
+340|Bounce|2|85
+341|Mud Shot|4|55
+342|Poison Tail|3|60
+343|Covet|23|60
+344|Volt Tackle|13|120
+345|Magical Leaf|12|60
+346|Water Sport|11|0
+347|Calm Mind|14|0
+348|Leaf Blade|12|90
+349|Dragon Dance|16|0
+350|Rock Blast|5|25
+351|Shock Wave|13|60
+352|Water Pulse|11|60
+353|Doom Desire|8|140
+354|Psycho Boost|14|140
+355|Leech Fang|6|80
+356|Air Slash|2|75
+357|Aqua Jet|11|40
+358|Aqua Tail|11|90
+359|Aura Sphere|1|80
+360|Avalanche|15|60
+361|Brave Bird|2|120
+362|Bug Buzz|6|90
+363|Bullet Punch|8|40
+364|Charge Beam|13|50
+365|Close Combat|1|120
+366|Cross Poison|3|70
+367|Dark Pulse|17|80
+368|Discharge|13|80
+369|Draco Meteor|16|130
+370|Dragon Pulse|16|85
+371|Drain Punch|1|75
+372|Earth Power|4|90
+373|Energy Ball|12|90
+374|Focus Blast|1|120
+375|Force Palm|1|60
+376|Giga Impact|0|150
+377|Grass Knot|12|1
+378|Gunk Shot|3|120
+379|Hammer Arm|1|100
+380|Head Smash|5|150
+381|Ice Shard|15|40
+382|Iron Head|8|80
+383|Lava Plume|10|80
+384|Magnet Bomb|8|60
+385|Mud Bomb|4|65
+386|Nasty Plot|17|0
+387|Night Slash|17|70
+388|Ominous Wind|7|60
+389|Power Gem|5|80
+390|Power Whip|12|120
+391|Psycho Cut|14|70
+392|Rock Climb|0|90
+393|Rock Polish|5|0
+394|Rock Wrecker|5|150
+395|Roost|2|0
+396|Seed Bomb|12|80
+397|Shadow Claw|7|80
+398|Shadow Sneak|7|40
+399|Vacuum Wave|1|40
+400|X-Scissor|6|80
+401|Zen Headbutt|14|80
+402|Switcheroo|17|0
+403|Drill Run|4|80
+404|Bulldoze|4|60
+405|Electroweb|13|55
+406|Flame Charge|10|50
+407|Frost Breath|15|60
+408|Heart Stamp|14|60
+409|Hone Claws|17|0
+410|Horn Leech|12|75
+411|Coil|3|0
+412|Hurricane|2|110
+413|Icicle Crash|15|85
+414|Work Up|0|0
+415|Quiver Dance|6|0
+416|Leaf Tornado|12|65
+417|Low Sweep|1|60
+418|Snarl|17|55
+419|Struggle Bug|6|50
+420|Steamroller|6|65
+421|Storm Throw|1|60
+422|Venoshock|3|65
+423|Wild Charge|13|90
+424|Poison Jab|3|80
+425|Acid Spray|3|40
+426|Fiery Dance|10|80
+427|Clear Smog|3|50
+428|Leaf Storm|12|130
+429|Stone Edge|5|100
+430|Payback|17|50
+431|Fire Fang|10|65
+432|Ice Fang|15|65
+433|Thunder Fang|13|65
+434|Flare Blitz|10|120
+435|Inferno|10|120
+436|Hex|7|65
+437|Dual Chop|16|40
+438|Double Hit|0|35
+439|Cotton Guard|12|0
+440|Acrobatics|2|55
+441|Flame Burst|10|70
+442|U-turn|6|70
+443|Volt Switch|13|70
+444|Dragon Tail|16|60
+445|Circle Throw|1|60
+446|Mirror Shot|8|65
+447|Wood Hammer|12|120
+448|Heal Pulse|14|0
+449|Flash Cannon|8|80
+450|Bug Bite|6|60
+451|Pluck|2|60
+452|Shell Smash|0|0
+453|Rage Powder|6|0
+454|Wake-Up Slap|1|70
+455|Razor Shell|11|75
+456|Copycat|0|0
+457|Miracle Eye|14|0
+458|Sucker Punch|17|70
+459|Scald|11|80
+460|Brine|11|65
+461|Fairy Wind|23|40
+462|Baby-Doll Eyes|23|0
+463|Play Rough|23|90
+464|Moonblast|23|95
+465|Drain Kiss|23|50
+466|Dazzling Gleam|23|80
+467|Disarm Cry|23|40
+468|Stealth Rock|5|0
+469|Toxic Spikes|3|0
+470|Healing Wish|14|0
+471|Lunar Dance|14|0
+472|Tailwind|2|0
+473|Boomburst|0|140
+474|Incinerate|10|60
+475|Worry Seed|12|0
+476|Gastro Acid|3|0
+477|Geomancy|23|0
+478|Flower Guard|23|0
+479|Rototiller|4|0
+480|Shift Gear|8|0
+481|Sticky Web|6|0
+482|Stored Power|14|20
+483|Acupressure|0|0
+484|Punishment|17|1
+485|Assurance|17|60
+486|Dragon Rush|16|100
+487|Dark Void|17|0
+488|Feint|0|30
+489|Phantom Force|7|90
+490|Petal Blizzard|12|90
+491|Play Nice|0|0
+492|Roar of Time|16|80
+493|Spacial Rend|16|100
+494|Magma Storm|10|100
+495|Final Gambit|1|1
+496|Shadow Force|7|120
+497|Nuzzle|13|20
+498|Retaliate|0|70
+499|Metal Bash|8|40
+500|Judgment|0|100
+501|Freeze-Dry|15|70
+502|Psyshock|14|80
+503|Round|0|60
+504|Tail Slap|0|25
+505|Gear Grind|8|50
+506|Natural Gift|0|1
+507|Chip Away|0|70
+508|Smack Down|5|50
+509|Hyperspace Hole|14|80
+510|Gyro Ball|8|1
+511|Hyperspace Fury|17|100
+512|Attack Order|6|120
+513|Defend Order|6|0
+514|Heal Order|6|0
+515|Captivate|0|0
+516|Defog|2|0
+517|Origin Pulse|11|110
+518|Precipice Blades|4|120
+519|Guard Swap|14|0
+520|Steam Eruption|11|120
+521|Metal Burst|8|1
+522|Me First|0|0
+523|Power Swap|14|0
+524|Power Trick|14|0
+525|Psycho Shift|14|0
+526|Wring Out|0|1
+527|King's Shield|8|0
+528|Psystrike|14|100
+529|Autotomize|8|0
+530|Diamond Storm|5|100
+531|Sludge Wave|3|95
+532|Heavy Slam|8|1
+533|Synchronoise|14|120
+534|Electro Ball|13|1
+535|Foul Play|17|95
+536|Entrainment|0|0
+537|Night Daze|17|95
+538|Echoed Voice|0|40
+539|Land's Wrath|4|90
+540|Oblivion Wing|2|80
+541|Heart Swap|14|0
+542|Aqua Fang|11|80
+543|Sacred Sword|1|90
+544|Heat Crash|10|1
+545|Head Charge|0|120
+546|Techno Blast|0|120
+547|Relic Song|0|75
+548|Secret Sword|1|85
+549|Glaciate|15|65
+550|Bolt Strike|13|130
+551|Blue Flare|10|130
+552|Freeze Shock|15|140
+553|Ice Burn|15|140
+554|V-create|10|180
+555|Fusion Flare|10|100
+556|Fusion Bolt|13|100
+557|Fell Stinger|6|50
+558|Noble Roar|0|0
+559|Dragon Ascent|2|120
+560|Parting Shot|17|0
+561|Topsy-Turvy|17|0
+562|Core Enforcer|16|100
+563|Chatter|2|80
+564|Confide|0|0
+565|Water Shuriken|11|15
+566|Mystical Fire|10|75
+567|Spiky Shield|12|0
+568|Eerie Impulse|13|0
+569|Hold Back|0|40
+570|Infestation|6|20
+571|Power-Up Punch|1|40
+572|Thousand Arrows|4|90
+573|Thousand Waves|4|90
+574|Parabolic Charge|13|75
+575|Searing Shot|10|100
+576|Seed Flare|12|120
+577|Accelerock|5|40
+578|Anchor Shot|8|80
+579|Aurora Veil|15|0
+580|Baneful Bunker|3|0
+581|Beak Blast|2|100
+582|Brutal Swing|17|60
+583|Burn Up|10|130
+584|Clanging Scales|16|110
+585|Darkest Lariat|17|85
+586|Dragon Hammer|16|100
+587|Fire Lash|10|80
+588|First Impression|6|90
+589|Fleur Cannon|23|130
+590|Floral Healing|23|0
+591|Gear Up|8|0
+592|High Horsepower|4|95
+593|Ice Hammer|15|100
+594|Laser Focus|0|0
+595|Leafage|12|40
+596|Liquidation|11|85
+597|Lunge|6|80
+598|Moongeist Beam|7|100
+599|Multi-Attack|0|120
+600|Nature's Madness|23|1
+601|Pollen Puff|6|90
+602|Power Trip|17|20
+603|Prism Laser|14|160
+604|Psychic Fangs|14|85
+605|Purify|3|0
+606|Revelation Dance|0|100
+607|Shadow Bone|7|85
+608|Shell Trap|10|150
+609|Shore Up|4|0
+610|Smart Strike|8|70
+611|Solar Blade|12|125
+612|Sparkling Aria|11|90
+613|Spectral Thief|7|90
+614|Speed Swap|14|0
+615|Spirit Shackle|7|80
+616|Spotlight|0|0
+617|Stomping Tantrum|4|75
+618|Strength Sap|12|0
+619|Sunsteel Strike|8|100
+620|Tearful Look|0|0
+621|Throat Chop|17|80
+622|Toxic Thread|3|0
+623|Trop Kick|12|70
+624|Zing Zap|13|80
+625|Electric Terrain|13|0
+626|Grassy Terrain|12|0
+627|Misty Terrain|23|0
+628|Psychic Terrain|14|0
+629|Grass Pledge|12|80
+630|Fire Pledge|10|80
+631|Water Pledge|11|80
+632|Trick Room|14|0
+633|Magic Room|14|0
+634|Wonder Room|14|0
+635|Crafty Guard|23|0
+636|Mat Block|1|0
+637|Quick Guard|1|0
+638|Wide Guard|5|0
+639|Aqua Ring|11|0
+640|Aromatic Mist|23|0
+641|Belch|3|120
+642|Bestow|0|0
+643|Fling|17|1
+644|Flying Press|1|100
+645|Gravity|14|0
+646|Guard Split|14|0
+647|Heal Block|14|0
+648|Ion Deluge|13|0
+649|Lucky Chant|0|0
+650|Magnet Rise|13|0
+651|Magnetic Flux|13|0
+652|Powder|6|0
+653|Power Split|14|0
+654|Reflect Type|0|0
+655|Simple Beam|0|0
+656|Soak|11|0
+657|Telekinesis|14|0
+658|Trick-or-Treat|7|0
+659|Venom Drench|3|0
+660|Forest's Curse|12|0
+661|Mind Blown|10|150
+662|Photon Geyser|14|100
+663|Plasma Fists|13|100
+664|Electrify|13|0
+665|Embargo|17|0
+666|Fairy Lock|23|0
+667|Light of Ruin|23|140
+668|Trump Card|0|1
+669|After You|0|0
+670|Instruct|14|0
+671|Quash|17|0
+672|Happy Hour|0|0
+673|Double Iron Bash|8|60
+674|Last Resort|0|140
+675|Sky Drop|2|60
+676|Celebrate|0|0
+677|Hold Hands|0|0
+678|Dynamax Cannon|16|100
+679|Snipe Shot|11|70
+680|Jaw Lock|1|90
+681|Stuff Cheeks|0|0
+682|No Retreat|1|0
+683|Tar Shot|5|0
+684|Magic Powder|14|0
+685|Dragon Darts|16|50
+686|Teatime|0|0
+687|Octolock|1|0
+688|Bolt Beak|13|85
+689|Fishious Rend|11|85
+690|Court Change|0|0
+691|Clangorous Soul|16|0
+692|Body Press|1|80
+693|Decorate|23|0
+694|Drum Beating|12|80
+695|Snap Trap|8|100
+696|Pyro Ball|10|120
+697|Behemoth Blade|8|100
+698|Behemoth Bash|8|100
+699|Aura Wheel|13|110
+700|Breaking Swipe|16|60
+701|Branch Poke|12|40
+702|Overdrive|13|80
+703|Apple Acid|12|80
+704|Grav Apple|12|80
+705|Spirit Break|23|75
+706|Strange Steam|23|90
+707|Life Dew|11|0
+708|Obstruct|17|0
+709|False Surrender|17|80
+710|Meteor Assault|1|160
+711|Eternabeam|16|160
+712|Steel Beam|8|140
+713|Expanding Force|14|80
+714|Steel Roller|8|130
+715|Scale Shot|16|25
+716|Meteor Beam|5|120
+717|Shell Side Arm|3|100
+718|Misty Explosion|23|100
+719|Grassy Glide|12|55
+720|Rising Voltage|13|70
+721|Terrain Pulse|0|50
+722|Skitter Smack|6|70
+723|Burning Jealousy|10|70
+724|Lash Out|17|75
+725|Poltergeist|7|110
+726|Corrosive Gas|3|0
+727|Coaching|1|0
+728|Flip Turn|11|60
+729|Triple Axel|15|20
+730|Dual Wingbeat|2|40
+731|Scorching Sands|4|70
+732|Jungle Healing|12|0
+733|Wicked Blow|17|75
+734|Surging Strikes|11|25
+735|Freezing Glare|14|90
+736|Thunderous Kick|1|90
+737|Fiery Wrath|17|90
+738|Thunder Cage|13|80
+739|Dragon Energy|16|150
+740|Astral Barrage|7|120
+741|Glacial Lance|15|120
+742|Forbidden Spell|17|0
+743|Zippy Zap|13|50
+744|Sappy Seed|12|95
+745|Freezy Frost|15|95
+746|Sparkly Swirl|23|95
+747|Bouncy Bubble|11|90
+748|Sonic Slash|2|1
+749|Draco Barrage|16|100
+750|Stone Axe|5|65
+751|Headlong Rush|4|120
+752|Victory Dance|1|0
+753|Inferno Parade|7|60
+754|Ceaseless Edge|17|65
+755|Triple Arrows|1|90
+756|Barb Barrage|3|60
+757|Chloroblast|12|120
+758|Bitter Malice|7|60
+759|Esper Wing|14|80
+760|Dire Claw|3|80
+761|Mountain Gale|15|120
+762|Psyshield Bash|14|70
+763|Mystical Power|14|70
+764|Wave Crash|11|120
+765|Flower Trick|12|70
+766|Torch Song|10|80
+767|Aqua Step|11|80
+768|Hyper Drill|0|100
+769|Armor Cannon|10|120
+770|Bitter Blade|10|90
+771|Aqua Cutter|11|70
+772|Rage Fist|7|50
+773|Glaive Rush|16|120
+774|Last Respects|7|50
+775|Shed Tail|0|0
+776|Jet Punch|11|60
+777|Spin Out|8|110
+778|Collision Course|1|100
+779|Electro Drift|13|100
+780|Revival Blessing|0|0
+781|Gigaton Hammer|8|160
+782|Raging Bull|0|90
+783|Twin Beam|14|50
+784|Kowtow Cleave|17|85
+785|Double Shock|13|120
+786|Trailblaze|12|50
+787|Pounce|6|60
+788|Make It Rain|8|120
+789|Population Bomb|0|20
+790|Lunar Blessing|14|0
+791|Take Heart|23|0
+792|Silk Trap|6|0
+793|Axe Kick|1|120
+794|Lumina Crash|14|80
+795|Ice Spinner|15|80
+796|Salt Cure|5|40
+797|Triple Dive|11|40
+798|Mortal Spin|3|30
+799|Fillet Away|0|0
+800|Chilly Reception|15|0
+801|Chilling Water|11|50
+802|Comeuppance|17|1
+803|Tidy Up|0|0
+804|Ruination|17|1
+805|Psyblade|14|80
+806|Hydro Steam|11|80
+807|Bleakwind Storm|2|100
+808|Wildbolt Storm|13|100
+809|Sandsear Storm|4|100
+810|Springtide Storm|23|100
+811|Blood Moon|0|140
+812|Matcha Gotcha|12|80
+813|Ivy Cudgel|12|100
+814|Electro Shot|13|130
+815|Thunderclap|13|70
+816|Tachyon Cutter|8|50
+817|Psychic Noise|14|75
+818|Upper Hand|1|65
+819|Fickle Beam|16|80
+820|Burning Bulwark|10|0
+822|Mighty Cleave|5|95
+823|Hard Press|8|1
+824|Dragon Cheer|16|1
+825|Alluring Voice|23|80
+826|Temper Flare|10|75
+827|Soupercell Slam|13|120
+828|Malignant Chain|3|100
+901|Guard|0|0
+902|Strike|0|1
+903|Strike|0|1
+904|Knuckle|1|1
+905|Knuckle|1|1
+906|Airstream|2|1
+907|Airstream|2|1
+908|Ooze|3|1
+909|Ooze|3|1
+910|Quake|4|1
+911|Quake|4|1
+912|Rockfall|5|1
+913|Rockfall|5|1
+914|Flutterby|6|1
+915|Flutterby|6|1
+916|Phantasm|7|1
+917|Phantasm|7|1
+918|Steelspike|8|10
+919|Steelspike|8|10
+920|Flare|10|1
+921|Flare|10|1
+922|Geyser|11|1
+923|Geyser|11|1
+924|Overgrowth|12|10
+925|Overgrowth|12|10
+926|Lightning|13|1
+927|Lightning|13|1
+928|Mindstorm|14|1
+929|Mindstorm|14|1
+930|Hailstorm|15|1
+931|Hailstorm|15|1
+932|Wyrmwind|16|1
+933|Wyrmwind|16|1
+934|Darkness|17|1
+935|Darkness|17|1
+936|Starfall|23|1
+937|Starfall|23|1
+938|Vine Lash|12|10
+939|Vine Lash|12|10
+940|Wildfire|10|10
+941|Wildfire|10|10
+942|Cannonade|11|10
+943|Cannonade|11|10
+944|Befuddle|6|10
+945|Befuddle|6|10
+946|Voltcrash|13|10
+947|Voltcrash|13|10
+948|Goldrush|0|10
+949|Goldrush|0|10
+950|Chistrike|1|10
+951|Chistrike|1|10
+952|Terror|7|10
+953|Terror|7|10
+954|Foamburst|11|10
+955|Foamburst|11|10
+956|Resonance|15|10
+957|Resonance|15|10
+958|Cuddle|0|10
+959|Cuddle|0|10
+960|Replenish|0|10
+961|Replenish|0|10
+962|Malodor|3|10
+963|Malodor|3|10
+964|Meltdown|8|10
+965|Meltdown|8|10
+966|Drum Solo|12|10
+967|Drum Solo|12|10
+968|Fireball|10|10
+969|Fireball|10|10
+970|Hydrosnipe|11|10
+971|Hydrosnipe|11|10
+972|Windrage|2|10
+973|Windrage|2|10
+974|Gravitas|14|10
+975|Gravitas|14|10
+976|Stonesurge|11|10
+977|Stonesurge|11|10
+978|Volcalith|5|10
+979|Volcalith|5|10
+980|Tartness|12|10
+981|Tartness|12|10
+982|Sweetness|12|10
+983|Sweetness|12|10
+984|Sandblast|4|10
+985|Sandblast|4|10
+986|Stunshock|13|10
+987|Stunshock|13|10
+988|Centiferno|10|10
+989|Centiferno|10|10
+990|Smite|23|10
+991|Smite|23|10
+992|Snooze|17|10
+993|Snooze|17|10
+994|Finale|23|10
+995|Finale|23|10
+996|Steelsurge|8|10
+997|Steelsurge|8|10
+998|Depletion|16|10
+999|Depletion|16|10
+1000|One Blow|17|10
+1001|One Blow|17|10
+1002|Rapid Flow|11|10
+1003|Rapid Flow|11|10
+"""#
+  static let movesTeamRocketV3: String = #"""
+1|Destructor|1|40
+2|Golpe Kárate|2|50
+3|Doblebofetón|1|15
+4|Puño Cometa|1|18
+5|Megapuño|1|80
+6|Día de Pago|1|40
+7|Puño Fuego|11|75
+8|Puño Hielo|16|75
+9|Puño Trueno|14|75
+10|Arañazo|1|40
+11|Agarre|1|55
+12|Guillotina|18|170
+13|V. Cortante|1|130
+14|Danza Espada|1|0
+15|Corte|7|65
+16|Tornado|3|40
+17|Ataque Ala|3|60
+18|Remolino|1|0
+19|Vuelo|3|90
+20|Atadura|1|15
+21|Atizar|1|80
+22|Látigo Cepa|13|45
+23|Pisotón|1|65
+24|Doble Patada|2|30
+25|Megapatada|1|120
+26|Patada Salto|2|100
+27|Patada Giro|2|60
+28|Ataque Arena|5|0
+29|Golpe Cabeza|1|70
+30|Cornada|1|65
+31|Ataque Furia|1|15
+32|Perforador|1|150
+33|Placaje|1|40
+34|Golpe Cuerpo|1|85
+35|Constricción|1|15
+36|Derribo|1|90
+37|Golpe|1|120
+38|Doble Filo|1|120
+39|Látigo|1|0
+40|Picotazo Ven|4|15
+41|Doble Ataque|7|40
+42|Pin Misil|7|25
+43|Malicioso|1|0
+44|Mordisco|18|60
+45|Gruñido|1|0
+46|Rugido|1|0
+47|Canto|1|0
+48|Supersónico|1|0
+49|Bomba Sónica|1|1
+50|Anulación|1|0
+51|Ácido|4|40
+52|Ascuas|11|40
+53|Lanzallamas|11|90
+54|Neblina|16|0
+55|Pistola Agua|12|40
+56|Hidrobomba|12|110
+57|Surf|12|90
+58|Rayo Hielo|16|90
+59|Ventisca|16|110
+60|Psicorrayo|15|75
+61|Rayo Burbuja|12|65
+62|Rayo Aurora|16|65
+63|Hiperrayo|1|160
+64|Picotazo|3|35
+65|Pico Taladro|3|80
+66|Sumisión|2|80
+67|Patada Baja|2|1
+68|Contraataque|2|1
+69|Mov.Sísmico|2|1
+70|Fuerza|6|85
+71|Absorber|13|30
+72|Megaagotar|13|50
+73|Drenadoras|13|0
+74|Desarrollo|1|0
+75|Hoja Afilada|13|55
+76|Rayo Solar|13|125
+77|Polvo Veneno|4|0
+78|Paralizador|13|0
+79|Somnífero|13|0
+80|Danza Pétalo|13|120
+81|Disp. Demora|7|0
+82|Furia Dragón|17|70
+83|Giro Fuego|11|65
+84|Impactrueno|14|40
+85|Rayo|14|90
+86|Onda Trueno|14|0
+87|Trueno|14|110
+88|Lanzarrocas|6|50
+89|Terremoto|5|100
+90|Fisura|5|130
+91|Excavar|5|80
+92|Tóxico|4|0
+93|Confusión|15|50
+94|Psíquico|15|90
+95|Hipnosis|15|0
+96|Meditación|15|0
+97|Agilidad|15|0
+98|At. Rápido|1|40
+99|Furia|1|20
+100|Teletransp|15|0
+101|Tinieblas|8|1
+102|Mimético|1|0
+103|Chirrido|1|0
+104|Doble Equipo|1|0
+105|Recuperación|1|0
+106|Fortaleza|1|0
+107|Reducción|1|0
+108|Pantallahumo|1|0
+109|Rayo Confuso|8|0
+110|Refugio|12|0
+111|Rizo Defensa|1|0
+112|Barrera|15|0
+113|Pantalla Luz|15|0
+114|Niebla|16|0
+115|Reflejo|15|0
+116|Foco Energía|1|0
+117|Venganza|1|1
+118|Metrónomo|1|0
+119|Espejo|3|0
+120|Autodestruc|1|200
+121|Bomba Huevo|1|100
+122|Lengüetazo|8|30
+123|Polución|4|30
+124|Residuos|4|65
+125|Hueso Palo|5|65
+126|Llamarada|11|110
+127|Cascada|12|80
+128|Tenaza|12|35
+129|Rapidez|1|75
+130|Cabezazo|1|130
+131|Clavo Cañón|1|20
+132|Restricción|1|10
+133|Amnesia|15|0
+134|Kinético|15|0
+135|Amortiguador|1|0
+136|Pat. S. Alta|2|130
+137|Deslumbrar|1|0
+138|Comesueños|15|100
+139|Gas Venenoso|4|0
+140|Bombardeo|1|15
+141|Chupavidas|7|80
+142|Beso Amoroso|1|0
+143|Ataque Aéreo|3|140
+144|Transform|1|0
+145|Burbuja|12|40
+146|Puño Mareo|1|70
+147|Espora|13|0
+148|Destello|14|50
+149|Psicoonda|15|1
+150|Salpicadura|1|0
+151|Armad. Ácida|4|0
+152|Martillazo|12|100
+153|Explosión|1|250
+154|Golpes Furia|1|18
+155|Huesomerang|5|50
+156|Descanso|15|0
+157|Avalancha|6|75
+158|Hip.Colmillo|1|80
+159|Afilar|1|0
+160|Conversión|1|0
+161|Triataque|1|90
+162|Superdiente|1|1
+163|Cuchillada|1|70
+164|Sustituto|1|0
+165|Forcejeo|1|50
+166|Esquema|1|0
+167|Triplepatada|2|10
+168|Ladrón|18|55
+169|Telaraña|7|0
+170|Telépata|1|0
+171|Pesadilla|8|0
+172|Rueda Fuego|11|60
+173|Ronquido|1|50
+174|Maldición|8|0
+175|Azote|1|1
+176|Conversión2|1|0
+177|Aerochorro|3|115
+178|Esporagodón|13|0
+179|Inversión|2|1
+180|Rencor|8|0
+181|Nieve Polvo|16|40
+182|Protección|1|0
+183|Ultrapuño|2|40
+184|Cara Susto|1|0
+185|Finta|18|60
+186|Beso Dulce|19|0
+187|Tambor|1|0
+188|Bomba Lodo|4|90
+189|Bofetón Lodo|5|30
+190|Pulpocañón|12|100
+191|Púas|5|0
+192|Electrocañón|14|120
+193|Profecía|1|0
+194|Mismodestino|8|0
+195|Canto Mortal|1|0
+196|Viento Hielo|16|55
+197|Detección|2|0
+198|Ataque Óseo|5|25
+199|Fijar Blanco|1|0
+200|Enfado|17|120
+201|Torm. Arena|6|0
+202|Gigadrenado|13|75
+203|Aguante|1|0
+204|Encanto|19|0
+205|Rodar|6|30
+206|Falsotortazo|1|40
+207|Contoneo|1|0
+208|Batido|1|0
+209|Chispa|14|65
+210|Corte Furia|7|40
+211|Ala de Acero|9|70
+212|Mal de Ojo|1|0
+213|Atracción|1|0
+214|Sonámbulo|1|0
+215|Campana Cura|1|0
+216|Retribución|1|1
+217|Presente|1|1
+218|Frustración|1|1
+219|Velo Sagrado|1|0
+220|Divide Dolor|1|0
+221|Fuegosagrado|11|100
+222|Magnitud|5|1
+223|Puñodinámico|2|100
+224|Megacuerno|7|120
+225|Dragoaliento|17|60
+226|Relevo|1|0
+227|Otra Vez|1|0
+228|Persecución|18|40
+229|Giro Rápido|1|50
+230|Dulce Aroma|1|0
+231|Cola Férrea|9|100
+232|Garra Metal|9|50
+233|Tiro Vital|2|70
+234|Sol Matinal|1|0
+235|Síntesis|13|0
+236|Luz Lunar|19|0
+237|Poder Oculto|1|60
+238|Tajo Cruzado|2|100
+239|Ciclón|17|40
+240|Danza Lluvia|12|0
+241|Día Soleado|11|0
+242|Triturar|18|80
+243|Manto Espejo|15|1
+244|Más Psique|1|0
+245|Vel. Extrema|1|80
+246|Poder Pasado|6|75
+247|Bola Sombra|8|80
+248|Premonición|15|120
+249|Golpe Roca|2|65
+250|Torbellino|12|35
+251|Paliza|18|1
+252|Sorpresa|1|40
+253|Alboroto|1|90
+254|Reserva|1|0
+255|Escupir|1|1
+256|Tragar|1|0
+257|Onda Ígnea|11|95
+258|Granizo|16|0
+259|Tormento|18|0
+260|Camelo|18|0
+261|Fuego Fatuo|11|0
+262|Legado|18|0
+263|Imagen|1|70
+264|Puño Certero|2|150
+265|Estímulo|1|70
+266|Señuelo|1|0
+267|Adaptación|1|1
+268|Carga|14|0
+269|Mofa|18|0
+270|Refuerzo|1|0
+271|Truco|15|0
+272|Imitación|15|0
+273|Deseo|1|0
+274|Ayuda|1|0
+275|Arraigo|13|0
+276|Fuerza Bruta|2|120
+277|Capa Mágica|15|0
+278|Reciclaje|1|0
+279|Desquite|2|60
+280|Demolición|2|75
+281|Bostezo|1|0
+282|Desarme|18|65
+283|Esfuerzo|1|1
+284|Estallido|11|150
+285|Intercambio|15|0
+286|Sellar|15|0
+287|Alivio|1|0
+288|Rabia|8|0
+289|Robo|18|0
+290|Daño Secreto|1|70
+291|Buceo|12|110
+292|Empujón|2|15
+293|Camuflaje|1|0
+294|Ráfaga|7|0
+295|Resplandor|15|95
+296|Bola Neblina|15|95
+297|Danza Pluma|3|0
+298|Danza Caos|1|0
+299|Patada Ígnea|11|85
+300|Chapoteolodo|5|0
+301|Bola Hielo|16|30
+302|Brazo Pincho|13|60
+303|Relajo|1|0
+304|Vozarrón|1|90
+305|Colm. Veneno|4|50
+306|Garra Brutal|1|75
+307|Anillo Ígneo|11|100
+308|Hidrocañón|12|100
+309|Puño Meteoro|9|90
+310|Impresionar|8|30
+311|Meteorobola|1|50
+312|Aromaterapia|13|0
+313|Llanto Falso|18|0
+314|Aire Afilado|3|60
+315|Sofoco|11|130
+316|Rastreo|1|0
+317|Tumba Rocas|6|60
+318|Viento Plata|7|75
+319|Eco Metálico|9|0
+320|Silbato|13|0
+321|Cosquillas|1|0
+322|Masa Cósmica|15|0
+323|Salpicar|12|150
+324|Doble Rayo|7|75
+325|Puño Sombra|8|60
+326|Paranormal|15|80
+327|Gancho Alto|2|85
+328|Bucle Arena|5|35
+329|Frío Polar|16|130
+330|Agua Lodosa|12|90
+331|Recurrente|13|25
+332|Golpe Aéreo|3|75
+333|Carámbano|16|25
+334|Def. Férrea|9|0
+335|Bloqueo|1|0
+336|Aullido|1|0
+337|Garra Dragón|17|80
+338|Planta Feroz|13|100
+339|Corpulencia|2|0
+340|Bote|3|85
+341|Disparo Lodo|5|55
+342|Cola Veneno|4|90
+343|Antojo|1|60
+344|Placaje Eléc|14|120
+345|Hoja Mágica|13|75
+346|Hidrochorro|12|0
+347|Paz Mental|15|0
+348|Hoja Aguda|13|90
+349|Danza Dragón|17|0
+350|Pedrada|6|25
+351|Onda Voltio|14|75
+352|Hidropulso|12|75
+353|Deseo Oculto|9|140
+354|Psicoataque|15|140
+355|Respiro|3|0
+356|Gravedad|15|0
+357|Gran Ojo|15|0
+358|Espabila|2|70
+359|Machada|2|100
+360|Giro Bola|9|1
+361|Deseo Cura|15|0
+362|Salmuera|12|65
+363|Don Natural|1|1
+364|Amago|1|30
+365|Picoteo|3|60
+366|Viento Afín|3|0
+367|Acupresión|1|0
+368|Rep. Metal|9|1
+369|Ida y Vuelta|7|70
+370|A Bocajarro|2|120
+371|Vendetta|18|50
+372|Buena Baza|18|60
+373|Embargo|18|0
+374|Lanzamiento|18|1
+375|Psicocambio|15|0
+376|As Oculto|1|1
+377|Anticura|15|0
+378|Estrujón|1|120
+379|Truco Fuerza|15|0
+380|Bilis|4|0
+381|Conjuro|1|0
+382|Yo Primero|1|0
+383|Copión|1|0
+384|Cambiafuerza|15|0
+385|Cambiadefens|15|0
+386|Castigo|18|60
+387|Última Baza|1|140
+388|Abatidoras|13|0
+389|Golpe Bajo|18|70
+390|Púas Tóxicas|4|0
+391|Cambia Almas|15|0
+392|Acua Aro|12|0
+393|Levitón|14|0
+394|Envite Ígneo|11|120
+395|Palmeo|2|60
+396|Esfera Aural|2|80
+397|Pulimento|6|0
+398|Puya Nociva|4|80
+399|Pulso Umbrío|18|80
+400|Tajo Umbrío|18|70
+401|Acua Cola|12|90
+402|Bomba Germen|13|80
+403|Tajo Aéreo|3|75
+404|Tijera X|7|80
+405|Zumbido|7|90
+406|Pulso Dragón|17|85
+407|Carga Dragón|17|100
+408|Joya de Luz|6|80
+409|Puño Drenaje|2|75
+410|Onda Vacío|2|40
+411|Onda Certera|2|120
+412|Energibola|13|90
+413|Pájaro Osado|3|120
+414|Tierra Viva|5|90
+415|Trapicheo|18|0
+416|Gigaimpacto|1|170
+417|Maquinación|18|0
+418|Puño Bala|9|40
+419|Alud|16|60
+420|Canto Helado|16|40
+421|Garra Umbría|8|70
+422|Colm. Rayo|14|65
+423|Colm. Hielo|16|65
+424|Colm. Ígneo|11|65
+425|Sombra Vil|8|40
+426|Bomba Fango|5|65
+427|Psicocorte|15|70
+428|Cabezazo Zen|15|80
+429|Disp. Espejo|9|65
+430|Foco Resp.|9|80
+431|Treparrocas|1|90
+432|Despejar|3|0
+433|Espacio Raro|15|0
+434|Cometa Draco|17|130
+435|Chispazo|14|80
+436|Humareda|11|80
+437|Lluevehojas|13|130
+438|Latigazo|13|120
+439|Romperrocas|6|165
+440|Veneno X|4|70
+441|Lanzamugre|4|120
+442|Cabezahierro|9|80
+443|Bomba Imán|9|60
+444|Roca Afilada|6|100
+445|Seducción|1|0
+446|Trampa Rocas|6|0
+447|Hierba Lazo|13|1
+448|Cháchara|3|65
+449|Sentencia|1|100
+450|Picadura|7|60
+451|Rayo Carga|14|50
+452|Mazazo|13|120
+453|Acua Jet|12|40
+454|Al Ataque|7|90
+455|A Defender|7|0
+456|Auxilio|7|0
+457|Testarazo|6|150
+458|Doble Golpe|1|35
+459|Distorsión|17|180
+460|Corte Vacío|17|115
+461|Danza Lunar|15|0
+462|Agarrón|1|120
+463|Lluvia Ígnea|11|100
+464|Brecha Negra|18|0
+465|Fogonazo|13|120
+466|V. Aciago|8|75
+467|Golpe Umbrío|8|120
+468|Afilagarras|18|0
+469|Vastaguardia|6|0
+470|Isoguardia|15|0
+471|Isofuerza|15|0
+472|Zona Extraña|15|0
+473|Psicocarga|15|80
+474|Carga Tóxica|4|65
+475|Aligerar|9|0
+476|Polvo Ira|7|0
+477|Telequinesis|15|0
+478|Zona Mágica|15|0
+479|Antiaéreo|6|50
+480|Llave Corsé|2|60
+481|Pirotecnia|11|70
+482|Onda Tóxica|4|95
+483|Danza Aleteo|7|0
+484|Cuerpopesado|9|1
+485|Sincrorruido|15|120
+486|Bola Voltio|14|1
+487|Anegar|12|0
+488|Nitrocarga|11|50
+489|Enrosque|4|0
+490|Puntapié|2|65
+491|Bomba Ácida|4|40
+492|Juego Sucio|18|95
+493|Onda Simple|1|0
+494|Danza Amiga|1|0
+495|Cede Paso|1|0
+496|Canon|1|60
+497|Eco Voz|1|40
+498|Guardia Baja|1|70
+499|Niebla Clara|4|50
+500|Poderreserva|15|20
+501|Anticipo|2|0
+502|Cambio Banda|15|0
+503|Escaldar|12|80
+504|Rompecoraza|1|0
+505|Pulso Cura|15|0
+506|Infortunio|8|65
+507|Caída Libre|3|60
+508|Cambiomarcha|9|0
+509|Llave Giro|2|60
+510|Calcinación|11|60
+511|Último Lugar|18|0
+512|Acróbata|3|55
+513|Clonatipo|1|0
+514|Represalia|1|70
+515|Sacrificio|2|1
+516|Ofrenda|1|0
+517|Infierno|11|100
+518|Voto Agua|12|80
+519|Voto Fuego|11|80
+520|Voto Planta|13|80
+521|Voltiocambio|14|70
+522|Estoicismo|7|50
+523|Terratemblor|5|60
+524|Vaho Gélido|16|60
+525|Cola Dragón|17|60
+526|Avivar|1|0
+527|Electrotela|14|55
+528|Voltio Cruel|14|90
+529|Taladradora|5|80
+530|Golpe Bis|17|40
+531|Arrumaco|15|60
+532|Asta Drenaje|13|75
+533|Espada Santa|2|90
+534|Concha Filo|12|75
+535|Golpe Calor|11|1
+536|Ciclón Hojas|13|65
+537|Rodillo Púas|7|65
+538|Rizo Algodón|13|0
+539|Pulso Noche|18|85
+540|Onda Mental|15|100
+541|Plumerazo|1|25
+542|Vendaval|3|110
+543|Ariete|1|130
+544|Rueda Doble|9|50
+545|Bomba Ígnea|11|100
+546|Tecno Shock|1|120
+547|Cantoarcaico|1|75
+548|Sablemístico|2|85
+549|Mundo Gélido|16|65
+550|At. Fulgor|14|130
+551|Llama Azul|11|130
+552|Danza Llama|11|80
+553|Rayo Gélido|16|130
+554|Llama Gélida|16|130
+555|Alarido|18|55
+556|Chuzos|16|85
+557|V de Fuego|11|180
+558|Llama Fusión|11|100
+559|Rayo Fusión|14|100
+560|Pl. Voladora|2|100
+561|Escudotatami|2|0
+562|Eructo|4|120
+563|Fertilizante|5|0
+564|Red Viscosa|7|0
+565|Aguijónletal|7|50
+566|Golpe Fant.|8|90
+567|Halloween|8|0
+568|Rugidoguerra|1|0
+569|Cort. Plasma|14|0
+570|C. Parábola|14|65
+571|Cond.Silvana|13|0
+572|Torm. Floral|13|90
+573|Lioflización|16|70
+574|Voz Cautiva.|19|50
+575|Últ. Palabra|18|0
+576|Reversión|18|0
+577|Beso Drenaje|19|50
+578|Truco Def.|19|0
+579|Def. Floral|19|0
+580|Campo Hierba|13|0
+581|Campo Niebla|19|0
+582|Electrific|14|0
+583|Carantoña|19|90
+584|V. Feérico|19|40
+585|Fuerza Lunar|19|95
+586|Estruendo|1|140
+587|Cerrojo Fé.|19|0
+588|Escudo Real|9|0
+589|Camaradería|1|0
+590|Confidencia|1|0
+591|Torm.Diamant|6|100
+592|Chorro Vapor|12|110
+593|Paso Dimens.|15|80
+594|Shurikenagua|12|25
+595|Ll.Embrujada|11|75
+596|Bar.Espinosa|13|0
+597|Niebla Aroma|19|0
+598|Onda Anómala|14|0
+599|Trampa Ven|4|0
+600|Polvo Explo.|7|0
+601|Geocontrol|19|0
+602|Aura Magn.|14|0
+603|Paga Extra|1|0
+604|Campo Eléc|14|0
+605|Brillomágico|19|80
+606|Celebración|1|0
+607|Manos Juntas|1|0
+608|Ojitos Tier.|19|0
+609|Mofleteestát|14|20
+610|Clemencia|1|40
+611|Acoso|7|20
+612|Puñoincremen|2|40
+613|Alamortífera|3|80
+614|Mil Flechas|5|90
+615|Miltemblores|5|90
+616|F. Telúrica|5|90
+617|Luz Aniquila|19|140
+618|P.Primigenio|12|120
+619|Filo Abismo|5|120
+620|Ascensodraco|3|120
+621|Cerco Dimens|18|100
+622|Recogearena|5|0
+623|Escaramuza|7|90
+624|Búnker|4|0
+625|Punt.Sombría|8|80
+626|Lariatoscuro|18|85
+627|Aria Burbuja|12|90
+628|Mart. Hielo|16|100
+629|Cura Floral|19|0
+630|Fuerzaequina|5|95
+631|Absorbefuerz|13|0
+632|Cuch. Solar|13|130
+633|Follaje|13|40
+634|Foco|1|0
+635|Hilovenenoso|4|0
+636|Aguzar|1|0
+637|Piñón Aux.|9|0
+638|Golpemordaza|18|80
+639|Bola Polen|7|90
+640|Anclaje|9|80
+641|Campo Psí.|15|0
+642|Plancha|7|80
+643|Látigo Ígneo|11|80
+644|Chulería|18|20
+645|Llama Final|11|130
+646|Cambiavel.|15|0
+647|Cuerno Cer.|9|75
+648|Purificación|4|0
+649|Danza Desp.|1|90
+650|Núcleo Cast.|17|100
+651|Patada Trop.|13|70
+652|Mandato|15|0
+653|Pico Cañón|3|100
+654|Fragorescama|17|110
+655|Mart. Dragón|17|90
+656|Giro Vil|18|60
+657|Velo Aurora|16|0
+658|Corazatrampa|11|150
+659|Cañón Floral|19|130
+660|Psicocolm.|15|85
+661|Pataleta|5|75
+662|Huesosombrío|8|85
+663|Roca Veloz|6|40
+664|Hidroariete|12|85
+665|Láser Prisma|15|175
+666|Robasombra|8|90
+667|Meteoimpacto|9|100
+668|Rayo Umbrío|8|100
+669|Ojosllorosos|1|0
+670|Electropunz.|14|80
+671|Furianatural|19|1
+672|Multiataque|1|120
+673|Cabeza Sorp.|11|150
+674|Puños Plasma|14|100
+675|Géiser Fotón|15|100
+676|Pikaturbo|14|80
+677|Salpikasurf|12|90
+678|Pikapicado|3|90
+679|Pikatormenta|14|1
+680|Vapodrenaje|12|60
+681|Joltioparál|14|60
+682|Flarembestid|11|60
+683|Espeaura|15|80
+684|Umbreozona|18|80
+685|Leafitobomba|13|100
+686|Glaceoprisma|16|100
+687|Sylveotornad|19|120
+688|Eevimpacto|1|1
+689|Ferropuño D.|9|60
+690|Cañóndinamax|17|100
+691|Disp.Certero|12|80
+692|Presamaxilar|18|80
+693|Atiborrar|1|0
+694|Bastiónfinal|2|0
+695|Alquitranazo|6|0
+696|Polvo Mágico|15|0
+697|Dracoflechas|17|50
+698|Hora del Té|1|0
+699|Octopresa|2|0
+700|Electropico|14|85
+701|Branquiboca|12|85
+702|Cambiocancha|1|0
+703|Estr. Escama|17|0
+704|Pl. Corporal|2|80
+705|Decoración|19|0
+706|Bat. asalto|13|80
+707|Cepo|13|35
+708|Balón Ígneo|11|120
+709|Tajo Supremo|9|100
+710|Embate Supr.|9|100
+711|Rueda Aural|14|110
+712|Vastoimpacto|17|60
+713|Punzada Rama|13|40
+714|Amplificador|14|80
+715|Ácido Málico|13|80
+716|Fuerza G|13|80
+717|Choqueanímic|19|75
+718|Cautivapor|19|90
+719|Gota Vital|12|0
+720|Obstrucción|18|0
+721|Irreverencia|18|80
+722|Asaltoestela|2|150
+723|Rayoinfinito|17|150
+724|Metaláser|9|140
+725|Vasta Fuerza|15|80
+726|Allan. Férr.|9|130
+727|Ráf. Escamas|17|25
+728|Rayo Meteórico|6|120
+729|Moluscañón|4|90
+730|Bruma Expl.|19|100
+731|Fitoimpulso|13|55
+732|Alto Voltaje|14|70
+733|Pulso Campo|1|50
+734|G. Rastrero|7|70
+735|Envid. Ard.|11|70
+736|Desahogo|18|75
+737|Poltergeist|8|110
+738|Gascorrosivo|4|0
+739|Motivación|2|0
+740|Viraje|12|60
+741|Triple Axel|16|20
+742|Ala Bis|3|50
+743|Arenas Ard.|5|70
+744|Cura Selv.|13|0
+745|Golpe Oscuro|18|75
+746|Azote Torr.|12|25
+747|Electrojaula|14|80
+748|Dracoenergía|17|150
+749|Mirada Hel.|15|90
+750|Furia Cand.|18|90
+751|Pat. Relámp.|2|90
+752|Lanza Glac.|16|120
+753|Orbes Espec.|8|120
+754|Conj.Funesto|15|80
+755|Garra Nociva|4|80
+756|Asalto Barrera|15|70
+757|Cambiapoder|1|0
+758|Hachazo Pétreo|6|65
+759|Ciclón Primavera|19|100
+760|Poder Místico|15|70
+761|Erupción de Ira|11|120
+762|Envite acuático|12|120
+763|Clorofiláser|13|150
+764|Viento Carámbano|16|100
+765|Danza Triunfal|2|0
+766|Arremetida|5|120
+767|Mil Púas Tóx|4|60
+768|Ala Aural|15|80
+769|Rencor Reprimido|8|75
+770|Retracción|9|0
+771|Triple Flecha|2|90
+772|Marcha Espectral|8|60
+773|Tajo Metralla|18|65
+774|Vendaval Gélido|3|100
+775|Electormenta|14|100
+776|Simún de Arena|5|100
+777|Plegaria Lunar|15|0
+778|Bálsamo Osado|15|0
+779|Teraexplosión|1|80
+780|Telatrampa|7|0
+781|Patada Hacha|2|120
+782|Homenaje Póstumo|8|50
+783|Fotocolisión|15|80
+784|Oído Cocina|17|80
+785|Puño Jet|12|60
+786|Extracto Picante|13|0
+787|Quemarrueda|9|100
+788|Proliferación|1|20
+789|Pirueta Helada|16|80
+790|Asalto Espadón|17|120
+791|Plegaria Vital|1|0
+792|Salazón|6|40
+793|Triple Inmersión|12|30
+794|Giro Mortífero|4|30
+795|Decalcomanía|1|0
+796|Deslome|1|0
+797|Genufendiente|18|85
+798|Truco Floral|13|70
+799|Canto Ardiente|11|80
+800|Danza Acuática|12|80
+801|Furia Taurina|1|90
+802|Fiebre Dorada|9|120
+803|Calamidad|18|1
+804|Nitrochoque|2|100
+805|Electroderrape|14|100
+806|Autonomía|1|0
+807|Fría acogida|16|0
+808|Limpieza General|1|0
+809|Paisaje Nevado|16|0
+810|Brinco|7|50
+811|Abrecaminos|13|50
+812|Agua Fría|12|50
+813|Hipertaladro|1|100
+814|Láser Doble|15|50
+815|Puño Furia|8|50
+816|Cañón Armadura|11|120
+817|Espada Lamento|11|90
+818|Electropalmas|14|120
+819|Martillo Colosal|9|160
+820|Resarcimiento|18|1
+821|Tajo Acuático|12|70
+822|Pirochoque|11|80
+823|Ominochoque|18|80
+824|Ponzochoque|4|100
+825|Pugnachoque|2|100
+826|Feerichoque|19|100
+827|Psicohojas|15|80
+828|Hidrovapor|12|80
+829|Luna Roja|1|140
+830|Cañón Batidor|13|80
+831|Bomba Caramelo|13|60
+832|Garrote Liana|13|100
+833|Electrorrayo|14|130
+834|Teraclúster|1|120
+835|Láser Veleidoso|17|80
+836|Llama Protectora|11|0
+837|Relámpago Súbito|14|70
+838|Filo Potente|6|95
+839|Tajo Taquión|9|50
+840|Prensa Metálica|9|100
+841|Bramido Dragón|17|0
+842|Canto Encantador|19|80
+843|Cólera Ardiente|11|75
+844|Plancha Voltaica|14|100
+845|Psicorruido|15|75
+846|Palma Rauda|2|65
+847|Cadena Virulenta|4|100
+848|Carrera Arrolladora|1|1
+849|Ráfaga Demoledora|2|1
+850|Picado Supersónico|3|1
+851|Diluvio Corrosivo|4|1
+852|Barrena Telúrica|5|1
+853|Aplastamiento Gigalítico|6|1
+854|Guadaña Sedosa|7|1
+855|Presa Espectral|8|1
+856|Hélice Trepanadora|9|1
+857|Hecatombe Pírica|11|1
+858|Hidrovórtice Abisal|12|1
+859|Megatón Floral|13|1
+860|Gigavoltio Destructor|14|1
+861|Disruptor Psíquico|15|1
+862|Crioaliento Despiadado|16|1
+863|Dracoaliento Devastador|17|1
+864|Agujero Negro Aniquilador|18|1
+865|Arrumaco Sideral|19|1
+866|Pikavoltio Letal|14|210
+867|Gigarrayo Fulminante|14|195
+868|Surfeo Galvánico|14|175
+869|Novena Potencia|1|0
+870|Arrojo Intempestivo|1|210
+871|Supernova Original|15|185
+872|Aluvión de Flechas Sombrías|8|180
+873|Hiperplancha Oscura|18|180
+874|Sinfonía de la Diva Marina|12|195
+875|Tempestad Rocosa|6|190
+876|Somanta Amistosa|19|190
+877|Estruendo Implacable|17|185
+878|Cólera del Guardian|19|1
+879|Embestida Solar|9|200
+880|Deflagración Lunar|8|200
+881|Fotodestrucción Apocalíptica|15|200
+882|Constelación Robaalmas|8|195
+883|Max Guard|1|0
+884|Max Strike|1|1
+885|Max Knuckle|2|1
+886|Max Airstream|3|1
+887|Max Ooze|4|1
+888|Max Quake|5|1
+889|Max Rockfall|6|1
+890|Max Flutterby|7|1
+891|Max Phantasm|8|1
+892|Max Steelspike|9|10
+893|Max Flare|11|1
+894|Max Geyser|12|1
+895|Max Overgrowth|13|10
+896|Max Lightning|14|1
+897|Max Mindstorm|15|1
+898|Max Hailstorm|16|1
+899|Max Wyrmwind|17|1
+900|Max Darkness|18|1
+901|Max Starfall|19|1
+902|G-Max Vine Lash|13|10
+903|G-Max Wildfire|11|10
+904|G-Max Cannonade|12|10
+905|G-Max Befuddle|7|10
+906|G-Max Volt Crash|14|10
+907|G-Max Gold Rush|1|10
+908|G-Max Chi Strike|2|10
+909|G-Max Terror|8|10
+910|G-Max Foam Burst|12|10
+911|G-Max Resonance|16|10
+912|G-Max Cuddle|1|10
+913|G-Max Replenish|1|10
+914|G-Max Malodor|4|10
+915|G-Max Meltdown|9|10
+916|G-Max Drum Solo|13|10
+917|G-Max Fireball|11|10
+918|G-Max Hydrosnipe|12|10
+919|G-Max Wind Rage|3|10
+920|G-Max Gravitas|15|10
+921|G-Max Stonesurge|12|10
+922|G-Max Volcalith|6|10
+923|G-Max Tartness|13|10
+924|G-Max Sweetness|13|10
+925|G-Max Sandblast|5|10
+926|G-Max Stun Shock|14|10
+927|G-Max Centiferno|11|10
+928|G-Max Smite|19|10
+929|G-Max Snooze|18|10
+930|G-Max Finale|19|10
+931|G-Max Steelsurge|9|10
+932|G-Max Depletion|17|10
+933|G-Max One Blow|18|10
+934|G-Max Rapid Flow|12|10
+"""#
+  static let movesTmt2: String = #"""
+1|Pound|1|40
+2|Karate Chop|2|50
+3|Double Slap|1|15
+4|Comet Punch|1|18
+5|Mega Punch|1|80
+6|Pay Day|79|40
+7|Fire Punch|11|75
+8|Ice Punch|16|75
+9|Thunder Punch|14|75
+10|Scratch|67|40
+11|Vise Grip|31|55
+12|Guillotine|67|1
+13|Razor Wind|67|80
+14|Swords Dance|67|0
+15|Cut|67|50
+16|Gust|3|40
+17|Wing Attack|3|60
+18|Whirlwind|1|0
+19|Fly|3|90
+20|Bind|48|15
+21|Slam|1|80
+22|Vine Whip|13|45
+23|Stomp|1|65
+24|Double Kick|2|30
+25|Mega Kick|1|120
+26|Jump Kick|2|100
+27|Rolling Kick|32|60
+28|Sand Attack|5|0
+29|Headbutt|1|70
+30|Horn Attack|1|65
+31|Fury Attack|54|15
+32|Horn Drill|1|1
+33|Tackle|1|40
+34|Body Slam|1|85
+35|Wrap|1|15
+36|Take Down|65|90
+37|Thrash|55|120
+38|Double-Edge|1|120
+39|Tail Whip|1|0
+40|Poison Sting|4|15
+41|Twineedle|7|25
+42|Pin Missile|67|25
+43|Leer|74|0
+44|Bite|18|60
+45|Growl|80|0
+46|Roar|80|0
+47|Sing|69|0
+48|Supersonic|69|0
+49|Sonic Boom|1|1
+50|Disable|48|0
+51|Acid|4|40
+52|Ember|11|40
+53|Flamethrower|11|90
+54|Mist|16|0
+55|Water Gun|12|40
+56|Hydro Pump|12|110
+57|Surf|12|90
+58|Ice Beam|16|90
+59|Blizzard|16|110
+60|Psybeam|15|65
+61|Bubble Beam|12|65
+62|Aurora Beam|16|65
+63|Hyper Beam|57|150
+64|Peck|3|35
+65|Drill Peck|27|80
+66|Submission|50|80
+67|Low Kick|2|1
+68|Counter|2|1
+69|Seismic Toss|70|1
+70|Strength|1|80
+71|Absorb|13|20
+72|Mega Drain|13|40
+73|Leech Seed|13|0
+74|Growth|60|0
+75|Razor Leaf|13|55
+76|Solar Beam|13|120
+77|Poison Powder|4|0
+78|Stun Spore|13|0
+79|Sleep Powder|13|0
+80|Petal Dance|32|120
+81|String Shot|7|0
+82|Dragon Rage|55|1
+83|Fire Spin|11|35
+84|Thunder Shock|14|40
+85|Thunderbolt|14|90
+86|Thunder Wave|14|0
+87|Thunder|14|110
+88|Rock Throw|6|50
+89|Earthquake|57|100
+90|Fissure|5|1
+91|Dig|5|80
+92|Toxic|46|0
+93|Confusion|15|50
+94|Psychic|15|90
+95|Hypnosis|15|0
+96|Meditate|15|0
+97|Agility|36|0
+98|Quick Attack|36|40
+99|Rage|55|20
+100|Teleport|15|0
+101|Night Shade|8|1
+102|Mimic|72|0
+103|Screech|61|0
+104|Double Team|62|0
+105|Recover|1|0
+106|Harden|72|0
+107|Minimize|58|0
+108|Smokescreen|47|0
+109|Confuse Ray|47|0
+110|Withdraw|12|0
+111|Defense Curl|25|0
+112|Barrier|59|0
+113|Light Screen|59|0
+114|Haze|16|0
+115|Reflect|59|0
+116|Focus Energy|23|0
+117|Bide|1|1
+118|Metronome|59|0
+119|Mirror Move|3|0
+120|Self-Destruct|23|200
+121|Egg Bomb|24|100
+122|Lick|72|30
+123|Smog|4|30
+124|Sludge|4|65
+125|Bone Club|5|65
+126|Fire Blast|11|110
+127|Waterfall|12|80
+128|Clamp|12|35
+129|Swift|70|60
+130|Skull Bash|1|130
+131|Spike Cannon|67|20
+132|Constrict|1|10
+133|Amnesia|47|0
+134|Kinesis|59|0
+135|Soft-Boiled|40|0
+136|High Jump Kick|2|130
+137|Glare|74|0
+138|Dream Eater|15|100
+139|Poison Gas|71|0
+140|Barrage|54|15
+141|Leech Life|7|80
+142|Lovely Kiss|74|0
+143|Sky Attack|27|140
+144|Transform|72|0
+145|Bubble|12|40
+146|Dizzy Punch|68|70
+147|Spore|13|0
+148|Flash|1|0
+149|Psywave|15|1
+150|Splash|1|0
+151|Acid Armor|4|0
+152|Crabhammer|31|100
+153|Explosion|1|250
+154|Fury Swipes|54|18
+155|Bonemerang|5|50
+156|Rest|24|0
+157|Rock Slide|6|75
+158|Hyper Fang|64|80
+159|Sharpen|67|0
+160|Conversion|1|0
+161|Tri Attack|46|80
+162|Super Fang|67|1
+163|Slash|67|70
+164|Substitute|62|0
+165|Struggle|1|50
+166|Sketch|1|0
+167|Triple Kick|2|10
+168|Thief|51|60
+169|Spider Web|7|0
+170|Mind Reader|1|0
+171|Nightmare|8|0
+172|Flame Wheel|11|60
+173|Snore|24|50
+174|Curse|8|0
+175|Flail|74|1
+176|Conversion 2|1|0
+177|Aeroblast|3|100
+178|Cotton Spore|39|0
+179|Reversal|2|1
+180|Spite|8|0
+181|Powder Snow|16|40
+182|Protect|77|0
+183|Mach Punch|2|40
+184|Scary Face|74|0
+185|Feint Attack|47|60
+186|Sweet Kiss|54|0
+187|Belly Drum|1|0
+188|Sludge Bomb|4|90
+189|Mud-Slap|5|20
+190|Octazooka|12|65
+191|Spikes|67|0
+192|Zap Cannon|14|120
+193|Foresight|1|0
+194|Destiny Bond|75|0
+195|Perish Song|69|0
+196|Icy Wind|16|55
+197|Detect|2|0
+198|Bone Rush|5|25
+199|Lock-On|53|0
+200|Outrage|55|120
+201|Sandstorm|46|0
+202|Giga Drain|13|75
+203|Endure|1|0
+204|Charm|24|0
+205|Rollout|25|30
+206|False Swipe|1|40
+207|Swagger|50|0
+208|Milk Drink|40|0
+209|Spark|14|65
+210|Fury Cutter|7|40
+211|Steel Wing|9|70
+212|Mean Look|55|0
+213|Attract|19|0
+214|Sleep Talk|24|0
+215|Heal Bell|69|0
+216|Return|42|1
+217|Present|42|1
+218|Frustration|55|1
+219|Safeguard|1|0
+220|Pain Split|74|0
+221|Sacred Fire|11|100
+222|Magnitude|5|1
+223|Dynamic Punch|2|100
+224|Megahorn|7|120
+225|Dragon Breath|17|60
+226|Baton Pass|1|0
+227|Encore|54|0
+228|Pursuit|18|40
+229|Rapid Spin|1|50
+230|Sweet Scent|1|0
+231|Iron Tail|9|100
+232|Metal Claw|9|50
+233|Vital Throw|2|70
+234|Morning Sun|70|0
+235|Synthesis|13|0
+236|Moonlight|70|0
+237|Hidden Power|1|60
+238|Cross Chop|2|100
+239|Twister|17|40
+240|Rain Dance|12|0
+241|Sunny Day|38|0
+242|Crunch|18|80
+243|Mirror Coat|15|1
+244|Psych Up|1|0
+245|Extreme Speed|36|80
+246|Ancient Power|22|60
+247|Shadow Ball|8|80
+248|Future Sight|45|120
+249|Rock Smash|2|40
+250|Whirlpool|12|35
+251|Beat Up|54|1
+252|Fake Out|72|40
+253|Uproar|24|90
+254|Stockpile|73|0
+255|Spit Up|73|1
+256|Swallow|73|0
+257|Heat Wave|38|95
+258|Hail|16|0
+259|Torment|18|0
+260|Flatter|44|0
+261|Will-O-Wisp|11|0
+262|Memento|18|0
+263|Facade|72|70
+264|Focus Punch|2|150
+265|Smelling Salts|1|70
+266|Follow Me|65|0
+267|Nature Power|1|1
+268|Charge|14|0
+269|Taunt|18|0
+270|Helping Hand|35|0
+271|Trick|47|0
+272|Role Play|72|0
+273|Wish|56|0
+274|Assist|42|0
+275|Ingrain|13|0
+276|Superpower|23|120
+277|Magic Coat|59|0
+278|Recycle|65|0
+279|Revenge|74|60
+280|Brick Break|2|75
+281|Yawn|24|0
+282|Knock Off|51|65
+283|Endeavor|1|1
+284|Eruption|11|150
+285|Skill Swap|15|0
+286|Imprison|48|0
+287|Refresh|65|0
+288|Grudge|75|0
+289|Snatch|51|0
+290|Secret Power|1|70
+291|Dive|12|80
+292|Arm Thrust|2|15
+293|Camouflage|1|0
+294|Tail Glow|7|0
+295|Luster Purge|15|95
+296|Mist Ball|15|95
+297|Feather Dance|32|0
+298|Teeter Dance|32|0
+299|Blaze Kick|11|85
+300|Mud Sport|5|0
+301|Ice Ball|25|30
+302|Needle Arm|13|60
+303|Slack Off|65|0
+304|Hyper Voice|80|90
+305|Poison Fang|4|50
+306|Crush Claw|31|75
+307|Blast Burn|11|150
+308|Hydro Cannon|12|150
+309|Meteor Mash|70|90
+310|Astonish|78|30
+311|Weather Ball|1|50
+312|Aromatherapy|13|0
+313|Fake Tears|24|0
+314|Air Cutter|3|60
+315|Overheat|11|130
+316|Odor Sleuth|1|0
+317|Rock Tomb|6|60
+318|Silver Wind|7|60
+319|Metal Sound|9|0
+320|Grass Whistle|69|0
+321|Tickle|68|0
+322|Cosmic Power|70|0
+323|Water Spout|37|150
+324|Signal Beam|7|75
+325|Shadow Punch|8|60
+326|Extrasensory|15|80
+327|Sky Uppercut|2|85
+328|Sand Tomb|5|35
+329|Sheer Cold|16|1
+330|Muddy Water|38|90
+331|Bullet Seed|13|25
+332|Aerial Ace|3|60
+333|Icicle Spear|16|25
+334|Iron Defense|9|0
+335|Block|48|0
+336|Howl|80|0
+337|Dragon Claw|17|80
+338|Frenzy Plant|13|150
+339|Bulk Up|2|0
+340|Bounce|3|85
+341|Mud Shot|5|55
+342|Poison Tail|4|50
+343|Covet|74|60
+344|Volt Tackle|63|120
+345|Magical Leaf|13|60
+346|Water Sport|37|0
+347|Calm Mind|78|0
+348|Leaf Blade|13|90
+349|Dragon Dance|32|0
+350|Rock Blast|6|25
+351|Shock Wave|14|60
+352|Water Pulse|12|60
+353|Doom Desire|9|140
+354|Psycho Boost|15|140
+355|Roost|3|0
+356|Gravity|70|0
+357|Miracle Eye|56|0
+358|Wake-Up Slap|2|70
+359|Hammer Arm|2|100
+360|Gyro Ball|9|1
+361|Healing Wish|56|0
+362|Brine|38|65
+363|Natural Gift|1|1
+364|Feint|1|30
+365|Pluck|3|60
+366|Tailwind|3|0
+367|Acupressure|46|0
+368|Metal Burst|9|1
+369|U-turn|7|70
+370|Close Combat|2|120
+371|Payback|18|50
+372|Assurance|18|60
+373|Embargo|72|0
+374|Fling|61|1
+375|Psycho Shift|15|0
+376|Trump Card|79|1
+377|Heal Block|15|0
+378|Wring Out|1|120
+379|Power Trick|46|0
+380|Gastro Acid|4|0
+381|Lucky Chant|78|0
+382|Me First|1|0
+383|Copycat|72|0
+384|Power Swap|46|0
+385|Guard Swap|46|0
+386|Punishment|18|60
+387|Last Resort|23|140
+388|Worry Seed|13|0
+389|Sucker Punch|72|70
+390|Toxic Spikes|4|0
+391|Heart Swap|78|0
+392|Aqua Ring|12|0
+393|Magnet Rise|14|0
+394|Flare Blitz|11|120
+395|Force Palm|2|60
+396|Aura Sphere|53|80
+397|Rock Polish|6|0
+398|Poison Jab|4|80
+399|Dark Pulse|18|80
+400|Night Slash|18|70
+401|Aqua Tail|12|90
+402|Seed Bomb|13|80
+403|Air Slash|3|75
+404|X-Scissor|67|80
+405|Bug Buzz|7|90
+406|Dragon Pulse|17|85
+407|Dragon Rush|17|100
+408|Power Gem|53|80
+409|Drain Punch|2|75
+410|Vacuum Wave|53|40
+411|Focus Blast|53|120
+412|Energy Ball|13|90
+413|Brave Bird|27|120
+414|Earth Power|5|90
+415|Switcheroo|46|0
+416|Giga Impact|57|150
+417|Nasty Plot|18|0
+418|Bullet Punch|53|40
+419|Avalanche|16|60
+420|Ice Shard|16|40
+421|Shadow Claw|8|70
+422|Thunder Fang|14|65
+423|Ice Fang|16|65
+424|Fire Fang|11|65
+425|Shadow Sneak|62|40
+426|Mud Bomb|5|65
+427|Psycho Cut|15|70
+428|Zen Headbutt|15|80
+429|Mirror Shot|53|65
+430|Flash Cannon|9|80
+431|Rock Climb|1|90
+432|Defog|3|0
+433|Trick Room|46|0
+434|Draco Meteor|70|130
+435|Discharge|14|80
+436|Lava Plume|11|80
+437|Leaf Storm|13|130
+438|Power Whip|13|120
+439|Rock Wrecker|6|150
+440|Cross Poison|4|70
+441|Gunk Shot|71|120
+442|Iron Head|9|80
+443|Magnet Bomb|9|60
+444|Stone Edge|6|100
+445|Captivate|1|0
+446|Stealth Rock|6|0
+447|Grass Knot|13|1
+448|Chatter|80|65
+449|Judgment|56|100
+450|Bug Bite|7|60
+451|Charge Beam|14|50
+452|Wood Hammer|13|120
+453|Aqua Jet|12|40
+454|Attack Order|7|90
+455|Defend Order|7|0
+456|Heal Order|7|0
+457|Head Smash|6|150
+458|Double Hit|1|35
+459|Roar of Time|22|150
+460|Spacial Rend|70|100
+461|Lunar Dance|70|0
+462|Crush Grip|1|120
+463|Magma Storm|11|100
+464|Dark Void|18|0
+465|Seed Flare|13|120
+466|Ominous Wind|8|60
+467|Shadow Force|8|120
+468|Hone Claws|67|0
+469|Wide Guard|6|0
+470|Guard Split|15|0
+471|Power Split|15|0
+472|Wonder Room|15|0
+473|Psyshock|15|80
+474|Venoshock|4|65
+475|Autotomize|9|0
+476|Rage Powder|7|0
+477|Telekinesis|15|0
+478|Magic Room|15|0
+479|Smack Down|6|50
+480|Storm Throw|2|60
+481|Flame Burst|11|70
+482|Sludge Wave|4|95
+483|Quiver Dance|32|0
+484|Heavy Slam|57|1
+485|Synchronoise|15|120
+486|Electro Ball|14|1
+487|Soak|12|0
+488|Flame Charge|11|50
+489|Coil|4|0
+490|Low Sweep|2|65
+491|Acid Spray|4|40
+492|Foul Play|18|95
+493|Simple Beam|1|0
+494|Entrainment|1|0
+495|After You|1|0
+496|Round|69|60
+497|Echoed Voice|65|40
+498|Chip Away|1|70
+499|Clear Smog|4|50
+500|Stored Power|15|20
+501|Quick Guard|36|0
+502|Ally Switch|15|0
+503|Scald|12|80
+504|Shell Smash|1|0
+505|Heal Pulse|15|0
+506|Hex|8|65
+507|Sky Drop|3|60
+508|Shift Gear|9|0
+509|Circle Throw|2|60
+510|Incinerate|11|60
+511|Quash|18|0
+512|Acrobatics|3|55
+513|Reflect Type|1|0
+514|Retaliate|1|70
+515|Final Gambit|23|1
+516|Bestow|1|0
+517|Inferno|11|100
+518|Water Pledge|12|80
+519|Fire Pledge|11|80
+520|Grass Pledge|13|80
+521|Volt Switch|14|70
+522|Struggle Bug|7|50
+523|Bulldoze|5|60
+524|Frost Breath|16|60
+525|Dragon Tail|17|60
+526|Work Up|1|0
+527|Electroweb|14|55
+528|Wild Charge|14|90
+529|Drill Run|5|80
+530|Dual Chop|17|40
+531|Heart Stamp|15|60
+532|Horn Leech|13|75
+533|Sacred Sword|56|90
+534|Razor Shell|12|75
+535|Heat Crash|11|1
+536|Leaf Tornado|13|65
+537|Steamroller|7|65
+538|Cotton Guard|13|0
+539|Night Daze|18|85
+540|Psystrike|15|100
+541|Tail Slap|1|25
+542|Hurricane|38|110
+543|Head Charge|1|120
+544|Gear Grind|9|50
+545|Searing Shot|11|100
+546|Techno Blast|1|120
+547|Relic Song|69|75
+548|Secret Sword|2|85
+549|Glaciate|16|65
+550|Bolt Strike|14|130
+551|Blue Flare|11|130
+552|Fiery Dance|32|80
+553|Freeze Shock|16|140
+554|Ice Burn|16|140
+555|Snarl|18|55
+556|Icicle Crash|16|85
+557|V-create|11|180
+558|Fusion Flare|11|100
+559|Fusion Bolt|14|100
+560|Flying Press|2|100
+561|Mat Block|2|0
+562|Belch|71|120
+563|Rototiller|5|0
+564|Sticky Web|7|0
+565|Fell Stinger|7|50
+566|Phantom Force|8|90
+567|Trick-or-Treat|8|0
+568|Noble Roar|1|0
+569|Ion Deluge|14|0
+570|Parabolic Charge|14|65
+571|Forest’s Curse|13|0
+572|Petal Blizzard|13|90
+573|Freeze-Dry|16|70
+574|Disarming Voice|80|40
+575|Parting Shot|18|0
+576|Topsy-Turvy|18|0
+577|Draining Kiss|19|50
+578|Crafty Shield|19|0
+579|Flower Shield|19|0
+580|Grassy Terrain|13|0
+581|Misty Terrain|19|0
+582|Electrify|14|0
+583|Play Rough|19|90
+584|Fairy Wind|19|40
+585|Moonblast|19|95
+586|Boomburst|69|140
+587|Fairy Lock|19|0
+588|King’s Shield|9|0
+589|Play Nice|42|0
+590|Confide|65|0
+591|Diamond Storm|79|100
+592|Steam Eruption|12|110
+593|Hyperspace Hole|15|80
+594|Water Shuriken|12|15
+595|Mystical Fire|11|75
+596|Spiky Shield|13|0
+597|Aromatic Mist|19|0
+598|Eerie Impulse|14|0
+599|Venom Drench|4|0
+600|Powder|7|0
+601|Geomancy|19|0
+602|Magnetic Flux|14|0
+603|Happy Hour|79|0
+604|Electric Terrain|14|0
+605|Dazzling Gleam|49|80
+606|Celebrate|35|0
+607|Hold Hands|35|0
+608|Baby-Doll Eyes|24|0
+609|Nuzzle|14|20
+610|Hold Back|1|40
+611|Infestation|7|20
+612|Power-Up Punch|2|40
+613|Oblivion Wing|3|80
+614|Thousand Arrows|5|90
+615|Thousand Waves|5|90
+616|Land’s Wrath|5|90
+617|Light Of Ruin|19|140
+618|Origin Pulse|12|110
+619|Precipice Blades|5|120
+620|Dragon Ascent|34|120
+621|Hyperspace Fury|18|100
+622|Shore Up|5|0
+623|First Impression|7|90
+624|Baneful Bunker|4|0
+625|Spirit Shackle|8|80
+626|Darkest Lariat|18|85
+627|Sparkling Aria|69|90
+628|Ice Hammer|16|100
+629|Floral Healing|19|0
+630|High Horsepower|5|95
+631|Strength Sap|13|0
+632|Solar Blade|13|125
+633|Leafage|13|40
+634|Spotlight|1|0
+635|Toxic Thread|4|0
+636|Laser Focus|1|0
+637|Gear Up|9|0
+638|Throat Chop|18|80
+639|Pollen Puff|39|90
+640|Anchor Shot|9|80
+641|Psychic Terrain|15|0
+642|Lunge|30|80
+643|Fire Lash|11|80
+644|Power Trip|18|20
+645|Burn Up|11|130
+646|Speed Swap|15|0
+647|Smart Strike|9|70
+648|Purify|56|0
+649|Revelation Dance|32|90
+650|Core Enforcer|17|100
+651|Trop Kick|13|70
+652|Instruct|15|0
+653|Beak Blast|3|100
+654|Clanging Scales|69|110
+655|Dragon Hammer|17|90
+656|Brutal Swing|57|60
+657|Aurora Veil|16|0
+658|Shell Trap|11|150
+659|Fleur Cannon|19|130
+660|Psychic Fangs|15|85
+661|Stomping Tantrum|55|75
+662|Shadow Bone|8|85
+663|Accelerock|6|40
+664|Liquidation|12|85
+665|Prismatic Laser|15|160
+666|Spectral Thief|8|90
+667|Sunsteel Strike|70|100
+668|Moongeist Beam|70|100
+669|Tearful Look|1|0
+670|Zing Zap|14|80
+671|Nature’s Madness|19|1
+672|Multi-Attack|1|120
+673|Mind Blown|11|150
+674|Plasma Fists|14|100
+675|Photon Geyser|15|100
+676|Zippy Zap|63|80
+677|Splishy Splash|63|90
+678|Floaty Fall|63|90
+679|Pika Papow|63|1
+680|Bouncy Bubble|12|60
+681|Buzzy Buzz|14|60
+682|Sizzly Slide|11|60
+683|Glitzy Glow|15|80
+684|Baddy Bad|18|80
+685|Sappy Seed|13|100
+686|Freezy Frost|16|100
+687|Sparkly Swirl|19|120
+688|Veevee Volley|1|1
+689|Double Iron Bash|9|60
+690|Dynamax Cannon|17|100
+691|Snipe Shot|12|80
+692|Jaw Lock|30|80
+693|Stuff Cheeks|40|0
+694|No Retreat|2|0
+695|Tar Shot|6|0
+696|Magic Powder|15|0
+697|Dragon Darts|17|50
+698|Teatime|40|0
+699|Octolock|2|0
+700|Bolt Beak|14|85
+701|Fishious Rend|12|85
+702|Court Change|1|0
+703|Clangorous Soul|69|0
+704|Body Press|2|80
+705|Decorate|19|0
+706|Drum Beating|13|80
+707|Snap Trap|13|35
+708|Pyro Ball|11|120
+709|Behemoth Blade|9|100
+710|Behemoth Bash|9|100
+711|Aura Wheel|14|110
+712|Breaking Swipe|17|60
+713|Branch Poke|13|40
+714|Overdrive|14|80
+715|Apple Acid|40|80
+716|Grav Apple|40|80
+717|Spirit Break|19|75
+718|Strange Steam|19|90
+719|Life Dew|12|0
+720|Obstruct|18|0
+721|False Surrender|18|80
+722|Meteor Assault|70|150
+723|Eternabeam|17|160
+724|Steel Beam|9|140
+725|Expanding Force|15|80
+726|Steel Roller|9|130
+727|Scale Shot|17|25
+728|Meteor Beam|70|120
+729|Shell Side Arm|4|90
+730|Misty Explosion|19|100
+731|Grassy Glide|13|55
+732|Rising Voltage|14|70
+733|Terrain Pulse|1|50
+734|Skitter Smack|64|70
+735|Burning Jealousy|11|70
+736|Lash Out|18|75
+737|Poltergeist|8|110
+738|Corrosive Gas|71|0
+739|Coaching|2|0
+740|Flip Turn|12|60
+741|Triple Axel|16|20
+742|Dual Wingbeat|3|40
+743|Scorching Sands|5|70
+744|Jungle Healing|13|0
+745|Wicked Blow|18|75
+746|Surging Strikes|12|25
+747|Thunder Cage|14|80
+748|Dragon Energy|17|150
+749|Freezing Glare|15|90
+750|Fiery Wrath|18|90
+751|Thunderous Kick|2|90
+752|Glacial Lance|16|120
+753|Astral Barrage|8|120
+754|Eerie Spell|15|80
+755|Dire Claw|30|80
+756|Psyshield Bash|15|70
+757|Power Shift|1|0
+758|Stone Axe|6|65
+759|Springtide Storm|19|100
+760|Mystical Power|15|70
+761|Raging Fury|11|120
+762|Wave Crash|12|120
+763|Chloroblast|13|150
+764|Mountain Gale|16|100
+765|Victory Dance|2|0
+766|Headlong Rush|5|120
+767|Barb Barrage|4|60
+768|Esper Wing|15|80
+769|Bitter Malice|8|75
+770|Shelter|9|0
+771|Triple Arrows|2|90
+772|Infernal Parade|8|60
+773|Ceaseless Edge|18|65
+774|Bleakwind Storm|3|100
+775|Wildbolt Storm|14|100
+776|Sandsear Storm|5|100
+777|Lunar Blessing|15|0
+778|Take Heart|15|0
+779|Tera Blast|1|80
+780|Silk Trap|7|0
+781|Axe Kick|2|120
+782|Last Respects|75|50
+783|Lumina Crash|15|80
+784|Order Up|17|80
+785|Jet Punch|12|60
+786|Spicy Extract|13|0
+787|Spin Out|9|100
+788|Population Bomb|35|20
+789|Ice Spinner|16|80
+790|Glaive Rush|17|120
+791|Revival Blessing|1|0
+792|Salt Cure|6|40
+793|Triple Dive|12|30
+794|Mortal Spin|4|30
+795|Doodle|1|0
+796|Fillet Away|1|0
+797|Kowtow Cleave|18|85
+798|Flower Trick|13|70
+799|Torch Song|11|80
+800|Aqua Step|12|80
+801|Raging Bull|1|90
+802|Make It Rain|79|120
+803|Ruination|18|1
+804|Collision Course|2|100
+805|Electro Drift|14|100
+806|Shed Tail|1|0
+807|Chilly Reception|16|0
+808|Tidy Up|1|0
+809|Snowscape|16|0
+810|Pounce|7|50
+811|Trailblaze|13|50
+812|Chilling Water|12|50
+813|Hyper Drill|1|100
+814|Twin Beam|15|40
+815|Rage Fist|75|50
+816|Armor Cannon|11|120
+817|Bitter Blade|11|90
+818|Double Shock|14|120
+819|Gigaton Hammer|9|160
+820|Comeuppance|18|1
+821|Aqua Cutter|12|70
+822|Blazing Torque|11|80
+823|Wicked Torque|18|80
+824|Noxious Torque|4|100
+825|Combat Torque|2|100
+826|Magical Torque|19|100
+827|Psyblade|15|80
+828|Hydro Steam|12|80
+829|Blood Moon|1|140
+830|Matcha Gotcha|13|80
+831|Syrup Bomb|13|60
+832|Ivy Cudgel|13|100
+833|Electro Shot|14|130
+834|Tera Starstorm|81|120
+835|Fickle Beam|17|80
+836|Burning Bulwark|11|0
+837|Thunderclap|14|70
+838|Mighty Cleave|6|95
+839|Tachyon Cutter|9|50
+840|Hard Press|9|100
+841|Dragon Cheer|17|0
+842|Alluring Voice|19|80
+843|Temper Flare|11|75
+844|Supercell Slam|14|100
+845|Psychic Noise|15|75
+846|Upper Hand|2|65
+847|Malignant Chain|4|100
+848|Dab Me Up|54|0
+849|Sabotage|72|0
+850|Starstrike|70|90
+851|Ape Escape|61|70
+852|Stink Bomb|71|40
+853|Ooga Booga|61|40
+854|Unga Bunga|61|70
+855|Banana Blitz|61|120
+856|Uh-Oh Stinky|71|0
+857|Trans Rights|49|0
+858|Squad Goals|54|0
+859|Crab Rave|31|0
+860|Monke Moment|61|0
+861|Vent|72|80
+862|Double Jump|49|90
+863|Wavedash|49|50
+864|Shoot|53|160
+865|Pillow Fight|54|15
+866|Kiss Homies|54|0
+867|Wedding Cake|68|150
+868|Hypno Goggles|68|0
+869|5-Dollar Bill|68|0
+870|Squirting Flower|68|60
+871|Hug|42|0
+872|Imposter|72|0
+873|Wombo Combo|46|60
+874|Toon Up|68|0
+875|Rawr XD|46|0
+876|Bite of 87|46|1
+877|Fossilize|22|40
+878|Pee Yew!|71|20
+879|Axe|71|60
+880|Screen Peek|46|130
+881|Rocket Punch|63|60
+882|Pika Bolt|63|95
+883|Pikattack|63|85
+884|Pika-Protect|63|0
+885|Peer Pressure|54|90
+886|Carcinization|31|80
+887|Back To Monke|61|0
+888|Babify|24|0
+889|Uno Reverse|76|0
+890|Normal Pill|1|70
+891|Pinto Power|26|0
+892|Let Me Ball|25|1
+893|Sip Coffee|26|0
+894|Lima Lash|26|50
+895|Bean Bomb|26|90
+896|Soy Shield|26|0
+897|Lentil Leech|26|75
+898|Chickpea Charm|26|0
+899|Sweet Cocoa|26|0
+900|Sugar Snap|26|75
+901|Snow Pea|26|55
+902|Pea Split|26|95
+903|Kidney Crash|26|90
+904|Vibe Check|78|60
+905|Groove Pulse|78|70
+906|Vibe Shift|78|0
+907|Uplift|78|90
+908|Hey Chill|78|50
+909|Happy Feet|32|50
+910|Break It Down|32|70
+911|Samba Strike|32|40
+912|Static Shuffle|32|65
+913|Cha Cha|32|85
+914|Disco Drop|32|85
+915|Eject|72|0
+916|Fluffy Fury|39|95
+917|Teddy Tumble|39|45
+918|Puff Up|39|0
+919|Snug Strike|39|80
+920|Warm Hug|39|0
+921|Cuddle Slam|39|80
+922|Plush Punch|39|75
+923|Ponder|59|0
+924|Magic Missile|59|20
+925|Mage Armor|59|0
+926|Eldritch Blast|59|40
+927|Fireball|59|95
+928|Pants Stay Brown|71|0
+929|We Don’t Wipe|71|0
+930|Born To Shit|71|60
+931|Bad Time|66|0
+932|Five Nights|46|250
+933|Flash Mob|32|0
+934|File W9|29|0
+935|9 to 5|29|0
+936|Send Email|29|60
+937|Eat Cracker|29|0
+938|Gaster Blaster|66|100
+939|Retrograde|76|0
+940|Ball Pit|44|10
+941|Glomp|44|70
+942|OwO|44|100
+943|Wait.|29|100
+944|Bare Arms|38|100
+945|Rootin’ Tootin’|38|0
+946|Barbecue|38|0
+947|Rodeo|38|50
+948|Further Beyond|52|0
+949|Monkey Ball|61|30
+950|Dragon Balls|52|0
+951|Kaio-ken|52|120
+952|Spirit Bomb|52|25
+953|Kamehameha|52|80
+954|InstTransmission|52|0
+955|Solar Flare|52|0
+956|Cutaway Gag|68|0
+957|Home-Cooked Meal|35|0
+958|Grounded|35|60
+959|DEEZ NUTS|51|85
+960|Trapdoor|68|150
+961|Pull the Plug|75|80
+962|Upset Tummy|40|40
+963|Alluring Smell|40|0
+964|Three Course|40|20
+965|9 Lives|30|0
+966|Cat Scratch|30|18
+967|Meow|30|0
+968|Purr|30|0
+969|Lick Wounds|30|0
+970|If It Fits|30|0
+971|Puma Pounce|30|70
+972|Yoink|30|60
+973|Hunt|30|70
+974|Sharpen Claws|30|0
+975|Feline Frenzy|30|25
+976|Munch|64|60
+977|Infest|64|0
+978|Rat King|64|0
+979|Early Bird|27|40
+980|Night Owl|27|70
+981|Vocal Stim|80|40
+982|Info Dump|80|60
+983|Ribbit|43|40
+984|Tongue Shot|43|55
+985|Hop-Hop|43|85
+986|Poison Skin|43|0
+987|Poison Spit|43|90
+988|Wart Wrath|43|85
+989|Swim Freely|43|0
+990|Collect|73|0
+991|Random Stuff Go!|73|80
+992|Boltbeam|77|85
+993|Con Perish|77|0
+994|Sure Strike|62|60
+995|Swiftness|62|0
+996|Poison Dart|62|50
+997|Innate Tech|23|55
+998|Gotta Go|36|75
+999|Pit Stop|36|0
+1000|Grand Eon|22|150
+1001|Stampede|22|60
+1002|Age|22|0
+1003|Unearth|22|95
+1004|Chrono-Collapse|45|150
+1005|GloriousEvolution|45|0
+1006|Laser Beam|45|80
+1007|Dunk|25|85
+1008|Dribble|25|0
+1009|Pass|25|0
+1010|3-Pointer|25|1
+1011|Fadeaway|25|50
+1012|Harder They Fall|58|1
+1013|Death Roll|38|65
+1014|Stack Slap|79|55
+1015|Sass|28|0
+1016|Cancel|28|45
+1017|Ignore|28|0
+1018|Attitude|28|120
+1019|Iconic|28|80
+1020|Tourney Arc|23|140
+1021|Shonen Jump|23|85
+1022|Hollow Purple|23|150
+1023|Form Change|23|0
+1024|Nuclear Family|35|50
+1025|Homewrecker|35|1
+1026|On Vacation|35|0
+1027|Car Ride|35|130
+1028|CloseFlareBlitz|37|120
+1029|Fabricate|47|50
+1030|In-Group|48|0
+1031|Slay|50|50
+1032|Troll Toll|51|75
+1033|Repent|56|1
+1034|Bigger They Are|57|1
+1035|Building Strike|57|100
+1036|Giant Enemy Crab|57|100
+1037|Hammer Throw|60|25
+1038|Goomba Stomp|60|75
+1039|Fact Check|65|0
+1040|Presentation|74|40
+1041|Soul Siphon|75|75
+1042|Grave Mistake|75|1
+1043|Mummify|75|0
+1044|Inherit|79|0
+1045|Tax|79|0
+1046|Business Plan|79|80
+1047|Tycoon Sim|79|120
+1048|Trust Fund|79|0
+1049|Mash|46|18
+1050|Discomfort|41|0
+1051|Depravity|41|80
+1052|Psyche Out|41|60
+1053|Freak Show|41|85
+1054|Rage Bait|55|60
+1055|SMASH!!!|55|120
+1056|Pack Tactics|58|20
+1057|Bitty Beam|58|70
+1058|Tiny Yelling|58|75
+1059|Vicious Gnaw|64|90
+1060|Discuss|29|1
+1061|Firm Shake|29|65
+1062|Bro’in Out|54|70
+1063|Party Time|54|60
+1064|Scramble ’Em|40|50
+1065|Buster Blade|67|90
+1066|Goading|67|95
+1067|Fog Horn|68|80
+1068|Safe|68|100
+1069|Limb Launch|31|120
+1070|Pungent Punch|71|65
+1071|Inside Joke|48|18
+1072|Infinite Void|23|80
+1073|Eternal Power|59|150
+1074|Moon Frisbee|59|60
+1075|Moon Make Up|59|0
+1076|Supersonic Waves|59|0
+1077|Cold Shoulder|48|70
+1078|Satellite Cannon|23|130
+1079|Breakneck Blitz|1|1
+1080|All-Out Pummeling|2|1
+1081|Supersonic Skystrike|3|1
+1082|Acid Downpour|4|1
+1083|Tectonic Rage|5|1
+1084|Continental Crush|6|1
+1085|Savage Spin-Out|7|1
+1086|Never-Ending Nightmare|8|1
+1087|Corkscrew Crash|9|1
+1088|Inferno Overdrive|11|1
+1089|Hydro Vortex|12|1
+1090|Bloom Doom|13|1
+1091|Gigavolt Havoc|14|1
+1092|Shattered Psyche|15|1
+1093|Subzero Slammer|16|1
+1094|Devastating Drake|17|1
+1095|Black Hole Eclipse|18|1
+1096|Twinkle Tackle|19|1
+1097|Catastropika|14|210
+1098|10,000,000 Volt Thunderb|14|195
+1099|Stoked Sparksurfer|14|175
+1100|Extreme Evoboost|1|0
+1101|Pulverizing Pancake|1|210
+1102|Genesis Supernova|15|185
+1103|Sinister Arrow Raid|8|180
+1104|Malicious Moonsault|18|180
+1105|Oceanic Operetta|12|195
+1106|Splintered Stormshards|6|190
+1107|Let’s Snuggle Forever|19|190
+1108|Clangorous Soulblaze|17|185
+1109|Guardian of Alola|19|1
+1110|Searing Sunraze Smash|9|200
+1111|Menacing Moonraze Maelst|8|200
+1112|Light That Burns the Sky|15|200
+1113|Soul-Stealing 7-Star Str|8|195
+1114|Max Guard|1|0
+1115|Max Strike|1|1
+1116|Max Knuckle|2|1
+1117|Max Airstream|3|1
+1118|Max Ooze|4|1
+1119|Max Quake|5|1
+1120|Max Rockfall|6|1
+1121|Max Flutterby|7|1
+1122|Max Phantasm|8|1
+1123|Max Steelspike|9|10
+1124|Max Flare|11|1
+1125|Max Geyser|12|1
+1126|Max Overgrowth|13|10
+1127|Max Lightning|14|1
+1128|Max Mindstorm|15|1
+1129|Max Hailstorm|16|1
+1130|Max Wyrmwind|17|1
+1131|Max Darkness|18|1
+1132|Max Starfall|19|1
+1133|G-Max Vine Lash|13|10
+1134|G-Max Wildfire|11|10
+1135|G-Max Cannonade|12|10
+1136|G-Max Befuddle|7|10
+1137|G-Max Volt Crash|14|10
+1138|G-Max Gold Rush|1|10
+1139|G-Max Chi Strike|2|10
+1140|G-Max Terror|8|10
+1141|G-Max Foam Burst|12|10
+1142|G-Max Resonance|16|10
+1143|G-Max Cuddle|1|10
+1144|G-Max Replenish|1|10
+1145|G-Max Malodor|4|10
+1146|G-Max Meltdown|9|10
+1147|G-Max Drum Solo|13|10
+1148|G-Max Fireball|11|10
+1149|G-Max Hydrosnipe|12|10
+1150|G-Max Wind Rage|3|10
+1151|G-Max Gravitas|15|10
+1152|G-Max Stonesurge|12|10
+1153|G-Max Volcalith|6|10
+1154|G-Max Tartness|13|10
+1155|G-Max Sweetness|13|10
+1156|G-Max Sandblast|5|10
+1157|G-Max Stun Shock|14|10
+1158|G-Max Centiferno|11|10
+1159|G-Max Smite|19|10
+1160|G-Max Snooze|18|10
+1161|G-Max Finale|19|10
+1162|G-Max Steelsurge|9|10
+1163|G-Max Depletion|17|10
+1164|G-Max One Blow|18|10
+1165|G-Max Rapid Flow|12|10
+"""#
   static let speciesTypesRetail: String = #"""
 1|12|3
 2|12|3
@@ -9049,6 +15839,9441 @@ enum Gen3BattleBlobs {
 1488|1|1
 1523|8|19
 """#
+  static let speciesTypesWishes: String = #"""
+1|13|4
+2|13|4
+3|13|4
+4|11|11
+5|11|11
+6|11|3
+7|12|12
+8|12|12
+9|12|12
+10|7|7
+11|7|7
+12|7|3
+13|7|4
+14|7|4
+15|7|4
+16|1|3
+17|1|3
+18|1|3
+19|1|1
+20|1|1
+21|1|3
+22|1|3
+23|4|4
+24|4|4
+25|14|14
+26|14|14
+27|5|5
+28|5|5
+29|4|4
+30|4|4
+31|4|5
+32|4|4
+33|4|4
+34|4|5
+35|19|19
+36|19|19
+37|11|11
+38|11|11
+39|1|19
+40|1|19
+41|4|3
+42|4|3
+43|13|4
+44|13|4
+45|13|4
+46|7|13
+47|7|13
+48|7|4
+49|7|4
+50|5|5
+51|5|5
+52|1|1
+53|1|1
+54|12|12
+55|12|12
+56|2|2
+57|2|2
+58|11|11
+59|11|11
+60|12|12
+61|12|12
+62|12|2
+63|15|15
+64|15|15
+65|15|15
+66|2|2
+67|2|2
+68|2|2
+69|13|4
+70|13|4
+71|13|4
+72|12|4
+73|12|4
+74|6|5
+75|6|5
+76|6|5
+77|11|11
+78|11|11
+79|12|15
+80|12|15
+81|14|9
+82|14|9
+83|1|3
+84|1|3
+85|1|3
+86|12|12
+87|12|16
+88|4|4
+89|4|4
+90|12|12
+91|12|16
+92|8|4
+93|8|4
+94|8|4
+95|6|5
+96|15|15
+97|15|15
+98|12|12
+99|12|12
+100|14|14
+101|14|14
+102|13|15
+103|13|15
+104|5|5
+105|5|5
+106|2|2
+107|2|2
+108|1|1
+109|4|4
+110|4|4
+111|5|6
+112|5|6
+113|1|1
+114|13|13
+115|1|1
+116|12|12
+117|12|12
+118|12|12
+119|12|12
+120|12|12
+121|12|15
+122|15|19
+123|7|3
+124|16|15
+125|14|14
+126|11|11
+127|7|7
+128|1|1
+129|12|12
+130|12|3
+131|12|16
+132|1|1
+133|1|1
+134|12|12
+135|14|14
+136|11|11
+137|1|1
+138|6|12
+139|6|12
+140|6|12
+141|6|12
+142|6|3
+143|1|1
+144|16|3
+145|14|3
+146|11|3
+147|17|17
+148|17|17
+149|17|3
+150|15|15
+151|15|15
+152|13|13
+153|13|13
+154|13|13
+155|11|11
+156|11|11
+157|11|11
+158|12|12
+159|12|12
+160|12|12
+161|1|1
+162|1|1
+163|1|3
+164|1|3
+165|7|3
+166|7|3
+167|7|4
+168|7|4
+169|4|3
+170|12|14
+171|12|14
+172|14|14
+173|19|19
+174|1|19
+175|19|19
+176|19|3
+177|15|3
+178|15|3
+179|14|14
+180|14|14
+181|14|14
+182|13|13
+183|12|19
+184|12|19
+185|6|6
+186|12|12
+187|13|3
+188|13|3
+189|13|3
+190|1|1
+191|13|13
+192|13|13
+193|7|3
+194|12|5
+195|12|5
+196|15|15
+197|18|18
+198|18|3
+199|12|15
+200|8|8
+201|15|15
+202|15|15
+203|1|15
+204|7|7
+205|7|9
+206|1|1
+207|5|3
+208|9|5
+209|19|19
+210|19|19
+211|12|4
+212|7|9
+213|7|6
+214|7|2
+215|18|16
+216|1|1
+217|1|1
+218|11|11
+219|11|6
+220|16|5
+221|16|5
+222|12|6
+223|12|12
+224|12|12
+225|16|3
+226|12|3
+227|9|3
+228|18|11
+229|18|11
+230|12|17
+231|5|5
+232|5|5
+233|1|1
+234|1|1
+235|1|1
+236|2|2
+237|2|2
+238|16|15
+239|14|14
+240|11|11
+241|1|1
+242|1|1
+243|14|14
+244|11|11
+245|12|12
+246|6|5
+247|6|5
+248|6|18
+249|15|3
+250|11|3
+251|15|13
+252|13|13
+253|13|13
+254|13|13
+255|11|11
+256|11|2
+257|11|2
+258|12|12
+259|12|5
+260|12|5
+261|18|18
+262|18|18
+263|1|1
+264|1|1
+265|7|7
+266|7|7
+267|7|3
+268|7|7
+269|7|4
+270|12|13
+271|12|13
+272|12|13
+273|13|13
+274|13|18
+275|13|18
+276|1|3
+277|1|3
+278|12|3
+279|12|3
+280|15|19
+281|15|19
+282|15|19
+283|7|12
+284|7|3
+285|13|13
+286|13|2
+287|1|1
+288|1|1
+289|1|1
+290|7|5
+291|7|3
+292|7|8
+293|1|1
+294|1|1
+295|1|1
+296|2|2
+297|2|2
+298|1|19
+299|6|6
+300|1|1
+301|1|1
+302|18|8
+303|9|19
+304|9|6
+305|9|6
+306|9|6
+307|2|15
+308|2|15
+309|14|14
+310|14|14
+311|14|14
+312|14|14
+313|7|7
+314|7|7
+315|13|4
+316|4|4
+317|4|4
+318|12|18
+319|12|18
+320|12|12
+321|12|12
+322|11|5
+323|11|5
+324|11|11
+325|15|15
+326|15|15
+327|1|1
+328|5|5
+329|5|17
+330|5|17
+331|13|13
+332|13|18
+333|1|3
+334|17|3
+335|1|1
+336|4|4
+337|6|15
+338|6|15
+339|12|5
+340|12|5
+341|12|12
+342|12|18
+343|5|15
+344|5|15
+345|6|13
+346|6|13
+347|6|7
+348|6|7
+349|12|12
+350|12|12
+351|1|1
+352|1|1
+353|8|8
+354|8|8
+355|8|8
+356|8|8
+357|13|3
+358|15|15
+359|18|18
+360|15|15
+361|16|16
+362|16|16
+363|16|12
+364|16|12
+365|16|12
+366|12|12
+367|12|12
+368|12|12
+369|12|6
+370|12|12
+371|17|17
+372|17|17
+373|17|3
+374|9|15
+375|9|15
+376|9|15
+377|6|6
+378|16|16
+379|9|9
+380|17|15
+381|17|15
+382|12|12
+383|5|5
+384|17|3
+385|9|15
+386|15|15
+387|13|13
+388|13|13
+389|13|5
+390|11|11
+391|11|2
+392|11|2
+393|12|12
+394|12|12
+395|12|9
+396|1|3
+397|1|3
+398|1|3
+399|1|1
+400|1|12
+401|7|7
+402|7|7
+403|14|14
+404|14|14
+405|14|14
+406|13|4
+407|13|4
+408|6|6
+409|6|6
+410|6|9
+411|6|9
+412|7|7
+413|7|13
+414|7|3
+415|7|3
+416|7|3
+417|14|14
+418|12|12
+419|12|12
+420|13|13
+421|13|13
+422|12|12
+423|12|5
+424|1|1
+425|8|3
+426|8|3
+427|1|1
+428|1|1
+429|8|8
+430|18|3
+431|1|1
+432|1|1
+433|15|15
+434|4|18
+435|4|18
+436|9|15
+437|9|15
+438|6|6
+439|15|19
+440|1|1
+441|1|3
+442|8|18
+443|17|5
+444|17|5
+445|17|5
+446|1|1
+447|2|2
+448|2|9
+449|5|5
+450|5|5
+451|4|7
+452|4|18
+453|4|2
+454|4|2
+455|13|13
+456|12|12
+457|12|12
+458|12|3
+459|13|16
+460|13|16
+461|18|16
+462|14|9
+463|1|1
+464|5|6
+465|13|13
+466|14|14
+467|11|11
+468|19|3
+469|7|3
+470|13|13
+471|16|16
+472|5|3
+473|16|5
+474|1|1
+475|15|2
+476|6|9
+477|8|8
+478|16|8
+479|14|8
+480|15|15
+481|15|15
+482|15|15
+483|9|17
+484|12|17
+485|11|9
+486|1|1
+487|8|17
+488|15|15
+489|12|12
+490|12|12
+491|18|18
+492|13|13
+493|1|1
+494|15|11
+495|13|13
+496|13|13
+497|13|13
+498|11|11
+499|11|2
+500|11|2
+501|12|12
+502|12|12
+503|12|12
+504|1|1
+505|1|1
+506|1|1
+507|1|1
+508|1|1
+509|18|18
+510|18|18
+511|13|13
+512|13|13
+513|11|11
+514|11|11
+515|12|12
+516|12|12
+517|15|15
+518|15|15
+519|1|3
+520|1|3
+521|1|3
+522|14|14
+523|14|14
+524|6|6
+525|6|6
+526|6|6
+527|15|3
+528|15|3
+529|5|5
+530|5|9
+531|1|1
+532|2|2
+533|2|2
+534|2|2
+535|12|12
+536|12|5
+537|12|5
+538|2|2
+539|2|2
+540|7|13
+541|7|13
+542|7|13
+543|7|4
+544|7|4
+545|7|4
+546|13|19
+547|13|19
+548|13|13
+549|13|13
+550|12|12
+551|5|18
+552|5|18
+553|5|18
+554|11|11
+555|11|11
+556|13|13
+557|7|6
+558|7|6
+559|18|2
+560|18|2
+561|15|3
+562|8|8
+563|8|8
+564|12|6
+565|12|6
+566|6|3
+567|6|3
+568|4|4
+569|4|4
+570|18|18
+571|18|18
+572|1|1
+573|1|1
+574|15|15
+575|15|15
+576|15|15
+577|15|15
+578|15|15
+579|15|15
+580|12|3
+581|12|3
+582|16|16
+583|16|16
+584|16|16
+585|1|13
+586|1|13
+587|14|3
+588|7|7
+589|7|9
+590|13|4
+591|13|4
+592|12|8
+593|12|8
+594|12|12
+595|7|14
+596|7|14
+597|13|9
+598|13|9
+599|9|9
+600|9|9
+601|9|9
+602|14|14
+603|14|14
+604|14|14
+605|15|15
+606|15|15
+607|8|11
+608|8|11
+609|8|11
+610|17|17
+611|17|17
+612|17|17
+613|16|16
+614|16|16
+615|16|16
+616|7|7
+617|7|7
+618|5|14
+619|2|2
+620|2|2
+621|17|17
+622|5|8
+623|5|8
+624|18|9
+625|18|9
+626|1|1
+627|1|3
+628|1|3
+629|18|3
+630|18|3
+631|11|11
+632|7|9
+633|18|17
+634|18|17
+635|18|17
+636|7|11
+637|7|11
+638|9|2
+639|6|2
+640|13|2
+641|3|3
+642|14|3
+643|17|11
+644|17|14
+645|5|3
+646|17|16
+647|12|2
+648|1|15
+649|7|9
+650|13|13
+651|13|13
+652|13|2
+653|11|11
+654|11|11
+655|11|15
+656|12|12
+657|12|12
+658|12|18
+659|1|1
+660|1|5
+661|1|3
+662|11|3
+663|11|3
+664|7|7
+665|7|7
+666|7|3
+667|11|1
+668|11|1
+669|19|19
+670|19|19
+671|19|19
+672|13|13
+673|13|13
+674|2|2
+675|2|18
+676|1|1
+677|15|15
+678|15|15
+679|9|8
+680|9|8
+681|9|8
+682|19|19
+683|19|19
+684|19|19
+685|19|19
+686|18|15
+687|18|15
+688|6|12
+689|6|12
+690|4|12
+691|4|17
+692|12|12
+693|12|12
+694|14|1
+695|14|1
+696|6|17
+697|6|17
+698|6|16
+699|6|16
+700|19|19
+701|2|3
+702|14|19
+703|6|19
+704|17|17
+705|17|17
+706|17|17
+707|9|19
+708|8|13
+709|8|13
+710|8|13
+711|8|13
+712|16|16
+713|16|16
+714|3|17
+715|3|17
+716|19|19
+717|18|3
+718|17|5
+719|6|19
+720|15|8
+721|11|12
+722|13|3
+723|13|3
+724|13|8
+725|11|11
+726|11|11
+727|11|18
+728|12|12
+729|12|12
+730|12|19
+731|1|3
+732|1|3
+733|1|3
+734|1|1
+735|1|1
+736|7|7
+737|7|14
+738|7|14
+739|2|2
+740|2|16
+741|11|3
+742|7|19
+743|7|19
+744|6|6
+745|6|6
+746|12|12
+747|4|12
+748|4|12
+749|5|5
+750|5|5
+751|12|7
+752|12|7
+753|13|13
+754|13|13
+755|13|19
+756|13|19
+757|4|11
+758|4|11
+759|1|2
+760|1|2
+761|13|13
+762|13|13
+763|13|13
+764|19|19
+765|1|15
+766|2|2
+767|7|12
+768|7|12
+769|8|5
+770|8|5
+771|12|12
+772|1|1
+773|1|1
+774|6|3
+775|1|1
+776|11|17
+777|14|9
+778|8|19
+779|12|15
+780|1|17
+781|8|13
+782|17|17
+783|17|2
+784|17|2
+785|14|19
+786|15|19
+787|13|19
+788|12|19
+789|15|15
+790|15|15
+791|15|9
+792|15|8
+793|6|4
+794|7|2
+795|7|2
+796|14|14
+797|9|3
+798|13|9
+799|18|17
+800|15|15
+801|9|19
+802|2|8
+803|4|4
+804|4|17
+805|6|9
+806|11|8
+807|14|14
+808|9|9
+809|9|9
+810|13|13
+811|13|13
+812|13|13
+813|11|11
+814|11|11
+815|11|11
+816|12|12
+817|12|12
+818|12|12
+819|1|1
+820|1|1
+821|3|3
+822|3|3
+823|3|9
+824|7|7
+825|7|15
+826|7|15
+827|18|18
+828|18|18
+829|13|13
+830|13|13
+831|1|1
+832|1|1
+833|12|12
+834|12|6
+835|14|14
+836|14|14
+837|6|6
+838|6|11
+839|6|11
+840|13|17
+841|13|17
+842|13|17
+843|5|5
+844|5|5
+845|3|12
+846|12|12
+847|12|12
+848|14|4
+849|14|4
+850|11|7
+851|11|7
+852|2|2
+853|2|2
+854|8|8
+855|8|8
+856|15|15
+857|15|15
+858|15|19
+859|18|19
+860|18|19
+861|18|19
+862|18|1
+863|9|9
+864|8|8
+865|2|2
+866|16|15
+867|5|8
+868|19|19
+869|19|19
+870|2|2
+871|14|14
+872|16|7
+873|16|7
+874|6|6
+875|16|16
+876|15|1
+877|14|18
+878|9|9
+879|9|9
+880|14|17
+881|14|16
+882|12|17
+883|12|16
+884|9|17
+885|17|8
+886|17|8
+887|17|8
+888|19|19
+889|2|2
+890|4|17
+891|2|2
+892|2|18
+893|18|13
+894|14|14
+895|17|17
+896|16|16
+897|8|8
+898|15|13
+899|1|15
+900|7|6
+901|5|1
+902|12|8
+903|2|4
+904|18|4
+905|19|3
+906|13|4
+907|11|17
+908|11|3
+909|12|12
+910|7|4
+911|1|3
+912|15|15
+913|12|15
+914|8|4
+915|1|1
+916|7|3
+917|12|18
+918|6|3
+919|15|2
+920|15|15
+921|14|17
+922|9|5
+923|7|9
+924|7|2
+925|18|11
+926|6|18
+927|13|17
+928|11|2
+929|12|5
+930|15|19
+931|18|8
+932|9|19
+933|9|9
+934|2|15
+935|14|14
+936|12|18
+937|11|5
+938|17|19
+939|8|8
+940|18|18
+941|16|16
+942|17|3
+943|9|15
+944|17|15
+945|17|15
+946|1|2
+947|17|5
+948|2|9
+949|13|16
+950|15|2
+951|1|19
+952|6|19
+953|17|3
+954|12|12
+955|5|11
+956|18|1
+957|18|1
+958|14|15
+959|16|9
+960|16|9
+961|16|16
+962|16|19
+963|5|9
+964|5|9
+965|18|18
+966|18|18
+967|6|14
+968|6|14
+969|6|14
+970|4|18
+971|4|18
+972|13|17
+973|11|8
+974|9|9
+975|15|15
+976|15|19
+977|15|15
+978|4|15
+979|2|2
+980|4|19
+981|16|15
+982|15|3
+983|2|3
+984|18|3
+985|4|15
+986|8|8
+987|18|1
+988|18|1
+989|16|16
+990|16|16
+991|5|8
+992|5|9
+993|11|6
+994|11|6
+995|14|13
+996|14|13
+997|11|8
+998|18|4
+999|2|4
+1000|12|18
+1001|13|2
+1002|1|8
+1003|1|8
+1004|15|3
+1005|17|9
+1006|17|9
+1007|16|6
+1008|13|2
+1009|14|14
+1010|14|14
+1011|14|14
+1012|14|14
+1013|14|14
+1014|14|14
+1015|14|14
+1016|14|14
+1017|14|14
+1018|14|14
+1019|14|14
+1020|14|14
+1021|14|14
+1022|14|14
+1023|14|14
+1024|15|15
+1025|15|15
+1026|15|15
+1027|15|15
+1028|15|15
+1029|15|15
+1030|15|15
+1031|15|15
+1032|15|15
+1033|15|15
+1034|15|15
+1035|15|15
+1036|15|15
+1037|15|15
+1038|15|15
+1039|15|15
+1040|15|15
+1041|15|15
+1042|15|15
+1043|15|15
+1044|15|15
+1045|15|15
+1046|15|15
+1047|15|15
+1048|15|15
+1049|15|15
+1050|15|15
+1051|11|11
+1052|12|12
+1053|16|16
+1054|15|15
+1055|15|15
+1056|15|15
+1057|7|7
+1058|7|7
+1059|7|5
+1060|7|9
+1061|13|13
+1062|12|12
+1063|12|5
+1064|14|11
+1065|14|12
+1066|14|16
+1067|14|3
+1068|14|13
+1069|9|17
+1070|12|17
+1071|8|17
+1072|13|3
+1073|2|2
+1074|3|3
+1075|4|4
+1076|5|5
+1077|6|6
+1078|7|7
+1079|8|8
+1080|9|9
+1081|11|11
+1082|12|12
+1083|13|13
+1084|14|14
+1085|15|15
+1086|16|16
+1087|17|17
+1088|18|18
+1089|19|19
+1090|12|12
+1091|12|12
+1092|11|15
+1093|16|11
+1094|1|13
+1095|1|13
+1096|1|13
+1097|1|13
+1098|1|13
+1099|1|13
+1100|3|3
+1101|14|3
+1102|5|3
+1103|19|3
+1104|17|16
+1105|17|16
+1106|12|2
+1107|1|2
+1108|7|9
+1109|7|9
+1110|7|9
+1111|7|9
+1112|12|18
+1113|12|18
+1114|7|3
+1115|7|3
+1116|7|3
+1117|7|3
+1118|7|3
+1119|7|3
+1120|7|3
+1121|7|3
+1122|7|3
+1123|7|3
+1124|7|3
+1125|7|3
+1126|7|3
+1127|7|3
+1128|7|3
+1129|7|3
+1130|7|3
+1131|7|3
+1132|7|3
+1133|19|19
+1134|19|19
+1135|19|19
+1136|19|19
+1137|19|19
+1138|19|19
+1139|19|19
+1140|19|19
+1141|19|19
+1142|19|19
+1143|19|19
+1144|19|19
+1145|19|19
+1146|1|1
+1147|1|1
+1148|1|1
+1149|1|1
+1150|1|1
+1151|1|1
+1152|1|1
+1153|1|1
+1154|1|1
+1155|15|15
+1156|9|8
+1157|8|13
+1158|8|13
+1159|8|13
+1160|8|13
+1161|8|13
+1162|8|13
+1163|19|19
+1164|17|5
+1165|17|5
+1166|17|5
+1167|17|5
+1168|15|18
+1169|14|3
+1170|15|3
+1171|8|3
+1172|6|6
+1173|6|6
+1174|6|6
+1175|12|12
+1176|2|2
+1177|3|3
+1178|4|4
+1179|5|5
+1180|6|6
+1181|7|7
+1182|8|8
+1183|9|9
+1184|11|11
+1185|12|12
+1186|13|13
+1187|14|14
+1188|15|15
+1189|16|16
+1190|17|17
+1191|18|18
+1192|19|19
+1193|6|3
+1194|6|3
+1195|6|3
+1196|6|3
+1197|6|3
+1198|6|3
+1199|6|3
+1200|6|3
+1201|6|3
+1202|6|3
+1203|6|3
+1204|6|3
+1205|6|3
+1206|8|19
+1207|15|9
+1208|15|8
+1209|15|17
+1210|9|19
+1211|3|12
+1212|3|12
+1213|14|4
+1214|8|8
+1215|8|8
+1216|19|19
+1217|19|19
+1218|19|19
+1219|19|19
+1220|19|19
+1221|19|19
+1222|19|19
+1223|19|19
+1224|16|16
+1225|15|1
+1226|14|18
+1227|19|9
+1228|2|9
+1229|4|17
+1230|2|12
+1231|18|13
+1232|15|16
+1233|15|8
+1234|12|8
+1235|19|19
+1236|19|19
+1237|19|19
+1238|19|19
+1239|19|19
+1240|19|19
+1241|19|19
+1242|19|19
+1243|19|19
+1244|19|19
+1245|19|19
+1246|19|19
+1247|19|19
+1248|19|19
+1249|19|19
+1250|19|19
+1251|19|19
+1252|19|19
+1253|19|19
+1254|19|19
+1255|19|19
+1256|19|19
+1257|19|19
+1258|19|19
+1259|19|19
+1260|19|19
+1261|19|19
+1262|19|19
+1263|19|19
+1264|19|19
+1265|19|19
+1266|19|19
+1267|19|19
+1268|19|19
+1269|19|19
+1270|19|19
+1271|19|19
+1272|19|19
+1273|19|19
+1274|19|19
+1275|19|19
+1276|19|19
+1277|19|19
+1278|19|19
+1279|19|19
+1280|19|19
+1281|19|19
+1282|19|19
+1283|19|19
+1284|19|19
+1285|19|19
+1286|19|19
+1287|19|19
+1288|19|19
+1289|13|13
+1290|13|13
+1291|13|18
+1292|11|11
+1293|11|11
+1294|11|8
+1295|12|12
+1296|12|12
+1297|12|2
+1298|1|1
+1299|1|1
+1300|1|1
+1301|7|7
+1302|7|7
+1303|7|7
+1304|7|18
+1305|14|14
+1306|14|2
+1307|14|2
+1308|1|1
+1309|1|1
+1310|1|1
+1311|19|19
+1312|19|19
+1313|13|1
+1314|13|1
+1315|13|1
+1316|1|3
+1317|1|3
+1318|1|3
+1319|1|3
+1320|6|6
+1321|6|6
+1322|6|6
+1323|11|11
+1324|11|15
+1325|11|8
+1326|14|14
+1327|14|14
+1328|14|3
+1329|14|3
+1330|18|18
+1331|18|18
+1332|4|1
+1333|4|1
+1334|13|8
+1335|13|8
+1336|5|13
+1337|5|13
+1338|6|6
+1339|13|13
+1340|13|11
+1341|7|7
+1342|7|15
+1343|15|15
+1344|15|15
+1345|19|9
+1346|19|9
+1347|19|9
+1348|12|12
+1349|12|12
+1350|3|18
+1351|12|12
+1352|12|12
+1353|12|12
+1354|9|4
+1355|9|4
+1356|17|1
+1357|9|9
+1358|6|4
+1359|6|4
+1360|8|8
+1361|8|8
+1362|3|2
+1363|16|16
+1364|16|16
+1365|12|15
+1366|12|12
+1367|17|12
+1368|17|12
+1369|17|12
+1370|2|8
+1371|4|5
+1372|1|15
+1373|1|1
+1374|1|1
+1375|18|9
+1376|5|2
+1377|19|15
+1378|13|18
+1379|8|19
+1380|7|2
+1381|14|5
+1382|5|9
+1383|16|12
+1384|2|14
+1385|18|3
+1386|11|4
+1387|6|14
+1388|17|16
+1389|17|16
+1390|17|16
+1391|8|8
+1392|8|8
+1393|9|8
+1394|18|13
+1395|18|16
+1396|18|5
+1397|18|11
+1398|17|18
+1399|19|2
+1400|2|17
+1401|14|17
+1402|2|2
+1403|2|11
+1404|2|12
+1405|4|5
+1406|12|17
+1407|13|15
+1408|13|17
+1409|13|8
+1410|13|8
+1411|13|8
+1412|13|8
+1413|4|2
+1414|4|15
+1415|4|19
+1416|13|13
+1417|13|12
+1418|13|11
+1419|13|6
+1420|13|13
+1421|13|12
+1422|13|11
+1423|13|6
+1424|5|1
+1425|9|17
+1426|13|17
+1427|11|17
+1428|14|17
+1429|6|15
+1430|9|15
+1431|1|1
+1432|1|1
+1433|1|1
+1434|4|8
+1436|7|3
+1437|7|3
+1438|7|7
+1439|7|7
+1440|7|7
+1441|7|7
+1442|7|7
+1443|7|7
+1444|7|7
+1445|7|7
+1446|7|7
+1447|7|7
+1448|7|7
+1449|7|7
+1450|7|7
+1451|7|7
+1452|7|7
+1453|7|7
+1454|7|7
+1455|7|7
+1456|7|7
+1457|7|7
+1458|7|7
+1459|7|7
+1460|7|7
+1461|7|7
+1462|7|7
+1463|7|7
+1464|7|7
+1465|7|7
+1466|7|7
+1467|7|7
+1468|7|7
+1469|7|7
+1470|7|7
+1471|7|7
+1472|7|7
+1473|7|7
+1474|7|7
+1475|7|7
+1476|18|1
+1477|1|1
+1478|7|14
+1479|13|13
+1480|4|11
+1481|8|19
+1482|17|2
+1483|11|8
+1484|7|19
+1485|12|7
+1486|14|9
+1487|14|14
+1488|1|1
+1489|13|4
+1490|12|12
+1491|11|3
+1492|7|3
+1493|14|14
+1494|1|1
+1495|2|2
+1496|8|4
+1497|12|12
+1498|12|16
+1499|1|1
+1500|1|1
+1501|4|4
+1502|9|9
+1503|13|13
+1504|11|11
+1505|12|12
+1506|3|9
+1507|7|15
+1508|12|6
+1509|6|11
+1510|13|17
+1511|13|17
+1512|5|5
+1513|14|4
+1514|14|4
+1515|11|7
+1516|15|19
+1517|18|19
+1518|19|19
+1519|9|9
+1520|9|17
+1521|2|18
+1522|2|12
+1523|8|19
+1524|19|3
+1525|13|4
+1526|12|15
+1527|17|3
+1528|13|19
+1529|12|17
+1530|9|3
+1531|16|8
+1532|11|2
+1533|5|9
+1534|7|4
+1535|18|2
+1536|14|14
+1537|8|11
+1538|13|2
+1539|11|15
+1540|12|18
+1541|11|1
+1542|18|15
+1543|4|17
+1544|2|3
+1545|19|19
+1546|6|2
+1547|17|5
+1548|1|17
+1549|2|2
+1550|11|9
+1551|18|18
+1552|14|14
+1553|14|14
+1554|14|14
+1555|15|9
+1556|18|8
+1557|2|3
+1558|17|17
+1559|2|9
+1560|5|8
+1561|15|15
+1562|15|15
+1563|2|16
+1564|7|9
+1565|9|19
+1566|9|19
+1567|13|11
+1568|17|16
+1569|17|12
+1570|17|12
+1571|17|12
+1572|6|4
+1573|15|15
+1574|13|3
+1575|12|12
+1576|11|11
+1577|8|11
+1578|8|8
+1579|11|3
+1580|9|18
+"""#
+  static let speciesTypesLazarus: String = #"""
+10|7|7
+11|7|7
+12|7|15
+13|7|4
+14|7|4
+15|7|4
+23|4|18
+24|4|18
+25|14|14
+26|14|14
+27|5|5
+28|5|5
+37|11|19
+38|11|19
+39|1|19
+40|1|19
+46|7|13
+47|7|8
+52|1|1
+53|1|1
+54|12|12
+55|12|15
+56|2|2
+57|2|2
+58|11|11
+59|11|11
+60|12|12
+61|12|12
+62|12|2
+69|13|4
+70|13|4
+71|13|4
+72|12|4
+73|12|4
+77|11|11
+78|11|11
+81|14|9
+82|14|9
+84|5|3
+85|5|3
+86|12|16
+87|12|16
+88|4|4
+89|4|4
+90|12|12
+91|12|16
+92|8|4
+93|8|4
+94|8|4
+95|6|5
+96|15|15
+97|15|18
+100|14|14
+101|14|14
+104|5|5
+105|5|5
+123|7|3
+128|1|1
+129|12|12
+130|12|3
+131|12|16
+133|1|1
+134|12|12
+135|14|14
+136|11|11
+138|6|12
+139|6|12
+140|6|12
+141|6|12
+142|6|3
+147|17|17
+148|17|12
+149|17|3
+152|13|13
+153|13|13
+154|13|19
+155|11|11
+156|11|11
+157|11|5
+158|12|12
+159|12|12
+160|12|18
+163|1|3
+164|8|3
+167|7|4
+168|7|4
+170|12|14
+171|12|14
+172|14|14
+174|1|19
+175|19|19
+176|19|3
+177|15|3
+178|15|3
+179|14|14
+180|14|14
+181|14|14
+186|12|1
+187|13|3
+188|13|3
+189|13|3
+190|1|1
+193|7|3
+194|12|5
+195|12|5
+196|15|15
+197|18|18
+198|18|3
+201|15|15
+203|1|15
+207|5|3
+208|9|5
+212|7|9
+214|7|2
+215|18|16
+220|16|5
+221|16|5
+222|12|6
+223|12|12
+224|12|11
+227|9|3
+228|18|11
+229|18|11
+231|5|5
+232|5|5
+234|1|1
+243|14|14
+244|11|11
+245|12|12
+246|6|5
+247|6|5
+248|6|18
+249|15|3
+250|11|3
+251|15|13
+255|11|11
+256|11|2
+257|11|2
+263|1|1
+264|1|1
+265|7|7
+266|7|7
+267|7|3
+268|7|7
+269|7|4
+278|12|3
+279|12|3
+280|15|19
+281|15|19
+282|15|19
+285|13|13
+286|13|2
+290|7|5
+291|7|18
+292|7|8
+299|6|6
+303|9|19
+304|9|6
+305|9|6
+306|9|6
+307|2|15
+308|2|15
+315|13|4
+320|12|12
+321|12|12
+322|11|5
+323|11|5
+324|11|11
+328|5|5
+329|5|17
+330|5|17
+333|3|19
+334|17|19
+339|12|5
+340|12|5
+341|12|12
+342|12|18
+343|5|15
+344|5|15
+345|6|13
+346|6|13
+347|6|7
+348|6|7
+352|1|1
+353|8|1
+354|8|1
+355|8|8
+356|8|8
+357|13|3
+358|15|9
+361|16|16
+362|16|16
+363|16|12
+364|16|12
+365|16|12
+366|12|12
+367|12|17
+368|12|19
+369|12|6
+382|12|12
+383|5|5
+384|17|3
+406|13|4
+407|13|4
+408|6|6
+409|6|6
+410|6|9
+411|6|9
+417|14|14
+418|12|12
+419|12|12
+420|13|13
+421|13|11
+424|1|1
+430|18|3
+433|15|9
+434|4|18
+435|4|18
+436|9|15
+437|9|15
+441|1|3
+442|8|18
+451|4|7
+452|4|18
+456|12|19
+457|12|19
+459|13|16
+460|13|16
+461|18|16
+462|14|9
+468|19|3
+469|7|17
+470|13|13
+471|16|16
+472|5|3
+473|16|5
+475|15|2
+476|6|9
+477|8|8
+478|16|8
+506|1|1
+507|1|1
+508|1|1
+511|13|1
+512|13|1
+513|11|1
+514|11|1
+515|12|1
+516|12|1
+517|15|15
+518|15|15
+522|14|14
+523|14|14
+527|15|3
+528|15|3
+532|2|2
+533|2|2
+534|2|2
+550|12|12
+551|5|18
+552|5|18
+553|5|18
+557|7|6
+558|7|6
+559|18|2
+560|18|2
+564|12|6
+565|12|6
+566|6|3
+567|6|3
+570|18|18
+571|18|18
+574|15|15
+575|15|15
+576|15|15
+577|15|15
+578|15|15
+579|15|15
+580|12|3
+581|12|3
+607|8|11
+608|8|11
+609|8|11
+613|16|16
+614|16|16
+619|2|2
+620|2|2
+627|1|3
+628|1|3
+629|18|3
+630|18|3
+650|13|13
+651|13|13
+652|13|2
+653|11|11
+654|11|11
+655|11|15
+656|12|12
+657|12|12
+658|12|18
+667|11|1
+668|11|1
+669|19|19
+670|19|19
+671|19|19
+672|13|13
+673|13|5
+674|2|2
+675|2|18
+679|9|8
+680|9|8
+681|9|8
+690|4|12
+691|4|17
+692|12|12
+693|12|12
+694|14|1
+695|14|1
+696|6|17
+697|6|17
+698|6|16
+699|6|16
+700|19|19
+701|2|3
+702|14|19
+704|17|17
+705|17|17
+706|17|17
+710|8|13
+711|8|13
+718|17|5
+722|13|3
+723|13|3
+724|13|8
+725|11|11
+726|11|11
+727|11|18
+728|12|12
+729|12|12
+730|12|19
+731|1|3
+732|1|3
+733|1|3
+736|7|7
+737|7|14
+738|7|14
+739|2|2
+740|2|16
+741|11|3
+742|7|19
+743|7|19
+744|6|6
+745|6|6
+749|5|5
+750|5|5
+753|13|13
+754|13|13
+757|4|11
+758|4|11
+759|1|2
+760|1|2
+761|13|13
+762|13|13
+763|13|13
+764|19|13
+765|1|15
+766|1|2
+767|7|12
+768|7|12
+772|1|1
+773|1|1
+774|6|3
+775|1|1
+777|14|9
+778|8|19
+779|12|15
+781|8|13
+782|17|17
+783|17|2
+784|17|2
+835|14|14
+836|14|14
+840|13|17
+841|13|17
+842|13|17
+850|11|7
+851|11|7
+859|18|19
+860|18|19
+861|18|19
+862|18|1
+863|9|9
+864|8|6
+870|2|7
+872|16|7
+873|16|7
+878|9|1
+879|9|1
+880|14|17
+881|14|16
+882|12|17
+883|12|16
+885|17|8
+886|17|8
+887|17|8
+899|1|15
+900|7|6
+902|12|8
+903|2|4
+910|7|4
+914|8|4
+917|12|18
+918|6|3
+921|14|17
+922|9|5
+923|7|9
+924|7|2
+925|18|11
+926|6|18
+928|11|2
+930|15|19
+932|9|19
+933|9|9
+934|2|15
+937|11|5
+938|17|19
+939|8|18
+941|16|16
+949|13|16
+950|15|2
+953|17|3
+954|12|12
+955|5|11
+958|14|15
+959|16|9
+960|16|9
+961|16|19
+962|16|19
+965|18|18
+966|18|18
+970|4|18
+971|4|18
+973|11|8
+974|9|9
+975|15|15
+976|15|19
+986|8|6
+987|18|1
+988|18|1
+993|11|6
+994|11|6
+995|14|13
+996|14|13
+997|11|8
+999|2|4
+1002|1|8
+1003|1|8
+1004|15|3
+1005|17|9
+1006|17|9
+1008|13|2
+1023|14|14
+1024|15|15
+1025|15|15
+1026|15|15
+1027|15|15
+1028|15|15
+1029|15|15
+1030|15|15
+1031|15|15
+1032|15|15
+1033|15|15
+1034|15|15
+1035|15|15
+1036|15|15
+1037|15|15
+1038|15|15
+1039|15|15
+1040|15|15
+1041|15|15
+1042|15|15
+1043|15|15
+1044|15|15
+1045|15|15
+1046|15|15
+1047|15|15
+1048|15|15
+1049|15|15
+1050|15|15
+1061|13|11
+1090|12|12
+1091|12|12
+1112|12|18
+1113|12|18
+1133|19|19
+1134|19|19
+1135|19|19
+1136|19|19
+1137|19|19
+1138|19|19
+1139|19|19
+1140|19|19
+1141|19|19
+1142|19|19
+1143|19|19
+1144|19|19
+1145|19|19
+1156|9|8
+1157|8|13
+1158|8|13
+1159|8|13
+1160|8|13
+1161|8|13
+1162|8|13
+1164|17|5
+1165|17|5
+1166|17|5
+1167|17|5
+1169|14|3
+1170|15|3
+1171|8|3
+1172|6|6
+1173|6|18
+1174|6|2
+1176|2|2
+1177|3|3
+1178|4|4
+1179|5|5
+1180|6|6
+1181|7|7
+1182|8|8
+1183|9|9
+1184|11|11
+1185|12|12
+1186|13|13
+1187|14|14
+1188|15|15
+1189|16|16
+1190|17|17
+1191|18|18
+1192|19|19
+1193|6|3
+1194|6|3
+1195|6|3
+1196|6|3
+1197|6|3
+1198|6|3
+1199|6|3
+1200|6|3
+1201|6|3
+1202|6|3
+1203|6|3
+1204|6|3
+1205|6|3
+1206|8|19
+1234|12|8
+1289|13|13
+1290|13|13
+1291|13|18
+1292|11|11
+1293|11|11
+1294|11|8
+1295|12|12
+1296|12|12
+1297|12|2
+1305|14|14
+1306|14|2
+1307|14|2
+1323|11|11
+1324|11|15
+1325|11|8
+1328|14|3
+1329|14|3
+1332|4|1
+1333|4|1
+1336|5|13
+1337|5|13
+1338|6|6
+1343|15|15
+1344|15|15
+1345|19|9
+1346|19|9
+1347|19|9
+1351|12|12
+1352|12|12
+1353|12|12
+1356|17|1
+1362|3|2
+1370|2|8
+1371|4|5
+1372|1|15
+1402|2|2
+1403|2|11
+1404|2|12
+1405|4|5
+1406|12|17
+1408|13|17
+1416|13|13
+1417|13|12
+1418|13|11
+1419|13|6
+1426|13|17
+1427|11|17
+1428|14|17
+1431|1|1
+1432|1|1
+1433|1|1
+1434|4|8
+1478|7|14
+1479|13|13
+1480|4|11
+1481|8|19
+1482|17|2
+1483|11|8
+1484|7|19
+1486|14|9
+1487|14|14
+1488|1|1
+1492|7|3
+1493|14|14
+1494|1|1
+1496|8|4
+1498|12|16
+1499|1|1
+1510|13|17
+1511|13|17
+1515|11|7
+1517|18|19
+1519|9|1
+1523|8|19
+1524|17|5
+1525|17|5
+1526|17|3
+1527|8|3
+1528|7|17
+1529|6|3
+1530|18|3
+1531|13|5
+1532|2|18
+1533|14|11
+1534|11|3
+1535|7|19
+1536|1|15
+1537|19|9
+1538|17|2
+1539|17|14
+1540|11|1
+1541|13|4
+1542|2|3
+1543|14|2
+1544|14|14
+1545|13|2
+1546|11|15
+1547|12|18
+1548|2|9
+1549|18|2
+1550|13|19
+1551|12|17
+1552|16|8
+1553|8|11
+1554|4|17
+1555|11|5
+1556|12|6
+1557|16|17
+1558|19|16
+1559|2|16
+1560|7|9
+"""#
+  static let speciesTypesRowe: String = #"""
+1|12|3
+2|12|3
+3|12|3
+4|10|10
+5|10|10
+6|10|2
+7|11|11
+8|11|11
+9|11|11
+10|6|6
+11|6|6
+12|6|2
+13|6|3
+14|6|3
+15|6|3
+16|0|2
+17|0|2
+18|0|2
+19|0|0
+20|0|0
+21|0|2
+22|0|2
+23|3|3
+24|3|17
+25|13|13
+26|13|13
+27|4|4
+28|4|4
+29|3|3
+30|3|3
+31|3|4
+32|3|3
+33|3|3
+34|3|4
+35|18|18
+36|18|18
+37|10|10
+38|10|10
+39|0|18
+40|0|18
+41|3|2
+42|3|2
+43|12|3
+44|12|3
+45|12|3
+46|6|12
+47|6|12
+48|6|3
+49|6|3
+50|4|4
+51|4|4
+52|0|0
+53|0|0
+54|11|11
+55|11|11
+56|1|1
+57|1|1
+58|10|10
+59|10|10
+60|11|11
+61|11|11
+62|11|1
+63|14|14
+64|14|14
+65|14|14
+66|1|1
+67|1|1
+68|1|1
+69|12|3
+70|12|3
+71|12|3
+72|11|3
+73|11|3
+74|5|4
+75|5|4
+76|5|4
+77|10|10
+78|10|10
+79|11|14
+80|11|14
+81|13|8
+82|13|8
+83|0|2
+84|0|2
+85|0|2
+86|11|11
+87|11|15
+88|3|3
+89|3|3
+90|11|11
+91|11|15
+92|7|3
+93|7|3
+94|7|3
+95|5|4
+96|14|14
+97|14|14
+98|11|11
+99|11|11
+100|13|13
+101|13|13
+102|12|14
+103|12|14
+104|4|4
+105|4|4
+106|1|1
+107|1|1
+108|0|0
+109|3|3
+110|3|3
+111|4|5
+112|4|5
+113|0|0
+114|12|12
+115|0|0
+116|11|11
+117|11|11
+118|11|11
+119|11|11
+120|11|11
+121|11|14
+122|14|18
+123|6|2
+124|15|14
+125|13|13
+126|10|10
+127|6|6
+128|0|0
+129|11|11
+130|11|2
+131|11|15
+132|0|0
+133|0|0
+134|11|11
+135|13|13
+136|10|10
+137|0|0
+138|5|11
+139|5|11
+140|5|11
+141|5|11
+142|5|2
+143|0|0
+144|15|2
+145|13|2
+146|10|2
+147|16|16
+148|16|16
+149|16|2
+150|14|14
+151|14|14
+152|12|12
+153|12|12
+154|12|12
+155|10|10
+156|10|10
+157|10|10
+158|11|11
+159|11|11
+160|11|11
+161|0|0
+162|0|0
+163|0|2
+164|0|2
+165|6|2
+166|6|2
+167|6|3
+168|6|3
+169|3|2
+170|11|13
+171|11|13
+172|13|13
+173|18|18
+174|0|18
+175|18|18
+176|18|2
+177|14|2
+178|14|2
+179|13|13
+180|13|13
+181|13|13
+182|12|18
+183|11|18
+184|11|18
+185|5|5
+186|11|11
+187|12|2
+188|12|2
+189|12|2
+190|0|0
+191|12|12
+192|12|12
+193|6|2
+194|11|4
+195|11|4
+196|14|14
+197|17|17
+198|17|2
+199|11|14
+200|7|7
+201|14|14
+202|14|14
+203|0|14
+204|6|6
+205|6|8
+206|0|0
+207|4|2
+208|8|4
+209|18|18
+210|18|18
+211|11|3
+212|6|8
+213|6|5
+214|6|1
+215|17|15
+216|0|0
+217|0|0
+218|10|10
+219|10|5
+220|15|4
+221|15|4
+222|11|5
+223|11|11
+224|11|11
+225|15|2
+226|11|2
+227|8|2
+228|17|10
+229|17|10
+230|11|16
+231|4|4
+232|4|4
+233|0|0
+234|0|0
+235|0|0
+236|1|1
+237|1|1
+238|15|14
+239|13|13
+240|10|10
+241|0|0
+242|0|0
+243|13|13
+244|10|10
+245|11|11
+246|5|4
+247|5|4
+248|5|17
+249|14|2
+250|10|2
+251|14|12
+252|12|12
+253|12|12
+254|12|12
+255|10|10
+256|10|1
+257|10|1
+258|11|11
+259|11|4
+260|11|4
+261|17|17
+262|17|17
+263|0|0
+264|0|0
+265|6|6
+266|6|6
+267|6|2
+268|6|6
+269|6|3
+270|11|12
+271|11|12
+272|11|12
+273|12|12
+274|12|17
+275|12|17
+276|0|2
+277|0|2
+278|11|2
+279|11|2
+280|14|18
+281|14|18
+282|14|18
+283|6|11
+284|6|2
+285|12|12
+286|12|1
+287|0|0
+288|0|0
+289|0|0
+290|6|4
+291|6|2
+292|6|7
+293|0|0
+294|0|0
+295|0|0
+296|1|1
+297|1|1
+298|0|18
+299|5|5
+300|0|0
+301|0|0
+302|17|7
+303|8|18
+304|8|5
+305|8|5
+306|8|5
+307|1|14
+308|1|14
+309|13|13
+310|13|13
+311|13|13
+312|13|13
+313|6|6
+314|6|6
+315|12|3
+316|3|3
+317|3|3
+318|11|17
+319|11|17
+320|11|11
+321|11|11
+322|10|4
+323|10|4
+324|10|10
+325|14|14
+326|14|14
+327|0|0
+328|4|4
+329|4|16
+330|4|16
+331|12|12
+332|12|17
+333|0|2
+334|16|2
+335|0|0
+336|3|3
+337|5|14
+338|5|14
+339|11|4
+340|11|4
+341|11|11
+342|11|17
+343|4|14
+344|4|14
+345|5|12
+346|5|12
+347|5|6
+348|5|6
+349|11|11
+350|11|11
+351|0|0
+352|0|0
+353|7|7
+354|7|7
+355|7|7
+356|7|7
+357|12|2
+358|14|14
+359|17|17
+360|14|14
+361|15|15
+362|15|15
+363|15|11
+364|15|11
+365|15|11
+366|11|11
+367|11|11
+368|11|11
+369|11|5
+370|11|11
+371|16|16
+372|16|16
+373|16|2
+374|8|14
+375|8|14
+376|8|14
+377|5|5
+378|15|15
+379|8|8
+380|16|14
+381|16|14
+382|11|11
+383|4|4
+384|16|2
+385|8|14
+386|14|14
+387|12|12
+388|12|12
+389|12|4
+390|10|10
+391|10|1
+392|10|1
+393|11|11
+394|11|11
+395|11|8
+396|0|2
+397|0|2
+398|0|2
+399|0|0
+400|0|11
+401|6|6
+402|6|6
+403|13|13
+404|13|13
+405|13|13
+406|12|3
+407|12|3
+408|5|5
+409|5|5
+410|5|8
+411|5|8
+412|6|6
+413|6|12
+414|6|2
+415|6|2
+416|6|2
+417|13|13
+418|11|11
+419|11|11
+420|12|12
+421|12|12
+422|11|11
+423|11|4
+424|0|0
+425|7|2
+426|7|2
+427|0|0
+428|0|0
+429|7|18
+430|17|2
+431|0|0
+432|0|0
+433|14|14
+434|3|17
+435|3|17
+436|8|14
+437|8|14
+438|5|5
+439|14|18
+440|0|0
+441|0|2
+442|7|17
+443|16|4
+444|16|4
+445|16|4
+446|0|0
+447|1|1
+448|1|8
+449|4|4
+450|4|4
+451|3|6
+452|3|17
+453|3|1
+454|3|1
+455|12|12
+456|11|11
+457|11|11
+458|11|2
+459|12|15
+460|12|15
+461|17|15
+462|13|8
+463|0|0
+464|4|5
+465|12|12
+466|13|13
+467|10|10
+468|18|2
+469|6|2
+470|12|12
+471|15|15
+472|4|2
+473|15|4
+474|0|0
+475|14|1
+476|5|8
+477|7|7
+478|15|7
+479|13|7
+480|14|14
+481|14|14
+482|14|14
+483|8|16
+484|11|16
+485|10|8
+486|0|0
+487|7|16
+488|14|14
+489|11|11
+490|11|11
+491|17|17
+492|12|12
+493|0|0
+494|14|10
+495|12|12
+496|12|12
+497|12|12
+498|10|10
+499|10|1
+500|10|1
+501|11|11
+502|11|11
+503|11|11
+504|0|0
+505|0|0
+506|0|0
+507|0|0
+508|0|0
+509|17|17
+510|17|17
+511|12|12
+512|12|12
+513|10|10
+514|10|10
+515|11|11
+516|11|11
+517|14|14
+518|14|14
+519|0|2
+520|0|2
+521|0|2
+522|13|13
+523|13|13
+524|5|5
+525|5|5
+526|5|5
+527|14|2
+528|14|2
+529|4|4
+530|4|8
+531|0|0
+532|1|1
+533|1|1
+534|1|1
+535|11|11
+536|11|4
+537|11|4
+538|1|1
+539|1|1
+540|6|12
+541|6|12
+542|6|12
+543|6|3
+544|6|3
+545|6|3
+546|12|18
+547|12|18
+548|12|12
+549|12|12
+550|11|11
+551|4|17
+552|4|17
+553|4|17
+554|10|10
+555|10|10
+556|12|12
+557|6|5
+558|6|5
+559|17|1
+560|17|1
+561|14|2
+562|7|7
+563|7|7
+564|11|5
+565|11|5
+566|5|2
+567|5|2
+568|3|3
+569|3|3
+570|17|17
+571|17|17
+572|0|0
+573|0|0
+574|14|14
+575|14|14
+576|14|14
+577|14|14
+578|14|14
+579|14|14
+580|11|2
+581|11|2
+582|15|15
+583|15|15
+584|15|15
+585|0|12
+586|0|12
+587|13|2
+588|6|6
+589|6|8
+590|12|3
+591|12|3
+592|11|7
+593|11|7
+594|11|11
+595|6|13
+596|6|13
+597|12|8
+598|12|8
+599|8|8
+600|8|8
+601|8|8
+602|13|13
+603|13|13
+604|13|13
+605|14|14
+606|14|14
+607|7|10
+608|7|10
+609|7|10
+610|16|16
+611|16|16
+612|16|16
+613|15|15
+614|15|15
+615|15|15
+616|6|6
+617|6|6
+618|4|13
+619|1|1
+620|1|1
+621|16|16
+622|4|7
+623|4|7
+624|17|8
+625|17|8
+626|0|0
+627|0|2
+628|0|2
+629|17|2
+630|17|2
+631|10|10
+632|6|8
+633|17|16
+634|17|16
+635|17|16
+636|6|10
+637|6|10
+638|8|1
+639|5|1
+640|12|1
+641|2|2
+642|13|2
+643|16|10
+644|16|13
+645|4|2
+646|16|15
+647|11|1
+648|0|14
+649|6|8
+650|12|12
+651|12|12
+652|12|1
+653|10|10
+654|10|10
+655|10|14
+656|11|11
+657|11|11
+658|11|17
+659|0|0
+660|0|4
+661|0|2
+662|10|2
+663|10|2
+664|6|6
+665|6|6
+666|6|2
+667|10|0
+668|10|0
+669|18|18
+670|18|18
+671|18|18
+672|12|12
+673|12|12
+674|1|1
+675|1|17
+676|0|0
+677|14|14
+678|14|14
+679|8|7
+680|8|7
+681|8|7
+682|18|18
+683|18|18
+684|18|18
+685|18|18
+686|17|14
+687|17|14
+688|5|11
+689|5|11
+690|3|11
+691|3|16
+692|11|11
+693|11|11
+694|13|0
+695|13|0
+696|5|16
+697|5|16
+698|5|15
+699|5|15
+700|18|18
+701|1|2
+702|13|18
+703|5|18
+704|16|16
+705|16|16
+706|16|16
+707|8|18
+708|7|12
+709|7|12
+710|7|12
+711|7|12
+712|15|15
+713|15|15
+714|2|16
+715|2|16
+716|18|18
+717|17|2
+718|16|4
+719|5|18
+720|14|7
+721|10|11
+722|12|2
+723|12|2
+724|12|7
+725|10|10
+726|10|10
+727|10|17
+728|11|11
+729|11|11
+730|11|18
+731|0|2
+732|0|2
+733|0|2
+734|0|0
+735|0|0
+736|6|6
+737|6|13
+738|6|13
+739|1|1
+740|1|15
+741|10|2
+742|6|18
+743|6|18
+744|5|5
+745|5|5
+746|11|11
+747|3|11
+748|3|11
+749|4|4
+750|4|4
+751|11|6
+752|11|6
+753|12|12
+754|12|12
+755|12|18
+756|12|18
+757|3|10
+758|3|10
+759|0|1
+760|0|1
+761|12|12
+762|12|12
+763|12|12
+764|18|18
+765|0|14
+766|1|1
+767|6|11
+768|6|11
+769|7|4
+770|7|4
+771|11|11
+772|0|0
+773|0|0
+774|5|2
+775|0|0
+776|10|16
+777|13|8
+778|7|18
+779|11|14
+780|0|16
+781|7|12
+782|16|16
+783|16|1
+784|16|1
+785|13|18
+786|14|18
+787|12|18
+788|11|18
+789|14|14
+790|14|14
+791|14|8
+792|14|7
+793|5|3
+794|6|1
+795|6|1
+796|13|13
+797|8|2
+798|12|8
+799|17|16
+800|14|14
+801|8|18
+802|1|7
+803|3|3
+804|3|16
+805|5|8
+806|10|7
+807|13|13
+808|8|8
+809|8|8
+810|12|12
+811|12|12
+812|12|12
+813|10|10
+814|10|10
+815|10|10
+816|11|11
+817|11|11
+818|11|11
+819|0|0
+820|0|0
+821|2|2
+822|2|2
+823|2|8
+824|6|6
+825|6|14
+826|6|14
+827|17|17
+828|17|17
+829|12|12
+830|12|12
+831|0|0
+832|0|0
+833|11|11
+834|11|5
+835|13|13
+836|13|13
+837|5|5
+838|5|10
+839|5|10
+840|12|16
+841|12|16
+842|12|16
+843|4|4
+844|4|4
+845|2|11
+846|11|11
+847|11|11
+848|13|3
+849|13|3
+850|10|6
+851|10|6
+852|1|1
+853|1|1
+854|7|7
+855|7|7
+856|14|14
+857|14|14
+858|14|18
+859|17|18
+860|17|18
+861|17|18
+862|17|0
+863|8|8
+864|7|7
+865|1|1
+866|15|14
+867|4|7
+868|18|18
+869|18|18
+870|1|1
+871|13|13
+872|15|6
+873|15|6
+874|5|5
+875|15|15
+876|14|0
+877|13|17
+878|8|8
+879|8|8
+880|13|16
+881|13|15
+882|11|16
+883|11|15
+884|8|16
+885|16|7
+886|16|7
+887|16|7
+888|18|18
+889|1|1
+890|3|16
+891|1|1
+892|1|17
+893|17|12
+894|13|13
+895|16|16
+896|15|15
+897|7|7
+898|14|12
+899|0|14
+900|6|5
+901|4|0
+902|11|7
+903|1|3
+904|17|3
+905|18|2
+906|12|12
+907|12|12
+908|12|17
+909|10|10
+910|10|10
+911|10|7
+912|11|11
+913|11|11
+914|11|1
+915|0|0
+916|0|0
+917|6|6
+918|6|6
+919|6|6
+920|6|17
+921|13|13
+922|13|1
+923|13|1
+924|0|0
+925|0|0
+926|18|18
+927|18|18
+928|12|0
+929|12|0
+930|12|0
+931|0|2
+932|5|5
+933|5|5
+934|5|5
+935|10|10
+936|10|14
+937|10|7
+938|13|13
+939|13|13
+940|13|2
+941|13|2
+942|17|17
+943|17|17
+944|3|0
+945|3|0
+946|12|7
+947|12|7
+948|4|12
+949|4|12
+950|5|5
+951|12|12
+952|12|10
+953|6|6
+954|6|14
+955|14|14
+956|14|14
+957|18|8
+958|18|8
+959|18|8
+960|11|11
+961|11|11
+962|2|17
+963|11|11
+964|11|11
+965|8|3
+966|8|3
+967|16|0
+968|8|8
+969|5|3
+970|5|3
+971|7|7
+972|7|7
+973|2|1
+974|15|15
+975|15|15
+976|11|14
+977|11|11
+978|16|11
+979|1|7
+980|3|4
+981|0|14
+982|0|0
+983|17|8
+984|4|1
+985|18|14
+986|12|17
+987|7|18
+988|6|1
+989|13|4
+990|4|8
+991|15|11
+992|1|13
+993|17|2
+994|10|3
+995|5|13
+996|16|15
+997|16|15
+998|16|15
+999|7|7
+1000|8|7
+1001|17|12
+1002|17|15
+1003|17|4
+1004|17|10
+1005|16|17
+1006|18|1
+1007|1|16
+1008|13|16
+1009|11|16
+1010|11|14
+1011|12|16
+1012|12|7
+1013|12|7
+1014|3|1
+1015|3|14
+1016|3|18
+1017|12|12
+1018|8|16
+1019|12|16
+1020|10|16
+1021|13|16
+1022|5|14
+1023|8|14
+1024|0|0
+1025|3|7
+1501|12|3
+1502|10|16
+1503|10|2
+1504|11|11
+1505|6|3
+1506|0|2
+1507|14|14
+1508|11|14
+1509|7|3
+1510|0|0
+1511|6|2
+1512|11|17
+1513|5|2
+1514|14|1
+1515|14|14
+1516|13|16
+1517|8|4
+1518|6|8
+1519|6|1
+1520|17|10
+1521|5|17
+1522|12|16
+1523|10|1
+1524|11|4
+1525|14|18
+1526|17|7
+1527|8|18
+1528|8|8
+1529|1|14
+1530|13|13
+1531|11|17
+1532|10|4
+1533|16|18
+1534|7|7
+1535|17|18
+1536|15|15
+1537|16|2
+1538|8|14
+1539|16|14
+1540|16|14
+1541|0|1
+1542|16|4
+1543|1|8
+1544|12|15
+1545|14|1
+1546|0|18
+1547|5|18
+1548|16|2
+1549|11|11
+1550|4|10
+1551|17|0
+1552|17|0
+1553|13|14
+1554|15|8
+1555|15|8
+1556|15|15
+1557|15|18
+1558|4|8
+1559|4|8
+1560|17|17
+1561|17|17
+1562|5|13
+1563|5|13
+1564|5|13
+1565|3|17
+1566|3|17
+1567|12|16
+1568|10|7
+1569|8|8
+1570|14|14
+1571|14|18
+1572|14|14
+1573|3|14
+1574|1|1
+1575|3|18
+1576|15|14
+1577|14|2
+1578|1|2
+1579|17|2
+1580|3|14
+1581|7|7
+1582|17|0
+1583|17|0
+1584|15|15
+1585|15|15
+1586|4|7
+1587|4|8
+1588|13|13
+1589|13|13
+1590|13|13
+1591|13|13
+1592|13|13
+1593|13|13
+1594|13|13
+1595|13|13
+1596|13|13
+1597|13|13
+1598|13|13
+1599|13|13
+1600|13|13
+1601|13|13
+1602|13|13
+1603|14|14
+1604|14|14
+1605|14|14
+1606|14|14
+1607|14|14
+1608|14|14
+1609|14|14
+1610|14|14
+1611|14|14
+1612|14|14
+1613|14|14
+1614|14|14
+1615|14|14
+1616|14|14
+1617|14|14
+1618|14|14
+1619|14|14
+1620|14|14
+1621|14|14
+1622|14|14
+1623|14|14
+1624|14|14
+1625|14|14
+1626|14|14
+1627|14|14
+1628|14|14
+1629|14|14
+1630|10|10
+1631|11|11
+1632|15|15
+1633|14|14
+1634|14|14
+1635|14|14
+1636|6|6
+1637|6|6
+1638|6|4
+1639|6|8
+1640|12|12
+1641|11|11
+1642|11|4
+1643|13|10
+1644|13|11
+1645|13|15
+1646|13|2
+1647|13|12
+1648|7|16
+1649|12|2
+1650|1|1
+1651|2|2
+1652|3|3
+1653|4|4
+1654|5|5
+1655|6|6
+1656|7|7
+1657|8|8
+1658|10|10
+1659|11|11
+1660|12|12
+1661|13|13
+1662|14|14
+1663|15|15
+1664|16|16
+1665|17|17
+1666|18|18
+1667|11|11
+1668|10|14
+1669|15|10
+1670|0|12
+1671|0|12
+1672|0|12
+1673|0|12
+1674|0|12
+1675|0|12
+1676|2|2
+1677|13|2
+1678|4|2
+1679|16|15
+1680|16|15
+1681|11|1
+1682|0|1
+1683|6|8
+1684|6|8
+1685|6|8
+1686|6|8
+1687|0|0
+1688|11|17
+1689|6|2
+1690|6|2
+1691|6|2
+1692|6|2
+1693|6|2
+1694|6|2
+1695|6|2
+1696|6|2
+1697|6|2
+1698|6|2
+1699|6|2
+1700|6|2
+1701|6|2
+1702|6|2
+1703|6|2
+1704|6|2
+1705|6|2
+1706|6|2
+1707|6|2
+1708|18|18
+1709|18|18
+1710|18|18
+1711|18|18
+1712|18|18
+1713|18|18
+1714|18|18
+1715|18|18
+1716|18|18
+1717|18|18
+1718|18|18
+1719|18|18
+1720|18|18
+1721|0|0
+1722|0|0
+1723|0|0
+1724|0|0
+1725|0|0
+1726|0|0
+1727|0|0
+1728|0|0
+1729|0|0
+1730|14|14
+1731|8|7
+1732|7|12
+1733|7|12
+1734|7|12
+1735|7|12
+1736|7|12
+1737|7|12
+1738|18|18
+1739|16|4
+1740|16|4
+1741|16|4
+1742|16|4
+1743|14|17
+1744|13|2
+1745|14|2
+1746|7|2
+1747|5|5
+1748|5|5
+1749|5|5
+1750|11|11
+1751|1|1
+1752|2|2
+1753|3|3
+1754|4|4
+1755|5|5
+1756|6|6
+1757|7|7
+1758|8|8
+1759|10|10
+1760|11|11
+1761|12|12
+1762|13|13
+1763|14|14
+1764|15|15
+1765|16|16
+1766|17|17
+1767|18|18
+1768|5|2
+1781|7|18
+1782|14|8
+1783|14|7
+1784|14|16
+1785|8|18
+1786|2|11
+1787|2|11
+1788|13|3
+1789|7|7
+1790|7|7
+1791|18|18
+1792|18|18
+1793|18|18
+1794|18|18
+1795|18|18
+1796|18|18
+1797|18|18
+1798|18|18
+1799|15|15
+1800|14|0
+1801|13|17
+1802|18|8
+1803|1|8
+1804|3|16
+1805|1|11
+1806|17|12
+1807|14|15
+1808|14|7
+1809|10|5
+1810|10|5
+1811|13|12
+1812|13|12
+1813|10|7
+1814|17|3
+1815|1|3
+1816|11|17
+1817|0|7
+1818|0|7
+1819|14|2
+1820|16|8
+1821|16|8
+1822|15|5
+1823|12|1
+1824|11|11
+1825|12|1
+1826|1|11
+1827|1|10
+1828|1|1
+1829|4|0
+1830|11|11
+1831|0|0
+1832|0|0
+1833|16|11
+1834|16|11
+1835|16|11
+1840|3|4
+1841|12|12
+1842|12|12
+1843|12|12
+1844|8|16
+1845|11|16
+1846|18|2
+1847|0|11
+1848|0|0
+1849|12|7
+1850|12|7
+1851|18|18
+1852|12|16
+1853|6|2
+1854|10|6
+1855|5|10
+1856|2|8
+1857|11|5
+1858|12|16
+1859|3|3
+1860|14|18
+1861|11|11
+1862|11|15
+1863|1|1
+1864|6|14
+1865|4|4
+1866|0|12
+1867|18|2
+1868|12|3
+1869|16|2
+1870|11|14
+1871|10|0
+1872|12|18
+1873|11|16
+1874|8|2
+1875|15|7
+1876|10|1
+1877|4|8
+1878|6|3
+1879|17|1
+1880|13|13
+1881|7|10
+1882|10|14
+1884|12|1
+1885|11|17
+1887|17|14
+1888|5|1
+1889|3|16
+1890|1|2
+1891|16|4
+1892|0|16
+1893|1|1
+1894|13|13
+1895|13|13
+1896|10|8
+1897|13|13
+1898|17|17
+1899|11|14
+1900|11|14
+1901|3|14
+1902|3|2
+1903|11|15
+1904|10|4
+1905|11|13
+1906|11|4
+1907|12|1
+1908|6|7
+1909|4|16
+1910|12|16
+1911|11|1
+1912|6|18
+1913|3|4
+1914|12|3
+1915|11|11
+1916|17|18
+1917|8|8
+1918|12|12
+1920|11|11
+1921|13|3
+1922|13|3
+1923|1|17
+1924|1|17
+1925|14|8
+1926|17|7
+1927|1|2
+1928|16|16
+1929|1|8
+1930|14|14
+1931|14|14
+1932|4|7
+1933|1|15
+1934|6|8
+1935|8|18
+1937|12|10
+1938|5|3
+1939|16|15
+1940|4|4
+1941|15|8
+1942|0|2
+1943|15|15
+1944|18|8
+1945|6|5
+1946|4|17
+1947|12|12
+1948|13|13
+1949|18|18
+1950|11|14
+1951|11|18
+1952|10|7
+1953|11|17
+1954|3|17
+1955|16|11
+1956|16|11
+1957|16|11
+1958|18|18
+1959|13|0
+"""#
+  static let speciesTypesSoulGold: String = #"""
+1|13|4
+2|13|4
+3|13|4
+4|11|11
+5|11|11
+6|11|3
+7|12|12
+8|12|12
+9|12|12
+10|7|7
+11|7|7
+12|7|3
+13|7|4
+14|7|4
+15|7|4
+16|1|3
+17|1|3
+18|1|3
+19|1|1
+20|1|1
+23|4|4
+24|4|4
+25|14|14
+26|14|14
+27|5|5
+28|5|5
+29|4|4
+30|4|4
+31|4|5
+32|4|4
+33|4|4
+34|4|5
+35|19|19
+36|19|19
+37|11|11
+38|11|11
+39|1|19
+40|1|19
+41|4|3
+42|4|3
+43|13|4
+44|13|4
+45|13|4
+50|5|5
+51|5|5
+52|1|1
+53|1|1
+56|2|2
+57|2|2
+58|11|11
+59|11|11
+60|12|12
+61|12|12
+62|12|2
+63|15|15
+64|15|15
+65|15|15
+66|2|2
+67|2|2
+68|2|2
+69|13|4
+70|13|4
+71|13|4
+72|12|4
+73|12|4
+74|6|5
+75|6|5
+76|6|5
+77|11|11
+78|11|11
+79|12|15
+80|12|15
+81|14|9
+82|14|9
+83|1|3
+86|12|12
+87|12|16
+88|4|4
+89|4|4
+90|12|12
+91|12|16
+92|8|4
+93|8|4
+94|8|4
+95|6|5
+100|14|14
+101|14|14
+102|13|15
+103|13|15
+104|5|5
+105|5|5
+106|2|2
+107|2|2
+108|1|1
+109|4|4
+110|4|4
+111|5|6
+112|5|6
+113|1|1
+114|13|13
+115|1|1
+116|12|12
+117|12|12
+120|12|12
+121|12|15
+122|15|19
+123|7|3
+125|14|14
+126|11|11
+127|7|7
+128|1|1
+129|12|12
+130|12|3
+131|12|16
+132|1|1
+133|1|1
+134|12|12
+135|14|14
+136|11|11
+137|1|1
+140|6|12
+141|6|12
+142|6|3
+143|1|1
+144|16|3
+145|14|3
+146|11|3
+147|17|17
+148|17|17
+149|17|3
+150|15|15
+151|15|15
+152|13|13
+153|13|13
+154|13|13
+155|11|11
+156|11|11
+157|11|11
+158|12|12
+159|12|12
+160|12|12
+163|1|3
+164|1|3
+167|7|4
+168|7|4
+169|4|3
+170|12|14
+171|12|14
+172|14|14
+173|19|19
+174|1|19
+175|19|19
+176|19|3
+177|15|3
+178|15|3
+179|14|14
+180|14|14
+181|14|14
+182|13|13
+183|12|19
+184|12|19
+185|6|6
+186|12|12
+187|13|3
+188|13|3
+189|13|3
+190|1|1
+193|7|3
+194|12|5
+195|12|5
+196|15|15
+197|18|18
+198|18|3
+199|12|15
+200|8|8
+201|15|15
+202|15|15
+203|1|15
+206|1|1
+207|5|3
+208|9|5
+211|12|4
+212|7|9
+214|7|2
+215|18|16
+216|1|1
+217|1|1
+220|16|5
+221|16|5
+222|12|6
+225|16|3
+226|12|3
+227|9|3
+228|18|11
+229|18|11
+230|12|17
+231|5|5
+232|5|5
+233|1|1
+234|1|1
+236|2|2
+237|2|2
+239|14|14
+240|11|11
+241|1|1
+242|1|1
+243|14|14
+244|11|11
+245|12|12
+246|6|5
+247|6|5
+248|6|18
+249|15|3
+250|11|3
+251|15|13
+252|13|13
+253|13|13
+254|13|13
+255|11|11
+256|11|2
+257|11|2
+258|12|12
+259|12|5
+260|12|5
+263|1|1
+264|1|1
+278|12|3
+279|12|3
+280|15|19
+281|15|19
+282|15|19
+285|13|13
+286|13|2
+290|7|5
+291|7|3
+292|7|8
+296|2|2
+297|2|2
+298|1|19
+299|6|6
+302|18|8
+303|9|19
+304|9|6
+305|9|6
+306|9|6
+307|2|15
+308|2|15
+309|14|14
+310|14|14
+315|13|4
+318|12|18
+319|12|18
+322|11|5
+323|11|5
+324|11|11
+328|5|5
+329|5|17
+330|5|17
+331|13|13
+332|13|18
+333|1|3
+334|17|3
+339|12|5
+340|12|5
+343|5|15
+344|5|15
+345|6|13
+346|6|13
+349|12|12
+350|12|12
+353|8|8
+354|8|8
+355|8|8
+356|8|8
+357|13|3
+358|15|15
+359|18|18
+360|15|15
+361|16|16
+362|16|16
+363|16|12
+364|16|12
+365|16|12
+371|17|17
+372|17|17
+373|17|3
+374|9|15
+375|9|15
+376|9|15
+377|6|6
+378|16|16
+379|9|9
+380|17|15
+381|17|15
+382|12|12
+383|5|5
+384|17|3
+385|9|15
+386|15|15
+387|13|13
+388|13|13
+389|13|5
+390|11|11
+391|11|2
+392|11|2
+393|12|12
+394|12|12
+395|12|9
+396|1|3
+397|1|3
+398|1|3
+403|14|14
+404|14|14
+405|14|14
+406|13|4
+407|13|4
+417|14|14
+418|12|12
+419|12|12
+422|12|12
+423|12|5
+424|1|1
+425|8|3
+426|8|3
+427|1|1
+428|1|1
+429|8|8
+430|18|3
+433|15|15
+438|6|6
+439|15|19
+440|1|1
+442|8|18
+443|17|5
+444|17|5
+445|17|5
+446|1|1
+447|2|2
+448|2|9
+449|5|5
+450|5|5
+451|4|7
+452|4|18
+456|12|12
+457|12|12
+458|12|3
+459|13|16
+460|13|16
+461|18|16
+462|14|9
+463|1|1
+464|5|6
+465|13|13
+466|14|14
+467|11|11
+468|19|3
+469|7|3
+470|13|13
+471|16|16
+472|5|3
+473|16|5
+474|1|1
+475|15|2
+476|6|9
+477|8|8
+478|16|8
+479|14|8
+480|15|15
+481|15|15
+482|15|15
+483|9|17
+484|12|17
+485|11|9
+486|1|1
+487|8|17
+488|15|15
+489|12|12
+490|12|12
+491|18|18
+492|13|13
+493|1|1
+494|15|11
+495|13|13
+496|13|13
+497|13|13
+498|11|11
+499|11|2
+500|11|2
+501|12|12
+502|12|12
+503|12|12
+529|5|5
+530|5|9
+531|1|1
+540|7|13
+541|7|13
+542|7|13
+543|7|4
+544|7|4
+545|7|4
+546|13|19
+547|13|19
+548|13|13
+549|13|13
+550|12|12
+551|5|18
+552|5|18
+553|5|18
+554|11|11
+555|11|11
+556|13|13
+559|18|2
+560|18|2
+562|8|8
+563|8|8
+566|6|3
+567|6|3
+570|18|18
+571|18|18
+572|1|1
+573|1|1
+577|15|15
+578|15|15
+579|15|15
+587|14|3
+595|7|14
+596|7|14
+597|13|9
+598|13|9
+602|14|14
+603|14|14
+604|14|14
+607|8|11
+608|8|11
+609|8|11
+610|17|17
+611|17|17
+612|17|17
+618|5|14
+619|2|2
+620|2|2
+622|5|8
+623|5|8
+624|18|9
+625|18|9
+627|1|3
+628|1|3
+629|18|3
+630|18|3
+633|18|17
+634|18|17
+635|18|17
+636|7|11
+637|7|11
+638|9|2
+639|6|2
+640|13|2
+641|3|3
+642|14|3
+643|17|11
+644|17|14
+645|5|3
+646|17|16
+647|12|2
+648|1|15
+649|7|9
+650|13|13
+651|13|13
+652|13|2
+653|11|11
+654|11|11
+655|11|15
+656|12|12
+657|12|12
+658|12|18
+661|1|3
+662|11|3
+663|11|3
+667|11|1
+668|11|1
+669|19|19
+670|19|19
+671|19|19
+672|13|13
+673|13|13
+677|15|15
+678|15|15
+679|9|8
+680|9|8
+681|9|8
+686|18|15
+687|18|15
+688|6|12
+689|6|12
+690|4|12
+691|4|17
+692|12|12
+693|12|12
+696|6|17
+697|6|17
+698|6|16
+699|6|16
+700|19|19
+701|2|3
+704|17|17
+705|17|17
+706|17|17
+707|9|19
+708|8|13
+709|8|13
+712|16|16
+713|16|16
+714|3|17
+715|3|17
+716|19|19
+717|18|3
+718|17|5
+719|6|19
+720|15|8
+721|11|12
+722|13|3
+723|13|3
+724|13|8
+725|11|11
+726|11|11
+727|11|18
+728|12|12
+729|12|12
+730|12|19
+736|7|7
+737|7|14
+738|7|14
+739|2|2
+740|2|16
+741|11|3
+742|7|19
+743|7|19
+744|6|6
+745|6|6
+747|4|12
+748|4|12
+767|7|12
+768|7|12
+771|12|12
+778|8|19
+780|1|17
+781|8|13
+782|17|17
+783|17|2
+784|17|2
+785|14|19
+786|15|19
+787|13|19
+788|12|19
+789|15|15
+790|15|15
+791|15|9
+792|15|8
+800|15|15
+801|9|19
+802|2|8
+803|4|4
+804|4|17
+807|14|14
+808|9|9
+809|9|9
+810|13|13
+811|13|13
+812|13|13
+813|11|11
+814|11|11
+815|11|11
+816|12|12
+817|12|12
+818|12|12
+821|3|3
+822|3|3
+823|3|9
+840|13|17
+841|13|17
+842|13|17
+843|5|5
+844|5|5
+848|14|4
+849|14|4
+850|11|7
+851|11|7
+854|8|8
+855|8|8
+859|18|19
+860|18|19
+861|18|19
+862|18|1
+863|9|9
+864|8|8
+865|2|2
+866|16|15
+867|5|8
+870|2|2
+876|15|1
+884|9|17
+885|17|8
+886|17|8
+887|17|8
+888|19|19
+889|2|2
+890|4|17
+891|2|2
+892|2|18
+893|18|13
+894|14|14
+895|17|17
+896|16|16
+897|8|8
+898|15|13
+899|1|15
+900|7|6
+901|5|1
+902|12|8
+903|2|4
+904|18|4
+905|19|3
+906|13|4
+907|11|17
+908|11|3
+909|12|12
+910|7|4
+911|1|3
+912|15|15
+913|12|15
+914|8|4
+915|1|1
+916|7|3
+917|12|18
+918|6|3
+919|15|2
+920|15|15
+921|14|17
+922|9|5
+923|7|9
+924|7|2
+925|18|11
+926|6|18
+927|13|17
+928|11|2
+929|12|5
+930|15|19
+931|18|8
+932|9|19
+933|9|9
+934|2|15
+935|14|14
+936|12|18
+937|11|5
+938|17|19
+939|8|8
+940|18|18
+941|16|16
+942|17|3
+943|9|15
+944|17|15
+945|17|15
+946|1|2
+947|17|5
+948|2|9
+949|13|16
+950|15|2
+951|1|19
+952|6|19
+953|17|3
+954|12|12
+955|5|11
+956|18|1
+957|18|1
+958|14|15
+959|16|9
+960|16|9
+961|16|16
+962|16|19
+963|5|9
+964|5|9
+965|18|18
+966|18|18
+967|6|14
+968|6|14
+969|6|14
+970|4|18
+971|4|18
+972|13|17
+973|11|8
+974|9|9
+975|15|15
+976|15|19
+977|15|15
+978|4|15
+979|2|2
+980|4|19
+981|16|15
+982|15|3
+983|2|3
+984|18|3
+985|4|15
+986|8|8
+987|18|1
+988|18|1
+989|16|16
+990|16|16
+991|5|8
+992|5|9
+993|11|6
+994|11|6
+995|14|13
+996|14|13
+997|11|8
+998|18|4
+999|2|4
+1000|12|18
+1001|13|2
+1002|1|8
+1003|1|8
+1004|15|3
+1005|17|9
+1006|17|9
+1007|16|6
+1008|13|2
+1023|14|14
+1024|15|15
+1025|15|15
+1026|15|15
+1027|15|15
+1028|15|15
+1029|15|15
+1030|15|15
+1031|15|15
+1032|15|15
+1033|15|15
+1034|15|15
+1035|15|15
+1036|15|15
+1037|15|15
+1038|15|15
+1039|15|15
+1040|15|15
+1041|15|15
+1042|15|15
+1043|15|15
+1044|15|15
+1045|15|15
+1046|15|15
+1047|15|15
+1048|15|15
+1049|15|15
+1050|15|15
+1054|15|15
+1055|15|15
+1056|15|15
+1062|12|12
+1063|12|5
+1064|14|11
+1065|14|12
+1066|14|16
+1067|14|3
+1068|14|13
+1069|9|17
+1070|12|17
+1071|8|17
+1072|13|3
+1073|2|2
+1074|3|3
+1075|4|4
+1076|5|5
+1077|6|6
+1078|7|7
+1079|8|8
+1080|9|9
+1081|11|11
+1082|12|12
+1083|13|13
+1084|14|14
+1085|15|15
+1086|16|16
+1087|17|17
+1088|18|18
+1089|19|19
+1090|12|12
+1091|12|12
+1092|11|15
+1093|16|11
+1100|3|3
+1101|14|3
+1102|5|3
+1103|19|3
+1104|17|16
+1105|17|16
+1106|12|2
+1107|1|2
+1108|7|9
+1109|7|9
+1110|7|9
+1111|7|9
+1112|12|18
+1113|12|18
+1133|19|19
+1134|19|19
+1135|19|19
+1136|19|19
+1137|19|19
+1138|19|19
+1139|19|19
+1140|19|19
+1141|19|19
+1142|19|19
+1143|19|19
+1144|19|19
+1145|19|19
+1155|15|15
+1156|9|8
+1163|19|19
+1164|17|5
+1165|17|5
+1166|17|5
+1167|17|5
+1168|15|18
+1169|14|3
+1170|15|3
+1171|8|3
+1172|6|6
+1173|6|6
+1174|6|6
+1206|8|19
+1207|15|9
+1208|15|8
+1209|15|17
+1210|9|19
+1213|14|4
+1214|8|8
+1215|8|8
+1225|15|1
+1227|19|9
+1228|2|9
+1229|4|17
+1230|2|12
+1231|18|13
+1232|15|16
+1233|15|8
+1234|12|8
+1289|13|13
+1290|13|13
+1291|13|18
+1292|11|11
+1293|11|11
+1294|11|8
+1295|12|12
+1296|12|12
+1297|12|2
+1305|14|14
+1306|14|2
+1307|14|2
+1308|1|1
+1309|1|1
+1310|1|1
+1320|6|6
+1321|6|6
+1322|6|6
+1323|11|11
+1324|11|15
+1325|11|8
+1328|14|3
+1329|14|3
+1339|13|13
+1340|13|11
+1343|15|15
+1344|15|15
+1345|19|9
+1346|19|9
+1347|19|9
+1351|12|12
+1352|12|12
+1353|12|12
+1356|17|1
+1358|6|4
+1359|6|4
+1362|3|2
+1366|12|12
+1367|17|12
+1368|17|12
+1369|17|12
+1370|2|8
+1371|4|5
+1372|1|15
+1373|1|1
+1374|1|1
+1375|18|9
+1376|5|2
+1377|19|15
+1378|13|18
+1379|8|19
+1380|7|2
+1381|14|5
+1382|5|9
+1383|16|12
+1384|2|14
+1385|18|3
+1386|11|4
+1387|6|14
+1388|17|16
+1389|17|16
+1390|17|16
+1391|8|8
+1392|8|8
+1393|9|8
+1395|18|16
+1397|18|11
+1398|17|18
+1399|19|2
+1400|2|17
+1401|14|17
+1402|2|2
+1403|2|11
+1404|2|12
+1405|4|5
+1406|12|17
+1407|13|15
+1408|13|17
+1409|13|8
+1410|13|8
+1411|13|8
+1412|13|8
+1415|4|19
+1416|13|13
+1417|13|12
+1418|13|11
+1419|13|6
+1420|13|13
+1421|13|12
+1422|13|11
+1423|13|6
+1424|5|1
+1425|9|17
+1426|13|17
+1427|11|17
+1428|14|17
+1429|6|15
+1430|9|15
+1431|1|1
+1432|1|1
+1433|1|1
+1434|4|8
+1435|18|15
+1476|18|1
+1478|7|14
+1481|8|19
+1482|17|2
+1483|11|8
+1484|7|19
+1487|14|14
+1488|1|1
+1489|13|4
+1490|12|12
+1491|11|3
+1492|7|15
+1493|14|14
+1494|1|1
+1495|2|2
+1496|8|4
+1498|12|16
+1499|1|1
+1500|1|13
+1502|9|9
+1503|13|13
+1504|11|11
+1505|12|12
+1506|3|9
+1510|13|17
+1511|13|17
+1512|5|5
+1513|14|4
+1514|14|4
+1515|11|7
+1517|18|19
+1520|9|17
+1521|2|18
+1522|2|12
+1523|8|19
+1524|19|3
+1525|13|4
+1526|12|15
+1527|17|3
+1528|13|19
+1529|12|17
+1530|9|3
+1531|16|8
+1532|11|2
+1533|5|9
+1534|7|4
+1535|18|2
+1536|14|14
+1537|8|11
+1538|13|2
+1539|11|15
+1540|12|18
+1541|11|1
+1542|18|15
+1543|4|17
+1544|2|3
+1545|19|19
+1546|6|2
+1547|17|5
+1548|1|17
+1549|2|2
+1550|11|9
+1551|18|18
+1552|14|14
+1553|14|14
+1554|14|14
+1555|15|9
+1556|18|8
+1557|2|3
+1558|17|17
+1559|2|9
+1560|5|8
+1561|15|15
+1562|15|15
+1563|2|16
+1564|7|9
+1565|9|19
+1566|9|19
+1567|13|11
+1568|17|16
+1569|17|12
+1570|17|12
+1571|17|12
+1572|6|4
+1573|11|5
+1574|12|19
+1575|13|18
+1576|15|18
+1577|9|17
+"""#
+  static let speciesTypesRadicalRed: String = #"""
+1|12|3
+2|12|3
+3|12|3
+4|10|10
+5|10|10
+6|10|2
+7|11|11
+8|11|11
+9|11|11
+10|6|6
+11|6|6
+12|6|2
+13|6|3
+14|6|3
+15|6|3
+16|0|2
+17|0|2
+18|0|2
+19|0|0
+20|0|0
+21|0|2
+22|0|2
+23|3|3
+24|3|17
+25|13|13
+26|13|0
+27|4|4
+28|4|4
+29|3|3
+30|3|3
+31|3|4
+32|3|3
+33|3|3
+34|3|4
+35|23|23
+36|23|23
+37|10|10
+38|10|10
+39|0|23
+40|0|23
+41|3|2
+42|3|2
+43|12|3
+44|12|3
+45|12|3
+46|6|12
+47|6|12
+48|6|3
+49|6|14
+50|4|4
+51|4|4
+52|0|0
+53|0|0
+54|11|11
+55|11|14
+56|1|1
+57|1|1
+58|10|10
+59|10|10
+60|11|11
+61|11|11
+62|11|1
+63|14|14
+64|14|14
+65|14|14
+66|1|1
+67|1|1
+68|1|1
+69|12|3
+70|12|3
+71|12|3
+72|11|3
+73|11|3
+74|5|4
+75|5|4
+76|5|4
+77|10|10
+78|10|10
+79|11|14
+80|11|14
+81|13|8
+82|13|8
+83|2|1
+84|0|2
+85|0|2
+86|11|11
+87|11|15
+88|3|3
+89|3|3
+90|11|11
+91|11|15
+92|7|3
+93|7|3
+94|7|3
+95|5|4
+96|14|14
+97|14|14
+98|11|11
+99|11|11
+100|13|13
+101|13|13
+102|12|14
+103|12|14
+104|4|4
+105|4|4
+106|1|1
+107|1|1
+108|0|0
+109|3|3
+110|3|3
+111|4|5
+112|4|5
+113|0|0
+114|12|12
+115|0|0
+116|11|11
+117|11|11
+118|11|11
+119|11|11
+120|11|11
+121|11|14
+122|14|23
+123|6|2
+124|15|14
+125|13|13
+126|10|10
+127|6|6
+128|0|0
+129|11|11
+130|11|2
+131|11|16
+132|0|0
+133|0|0
+134|11|11
+135|13|13
+136|10|10
+137|0|0
+138|5|11
+139|5|11
+140|5|11
+141|5|11
+142|5|2
+143|0|0
+144|15|2
+145|13|2
+146|10|2
+147|16|16
+148|16|16
+149|16|2
+150|14|14
+151|14|14
+152|12|12
+153|12|12
+154|12|23
+155|10|10
+156|10|10
+157|10|10
+158|11|11
+159|11|11
+160|11|11
+161|0|0
+162|0|0
+163|0|2
+164|0|2
+165|6|2
+166|6|1
+167|6|3
+168|6|3
+169|3|2
+170|11|13
+171|11|13
+172|13|13
+173|23|23
+174|0|23
+175|23|23
+176|23|2
+177|14|2
+178|14|2
+179|13|13
+180|13|13
+181|13|13
+182|12|23
+183|11|23
+184|11|23
+185|5|5
+186|11|11
+187|12|2
+188|12|2
+189|12|2
+190|0|0
+191|12|12
+192|12|12
+193|6|2
+194|11|4
+195|11|4
+196|14|14
+197|17|17
+198|17|2
+199|11|14
+200|7|7
+201|14|14
+202|14|14
+203|0|14
+204|6|6
+205|6|8
+206|0|0
+207|4|2
+208|8|4
+209|23|23
+210|23|1
+211|11|3
+212|6|8
+213|6|5
+214|6|1
+215|17|15
+216|0|0
+217|0|0
+218|10|10
+219|10|5
+220|15|4
+221|15|4
+222|11|5
+223|11|11
+224|11|11
+225|15|2
+226|11|2
+227|8|2
+228|17|10
+229|17|10
+230|11|16
+231|4|4
+232|4|4
+233|0|0
+234|0|0
+235|0|0
+236|1|1
+237|1|1
+238|15|14
+239|13|13
+240|10|10
+241|0|0
+242|0|0
+243|13|13
+244|10|10
+245|11|11
+246|5|4
+247|5|4
+248|5|17
+249|14|2
+250|10|2
+251|14|12
+277|12|12
+278|12|12
+279|12|16
+280|10|10
+281|10|1
+282|10|1
+283|11|11
+284|11|4
+285|11|4
+286|17|17
+287|17|17
+288|0|0
+289|0|0
+290|6|6
+291|6|6
+292|6|2
+293|6|6
+294|6|3
+295|11|12
+296|11|12
+297|11|12
+298|12|12
+299|12|17
+300|12|17
+301|6|4
+302|6|2
+303|6|7
+304|0|2
+305|0|2
+306|12|12
+307|12|1
+308|0|0
+309|11|2
+310|11|2
+311|6|11
+312|6|11
+313|11|11
+314|11|11
+315|0|0
+316|0|0
+317|0|0
+318|4|14
+319|4|14
+320|5|5
+321|10|10
+322|17|7
+323|11|4
+324|11|4
+325|11|23
+326|11|11
+327|11|17
+328|11|11
+329|11|11
+330|11|17
+331|11|17
+332|4|4
+333|4|16
+334|4|16
+335|1|1
+336|1|1
+337|13|13
+338|13|13
+339|10|4
+340|10|4
+341|15|11
+342|15|11
+343|15|11
+344|12|12
+345|12|17
+346|15|15
+347|15|15
+348|5|14
+349|5|14
+350|0|23
+351|14|14
+352|14|14
+353|13|13
+354|13|13
+355|8|23
+356|1|14
+357|1|14
+358|0|2
+359|16|2
+360|14|14
+361|7|7
+362|7|7
+363|12|3
+364|0|0
+365|0|0
+366|0|0
+367|3|3
+368|3|3
+369|12|16
+370|0|0
+371|0|0
+372|0|0
+373|11|11
+374|11|17
+375|11|23
+376|17|17
+377|7|7
+378|7|7
+379|3|3
+380|0|0
+381|11|5
+382|8|5
+383|8|5
+384|8|5
+385|0|0
+386|6|13
+387|6|23
+388|5|12
+389|5|12
+390|5|6
+391|5|6
+392|14|23
+393|14|23
+394|14|23
+395|16|16
+396|16|16
+397|16|2
+398|8|14
+399|8|14
+400|8|14
+401|5|5
+402|15|15
+403|8|8
+404|11|11
+405|4|4
+406|16|2
+407|16|14
+408|16|14
+409|8|14
+410|14|14
+411|14|14
+412|0|0
+413|14|14
+414|14|14
+415|14|14
+416|14|14
+417|14|14
+418|14|14
+419|14|14
+420|14|14
+421|14|14
+422|14|14
+423|14|14
+424|14|14
+425|14|14
+426|14|14
+427|14|14
+428|14|14
+429|14|14
+430|14|14
+431|14|14
+432|14|14
+433|14|14
+434|14|14
+435|14|14
+436|14|14
+437|14|14
+438|14|14
+439|14|14
+440|12|12
+441|12|12
+442|12|4
+443|10|10
+444|10|1
+445|10|1
+446|11|11
+447|11|11
+448|11|8
+449|0|2
+450|0|2
+451|0|2
+452|0|0
+453|0|11
+454|6|6
+455|6|6
+456|13|13
+457|13|13
+458|13|17
+459|12|3
+460|12|3
+461|5|5
+462|5|5
+463|5|8
+464|5|8
+465|6|6
+466|6|12
+467|6|2
+468|6|2
+469|6|2
+470|13|13
+471|11|11
+472|11|11
+473|12|12
+474|12|12
+475|11|11
+476|11|4
+477|0|0
+478|7|2
+479|7|2
+480|0|0
+481|0|1
+482|7|23
+483|17|2
+484|0|0
+485|0|0
+486|14|14
+487|3|17
+488|3|17
+489|8|14
+490|8|14
+491|5|5
+492|14|23
+493|0|0
+494|0|2
+495|7|17
+496|16|4
+497|16|4
+498|16|4
+499|0|0
+500|1|1
+501|1|8
+502|4|4
+503|4|4
+504|3|6
+505|3|17
+506|3|1
+507|3|1
+508|12|12
+509|11|11
+510|11|11
+511|11|2
+512|12|15
+513|12|15
+514|17|15
+515|13|8
+516|0|0
+517|4|5
+518|12|12
+519|13|13
+520|10|10
+521|23|2
+522|6|2
+523|12|12
+524|15|15
+525|4|2
+526|15|4
+527|0|0
+528|14|1
+529|5|8
+530|7|7
+531|15|7
+532|13|7
+533|14|14
+534|14|14
+535|14|14
+536|8|16
+537|11|16
+538|10|8
+539|0|0
+540|7|16
+541|14|14
+542|11|11
+543|11|11
+544|17|17
+545|12|12
+546|0|0
+547|14|10
+548|12|12
+549|12|12
+550|12|12
+551|10|10
+552|10|1
+553|10|1
+554|11|11
+555|11|11
+556|11|8
+557|0|0
+558|0|0
+559|0|0
+560|0|0
+561|0|0
+562|17|17
+563|17|17
+564|12|12
+565|12|12
+566|10|10
+567|10|10
+568|11|11
+569|11|11
+570|14|14
+571|14|14
+572|0|2
+573|0|2
+574|0|2
+575|13|13
+576|13|13
+577|5|5
+578|5|5
+579|5|5
+580|14|2
+581|14|2
+582|4|4
+583|4|8
+584|0|0
+585|1|1
+586|1|1
+587|1|1
+588|11|11
+589|11|4
+590|11|4
+591|1|1
+592|1|1
+593|6|12
+594|6|12
+595|6|12
+596|6|3
+597|6|3
+598|6|3
+599|12|23
+600|12|23
+601|12|12
+602|12|12
+603|11|11
+604|4|17
+605|4|17
+606|4|17
+607|10|10
+608|10|10
+609|12|12
+610|6|5
+611|6|5
+612|17|1
+613|17|1
+614|14|2
+615|7|7
+616|7|7
+617|11|5
+618|11|5
+619|5|2
+620|5|2
+621|3|3
+622|3|3
+623|17|17
+624|17|17
+625|0|0
+626|0|0
+627|14|14
+628|14|14
+629|14|14
+630|14|14
+631|14|14
+632|14|14
+633|11|2
+634|11|2
+635|15|15
+636|15|15
+637|15|15
+638|0|12
+639|0|12
+640|13|2
+641|6|6
+642|6|8
+643|12|3
+644|12|3
+645|11|7
+646|11|7
+647|11|11
+648|6|13
+649|6|13
+650|12|8
+651|12|8
+652|8|8
+653|8|8
+654|8|8
+655|13|13
+656|13|13
+657|13|13
+658|14|14
+659|14|14
+660|7|10
+661|7|10
+662|7|10
+663|16|16
+664|16|16
+665|16|16
+666|15|15
+667|15|1
+668|15|15
+669|6|6
+670|6|6
+671|4|13
+672|1|1
+673|1|1
+674|16|16
+675|4|7
+676|4|7
+677|17|8
+678|17|8
+679|0|0
+680|0|2
+681|0|2
+682|17|2
+683|17|2
+684|10|10
+685|6|8
+686|17|16
+687|17|16
+688|17|16
+689|6|10
+690|6|10
+691|8|1
+692|5|1
+693|12|1
+694|2|2
+695|13|2
+696|16|10
+697|16|13
+698|4|2
+699|16|15
+700|11|1
+701|0|14
+702|6|8
+703|0|2
+704|11|7
+705|11|7
+706|5|5
+707|6|6
+708|6|6
+709|6|4
+710|6|8
+711|11|11
+712|11|4
+713|13|10
+714|13|11
+715|13|15
+716|13|2
+717|13|12
+718|7|16
+719|12|2
+720|1|1
+721|2|2
+722|3|3
+723|4|4
+724|5|5
+725|6|6
+726|7|7
+727|8|8
+728|10|10
+729|11|11
+730|12|12
+731|13|13
+732|14|14
+733|15|15
+734|16|16
+735|17|17
+736|11|11
+737|10|14
+738|0|12
+739|0|12
+740|0|12
+741|0|12
+742|0|12
+743|0|12
+744|4|4
+745|4|4
+746|0|1
+747|17|4
+748|17|15
+749|17|12
+750|17|10
+751|12|12
+752|16|15
+753|16|15
+754|2|2
+755|13|2
+756|4|2
+757|11|1
+758|12|12
+759|12|12
+760|12|1
+761|10|10
+762|10|10
+763|10|14
+764|11|11
+765|11|11
+766|11|17
+767|0|0
+768|0|4
+769|0|2
+770|10|2
+771|10|2
+772|6|6
+773|6|6
+774|6|2
+775|10|0
+776|10|0
+777|23|23
+778|23|23
+779|23|23
+780|12|12
+781|12|12
+782|1|1
+783|1|17
+784|0|0
+785|14|14
+786|14|14
+787|8|7
+788|8|7
+789|8|7
+790|23|23
+791|23|23
+792|23|23
+793|23|23
+794|17|14
+795|17|14
+796|5|11
+797|5|11
+798|3|11
+799|3|16
+800|11|11
+801|11|11
+802|13|0
+803|13|0
+804|5|16
+805|5|16
+806|5|15
+807|5|15
+808|23|23
+809|1|2
+810|13|23
+811|5|23
+812|16|16
+813|16|16
+814|16|16
+815|8|23
+816|7|12
+817|7|12
+818|7|12
+819|7|12
+820|15|15
+821|15|15
+822|2|16
+823|2|16
+824|23|23
+825|17|2
+826|16|4
+827|5|23
+828|14|7
+829|14|17
+830|10|11
+831|10|0
+832|14|14
+833|8|7
+834|23|23
+835|3|8
+836|3|8
+837|16|4
+838|16|4
+839|11|17
+840|23|8
+841|23|8
+842|23|8
+843|13|13
+844|13|1
+845|13|1
+846|0|0
+847|0|0
+848|23|23
+849|0|0
+850|7|7
+851|7|7
+852|7|8
+853|7|12
+854|7|12
+855|7|12
+856|7|12
+857|7|12
+858|7|12
+859|7|7
+860|7|7
+861|13|13
+862|13|13
+863|11|11
+864|11|11
+865|11|11
+866|5|7
+867|5|7
+868|0|14
+869|12|3
+870|10|16
+871|10|2
+872|11|11
+873|6|3
+874|0|2
+875|14|14
+876|11|14
+877|7|3
+878|0|0
+879|6|2
+880|11|17
+881|5|2
+882|14|1
+883|14|14
+884|13|16
+885|8|4
+886|6|8
+887|6|1
+888|17|10
+889|5|17
+890|12|16
+891|10|1
+892|11|4
+893|14|23
+894|17|7
+895|8|23
+896|8|8
+897|1|14
+898|13|13
+899|11|17
+900|10|4
+901|16|23
+902|7|0
+903|17|23
+904|15|15
+905|16|2
+906|8|14
+907|16|14
+908|16|14
+909|4|10
+910|11|11
+911|16|2
+912|0|1
+913|16|4
+914|1|8
+915|12|15
+916|14|1
+917|0|23
+918|5|23
+919|8|16
+920|0|0
+921|12|12
+922|12|12
+923|12|17
+924|10|10
+925|10|10
+926|10|7
+927|11|11
+928|11|11
+929|11|1
+930|3|4
+931|3|4
+932|11|11
+933|11|11
+934|10|7
+935|10|14
+936|17|8
+937|1|7
+938|10|10
+939|12|2
+940|12|2
+941|12|7
+942|10|10
+943|10|10
+944|10|17
+945|11|11
+946|11|11
+947|11|23
+948|0|2
+949|0|2
+950|0|2
+951|0|0
+952|0|0
+953|6|6
+954|6|13
+955|6|13
+956|1|1
+957|1|15
+958|10|2
+959|6|23
+960|6|23
+961|5|5
+962|5|5
+963|11|11
+964|3|11
+965|3|11
+966|4|4
+967|4|4
+968|11|6
+969|11|6
+970|12|12
+971|12|1
+972|12|23
+973|12|23
+974|3|10
+975|3|10
+976|0|1
+977|0|1
+978|12|12
+979|12|12
+980|12|12
+981|23|23
+982|0|14
+983|1|1
+984|6|11
+985|6|11
+986|7|4
+987|7|4
+988|11|11
+989|0|0
+990|0|0
+991|5|2
+992|0|0
+993|10|16
+994|13|8
+995|7|23
+996|11|14
+997|0|16
+998|7|12
+999|16|16
+1000|16|1
+1001|16|1
+1002|13|23
+1003|14|23
+1004|12|23
+1005|11|23
+1006|14|14
+1007|14|14
+1008|14|8
+1009|14|7
+1010|5|3
+1011|6|1
+1012|6|1
+1013|13|13
+1014|8|2
+1015|12|8
+1016|17|16
+1017|14|14
+1018|8|23
+1019|1|7
+1020|17|0
+1021|17|0
+1022|13|14
+1023|15|8
+1024|15|8
+1025|15|15
+1026|15|23
+1027|4|8
+1028|4|8
+1029|17|17
+1030|17|17
+1031|5|13
+1032|5|13
+1033|5|13
+1034|3|17
+1035|3|17
+1036|12|14
+1037|12|16
+1038|4|4
+1039|10|7
+1040|14|14
+1041|14|14
+1042|14|14
+1043|13|2
+1044|14|2
+1045|7|2
+1046|5|5
+1047|11|11
+1048|1|1
+1049|2|2
+1050|3|3
+1051|4|4
+1052|5|5
+1053|6|6
+1054|7|7
+1055|8|8
+1056|10|10
+1057|11|11
+1058|12|12
+1059|13|13
+1060|14|14
+1061|15|15
+1062|16|16
+1063|17|17
+1064|23|23
+1065|5|2
+1066|5|2
+1067|5|2
+1068|5|2
+1069|5|2
+1070|5|2
+1071|5|2
+1072|7|23
+1073|8|23
+1074|3|3
+1075|3|16
+1076|5|8
+1077|10|7
+1078|13|13
+1079|14|8
+1080|14|7
+1081|14|16
+1082|5|5
+1083|8|8
+1084|8|8
+1085|13|11
+1086|13|2
+1087|13|13
+1088|13|1
+1089|13|23
+1090|13|8
+1091|13|15
+1092|13|14
+1093|13|13
+1094|13|13
+1095|13|13
+1096|13|13
+1097|13|13
+1098|13|13
+1099|13|13
+1100|0|0
+1101|16|0
+1102|12|12
+1103|12|12
+1104|12|12
+1105|10|10
+1106|10|10
+1107|10|10
+1108|11|11
+1109|11|11
+1110|11|11
+1111|0|0
+1112|0|0
+1113|2|2
+1114|2|2
+1115|2|8
+1116|6|6
+1117|6|14
+1118|6|14
+1119|17|17
+1120|17|17
+1121|12|12
+1122|12|12
+1123|0|0
+1124|0|0
+1125|11|11
+1126|11|5
+1127|13|13
+1128|13|13
+1129|5|5
+1130|5|10
+1131|5|10
+1132|12|16
+1133|12|16
+1134|12|16
+1135|4|4
+1136|4|4
+1137|2|11
+1138|11|11
+1139|11|11
+1140|13|3
+1141|13|3
+1142|10|6
+1143|10|6
+1144|1|11
+1145|1|11
+1146|7|7
+1147|7|7
+1148|14|14
+1149|14|14
+1150|14|23
+1151|17|23
+1152|17|23
+1153|17|23
+1154|17|0
+1155|8|8
+1156|7|7
+1157|1|1
+1158|15|14
+1159|4|7
+1160|23|23
+1161|23|23
+1162|1|6
+1163|13|11
+1164|15|6
+1165|15|6
+1166|5|5
+1167|15|15
+1168|14|0
+1169|13|17
+1170|8|8
+1171|8|8
+1172|13|16
+1173|13|15
+1174|11|16
+1175|11|15
+1176|8|16
+1177|16|7
+1178|16|7
+1179|16|7
+1180|23|23
+1181|1|1
+1182|3|16
+1183|1|1
+1184|1|17
+1185|17|12
+1186|6|16
+1187|14|12
+1188|13|13
+1189|16|16
+1190|2|11
+1191|2|11
+1192|13|3
+1193|1|16
+1194|13|16
+1195|16|15
+1196|16|15
+1197|16|15
+1198|4|12
+1199|4|12
+1200|6|16
+1201|15|15
+1202|14|0
+1203|13|17
+1204|23|8
+1205|1|8
+1206|3|16
+1207|1|11
+1208|8|8
+1209|10|23
+1210|10|23
+1211|14|14
+1212|3|14
+1213|1|1
+1214|3|3
+1215|3|23
+1216|15|14
+1217|14|2
+1218|1|2
+1219|17|2
+1220|14|3
+1221|7|7
+1222|17|0
+1223|17|0
+1224|14|23
+1225|15|15
+1226|15|15
+1227|15|10
+1228|4|7
+1229|4|8
+1230|5|13
+1231|11|15
+1232|23|1
+1233|6|2
+1234|1|1
+1235|11|1
+1236|1|1
+1237|4|1
+1238|11|8
+1239|11|16
+1240|10|1
+1241|0|12
+1242|3|3
+1243|12|17
+1244|13|4
+1245|23|14
+1246|7|23
+1247|10|3
+1248|6|14
+1249|11|1
+1250|8|10
+1251|12|16
+1252|12|16
+1253|4|2
+1254|13|3
+1255|6|1
+1256|10|6
+1257|16|17
+1258|4|8
+1259|23|23
+1260|8|1
+1261|8|16
+1262|1|13
+1263|17|2
+1264|14|15
+1265|14|7
+1266|7|7
+1267|15|15
+1268|11|7
+1269|14|2
+1270|0|14
+1271|10|5
+1272|10|5
+1273|6|5
+1274|15|13
+1275|15|13
+1276|10|4
+1277|10|4
+1278|7|7
+1279|7|1
+1280|7|0
+1281|7|0
+1282|3|8
+1283|13|3
+1284|13|3
+1285|11|4
+1286|23|4
+1287|6|17
+1288|6|17
+1289|4|6
+1290|4|6
+1291|4|6
+1292|7|7
+1293|7|16
+1294|11|12
+1295|13|12
+1296|13|12
+1297|16|8
+1298|16|8
+1299|10|7
+1300|11|17
+1301|12|1
+1302|0|4
+1303|12|1
+1304|3|1
+1305|3|1
+1306|11|7
+1307|17|3
+1308|17|3
+1309|15|5
+1310|8|16
+1311|11|16
+1312|23|2
+1313|23|2
+1314|6|6
+1315|6|6
+1316|6|6
+1317|6|17
+1318|6|6
+1319|6|14
+1320|14|14
+1321|14|14
+1322|11|11
+1323|11|14
+1324|12|0
+1325|12|0
+1326|12|0
+1327|12|12
+1328|12|10
+1329|8|8
+1330|0|0
+1331|0|0
+1332|15|15
+1333|15|15
+1334|16|11
+1335|2|13
+1336|2|13
+1337|2|17
+1338|0|2
+1339|2|1
+1340|5|5
+1341|5|5
+1342|5|5
+1343|3|5
+1344|3|5
+1345|3|0
+1346|3|0
+1347|23|23
+1348|23|23
+1349|17|17
+1350|17|17
+1351|12|7
+1352|12|7
+1353|12|14
+1354|11|16
+1355|0|2
+1356|0|4
+1357|12|12
+1358|12|11
+1359|12|10
+1360|12|5
+1361|7|12
+1362|7|12
+1363|12|16
+1364|3|23
+1365|3|14
+1366|3|1
+1367|13|16
+1368|8|14
+1369|8|16
+1370|0|0
+1371|12|16
+1372|3|7
+1373|5|14
+1374|10|16
+1375|15|16
+"""#
+  static let speciesTypesTeamRocketV3: String = #"""
+1|13|4
+2|13|4
+3|13|4
+4|11|11
+5|11|11
+6|11|3
+7|12|12
+8|12|12
+9|12|12
+10|7|7
+11|7|7
+12|7|3
+13|7|4
+14|7|4
+15|7|4
+16|1|3
+17|1|3
+18|1|3
+19|1|1
+20|1|1
+21|1|3
+22|1|3
+23|4|4
+24|4|4
+25|14|14
+26|14|14
+27|5|5
+28|5|5
+29|4|4
+30|4|4
+31|4|5
+32|4|4
+33|4|4
+34|4|5
+35|19|19
+36|19|19
+37|11|11
+38|11|11
+39|1|19
+40|1|19
+41|4|3
+42|4|3
+43|13|4
+44|13|4
+45|13|4
+46|7|13
+47|7|13
+48|7|4
+49|7|4
+50|5|5
+51|5|5
+52|1|1
+53|1|1
+54|12|12
+55|12|12
+56|2|2
+57|2|2
+58|11|11
+59|11|11
+60|12|12
+61|12|12
+62|12|2
+63|15|15
+64|15|15
+65|15|15
+66|2|2
+67|2|2
+68|2|2
+69|13|4
+70|13|4
+71|13|4
+72|12|4
+73|12|4
+74|6|5
+75|6|5
+76|6|5
+77|11|11
+78|11|11
+79|12|15
+80|12|15
+81|14|9
+82|14|9
+83|1|3
+84|1|3
+85|1|3
+86|12|12
+87|12|16
+88|4|4
+89|4|4
+90|12|12
+91|12|16
+92|8|4
+93|8|4
+94|8|4
+95|6|5
+96|15|15
+97|15|15
+98|12|12
+99|12|12
+100|14|14
+101|14|14
+102|13|15
+103|13|15
+104|5|5
+105|5|5
+106|2|2
+107|2|2
+108|1|1
+109|4|4
+110|4|4
+111|5|6
+112|5|6
+113|1|1
+114|13|13
+115|1|1
+116|12|12
+117|12|12
+118|12|12
+119|12|12
+120|12|12
+121|12|15
+122|15|19
+123|7|3
+124|16|15
+125|14|14
+126|11|11
+127|7|7
+128|1|1
+129|12|12
+130|12|17
+131|12|16
+132|1|1
+133|1|1
+134|12|12
+135|14|14
+136|11|11
+137|1|1
+138|6|12
+139|6|12
+140|6|12
+141|6|12
+142|6|3
+143|1|1
+144|16|3
+145|14|3
+146|11|3
+147|17|17
+148|17|17
+149|17|3
+150|15|15
+151|15|15
+152|13|13
+153|13|13
+154|13|13
+155|11|11
+156|11|11
+157|11|5
+158|12|12
+159|12|12
+160|12|12
+161|1|1
+162|1|1
+163|1|3
+164|15|3
+165|7|3
+166|7|3
+167|7|4
+168|7|4
+169|4|3
+170|12|14
+171|12|14
+172|14|14
+173|19|19
+174|1|19
+175|19|19
+176|19|3
+177|15|3
+178|15|3
+179|14|14
+180|14|14
+181|14|14
+182|13|13
+183|12|19
+184|12|19
+185|6|6
+186|12|12
+187|13|3
+188|13|3
+189|13|3
+190|1|1
+191|13|13
+192|13|11
+193|7|3
+194|12|5
+195|12|5
+196|15|15
+197|18|18
+198|18|3
+199|12|15
+200|8|8
+201|15|15
+202|15|15
+203|1|15
+204|7|7
+205|7|9
+206|1|1
+207|5|3
+208|9|5
+209|19|19
+210|19|19
+211|12|4
+212|7|9
+213|7|6
+214|7|2
+215|18|16
+216|1|1
+217|1|1
+218|11|11
+219|11|6
+220|16|5
+221|16|5
+222|12|6
+223|12|12
+224|12|12
+225|16|3
+226|12|3
+227|9|3
+228|18|11
+229|18|11
+230|12|17
+231|5|5
+232|5|5
+233|1|1
+234|1|1
+235|1|1
+236|2|2
+237|2|2
+238|16|15
+239|14|14
+240|11|11
+241|1|1
+242|1|1
+243|14|14
+244|11|11
+245|12|12
+246|6|5
+247|6|5
+248|6|18
+249|15|3
+250|11|3
+251|15|13
+252|13|13
+253|13|13
+254|13|13
+255|11|11
+256|11|2
+257|11|2
+258|12|12
+259|12|5
+260|12|5
+261|18|18
+262|18|18
+263|1|1
+264|1|1
+265|7|7
+266|7|7
+267|7|3
+268|7|7
+269|7|4
+270|12|13
+271|12|13
+272|12|13
+273|13|13
+274|13|18
+275|13|18
+276|1|3
+277|1|3
+278|12|3
+279|12|3
+280|15|19
+281|15|19
+282|15|19
+283|7|12
+284|7|3
+285|13|13
+286|13|2
+287|1|1
+288|1|1
+289|1|1
+290|7|5
+291|7|3
+292|7|8
+293|1|1
+294|1|1
+295|1|1
+296|2|2
+297|2|2
+298|1|19
+299|6|6
+300|1|1
+301|1|1
+302|18|8
+303|9|19
+304|9|6
+305|9|6
+306|9|6
+307|2|15
+308|2|15
+309|14|14
+310|14|14
+311|14|14
+312|14|14
+313|7|7
+314|7|7
+315|13|4
+316|4|4
+317|4|4
+318|12|18
+319|12|18
+320|12|12
+321|12|12
+322|11|5
+323|11|5
+324|11|11
+325|15|15
+326|15|15
+327|1|1
+328|5|5
+329|5|17
+330|5|17
+331|13|13
+332|13|18
+333|1|3
+334|17|3
+335|1|1
+336|4|4
+337|6|15
+338|6|15
+339|12|5
+340|12|5
+341|12|12
+342|12|18
+343|5|15
+344|5|15
+345|6|13
+346|6|13
+347|6|7
+348|6|7
+349|12|12
+350|12|19
+351|1|1
+352|1|1
+353|8|8
+354|8|8
+355|8|8
+356|8|8
+357|13|17
+358|15|15
+359|18|18
+360|15|15
+361|16|16
+362|16|16
+363|16|12
+364|16|12
+365|16|12
+366|12|12
+367|12|12
+368|12|12
+369|12|6
+370|12|12
+371|17|17
+372|17|17
+373|17|3
+374|9|15
+375|9|15
+376|9|15
+377|6|6
+378|16|16
+379|9|9
+380|17|15
+381|17|15
+382|12|12
+383|5|5
+384|17|3
+385|9|15
+386|15|15
+387|13|13
+388|13|13
+389|13|5
+390|11|11
+391|11|2
+392|11|2
+393|12|12
+394|12|12
+395|12|9
+396|1|3
+397|1|3
+398|1|3
+399|1|1
+400|1|12
+401|7|7
+402|7|7
+403|14|14
+404|14|14
+405|14|18
+406|13|4
+407|13|4
+408|6|6
+409|6|6
+410|6|9
+411|6|9
+412|7|7
+413|7|13
+414|7|3
+415|7|3
+416|7|3
+417|14|14
+418|12|12
+419|12|12
+420|13|13
+421|13|13
+422|12|12
+423|12|5
+424|1|1
+425|8|3
+426|8|3
+427|1|1
+428|1|1
+429|8|8
+430|18|3
+431|1|1
+432|1|1
+433|15|15
+434|4|18
+435|4|18
+436|9|15
+437|9|15
+438|6|6
+439|15|19
+440|1|1
+441|1|3
+442|8|18
+443|17|5
+444|17|5
+445|17|5
+446|1|1
+447|2|2
+448|2|9
+449|5|5
+450|5|5
+451|4|7
+452|4|18
+453|4|2
+454|4|2
+455|13|13
+456|12|12
+457|12|14
+458|12|3
+459|13|16
+460|13|16
+461|18|16
+462|14|9
+463|1|1
+464|5|6
+465|13|13
+466|14|14
+467|11|11
+468|19|3
+469|7|3
+470|13|13
+471|16|16
+472|5|3
+473|16|5
+474|1|1
+475|15|2
+476|6|9
+477|8|8
+478|16|8
+479|14|8
+480|15|15
+481|15|15
+482|15|15
+483|9|17
+484|12|17
+485|11|9
+486|1|1
+487|8|17
+488|15|19
+489|12|12
+490|12|12
+491|18|18
+492|13|13
+493|1|1
+494|15|11
+495|13|13
+496|13|13
+497|13|13
+498|11|11
+499|11|2
+500|11|2
+501|12|12
+502|12|12
+503|12|12
+504|1|1
+505|1|1
+506|1|1
+507|1|1
+508|1|1
+509|18|18
+510|18|18
+511|13|13
+512|13|13
+513|11|11
+514|11|11
+515|12|12
+516|12|12
+517|15|15
+518|15|15
+519|1|3
+520|1|3
+521|1|3
+522|14|14
+523|14|14
+524|6|6
+525|6|6
+526|6|6
+527|15|3
+528|15|3
+529|5|5
+530|5|9
+531|1|1
+532|2|2
+533|2|2
+534|2|2
+535|12|12
+536|12|5
+537|12|5
+538|2|2
+539|2|2
+540|7|13
+541|7|13
+542|7|13
+543|7|4
+544|7|4
+545|7|4
+546|13|19
+547|13|19
+548|13|13
+549|13|13
+550|12|12
+551|5|18
+552|5|18
+553|5|18
+554|11|11
+555|11|2
+556|13|13
+557|7|6
+558|7|6
+559|18|2
+560|18|2
+561|15|3
+562|8|8
+563|8|8
+564|12|6
+565|12|6
+566|6|3
+567|6|3
+568|4|4
+569|4|4
+570|18|18
+571|18|18
+572|1|1
+573|1|1
+574|15|15
+575|15|15
+576|15|15
+577|15|15
+578|15|15
+579|15|15
+580|12|3
+581|12|3
+582|16|16
+583|16|16
+584|16|16
+585|1|13
+586|1|13
+587|14|3
+588|7|7
+589|7|9
+590|13|4
+591|13|4
+592|12|8
+593|12|8
+594|12|12
+595|7|14
+596|7|14
+597|13|9
+598|13|9
+599|9|9
+600|9|9
+601|9|9
+602|14|14
+603|14|14
+604|14|14
+605|15|15
+606|15|15
+607|8|11
+608|8|11
+609|8|11
+610|17|17
+611|17|17
+612|17|17
+613|16|16
+614|16|16
+615|16|16
+616|7|7
+617|7|7
+618|5|14
+619|2|2
+620|2|2
+621|17|17
+622|5|8
+623|5|8
+624|18|9
+625|18|9
+626|1|1
+627|1|3
+628|1|3
+629|18|3
+630|18|3
+631|11|11
+632|7|9
+633|18|17
+634|18|17
+635|18|17
+636|7|11
+637|7|11
+638|9|2
+639|6|2
+640|13|2
+641|3|3
+642|14|3
+643|17|11
+644|17|14
+645|5|3
+646|17|16
+647|12|2
+648|1|15
+649|7|9
+650|13|13
+651|13|13
+652|13|2
+653|11|11
+654|11|11
+655|11|15
+656|12|12
+657|12|12
+658|12|18
+659|1|1
+660|1|5
+661|1|3
+662|11|3
+663|11|3
+664|7|7
+665|7|7
+666|7|3
+667|11|1
+668|11|1
+669|19|19
+670|19|19
+671|19|19
+672|13|13
+673|13|13
+674|2|2
+675|2|18
+676|1|1
+677|15|15
+678|15|15
+679|9|8
+680|9|8
+681|9|8
+682|19|19
+683|19|19
+684|19|19
+685|19|19
+686|18|15
+687|18|15
+688|6|12
+689|6|12
+690|4|12
+691|4|17
+692|12|12
+693|12|12
+694|14|1
+695|14|1
+696|6|17
+697|6|17
+698|6|16
+699|6|16
+700|19|19
+701|2|3
+702|14|19
+703|6|19
+704|17|17
+705|17|17
+706|17|17
+707|9|19
+708|8|13
+709|8|13
+710|8|13
+711|8|13
+712|16|16
+713|16|16
+714|3|17
+715|3|17
+716|19|19
+717|18|3
+718|17|5
+719|6|19
+720|15|8
+721|11|12
+722|13|3
+723|13|3
+724|13|8
+725|11|11
+726|11|11
+727|11|18
+728|12|12
+729|12|12
+730|12|19
+731|1|3
+732|1|3
+733|1|3
+734|1|1
+735|1|1
+736|7|7
+737|7|14
+738|7|14
+739|2|2
+740|2|16
+741|11|3
+742|7|19
+743|7|19
+744|6|6
+745|6|6
+746|12|12
+747|4|12
+748|4|12
+749|5|5
+750|5|5
+751|12|7
+752|12|7
+753|13|13
+754|13|13
+755|13|19
+756|13|19
+757|4|11
+758|4|11
+759|1|2
+760|1|2
+761|13|13
+762|13|13
+763|13|13
+764|19|19
+765|1|15
+766|2|2
+767|7|12
+768|7|12
+769|8|5
+770|8|5
+771|12|12
+772|1|1
+773|1|1
+774|6|3
+775|1|1
+776|11|17
+777|14|9
+778|8|19
+779|12|15
+780|1|17
+781|8|13
+782|17|17
+783|17|2
+784|17|2
+785|14|19
+786|15|19
+787|13|19
+788|12|19
+789|15|15
+790|15|15
+791|15|9
+792|15|8
+793|6|4
+794|7|2
+795|7|2
+796|14|14
+797|9|3
+798|13|9
+799|18|17
+800|15|15
+801|9|19
+802|2|8
+803|4|4
+804|4|17
+805|6|9
+806|11|8
+807|14|14
+808|9|9
+809|9|9
+810|13|13
+811|13|13
+812|13|13
+813|11|11
+814|11|11
+815|11|11
+816|12|12
+817|12|12
+818|12|12
+819|1|1
+820|1|1
+821|3|3
+822|3|3
+823|3|9
+824|7|7
+825|7|15
+826|7|15
+827|18|18
+828|18|18
+829|13|13
+830|13|13
+831|1|1
+832|1|1
+833|12|12
+834|12|6
+835|14|14
+836|14|14
+837|6|6
+838|6|11
+839|6|11
+840|13|17
+841|13|17
+842|13|17
+843|5|5
+844|5|5
+845|3|12
+846|12|12
+847|12|12
+848|14|4
+849|14|4
+850|11|7
+851|11|7
+852|2|2
+853|2|2
+854|8|8
+855|8|8
+856|15|15
+857|15|15
+858|15|19
+859|18|19
+860|18|19
+861|18|19
+862|18|1
+863|9|9
+864|8|8
+865|2|2
+866|16|15
+867|5|8
+868|19|19
+869|19|19
+870|2|2
+871|14|14
+872|16|7
+873|16|7
+874|6|6
+875|16|16
+876|15|1
+877|14|18
+878|9|9
+879|9|9
+880|14|17
+881|14|16
+882|12|17
+883|12|16
+884|9|17
+885|17|8
+886|17|8
+887|17|8
+888|19|19
+889|2|2
+890|4|17
+891|2|2
+892|2|18
+893|18|13
+894|14|14
+895|17|17
+896|16|16
+897|8|8
+898|15|13
+899|1|15
+900|7|6
+901|5|1
+902|12|8
+903|2|4
+904|18|4
+905|19|3
+906|13|4
+907|11|17
+908|11|3
+909|12|12
+910|7|4
+911|1|3
+912|15|15
+913|12|15
+914|8|4
+915|1|1
+916|7|3
+917|12|18
+918|6|3
+919|15|2
+920|15|15
+921|14|17
+922|9|5
+923|7|9
+924|7|6
+925|18|11
+926|6|18
+927|13|17
+928|11|2
+929|12|5
+930|15|19
+931|18|8
+932|9|19
+933|9|9
+934|2|15
+935|14|14
+936|12|18
+937|11|5
+938|17|19
+939|8|8
+940|18|18
+941|16|8
+942|17|3
+943|9|15
+944|17|15
+945|17|15
+946|1|2
+947|17|5
+948|2|9
+949|13|16
+950|15|2
+951|1|19
+952|6|19
+953|17|3
+954|12|12
+955|5|11
+956|18|1
+957|18|1
+958|14|15
+959|16|9
+960|16|9
+961|16|16
+962|16|19
+963|5|9
+964|5|9
+965|18|18
+966|18|18
+967|6|14
+968|6|14
+969|6|14
+970|4|18
+971|4|18
+972|13|17
+973|11|8
+974|9|9
+975|15|15
+976|15|19
+977|15|15
+978|4|15
+979|2|2
+980|4|19
+981|16|15
+982|15|3
+983|2|3
+984|18|3
+985|4|15
+986|8|8
+987|18|1
+988|18|1
+989|16|16
+990|16|2
+991|5|8
+992|5|9
+993|11|6
+994|11|6
+995|14|13
+996|14|13
+997|11|8
+998|18|4
+999|2|4
+1000|12|18
+1001|13|2
+1002|1|8
+1003|1|8
+1004|15|3
+1005|17|9
+1006|17|9
+1007|16|6
+1008|13|2
+1023|14|14
+1024|15|15
+1025|15|15
+1026|15|15
+1027|15|15
+1028|15|15
+1029|15|15
+1030|15|15
+1031|15|15
+1032|15|15
+1033|15|15
+1034|15|15
+1035|15|15
+1036|15|15
+1037|15|15
+1038|15|15
+1039|15|15
+1040|15|15
+1041|15|15
+1042|15|15
+1043|15|15
+1044|15|15
+1045|15|15
+1046|15|15
+1047|15|15
+1048|15|15
+1049|15|15
+1050|15|15
+1051|11|11
+1052|12|12
+1053|16|16
+1054|15|15
+1055|15|15
+1056|15|15
+1057|7|7
+1058|7|7
+1059|7|5
+1060|7|9
+1061|13|13
+1062|12|12
+1063|12|5
+1064|14|11
+1065|14|12
+1066|14|16
+1067|14|3
+1068|14|13
+1069|9|17
+1070|12|17
+1071|8|17
+1072|13|3
+1073|2|2
+1074|3|3
+1075|4|4
+1076|5|5
+1077|6|6
+1078|7|7
+1079|8|8
+1080|9|9
+1081|11|11
+1082|12|12
+1083|13|13
+1084|14|14
+1085|15|15
+1086|16|16
+1087|17|17
+1088|18|18
+1089|19|19
+1090|12|12
+1091|12|12
+1092|11|15
+1093|16|11
+1094|1|13
+1095|1|13
+1096|1|13
+1097|1|13
+1098|1|13
+1099|1|13
+1100|3|3
+1101|14|3
+1102|5|3
+1103|19|3
+1104|17|16
+1105|17|16
+1106|12|2
+1107|1|2
+1108|7|9
+1109|7|9
+1110|7|9
+1111|7|9
+1112|12|18
+1113|12|18
+1114|7|3
+1115|7|3
+1116|7|3
+1117|7|3
+1118|7|3
+1119|7|3
+1120|7|3
+1121|7|3
+1122|7|3
+1123|7|3
+1124|7|3
+1125|7|3
+1126|7|3
+1127|7|3
+1128|7|3
+1129|7|3
+1130|7|3
+1131|7|3
+1132|7|3
+1133|19|19
+1134|19|19
+1135|19|19
+1136|19|19
+1137|19|19
+1138|19|19
+1139|19|19
+1140|19|19
+1141|19|19
+1142|19|19
+1143|19|19
+1144|19|19
+1145|19|19
+1146|1|1
+1147|1|1
+1148|1|1
+1149|1|1
+1150|1|1
+1151|1|1
+1152|1|1
+1153|1|1
+1154|1|1
+1155|15|15
+1156|9|8
+1157|8|13
+1158|8|13
+1159|8|13
+1160|8|13
+1161|8|13
+1162|8|13
+1163|19|19
+1164|17|5
+1165|17|5
+1166|17|5
+1167|17|5
+1168|15|18
+1169|14|3
+1170|15|3
+1171|8|3
+1172|6|6
+1173|6|6
+1174|6|6
+1175|12|12
+1176|2|2
+1177|3|3
+1178|4|4
+1179|5|5
+1180|6|6
+1181|7|7
+1182|8|8
+1183|9|9
+1184|11|11
+1185|12|12
+1186|13|13
+1187|14|14
+1188|15|15
+1189|16|16
+1190|17|17
+1191|18|18
+1192|19|19
+1193|6|3
+1194|6|3
+1195|6|3
+1196|6|3
+1197|6|3
+1198|6|3
+1199|6|3
+1200|6|3
+1201|6|3
+1202|6|3
+1203|6|3
+1204|6|3
+1205|6|3
+1206|8|19
+1207|15|9
+1208|15|8
+1209|15|17
+1210|9|19
+1211|3|12
+1212|3|12
+1213|14|4
+1214|8|8
+1215|8|8
+1216|19|19
+1217|19|19
+1218|19|19
+1219|19|19
+1220|19|19
+1221|19|19
+1222|19|19
+1223|19|19
+1224|16|16
+1225|15|1
+1226|14|18
+1227|19|9
+1228|2|9
+1229|4|17
+1230|2|12
+1231|18|13
+1232|15|16
+1233|15|8
+1234|12|8
+1235|19|19
+1236|19|19
+1237|19|19
+1238|19|19
+1239|19|19
+1240|19|19
+1241|19|19
+1242|19|19
+1243|19|19
+1244|19|19
+1245|19|19
+1246|19|19
+1247|19|19
+1248|19|19
+1249|19|19
+1250|19|19
+1251|19|19
+1252|19|19
+1253|19|19
+1254|19|19
+1255|19|19
+1256|19|19
+1257|19|19
+1258|19|19
+1259|19|19
+1260|19|19
+1261|19|19
+1262|19|19
+1263|19|19
+1264|19|19
+1265|19|19
+1266|19|19
+1267|19|19
+1268|19|19
+1269|19|19
+1270|19|19
+1271|19|19
+1272|19|19
+1273|19|19
+1274|19|19
+1275|19|19
+1276|19|19
+1277|19|19
+1278|19|19
+1279|19|19
+1280|19|19
+1281|19|19
+1282|19|19
+1283|19|19
+1284|19|19
+1285|19|19
+1286|19|19
+1287|19|19
+1288|19|19
+1289|13|13
+1290|13|13
+1291|13|18
+1292|11|11
+1293|11|11
+1294|11|8
+1295|12|12
+1296|12|12
+1297|12|2
+1298|1|1
+1299|1|1
+1300|1|1
+1301|7|7
+1302|7|7
+1303|7|7
+1304|7|18
+1305|14|14
+1306|14|2
+1307|14|2
+1308|1|1
+1309|1|1
+1310|1|1
+1311|19|19
+1312|19|19
+1313|13|1
+1314|13|1
+1315|13|1
+1316|1|3
+1317|1|3
+1318|1|3
+1319|1|3
+1320|6|6
+1321|6|6
+1322|6|6
+1323|11|11
+1324|11|15
+1325|11|8
+1326|14|14
+1327|14|14
+1328|14|3
+1329|14|3
+1330|18|18
+1331|18|18
+1332|4|1
+1333|4|1
+1334|13|8
+1335|13|8
+1336|5|13
+1337|5|13
+1338|6|6
+1339|13|13
+1340|13|11
+1341|7|7
+1342|7|15
+1343|15|15
+1344|15|15
+1345|19|9
+1346|19|9
+1347|19|9
+1348|12|12
+1349|12|12
+1350|3|18
+1351|12|12
+1352|12|12
+1353|12|12
+1354|9|4
+1355|9|4
+1356|17|1
+1357|9|9
+1358|6|4
+1359|6|4
+1360|8|8
+1361|8|8
+1362|3|2
+1363|16|16
+1364|16|16
+1365|12|15
+1366|12|12
+1367|17|12
+1368|17|12
+1369|17|12
+1370|2|8
+1371|4|5
+1372|1|15
+1373|1|1
+1374|1|1
+1375|18|9
+1376|5|2
+1377|19|15
+1378|13|18
+1379|8|19
+1380|7|2
+1381|14|5
+1382|5|9
+1383|16|12
+1384|2|14
+1385|18|3
+1386|11|4
+1387|6|14
+1388|17|16
+1389|17|16
+1390|17|16
+1391|8|8
+1392|8|8
+1393|9|8
+1394|18|13
+1395|18|16
+1396|18|5
+1397|18|11
+1398|17|18
+1399|19|2
+1400|2|17
+1401|14|17
+1402|2|2
+1403|2|11
+1404|2|12
+1405|4|5
+1406|12|17
+1407|13|15
+1408|13|17
+1409|13|8
+1410|13|8
+1411|13|8
+1412|13|8
+1413|4|2
+1414|4|15
+1415|4|19
+1416|13|13
+1417|13|12
+1418|13|11
+1419|13|6
+1420|13|13
+1421|13|12
+1422|13|11
+1423|13|6
+1424|5|1
+1425|9|17
+1426|13|17
+1427|11|17
+1428|14|17
+1429|6|15
+1430|9|15
+1431|1|1
+1432|1|1
+1433|1|1
+1434|4|8
+1436|7|3
+1437|7|3
+1438|7|7
+1439|7|7
+1440|7|7
+1441|7|7
+1442|7|7
+1443|7|7
+1444|7|7
+1445|7|7
+1446|7|7
+1447|7|7
+1448|7|7
+1449|7|7
+1450|7|7
+1451|7|7
+1452|7|7
+1453|7|7
+1454|7|7
+1455|7|7
+1456|7|7
+1457|7|7
+1458|7|7
+1459|7|7
+1460|7|7
+1461|7|7
+1462|7|7
+1463|7|7
+1464|7|7
+1465|7|7
+1466|7|7
+1467|7|7
+1468|7|7
+1469|7|7
+1470|7|7
+1471|7|7
+1472|7|7
+1473|7|7
+1474|7|7
+1475|7|7
+1476|18|1
+1477|1|1
+1478|7|14
+1479|13|13
+1480|4|11
+1481|8|19
+1482|17|2
+1483|11|8
+1484|7|19
+1485|12|7
+1486|14|9
+1487|14|14
+1488|1|1
+1489|13|4
+1490|12|12
+1491|11|3
+1492|7|19
+1493|14|14
+1494|1|1
+1495|2|2
+1496|8|4
+1497|12|7
+1498|12|16
+1499|1|1
+1500|1|13
+1501|4|4
+1502|9|9
+1503|13|13
+1504|11|11
+1505|12|12
+1506|3|9
+1507|7|15
+1508|12|6
+1509|6|11
+1510|13|17
+1511|13|17
+1512|5|5
+1513|14|4
+1514|14|4
+1515|11|7
+1516|15|19
+1517|18|19
+1518|19|19
+1519|9|9
+1520|9|17
+1521|2|18
+1522|2|12
+1523|8|19
+1524|19|3
+1525|13|4
+1526|12|15
+1527|17|3
+1528|13|19
+1529|12|17
+1530|9|3
+1531|16|8
+1532|11|2
+1533|5|9
+1534|7|4
+1535|18|2
+1536|14|14
+1537|8|11
+1538|13|2
+1539|11|15
+1540|12|18
+1541|11|1
+1542|18|15
+1543|4|17
+1544|2|3
+1545|19|19
+1546|6|2
+1547|17|5
+1548|1|17
+1549|2|2
+1550|15|3
+1551|14|9
+1552|6|1
+1553|1|8
+1554|14|2
+1555|11|11
+1556|4|5
+1557|4|18
+1558|1|3
+1559|1|14
+1560|4|9
+1561|3|8
+1562|6|13
+1563|6|6
+1564|6|9
+1565|6|17
+1566|14|9
+1567|6|6
+1568|16|16
+1569|9|9
+1570|15|15
+1571|15|15
+1572|15|9
+1573|7|9
+1574|7|9
+1575|15|9
+1576|12|2
+1577|7|15
+1578|12|18
+1579|11|3
+1580|12|18
+1581|9|3
+1582|1|1
+1583|15|15
+1584|17|15
+1585|11|15
+1586|5|9
+1587|15|16
+1588|12|9
+1589|11|2
+1590|15|15
+1591|13|17
+1592|17|9
+1593|18|16
+1594|9|8
+1595|7|11
+1596|17|4
+1597|18|17
+1598|17|19
+1599|5|8
+1600|6|8
+1601|8|1
+1602|15|19
+1603|18|4
+1604|16|12
+1605|14|18
+1606|11|17
+1607|14|8
+1608|11|5
+1609|12|19
+1610|12|12
+1611|12|17
+1612|12|17
+1613|15|3
+1614|12|9
+1615|7|8
+1616|12|8
+1617|12|11
+1618|13|3
+1619|12|12
+1620|14|14
+1621|11|11
+1622|17|15
+1623|17|17
+1624|1|1
+1626|8|18
+1627|7|17
+1628|16|15
+1629|7|3
+1630|3|17
+1631|12|19
+1632|1|1
+1633|8|8
+1635|18|18
+1636|11|19
+1637|15|12
+1638|15|13
+1639|9|19
+1640|15|11
+1641|1|5
+1642|17|16
+1643|11|8
+1644|14|4
+1645|17|1
+1646|1|5
+1647|14|2
+1648|12|9
+1649|12|14
+1650|5|5
+1651|6|7
+1652|12|6
+1653|12|6
+1654|12|15
+1655|12|3
+1656|1|15
+1657|6|17
+1658|8|18
+1659|4|3
+1660|4|9
+1661|16|5
+1662|12|18
+1663|1|5
+1665|17|3
+1666|11|15
+1667|12|12
+1668|7|3
+1669|4|3
+1670|4|3
+1671|4|3
+1672|18|15
+1673|11|9
+1674|18|18
+1675|14|14
+1676|14|14
+1677|14|14
+1678|15|9
+1679|18|8
+1680|2|3
+1681|17|17
+1682|2|9
+1683|5|8
+1684|15|15
+1685|15|15
+1686|2|16
+1687|7|9
+1688|9|19
+1689|9|19
+1690|13|11
+1691|17|16
+1692|17|12
+1693|17|12
+1694|17|12
+1695|6|4
+1696|7|2
+1697|16|11
+"""#
+  static let speciesTypesTmt2: String = #"""
+1|13|23
+2|13|4
+3|13|4
+4|11|23
+5|11|29
+6|11|3
+7|12|23
+8|12|29
+9|12|53
+10|7|7
+11|7|7
+12|7|3
+13|7|4
+14|7|4
+15|7|4
+16|27|27
+17|27|27
+18|27|27
+19|64|64
+20|55|64
+21|1|3
+22|1|3
+23|4|4
+24|4|4
+25|63|63
+26|45|63
+27|5|42
+28|67|5
+29|4|4
+30|4|4
+31|4|5
+32|4|4
+33|4|4
+34|4|5
+35|32|70
+36|32|70
+37|11|11
+38|11|11
+39|1|19
+40|1|19
+41|29|4
+42|3|4
+43|58|13
+44|71|13
+45|71|13
+46|55|7
+47|74|7
+48|7|4
+49|7|4
+50|58|5
+51|5|54
+52|79|30
+53|79|30
+54|12|12
+55|12|12
+56|55|61
+57|55|61
+58|39|11
+59|39|11
+60|24|43
+61|43|43
+62|55|43
+63|15|15
+64|15|15
+65|15|15
+66|58|71
+67|71|2
+68|71|2
+69|13|4
+70|13|4
+71|13|4
+72|12|4
+73|12|4
+74|29|74
+75|31|6
+76|29|74
+77|11|11
+78|11|11
+79|12|78
+80|12|78
+81|14|24
+82|14|54
+83|1|3
+84|27|54
+85|27|54
+86|12|12
+87|12|16
+88|71|4
+89|71|4
+90|12|12
+91|12|16
+92|72|8
+93|72|8
+94|36|72
+95|6|5
+96|15|15
+97|15|15
+98|31|31
+99|31|31
+100|36|14
+101|36|25
+102|40|54
+103|13|54
+104|5|5
+105|5|5
+106|2|38
+107|2|46
+108|1|1
+109|4|4
+110|4|4
+111|5|6
+112|33|33
+113|1|1
+114|13|13
+115|35|35
+116|12|53
+117|12|53
+118|12|12
+119|12|12
+120|12|12
+121|12|15
+122|15|19
+123|7|3
+124|16|15
+125|14|14
+126|11|11
+127|7|7
+128|1|40
+129|29|12
+130|12|57
+131|12|16
+132|1|1
+133|29|30
+134|41|12
+135|67|14
+136|39|11
+137|22|46
+138|56|22
+139|56|22
+140|6|12
+141|6|12
+142|6|3
+143|1|1
+144|16|3
+145|14|3
+146|11|3
+147|58|17
+148|17|42
+149|17|57
+150|15|15
+151|15|15
+152|13|26
+153|13|26
+154|13|26
+155|11|11
+156|11|11
+157|11|11
+158|12|12
+159|12|12
+160|12|12
+161|1|1
+162|1|1
+163|1|3
+164|1|3
+165|7|3
+166|7|3
+167|7|4
+168|7|4
+169|3|4
+170|12|14
+171|12|14
+172|24|63
+173|24|70
+174|1|19
+175|19|19
+176|19|3
+177|15|3
+178|15|3
+179|14|14
+180|14|14
+181|14|14
+182|13|32
+183|12|49
+184|12|49
+185|72|6
+186|12|43
+187|56|42
+188|56|42
+189|56|42
+190|61|61
+191|13|13
+192|13|13
+193|7|3
+194|12|5
+195|12|5
+196|15|70
+197|18|62
+198|18|3
+199|56|12
+200|8|8
+201|56|56
+202|15|76
+203|1|15
+204|7|7
+205|7|9
+206|1|1
+207|5|3
+208|9|5
+209|19|19
+210|19|19
+211|12|4
+212|7|9
+213|7|6
+214|7|2
+215|18|16
+216|1|24
+217|1|5
+218|11|11
+219|11|6
+220|16|5
+221|16|5
+222|12|6
+223|12|12
+224|12|12
+225|16|3
+226|12|3
+227|9|3
+228|58|11
+229|11|30
+230|12|17
+231|5|5
+232|5|5
+233|45|46
+234|1|1
+235|1|1
+236|58|2
+237|2|32
+238|16|15
+239|14|14
+240|11|11
+241|1|1
+242|1|1
+243|14|14
+244|11|11
+245|12|12
+246|6|5
+247|6|5
+248|6|18
+249|15|3
+250|11|3
+251|59|45
+252|13|62
+253|13|62
+254|13|62
+255|11|27
+256|37|27
+257|37|27
+258|12|65
+259|12|5
+260|12|5
+261|18|18
+262|18|18
+263|1|1
+264|1|1
+265|7|7
+266|7|7
+267|7|3
+268|7|7
+269|7|4
+270|13|78
+271|13|12
+272|13|12
+273|13|13
+274|13|18
+275|13|18
+276|1|3
+277|1|3
+278|12|3
+279|12|3
+280|59|28
+281|59|28
+282|59|28
+283|7|12
+284|7|3
+285|13|13
+286|13|2
+287|29|71
+288|29|67
+289|29|71
+290|7|5
+291|7|3
+292|7|8
+293|58|80
+294|80|80
+295|74|80
+296|2|2
+297|2|2
+298|24|49
+299|6|73
+300|1|1
+301|1|1
+302|51|46
+303|9|19
+304|22|9
+305|22|9
+306|22|9
+307|2|15
+308|2|15
+309|14|14
+310|14|14
+311|14|14
+312|14|14
+313|7|7
+314|7|7
+315|13|4
+316|4|33
+317|4|33
+318|12|18
+319|12|18
+320|12|12
+321|12|12
+322|11|5
+323|11|5
+324|11|11
+325|15|15
+326|15|15
+327|32|32
+328|5|5
+329|5|17
+330|5|17
+331|13|13
+332|13|18
+333|39|69
+334|39|69
+335|55|55
+336|55|55
+337|6|15
+338|6|15
+339|12|5
+340|12|5
+341|31|31
+342|18|31
+343|5|15
+344|5|15
+345|6|13
+346|6|13
+347|22|7
+348|22|31
+349|12|74
+350|12|49
+351|1|1
+352|1|1
+353|8|8
+354|8|8
+355|8|8
+356|8|8
+357|13|3
+358|69|69
+359|67|18
+360|24|76
+361|58|16
+362|16|55
+363|16|12
+364|16|12
+365|16|12
+366|12|12
+367|12|12
+368|12|12
+369|12|6
+370|12|12
+371|22|17
+372|22|17
+373|22|17
+374|9|70
+375|9|70
+376|9|70
+377|6|6
+378|16|16
+379|9|9
+380|17|15
+381|17|15
+382|12|55
+383|5|55
+384|34|34
+385|70|69
+386|70|31
+387|13|13
+388|13|13
+389|13|5
+390|11|61
+391|11|2
+392|37|61
+393|12|12
+394|12|12
+395|12|9
+396|1|3
+397|1|3
+398|1|3
+399|1|1
+400|1|12
+401|7|69
+402|7|69
+403|14|18
+404|14|18
+405|14|18
+406|13|4
+407|13|4
+408|6|6
+409|6|6
+410|6|9
+411|6|9
+412|7|7
+413|7|13
+414|7|3
+415|7|3
+416|7|3
+417|14|14
+418|12|39
+419|12|39
+420|13|13
+421|13|13
+422|12|12
+423|12|5
+424|61|31
+425|8|3
+426|8|3
+427|39|39
+428|39|44
+429|8|8
+430|74|27
+431|1|1
+432|1|1
+433|69|69
+434|4|18
+435|4|18
+436|9|15
+437|9|15
+438|24|72
+439|15|19
+440|1|1
+441|80|69
+442|8|18
+443|17|5
+444|17|5
+445|17|5
+446|1|1
+447|44|42
+448|44|52
+449|5|5
+450|5|5
+451|4|7
+452|4|18
+453|4|2
+454|4|2
+455|13|13
+456|12|12
+457|12|12
+458|12|3
+459|13|16
+460|13|16
+461|18|16
+462|45|14
+463|1|1
+464|5|6
+465|13|13
+466|14|14
+467|11|11
+468|19|3
+469|7|3
+470|13|26
+471|16|28
+472|5|3
+473|16|5
+475|67|28
+476|6|9
+477|8|8
+478|16|28
+479|14|73
+480|15|15
+481|15|15
+482|15|15
+483|9|17
+484|12|17
+485|11|9
+486|1|1
+487|8|17
+488|15|15
+489|12|12
+490|12|12
+491|18|18
+492|13|42
+493|1|1
+494|15|11
+495|13|13
+496|13|13
+497|13|13
+498|11|11
+499|11|2
+500|11|2
+501|12|12
+502|12|12
+503|12|12
+504|1|1
+505|1|1
+506|1|1
+507|1|1
+508|1|1
+509|18|30
+510|18|30
+511|13|13
+512|13|13
+513|11|11
+514|11|11
+515|12|12
+516|12|12
+517|15|15
+518|15|15
+519|29|27
+520|29|27
+521|29|27
+522|14|14
+523|14|14
+524|6|6
+525|6|6
+526|6|6
+527|15|3
+528|15|3
+529|5|5
+530|5|9
+531|1|1
+532|2|2
+533|2|2
+534|2|2
+535|12|12
+536|12|5
+537|12|5
+538|2|71
+539|2|33
+540|68|26
+541|68|26
+542|68|26
+543|7|4
+544|7|4
+545|7|4
+546|39|19
+547|39|19
+548|13|13
+549|13|13
+550|12|12
+551|38|5
+552|38|5
+553|38|5
+554|11|11
+555|11|11
+556|13|13
+557|7|6
+558|7|6
+559|18|2
+560|18|2
+561|15|3
+562|8|8
+563|8|8
+564|12|6
+565|12|6
+566|6|3
+567|6|3
+568|71|73
+569|71|73
+570|72|44
+571|72|44
+572|1|1
+573|1|1
+574|58|15
+575|15|28
+576|15|28
+577|15|15
+578|15|15
+579|15|15
+580|12|3
+581|12|3
+582|16|24
+583|16|40
+584|16|40
+585|1|13
+586|1|13
+587|14|3
+588|58|74
+589|67|56
+590|72|72
+591|72|72
+592|12|8
+593|12|8
+594|12|12
+595|58|58
+596|7|14
+597|13|9
+598|13|9
+599|9|9
+600|9|9
+601|9|9
+602|14|14
+603|14|14
+604|14|14
+605|45|70
+606|45|70
+607|11|8
+608|11|8
+609|11|8
+610|17|17
+611|17|17
+612|17|17
+613|16|16
+614|16|16
+615|16|16
+616|58|7
+617|36|62
+618|5|14
+619|2|2
+620|2|2
+621|17|17
+622|5|8
+623|5|8
+624|18|9
+625|18|9
+626|1|1
+627|18|24
+628|18|3
+629|18|3
+630|18|3
+631|11|11
+632|7|9
+633|18|17
+634|18|17
+635|18|17
+636|7|11
+637|7|11
+638|9|2
+639|6|2
+640|13|2
+641|56|3
+642|56|14
+643|17|11
+644|17|14
+645|56|5
+646|17|16
+647|12|2
+648|69|28
+649|22|45
+650|13|13
+651|13|13
+652|13|2
+653|11|59
+654|11|59
+655|11|59
+656|12|43
+657|12|43
+658|12|23
+659|1|1
+660|1|5
+661|1|3
+662|11|3
+663|11|3
+664|7|7
+665|7|7
+666|7|3
+667|11|1
+668|11|1
+669|24|19
+670|58|19
+671|19|50
+672|13|13
+673|13|13
+674|2|2
+675|2|18
+676|39|79
+677|15|15
+678|15|15
+679|67|8
+680|67|8
+681|67|8
+682|19|19
+683|19|19
+684|19|19
+685|19|19
+686|68|15
+687|68|76
+688|6|12
+689|6|12
+690|4|12
+691|4|17
+692|12|12
+693|12|12
+694|14|1
+695|14|1
+696|22|55
+697|22|55
+698|6|16
+699|6|16
+700|49|19
+701|2|3
+702|14|19
+703|6|19
+704|17|17
+705|17|17
+706|17|17
+707|73|73
+708|8|13
+709|8|13
+710|8|13
+711|8|13
+712|16|16
+713|16|16
+714|3|17
+715|3|17
+716|19|19
+717|18|3
+718|17|5
+719|67|79
+720|15|8
+721|11|12
+722|13|3
+723|13|3
+724|13|8
+725|11|11
+726|11|11
+727|11|18
+728|12|68
+729|12|68
+730|12|68
+731|1|3
+732|1|3
+733|1|3
+734|1|1
+735|1|1
+736|7|7
+737|7|14
+738|7|14
+739|2|31
+740|74|16
+741|11|32
+742|7|19
+743|7|19
+744|6|6
+745|6|6
+746|24|12
+747|4|12
+748|4|12
+749|5|5
+750|5|5
+751|12|7
+752|12|7
+753|13|13
+754|13|13
+755|13|19
+756|13|19
+757|4|11
+758|4|11
+759|39|46
+760|39|2
+761|47|47
+762|47|48
+763|47|48
+764|19|19
+765|15|61
+766|61|25
+767|74|58
+768|7|57
+769|8|5
+770|8|5
+771|12|26
+772|1|1
+773|1|1
+774|6|3
+775|1|1
+776|11|17
+777|14|9
+778|41|72
+779|12|15
+780|1|55
+781|8|13
+782|17|17
+783|17|2
+784|17|2
+785|14|19
+786|15|19
+787|13|19
+788|12|19
+789|15|15
+790|15|15
+791|15|9
+792|15|8
+793|23|70
+794|2|70
+795|50|70
+796|14|14
+797|9|3
+798|13|9
+799|31|70
+800|15|15
+801|9|19
+802|2|8
+803|4|4
+804|4|17
+805|9|70
+806|11|70
+807|14|14
+808|58|73
+809|9|73
+810|13|13
+811|13|13
+812|13|13
+813|11|11
+814|11|11
+815|11|11
+816|12|12
+817|12|12
+818|12|12
+819|1|1
+820|1|1
+821|3|27
+822|3|27
+823|67|3
+824|7|7
+825|7|15
+826|7|15
+827|18|18
+828|18|18
+829|13|13
+830|13|13
+831|1|1
+832|1|1
+833|12|12
+834|12|6
+835|14|14
+836|14|14
+837|6|6
+838|6|11
+839|6|11
+840|17|40
+841|3|17
+842|13|17
+843|5|5
+844|5|5
+845|68|12
+846|12|12
+847|12|12
+848|14|4
+849|14|4
+850|11|7
+851|11|7
+852|2|2
+853|2|2
+854|8|8
+855|8|8
+856|59|78
+857|59|78
+858|59|49
+859|18|76
+860|18|76
+861|18|76
+862|67|18
+863|9|9
+864|8|8
+865|79|40
+866|16|15
+867|5|8
+868|19|40
+869|19|40
+870|68|58
+871|14|14
+872|16|26
+873|16|59
+874|48|6
+875|16|73
+876|15|1
+877|14|18
+878|9|9
+879|9|9
+880|14|17
+881|14|16
+882|12|17
+883|12|16
+884|53|53
+885|53|8
+886|53|8
+887|53|8
+888|19|19
+889|2|2
+890|4|17
+891|58|77
+892|2|18
+893|18|13
+894|14|14
+895|17|17
+896|16|16
+897|8|8
+898|15|13
+899|1|15
+900|7|6
+901|22|1
+902|55|75
+903|2|4
+904|18|4
+905|56|19
+906|13|4
+907|11|17
+908|11|3
+909|9|12
+910|7|4
+911|56|27
+912|15|15
+913|48|12
+914|36|75
+915|77|35
+916|7|3
+917|18|12
+918|6|3
+919|15|2
+920|15|15
+921|14|17
+922|9|5
+923|7|9
+924|7|2
+925|18|11
+926|6|18
+927|13|62
+928|37|27
+929|12|5
+930|59|28
+931|79|51
+932|9|19
+933|22|9
+934|2|15
+935|14|14
+936|12|18
+937|11|5
+938|39|69
+939|8|8
+940|67|18
+941|16|25
+942|22|17
+943|70|31
+944|17|15
+945|17|15
+946|39|44
+947|17|5
+948|56|44
+949|13|16
+950|67|28
+951|1|19
+952|67|79
+953|56|34
+954|12|12
+955|5|11
+956|18|1
+957|18|1
+958|14|15
+959|16|9
+960|16|9
+961|58|16
+962|16|30
+963|5|9
+964|5|9
+965|18|18
+966|18|18
+967|6|14
+968|6|14
+969|6|14
+970|4|18
+971|4|18
+972|13|17
+973|11|8
+974|9|9
+975|15|15
+976|15|19
+977|15|15
+978|4|15
+979|40|27
+980|4|19
+981|16|15
+982|15|3
+983|2|3
+984|18|3
+985|4|15
+986|8|8
+987|18|64
+988|18|64
+989|16|16
+990|16|16
+991|5|8
+992|5|9
+993|11|6
+994|11|6
+995|14|13
+996|14|13
+997|11|8
+998|18|4
+999|2|4
+1000|12|18
+1001|13|2
+1002|1|8
+1003|1|8
+1004|15|3
+1005|17|9
+1006|17|9
+1007|16|6
+1008|13|2
+1009|45|63
+1010|14|14
+1011|14|14
+1012|14|14
+1013|14|14
+1014|14|14
+1015|14|14
+1016|14|14
+1017|14|14
+1018|14|14
+1019|14|14
+1020|14|14
+1021|14|14
+1022|14|14
+1023|14|14
+1024|56|56
+1025|56|56
+1026|56|56
+1027|56|56
+1028|56|56
+1029|56|56
+1030|56|56
+1031|56|56
+1032|56|56
+1033|56|56
+1034|56|56
+1035|56|56
+1036|56|56
+1037|56|56
+1038|56|56
+1039|56|56
+1040|56|56
+1041|56|56
+1042|56|56
+1043|56|56
+1044|56|56
+1045|56|56
+1046|56|56
+1047|56|56
+1048|56|56
+1049|56|56
+1050|56|56
+1051|11|11
+1052|12|12
+1053|16|16
+1054|70|31
+1055|70|31
+1056|70|31
+1057|7|7
+1058|7|7
+1059|7|5
+1060|7|9
+1061|13|13
+1062|12|12
+1063|12|5
+1064|11|73
+1065|12|73
+1066|16|73
+1067|3|73
+1068|13|73
+1069|9|17
+1070|12|17
+1071|8|17
+1072|13|3
+1073|2|2
+1074|3|3
+1075|4|4
+1076|5|5
+1077|6|6
+1078|7|7
+1079|8|8
+1080|9|9
+1081|11|11
+1082|12|12
+1083|13|13
+1084|14|14
+1085|15|15
+1086|16|16
+1087|17|17
+1088|18|18
+1089|19|19
+1090|12|12
+1091|55|12
+1092|11|15
+1093|16|11
+1094|1|13
+1095|1|13
+1096|1|13
+1097|1|13
+1098|1|13
+1099|1|13
+1100|56|3
+1101|56|14
+1102|56|5
+1103|56|19
+1104|17|16
+1105|17|16
+1106|12|2
+1107|32|28
+1108|22|45
+1109|22|45
+1110|22|45
+1111|22|45
+1112|12|18
+1113|12|18
+1114|7|3
+1115|7|3
+1116|7|3
+1117|7|3
+1118|7|3
+1119|7|3
+1120|7|3
+1121|7|3
+1122|7|3
+1123|7|3
+1124|7|3
+1125|7|3
+1126|7|3
+1127|7|3
+1128|7|3
+1129|7|3
+1130|7|3
+1131|7|3
+1132|7|3
+1133|24|19
+1134|24|19
+1135|24|19
+1136|24|19
+1137|58|19
+1138|58|19
+1139|58|19
+1140|58|19
+1141|58|19
+1142|19|50
+1143|19|50
+1144|19|50
+1145|19|50
+1146|39|79
+1147|39|79
+1148|39|79
+1149|39|79
+1150|39|79
+1151|39|79
+1152|39|79
+1153|39|79
+1154|39|79
+1155|15|15
+1156|67|8
+1157|8|13
+1158|8|13
+1159|8|13
+1160|8|13
+1161|8|13
+1162|8|13
+1163|19|19
+1164|17|5
+1165|17|5
+1166|17|5
+1167|17|5
+1168|15|18
+1169|14|32
+1170|15|32
+1171|8|32
+1172|6|6
+1173|6|6
+1174|6|6
+1175|12|54
+1176|2|2
+1177|3|3
+1178|4|4
+1179|5|5
+1180|6|6
+1181|7|7
+1182|8|8
+1183|9|9
+1184|11|11
+1185|12|12
+1186|13|13
+1187|14|14
+1188|15|15
+1189|16|16
+1190|17|17
+1191|18|18
+1192|19|19
+1193|6|3
+1194|6|3
+1195|6|3
+1196|6|3
+1197|6|3
+1198|6|3
+1199|6|3
+1200|6|3
+1201|6|3
+1202|6|3
+1203|6|3
+1204|6|3
+1205|6|3
+1206|41|72
+1207|15|9
+1208|15|8
+1209|15|17
+1210|9|19
+1211|68|12
+1212|68|63
+1213|14|4
+1214|8|8
+1215|8|8
+1216|19|40
+1217|19|40
+1218|19|40
+1219|19|40
+1220|19|40
+1221|19|40
+1222|19|40
+1223|19|40
+1224|74|16
+1225|15|1
+1226|14|18
+1227|19|9
+1228|2|9
+1229|4|17
+1230|2|12
+1231|18|13
+1232|15|16
+1233|15|8
+1234|55|75
+1235|19|40
+1236|19|40
+1237|19|40
+1238|19|40
+1239|19|40
+1240|19|40
+1241|19|40
+1242|19|40
+1243|19|40
+1244|19|40
+1245|19|40
+1246|19|40
+1247|19|40
+1248|19|40
+1249|19|40
+1250|19|40
+1251|19|40
+1252|19|40
+1253|19|40
+1254|19|40
+1255|19|40
+1256|19|40
+1257|19|40
+1258|19|40
+1259|19|40
+1260|19|40
+1261|19|40
+1262|19|40
+1263|19|40
+1264|19|40
+1265|19|40
+1266|19|40
+1267|19|40
+1268|19|40
+1269|19|40
+1270|19|40
+1271|19|40
+1272|19|40
+1273|19|40
+1274|19|40
+1275|19|40
+1276|19|40
+1277|19|40
+1278|19|40
+1279|19|40
+1280|19|40
+1281|19|40
+1282|19|40
+1283|19|40
+1284|19|40
+1285|19|40
+1286|19|40
+1287|19|40
+1288|19|40
+1289|13|30
+1290|13|59
+1291|13|59
+1292|11|11
+1293|11|11
+1294|11|8
+1295|12|12
+1296|12|12
+1297|12|2
+1298|1|1
+1299|1|1
+1300|1|1
+1301|7|7
+1302|7|7
+1303|7|7
+1304|7|18
+1305|29|14
+1306|29|14
+1307|29|14
+1308|35|35
+1309|35|54
+1310|35|54
+1311|19|19
+1312|19|19
+1313|13|1
+1314|13|1
+1315|13|1
+1316|29|74
+1317|29|74
+1318|29|74
+1319|29|74
+1320|6|73
+1321|6|43
+1322|6|57
+1323|24|62
+1324|15|62
+1325|8|62
+1326|14|14
+1327|14|14
+1328|14|3
+1329|14|3
+1330|18|18
+1331|18|18
+1332|4|64
+1333|4|61
+1334|13|8
+1335|13|8
+1336|5|13
+1337|5|13
+1338|6|6
+1339|24|26
+1340|13|11
+1341|7|7
+1342|7|15
+1343|15|15
+1344|15|15
+1345|19|9
+1346|19|9
+1347|19|9
+1348|12|12
+1349|12|12
+1350|3|18
+1351|12|12
+1352|12|12
+1353|12|12
+1354|36|73
+1355|36|35
+1356|36|17
+1357|9|9
+1358|6|4
+1359|6|4
+1360|75|42
+1361|75|42
+1362|3|2
+1363|16|16
+1364|16|16
+1365|12|15
+1366|12|12
+1367|17|12
+1368|17|12
+1369|17|12
+1370|75|55
+1371|71|42
+1372|1|15
+1373|1|1
+1374|1|1
+1375|18|9
+1376|5|2
+1377|22|69
+1378|13|18
+1379|22|77
+1380|22|7
+1381|14|5
+1382|5|9
+1383|45|25
+1384|45|77
+1385|18|3
+1386|11|4
+1387|45|6
+1388|17|16
+1389|17|16
+1390|17|16
+1391|58|65
+1392|58|65
+1393|77|65
+1394|18|13
+1395|18|16
+1396|18|5
+1397|18|11
+1398|22|18
+1399|45|67
+1400|2|17
+1401|14|17
+1402|2|2
+1403|2|11
+1404|2|12
+1405|71|42
+1406|12|17
+1407|13|15
+1408|17|40
+1409|13|8
+1410|13|8
+1411|13|8
+1412|13|8
+1413|4|2
+1414|4|15
+1415|4|19
+1416|13|13
+1417|13|12
+1418|13|11
+1419|13|6
+1420|13|13
+1421|13|12
+1422|13|11
+1423|13|6
+1424|45|1
+1425|9|17
+1426|17|40
+1427|11|17
+1428|14|17
+1429|6|15
+1430|9|15
+1431|81|81
+1432|81|81
+1433|81|81
+1436|7|3
+1437|7|3
+1438|7|7
+1439|7|7
+1440|7|7
+1441|7|7
+1442|7|7
+1443|7|7
+1444|7|7
+1445|7|7
+1446|7|7
+1447|7|7
+1448|7|7
+1449|7|7
+1450|7|7
+1451|7|7
+1452|7|7
+1453|7|7
+1454|7|7
+1455|7|7
+1456|7|7
+1457|7|7
+1458|7|7
+1459|7|7
+1460|7|7
+1461|7|7
+1462|7|7
+1463|7|7
+1464|7|7
+1465|7|7
+1466|7|7
+1467|7|7
+1468|7|7
+1469|7|7
+1470|7|7
+1471|7|7
+1472|7|7
+1473|7|7
+1474|7|7
+1475|7|7
+1476|18|1
+1477|1|1
+1478|7|14
+1479|13|13
+1480|4|11
+1481|8|19
+1482|17|2
+1483|11|8
+1484|7|19
+1485|12|7
+1486|14|9
+1487|14|14
+1488|1|1
+1489|13|4
+1490|12|12
+1491|11|3
+1492|7|3
+1493|14|14
+1494|1|1
+1495|71|2
+1496|8|4
+1497|31|31
+1498|12|16
+1499|1|1
+1500|1|1
+1501|4|4
+1502|9|9
+1503|13|13
+1504|11|11
+1505|12|12
+1506|67|3
+1507|7|15
+1508|12|6
+1509|6|11
+1510|3|17
+1511|13|17
+1512|5|5
+1513|14|4
+1514|14|4
+1515|11|7
+1516|59|49
+1517|18|76
+1518|19|40
+1519|9|9
+1520|9|53
+1521|2|18
+1522|2|12
+1523|8|19
+1524|23|2
+1525|51|33
+1526|70|31
+1527|23|17
+1528|17|40
+1529|6|9
+1530|39|2
+1531|11|18
+1532|18|57
+1533|75|55
+1534|58|17
+1535|35|54
+1536|45|67
+1537|22|17
+1538|51|33
+1539|72|72
+1540|44|44
+1541|46|46
+1542|66|66
+1543|27|1
+1544|13|4
+1545|13|4
+1546|13|4
+1547|11|11
+1548|11|11
+1549|11|3
+1550|12|12
+1551|12|12
+1552|12|12
+1553|1|3
+1554|1|3
+1555|1|3
+1556|1|1
+1557|1|1
+1558|14|14
+1559|14|14
+1560|14|14
+1561|5|5
+1562|5|5
+1563|19|19
+1564|19|19
+1565|19|19
+1566|4|3
+1567|3|4
+1568|13|4
+1569|13|4
+1570|13|4
+1571|7|13
+1572|7|13
+1573|5|5
+1574|5|5
+1575|1|1
+1576|1|1
+1577|2|2
+1578|2|2
+1579|11|11
+1580|11|11
+1581|12|12
+1582|12|12
+1583|12|2
+1584|2|2
+1585|2|2
+1586|2|2
+1587|6|5
+1588|6|5
+1589|6|5
+1590|12|15
+1591|12|15
+1592|14|9
+1593|14|9
+1594|1|3
+1595|1|3
+1596|4|4
+1597|4|4
+1598|8|4
+1599|8|4
+1600|8|4
+1601|12|12
+1602|12|12
+1603|14|14
+1604|14|14
+1605|13|15
+1606|13|15
+1607|2|2
+1608|2|2
+1609|5|6
+1610|1|1
+1611|12|12
+1612|12|12
+1613|1|1
+1614|12|12
+1615|12|3
+1616|1|1
+1617|12|12
+1618|14|14
+1619|11|11
+1620|1|1
+1621|6|12
+1622|6|12
+1623|13|59
+1624|37|61
+1625|12|23
+1626|60|43
+1627|56|60
+1628|68|60
+1629|71|60
+1633|17|17
+1634|17|17
+1635|17|3
+1636|60|17
+1637|60|19
+1638|58|60
+1639|60|54
+1640|1|60
+1641|3|60
+1642|75|60
+1643|9|60
+1644|15|70
+1645|60|43
+1646|60|40
+1647|17|57
+1648|68|42
+1649|7|3
+1650|4|11
+"""#
   static let speciesTypesNational: String = #"""
 1|12|3
 2|12|3
@@ -9859,6 +26084,186 @@ enum Gen3BattleBlobs {
 17|Dragon
 18|Dark
 19|Fairy
+"""#
+  static let typeNamesWishes: String = #"""
+1|Normal
+2|Fighting
+3|Flying
+4|Poison
+5|Ground
+6|Rock
+7|Bug
+8|Ghost
+9|Steel
+11|Fire
+12|Water
+13|Grass
+14|Electric
+15|Psychic
+16|Ice
+17|Dragon
+18|Dark
+19|Fairy
+"""#
+  static let typeNamesLazarus: String = #"""
+1|Normal
+2|Fighting
+3|Flying
+4|Poison
+5|Ground
+6|Rock
+7|Bug
+8|Ghost
+9|Steel
+11|Fire
+12|Water
+13|Grass
+14|Electric
+15|Psychic
+16|Ice
+17|Dragon
+18|Dark
+19|Fairy
+"""#
+  static let typeNamesRowe: String = #"""
+0|Normal
+1|Fighting
+2|Flying
+3|Poison
+4|Ground
+5|Rock
+6|Bug
+7|Ghost
+8|Steel
+10|Fire
+11|Water
+12|Grass
+13|Electric
+14|Psychic
+15|Ice
+16|Dragon
+17|Dark
+18|Fairy
+"""#
+  static let typeNamesSoulGold: String = #"""
+1|Normal
+2|Fighting
+3|Flying
+4|Poison
+5|Ground
+6|Rock
+7|Bug
+8|Ghost
+9|Steel
+11|Fire
+12|Water
+13|Grass
+14|Electric
+15|Psychic
+16|Ice
+17|Dragon
+18|Dark
+19|Fairy
+"""#
+  static let typeNamesTeamRocketV3: String = #"""
+1|Normal
+2|Fighting
+3|Flying
+4|Poison
+5|Ground
+6|Rock
+7|Bug
+8|Ghost
+9|Steel
+11|Fire
+12|Water
+13|Grass
+14|Electric
+15|Psychic
+16|Ice
+17|Dragon
+18|Dark
+19|Fairy
+"""#
+  static let typeNamesTmt2: String = #"""
+1|Normal
+2|Fighting
+3|Flying
+4|Poison
+5|Ground
+6|Rock
+7|Bug
+8|Ghost
+9|Steel
+11|Fire
+12|Water
+13|Grass
+14|Electric
+15|Psychic
+16|Ice
+17|Dragon
+18|Dark
+19|Fairy
+22|Ancient
+23|Anime
+24|Baby
+25|Ball
+26|Bean
+27|Bird
+28|Brat
+29|Boring
+30|Cat
+31|Crab
+32|Dance
+33|Deeznuts
+34|Emerald
+35|Family
+36|Fast
+37|FireFht
+38|Florida
+39|Fluffy
+40|Food
+41|Freak
+42|Friend
+43|Frog
+44|Furry
+45|Future
+46|Gamer
+47|Gaslight
+48|Gatekeep
+49|Gender
+50|Girlboss
+51|Goblin
+52|Goku
+53|Gun
+54|Guys
+55|Hater
+56|Holy
+57|Kaiju
+58|little
+59|Magic
+60|Mario
+61|Monke
+62|Ninja
+63|Pikachu
+64|Rat
+65|Reddit
+66|Sans
+67|Sharp
+68|Silly
+69|Song
+70|Space
+71|Stinky
+72|Sus
+73|Thing
+74|Ugly
+75|Unalive
+76|Reverse
+77|Vgc
+78|Vibes
+79|Wealth
+80|Yapper
+81|Every
 """#
   static let typeChartRetail: String = #"""
 5|50
@@ -10776,6 +27181,3582 @@ enum Gen3BattleBlobs {
 1709|50
 1715|200
 1716|200
+"""#
+  static let typeChartWishes: String = #"""
+106|50
+108|0
+109|50
+201|200
+203|50
+204|50
+206|200
+207|50
+208|0
+209|200
+215|50
+216|200
+218|200
+219|50
+302|200
+306|50
+307|200
+309|50
+313|200
+314|50
+404|50
+405|50
+406|50
+408|50
+409|0
+413|200
+419|200
+503|0
+504|200
+506|200
+507|50
+509|200
+511|200
+513|50
+514|200
+602|50
+603|200
+605|50
+607|200
+609|50
+611|200
+616|200
+702|50
+703|50
+704|50
+708|50
+709|50
+711|50
+713|200
+715|200
+718|200
+719|50
+801|0
+808|200
+815|200
+818|50
+906|200
+909|50
+911|50
+912|50
+914|50
+916|200
+919|200
+1106|50
+1107|200
+1109|200
+1111|50
+1112|50
+1113|200
+1116|200
+1117|50
+1205|200
+1206|200
+1211|200
+1212|50
+1213|50
+1217|50
+1303|50
+1304|50
+1305|200
+1306|200
+1307|50
+1309|50
+1311|50
+1312|200
+1313|50
+1317|50
+1403|200
+1405|0
+1412|200
+1413|50
+1414|50
+1417|50
+1502|200
+1504|200
+1509|50
+1515|50
+1518|0
+1603|200
+1605|200
+1609|50
+1611|50
+1612|50
+1613|200
+1616|50
+1617|200
+1709|50
+1717|200
+1719|0
+1802|50
+1808|200
+1815|200
+1818|50
+1819|50
+1902|200
+1904|50
+1909|50
+1911|50
+1917|200
+1918|200
+"""#
+  static let typeChartLazarus: String = #"""
+106|50
+108|0
+109|50
+201|200
+203|50
+204|50
+206|200
+207|50
+208|0
+209|200
+215|50
+216|200
+218|200
+219|50
+302|200
+306|50
+307|200
+309|50
+313|200
+314|50
+404|50
+405|50
+406|50
+408|50
+409|0
+413|200
+419|200
+503|0
+504|200
+506|200
+507|50
+509|200
+511|200
+513|50
+514|200
+602|50
+603|200
+605|50
+607|200
+609|50
+611|200
+616|200
+702|50
+703|50
+704|50
+708|50
+709|50
+711|50
+713|200
+715|200
+718|200
+719|50
+801|0
+808|200
+815|200
+818|50
+906|200
+909|50
+911|50
+912|50
+914|50
+916|200
+919|200
+1106|50
+1107|200
+1109|200
+1111|50
+1112|50
+1113|200
+1116|200
+1117|50
+1205|200
+1206|200
+1211|200
+1212|50
+1213|50
+1217|50
+1303|50
+1304|50
+1305|200
+1306|200
+1307|50
+1309|50
+1311|50
+1312|200
+1313|50
+1317|50
+1403|200
+1405|0
+1412|200
+1413|50
+1414|50
+1417|50
+1502|200
+1504|200
+1509|50
+1515|50
+1518|0
+1603|200
+1605|200
+1609|50
+1611|50
+1612|50
+1613|200
+1616|50
+1617|200
+1709|50
+1717|200
+1719|0
+1802|50
+1808|200
+1815|200
+1818|50
+1819|50
+1902|200
+1904|50
+1909|50
+1911|50
+1917|200
+1918|200
+"""#
+  static let typeChartRowe: String = #"""
+5|50
+7|0
+8|50
+100|200
+102|50
+103|50
+105|200
+106|50
+107|0
+108|200
+114|50
+115|200
+117|200
+118|50
+201|200
+205|50
+206|200
+208|50
+212|200
+213|50
+303|50
+304|50
+305|50
+307|50
+308|0
+312|200
+318|200
+402|0
+403|200
+405|200
+406|50
+408|200
+410|200
+412|50
+413|200
+501|50
+502|200
+504|50
+506|200
+508|50
+510|200
+515|200
+601|50
+602|50
+603|50
+607|50
+608|50
+610|50
+612|200
+614|200
+617|200
+618|50
+700|0
+707|200
+714|200
+717|50
+805|200
+808|50
+810|50
+811|50
+813|50
+815|200
+818|200
+1005|50
+1006|200
+1008|200
+1010|50
+1011|50
+1012|200
+1015|200
+1016|50
+1104|200
+1105|200
+1110|200
+1111|50
+1112|50
+1116|50
+1202|50
+1203|50
+1204|200
+1205|200
+1206|50
+1208|50
+1210|50
+1211|200
+1212|50
+1216|50
+1302|200
+1304|0
+1311|200
+1312|50
+1313|50
+1316|50
+1401|200
+1403|200
+1408|50
+1414|50
+1417|0
+1502|200
+1504|200
+1508|50
+1510|50
+1511|50
+1512|200
+1515|50
+1516|200
+1608|50
+1616|200
+1618|0
+1701|50
+1707|200
+1714|200
+1717|50
+1718|50
+1801|200
+1803|50
+1808|50
+1810|50
+1816|200
+1817|200
+"""#
+  static let typeChartSoulGold: String = #"""
+106|50
+108|0
+109|50
+201|200
+203|50
+204|50
+206|200
+207|50
+208|0
+209|200
+215|50
+216|200
+218|200
+219|50
+302|200
+306|50
+307|200
+309|50
+313|200
+314|50
+404|50
+405|50
+406|50
+408|50
+409|0
+413|200
+419|200
+503|0
+504|200
+506|200
+507|50
+509|200
+511|200
+513|50
+514|200
+602|50
+603|200
+605|50
+607|200
+609|50
+611|200
+616|200
+702|50
+703|50
+704|50
+708|50
+709|50
+711|50
+713|200
+715|200
+718|200
+719|50
+801|0
+808|200
+815|200
+818|50
+906|200
+909|50
+911|50
+912|50
+914|50
+916|200
+919|200
+1106|50
+1107|200
+1109|200
+1111|50
+1112|50
+1113|200
+1116|200
+1117|50
+1205|200
+1206|200
+1211|200
+1212|50
+1213|50
+1217|50
+1303|50
+1304|50
+1305|200
+1306|200
+1307|50
+1309|50
+1311|50
+1312|200
+1313|50
+1317|50
+1403|200
+1405|0
+1412|200
+1413|50
+1414|50
+1417|50
+1502|200
+1504|200
+1509|50
+1515|50
+1518|0
+1603|200
+1605|200
+1609|50
+1611|50
+1612|50
+1613|200
+1616|50
+1617|200
+1709|50
+1717|200
+1719|0
+1802|50
+1808|200
+1815|200
+1818|50
+1819|50
+1902|200
+1904|50
+1909|50
+1911|50
+1917|200
+1918|200
+"""#
+  static let typeChartTeamRocketV3: String = #"""
+106|50
+108|0
+109|50
+201|200
+203|50
+204|50
+206|200
+207|50
+208|0
+209|200
+215|50
+216|200
+218|200
+219|50
+302|200
+306|50
+307|200
+309|50
+313|200
+314|50
+404|50
+405|50
+406|50
+408|50
+409|0
+413|200
+419|200
+503|0
+504|200
+506|200
+507|50
+509|200
+511|200
+513|50
+514|200
+602|50
+603|200
+605|50
+607|200
+609|50
+611|200
+616|200
+702|50
+703|50
+704|50
+708|50
+709|50
+711|50
+713|200
+715|200
+718|200
+719|50
+801|0
+808|200
+815|200
+818|50
+906|200
+909|50
+911|50
+912|50
+914|50
+916|200
+919|200
+1106|50
+1107|200
+1109|200
+1111|50
+1112|50
+1113|200
+1116|200
+1117|50
+1205|200
+1206|200
+1211|200
+1212|50
+1213|50
+1217|50
+1303|50
+1304|50
+1305|200
+1306|200
+1307|50
+1309|50
+1311|50
+1312|200
+1313|50
+1317|50
+1403|200
+1405|0
+1412|200
+1413|50
+1414|50
+1417|50
+1502|200
+1504|200
+1509|50
+1515|50
+1518|0
+1603|200
+1605|200
+1609|50
+1611|50
+1612|50
+1613|200
+1616|50
+1617|200
+1709|50
+1717|200
+1719|0
+1802|50
+1808|200
+1815|200
+1818|50
+1819|50
+1902|200
+1904|50
+1909|50
+1911|50
+1917|200
+1918|200
+"""#
+  static let typeChartTmt2: String = #"""
+106|50
+108|0
+109|50
+123|50
+124|200
+128|50
+129|50
+134|50
+138|50
+140|200
+142|200
+145|50
+146|200
+147|50
+148|50
+150|50
+153|50
+155|50
+157|50
+160|200
+169|200
+178|200
+201|200
+203|50
+204|50
+206|200
+207|50
+208|0
+209|200
+215|50
+216|200
+218|200
+219|50
+222|200
+223|50
+224|200
+225|50
+227|50
+228|200
+229|50
+230|50
+231|50
+232|50
+233|200
+234|50
+235|200
+236|50
+238|200
+239|50
+240|50
+242|50
+243|50
+244|50
+245|50
+246|200
+250|50
+252|0
+253|50
+254|50
+255|200
+256|50
+257|50
+258|200
+259|50
+260|50
+261|50
+262|50
+264|200
+265|200
+267|50
+268|50
+269|50
+270|50
+272|200
+273|50
+278|50
+279|200
+281|50
+302|200
+306|50
+307|200
+309|50
+313|200
+314|50
+322|50
+324|200
+326|200
+329|200
+330|50
+331|200
+334|50
+338|200
+339|50
+343|200
+352|50
+354|200
+355|200
+357|50
+360|50
+361|200
+363|50
+364|200
+367|50
+377|50
+379|200
+404|50
+405|50
+406|50
+408|50
+409|0
+413|200
+419|200
+423|0
+424|200
+429|50
+430|200
+433|50
+434|50
+440|200
+442|200
+443|200
+449|200
+451|50
+452|50
+453|50
+454|200
+455|200
+456|50
+457|50
+459|200
+460|200
+464|200
+468|200
+470|50
+471|50
+472|50
+474|0
+476|50
+478|200
+479|200
+503|0
+504|200
+506|200
+507|50
+509|200
+511|200
+513|50
+514|200
+524|200
+526|50
+528|200
+533|50
+534|50
+538|200
+540|200
+541|50
+545|50
+547|200
+551|200
+552|50
+553|200
+557|50
+561|50
+563|50
+565|200
+567|200
+570|200
+573|200
+575|200
+577|200
+581|200
+602|50
+603|200
+605|50
+607|200
+609|50
+611|200
+616|200
+622|200
+623|50
+624|200
+627|200
+629|50
+633|200
+634|50
+635|200
+636|50
+637|50
+641|50
+645|50
+647|50
+648|50
+650|200
+651|200
+656|200
+657|200
+658|200
+660|200
+664|200
+668|200
+669|200
+673|50
+675|200
+679|200
+680|50
+681|200
+702|50
+703|50
+704|50
+708|50
+709|50
+711|50
+713|200
+715|200
+718|200
+719|50
+722|50
+723|200
+724|200
+726|200
+727|50
+728|200
+729|200
+730|200
+732|50
+734|50
+735|200
+737|50
+739|50
+740|200
+741|200
+743|50
+747|50
+748|200
+757|50
+758|200
+762|50
+764|200
+765|200
+767|200
+775|200
+778|50
+801|0
+808|200
+815|200
+818|50
+822|200
+824|200
+828|200
+829|200
+834|50
+838|50
+840|200
+842|50
+845|200
+846|200
+850|50
+853|50
+854|50
+856|50
+859|200
+860|200
+862|50
+864|50
+869|50
+870|0
+872|0
+874|50
+875|200
+879|200
+906|200
+909|50
+911|50
+912|50
+914|50
+916|200
+919|200
+923|200
+924|200
+927|200
+933|200
+934|50
+936|200
+937|50
+938|50
+940|50
+945|200
+947|200
+948|200
+955|200
+962|50
+963|50
+975|200
+977|50
+980|200
+1106|50
+1107|200
+1109|200
+1111|50
+1112|50
+1113|200
+1116|200
+1117|50
+1122|200
+1124|200
+1125|50
+1128|200
+1129|200
+1130|200
+1131|200
+1132|50
+1133|200
+1134|50
+1135|200
+1136|50
+1137|50
+1138|0
+1139|200
+1140|200
+1144|200
+1147|200
+1151|200
+1152|50
+1155|200
+1157|50
+1159|50
+1160|200
+1161|200
+1164|200
+1165|200
+1169|50
+1171|200
+1173|50
+1175|200
+1179|200
+1181|200
+1205|200
+1206|200
+1211|200
+1212|50
+1213|50
+1217|50
+1223|200
+1224|200
+1226|50
+1228|200
+1229|200
+1230|200
+1231|50
+1232|50
+1234|50
+1236|50
+1237|50
+1238|50
+1239|200
+1240|50
+1243|0
+1244|200
+1245|200
+1246|200
+1247|200
+1248|50
+1256|50
+1257|50
+1261|200
+1265|200
+1270|200
+1271|200
+1273|50
+1274|200
+1275|200
+1278|50
+1279|200
+1280|200
+1303|50
+1304|50
+1305|200
+1306|200
+1307|50
+1309|50
+1311|50
+1312|200
+1313|50
+1317|50
+1323|200
+1324|200
+1326|50
+1327|50
+1328|50
+1329|200
+1331|50
+1332|50
+1334|50
+1335|200
+1336|50
+1337|200
+1339|200
+1340|50
+1343|200
+1344|50
+1346|200
+1347|50
+1351|200
+1355|50
+1357|50
+1361|200
+1365|200
+1375|50
+1378|50
+1379|200
+1381|50
+1403|200
+1405|0
+1412|200
+1413|50
+1414|50
+1417|50
+1424|200
+1425|50
+1427|200
+1428|50
+1429|200
+1432|50
+1434|50
+1437|200
+1438|50
+1439|50
+1443|200
+1445|50
+1446|50
+1447|50
+1448|200
+1451|200
+1453|200
+1455|200
+1459|50
+1460|200
+1463|50
+1465|200
+1468|50
+1470|0
+1475|50
+1479|200
+1481|50
+1502|200
+1504|200
+1509|50
+1515|50
+1518|0
+1522|200
+1523|50
+1524|200
+1525|50
+1528|200
+1529|200
+1533|200
+1534|50
+1538|200
+1541|200
+1542|50
+1545|200
+1547|200
+1548|200
+1554|50
+1555|200
+1556|200
+1557|200
+1559|50
+1562|50
+1564|50
+1565|0
+1570|200
+1572|200
+1573|0
+1578|200
+1579|200
+1580|200
+1581|200
+1603|200
+1605|200
+1609|50
+1611|50
+1612|50
+1613|200
+1616|50
+1617|200
+1623|50
+1624|200
+1626|200
+1627|200
+1630|200
+1631|200
+1632|200
+1633|200
+1634|50
+1636|50
+1637|50
+1639|0
+1640|200
+1642|200
+1643|200
+1644|50
+1645|50
+1647|50
+1651|200
+1655|200
+1657|200
+1662|50
+1670|50
+1671|200
+1673|200
+1675|200
+1678|200
+1679|50
+1680|200
+1681|200
+1709|50
+1717|200
+1719|0
+1722|200
+1723|200
+1724|200
+1725|50
+1728|200
+1729|200
+1733|200
+1734|50
+1736|200
+1738|200
+1740|200
+1741|200
+1742|50
+1744|200
+1750|50
+1751|200
+1752|50
+1753|50
+1756|50
+1757|200
+1758|200
+1759|50
+1760|50
+1762|50
+1768|50
+1773|50
+1777|50
+1802|50
+1808|200
+1815|200
+1818|50
+1819|50
+1823|50
+1824|200
+1828|50
+1833|50
+1834|50
+1835|200
+1842|0
+1844|200
+1845|200
+1846|0
+1847|200
+1848|200
+1856|200
+1861|50
+1862|200
+1865|200
+1868|200
+1870|0
+1872|50
+1874|50
+1875|50
+1878|200
+1879|50
+1902|200
+1904|50
+1909|50
+1911|50
+1917|200
+1918|200
+1923|200
+1924|200
+1926|200
+1928|200
+1930|200
+1931|50
+1933|50
+1934|50
+1938|50
+1941|50
+1943|50
+1946|50
+1947|50
+1948|50
+1949|200
+1950|50
+1951|50
+1953|50
+1955|200
+1957|200
+1958|200
+1959|200
+1964|200
+1968|50
+1969|50
+1971|50
+1974|200
+1975|200
+1978|50
+1979|200
+1980|200
+1981|50
+2202|200
+2205|200
+2206|200
+2208|200
+2209|200
+2213|50
+2214|50
+2216|50
+2217|200
+2222|50
+2224|200
+2225|50
+2228|50
+2229|50
+2230|50
+2231|0
+2234|50
+2236|200
+2238|50
+2240|200
+2241|200
+2243|50
+2245|200
+2247|50
+2248|200
+2250|200
+2252|200
+2253|50
+2256|200
+2257|200
+2259|200
+2260|200
+2261|200
+2263|50
+2265|200
+2267|200
+2269|50
+2270|200
+2271|200
+2274|50
+2275|50
+2277|50
+2278|200
+2279|50
+2280|0
+2301|200
+2302|200
+2303|200
+2304|0
+2306|200
+2307|50
+2308|50
+2311|200
+2317|200
+2322|200
+2323|200
+2324|200
+2328|200
+2329|50
+2330|50
+2333|50
+2334|50
+2335|50
+2336|200
+2338|50
+2339|200
+2341|50
+2342|200
+2344|0
+2346|200
+2348|50
+2349|50
+2351|200
+2352|200
+2353|50
+2356|200
+2359|50
+2362|50
+2363|50
+2365|200
+2369|200
+2375|200
+2378|50
+2379|200
+2380|200
+2424|200
+2434|50
+2440|200
+2479|200
+2503|200
+2504|50
+2506|50
+2508|0
+2509|50
+2512|50
+2515|50
+2522|200
+2523|200
+2524|200
+2525|50
+2527|200
+2528|200
+2529|200
+2530|200
+2532|50
+2533|200
+2534|50
+2535|200
+2539|50
+2541|0
+2543|50
+2544|50
+2545|50
+2546|200
+2548|50
+2549|50
+2550|50
+2551|200
+2552|200
+2553|50
+2554|50
+2556|200
+2560|50
+2561|200
+2562|50
+2564|200
+2567|50
+2568|200
+2570|50
+2573|200
+2575|50
+2578|50
+2579|200
+2581|50
+2604|200
+2605|200
+2606|200
+2609|50
+2611|50
+2613|200
+2616|50
+2619|200
+2622|200
+2623|200
+2624|200
+2626|0
+2627|50
+2628|50
+2629|50
+2630|200
+2632|50
+2634|50
+2636|50
+2638|200
+2640|0
+2643|50
+2651|50
+2652|0
+2658|50
+2659|200
+2660|50
+2661|200
+2664|50
+2668|50
+2669|50
+2670|50
+2672|50
+2675|50
+2679|200
+2681|50
+2706|50
+2707|200
+2709|50
+2713|200
+2716|50
+2722|50
+2723|50
+2724|200
+2726|200
+2728|200
+2729|200
+2730|50
+2731|200
+2732|200
+2733|200
+2734|50
+2735|200
+2740|200
+2741|50
+2743|200
+2751|200
+2753|50
+2757|50
+2758|200
+2763|50
+2764|200
+2765|200
+2767|50
+2768|200
+2770|50
+2772|200
+2773|0
+2775|50
+2779|200
+2780|200
+2781|200
+2802|200
+2803|50
+2805|0
+2808|50
+2809|50
+2812|200
+2813|50
+2816|50
+2818|0
+2819|200
+2824|200
+2825|200
+2826|50
+2828|200
+2831|50
+2832|200
+2834|50
+2835|200
+2838|200
+2840|200
+2841|200
+2843|50
+2844|200
+2845|50
+2847|50
+2848|50
+2849|200
+2851|200
+2853|50
+2854|200
+2855|50
+2858|200
+2861|50
+2865|200
+2869|200
+2875|50
+2878|50
+2879|200
+2902|50
+2906|50
+2911|50
+2914|50
+2919|50
+2922|50
+2923|200
+2924|200
+2925|200
+2926|50
+2928|50
+2929|50
+2930|0
+2931|50
+2932|200
+2933|200
+2934|50
+2935|50
+2938|0
+2940|50
+2941|200
+2942|200
+2944|200
+2945|50
+2946|200
+2951|50
+2952|200
+2953|50
+2954|50
+2955|200
+2956|50
+2957|200
+2959|200
+2961|50
+2963|200
+2964|50
+2965|200
+2968|200
+2969|200
+2971|50
+2974|50
+2977|200
+2978|200
+2979|50
+2980|50
+2981|50
+3003|200
+3007|200
+3009|50
+3011|50
+3012|50
+3017|200
+3018|200
+3022|200
+3024|200
+3025|50
+3027|200
+3028|200
+3029|200
+3031|200
+3033|200
+3034|50
+3038|50
+3039|200
+3040|200
+3043|200
+3044|200
+3046|200
+3049|50
+3050|200
+3051|50
+3052|50
+3054|200
+3055|200
+3057|50
+3058|200
+3060|200
+3061|50
+3063|50
+3064|200
+3068|50
+3070|50
+3075|200
+3079|200
+3080|50
+3081|200
+3101|200
+3102|200
+3106|200
+3107|200
+3109|50
+3111|50
+3112|200
+3113|50
+3114|50
+3115|50
+3116|50
+3122|200
+3123|200
+3124|200
+3127|50
+3128|200
+3129|200
+3130|50
+3131|50
+3132|50
+3133|200
+3134|50
+3135|50
+3136|50
+3137|50
+3138|200
+3140|200
+3142|50
+3143|50
+3144|50
+3145|200
+3146|50
+3147|200
+3151|50
+3152|50
+3153|50
+3154|50
+3155|200
+3156|200
+3157|200
+3158|200
+3159|50
+3161|50
+3162|50
+3163|200
+3164|200
+3165|200
+3167|50
+3168|50
+3169|50
+3170|50
+3174|200
+3175|200
+3177|200
+3179|50
+3180|200
+3181|50
+3202|50
+3204|50
+3208|200
+3211|200
+3212|200
+3216|200
+3222|50
+3223|200
+3224|200
+3225|200
+3228|50
+3231|200
+3232|50
+3234|50
+3235|200
+3236|200
+3241|200
+3242|200
+3244|50
+3245|200
+3247|50
+3248|50
+3250|200
+3253|50
+3254|200
+3257|50
+3260|200
+3261|200
+3264|200
+3269|200
+3271|50
+3272|50
+3278|200
+3279|50
+3281|200
+3302|50
+3303|50
+3314|200
+3315|200
+3318|200
+3323|200
+3324|200
+3327|200
+3328|200
+3329|200
+3332|200
+3333|200
+3334|50
+3339|50
+3341|200
+3343|50
+3344|50
+3345|200
+3348|50
+3349|50
+3351|200
+3354|200
+3356|50
+3358|200
+3362|400
+3363|200
+3365|200
+3367|50
+3371|50
+3374|200
+3379|200
+3380|200
+3381|200
+3401|200
+3402|200
+3403|200
+3404|200
+3405|200
+3406|200
+3407|200
+3408|200
+3409|200
+3411|200
+3412|200
+3413|200
+3414|200
+3415|200
+3416|200
+3417|200
+3418|200
+3419|200
+3422|200
+3423|200
+3424|200
+3425|200
+3426|200
+3427|200
+3428|200
+3429|200
+3430|200
+3431|200
+3432|200
+3433|200
+3434|200
+3435|200
+3436|200
+3437|200
+3438|200
+3439|200
+3440|200
+3441|200
+3442|200
+3443|200
+3444|200
+3445|200
+3446|200
+3447|200
+3448|200
+3449|200
+3450|200
+3451|200
+3452|200
+3453|200
+3454|200
+3455|200
+3456|200
+3457|200
+3458|200
+3459|200
+3460|200
+3461|200
+3462|200
+3463|200
+3464|200
+3465|200
+3467|200
+3468|200
+3469|200
+3470|200
+3471|200
+3472|200
+3473|200
+3474|200
+3475|200
+3476|200
+3477|200
+3478|200
+3479|200
+3480|200
+3481|200
+3502|200
+3506|200
+3507|200
+3508|50
+3509|50
+3511|50
+3512|200
+3513|200
+3516|200
+3518|200
+3523|200
+3524|200
+3525|200
+3527|200
+3528|200
+3530|200
+3533|50
+3534|50
+3538|200
+3540|200
+3541|50
+3542|50
+3544|50
+3545|200
+3546|50
+3549|200
+3550|50
+3552|200
+3553|50
+3554|200
+3559|50
+3561|50
+3562|50
+3565|50
+3568|50
+3579|50
+3601|200
+3602|200
+3603|200
+3609|200
+3611|200
+3614|50
+3616|200
+3619|200
+3622|50
+3624|200
+3625|200
+3631|200
+3632|200
+3633|50
+3634|50
+3636|50
+3637|200
+3638|200
+3640|0
+3644|50
+3645|50
+3646|50
+3647|50
+3648|50
+3651|50
+3652|200
+3653|200
+3656|50
+3659|200
+3665|50
+3667|200
+3670|200
+3671|200
+3672|200
+3673|50
+3674|200
+3675|50
+3702|200
+3704|200
+3705|200
+3706|200
+3708|50
+3709|200
+3711|200
+3713|50
+3715|200
+3716|50
+3717|200
+3718|200
+3724|200
+3726|50
+3729|200
+3730|200
+3734|50
+3736|200
+3739|50
+3740|200
+3741|50
+3744|50
+3745|50
+3747|200
+3749|0
+3751|50
+3755|0
+3756|200
+3757|200
+3763|50
+3767|50
+3768|50
+3771|200
+3772|200
+3773|200
+3774|200
+3781|200
+3801|200
+3804|50
+3805|200
+3806|200
+3807|50
+3808|50
+3811|200
+3812|50
+3813|50
+3815|200
+3816|200
+3819|200
+3822|200
+3823|50
+3824|400
+3828|200
+3829|50
+3831|50
+3833|200
+3834|50
+3835|200
+3838|200
+3839|200
+3840|50
+3841|0
+3842|200
+3843|50
+3844|50
+3846|0
+3849|200
+3850|50
+3851|50
+3853|0
+3854|50
+3855|50
+3856|50
+3858|200
+3859|200
+3861|200
+3862|200
+3864|50
+3867|50
+3868|50
+3870|200
+3871|50
+3872|50
+3875|200
+3878|200
+3879|50
+3881|50
+3911|50
+3912|200
+3916|200
+3918|200
+3923|200
+3924|200
+3929|50
+3934|50
+3935|200
+3936|50
+3937|50
+3939|50
+3941|50
+3943|50
+3944|200
+3945|50
+3951|50
+3957|50
+3958|200
+3960|50
+3962|50
+3964|200
+3965|200
+3973|200
+3974|200
+3975|50
+3981|50
+4001|200
+4002|50
+4004|50
+4005|50
+4006|50
+4007|50
+4008|200
+4009|50
+4011|50
+4012|50
+4013|200
+4014|200
+4016|50
+4017|50
+4022|50
+4023|200
+4024|200
+4025|200
+4026|0
+4027|50
+4028|50
+4030|50
+4031|50
+4033|200
+4034|50
+4035|200
+4036|200
+4039|200
+4040|200
+4043|200
+4046|50
+4047|200
+4051|200
+4055|50
+4056|200
+4057|50
+4060|50
+4061|50
+4064|200
+4065|200
+4067|50
+4070|50
+4071|50
+4078|200
+4079|50
+4081|50
+4102|200
+4105|50
+4108|200
+4115|200
+4118|200
+4119|50
+4122|200
+4123|200
+4124|200
+4125|50
+4126|200
+4129|200
+4130|200
+4131|50
+4132|50
+4133|200
+4134|50
+4135|50
+4136|50
+4137|50
+4138|200
+4139|200
+4140|200
+4142|200
+4144|200
+4145|50
+4146|200
+4147|200
+4148|50
+4150|50
+4151|50
+4152|50
+4156|0
+4157|200
+4160|50
+4161|200
+4162|50
+4164|50
+4165|200
+4168|200
+4171|200
+4173|50
+4174|200
+4175|50
+4177|50
+4179|200
+4202|200
+4204|50
+4206|50
+4207|200
+4208|200
+4209|50
+4215|200
+4217|200
+4218|200
+4223|200
+4224|200
+4225|200
+4229|50
+4230|200
+4231|200
+4234|50
+4235|200
+4241|0
+4242|50
+4244|50
+4246|50
+4247|0
+4249|50
+4252|200
+4254|200
+4259|200
+4260|200
+4261|50
+4265|50
+4268|200
+4269|50
+4271|50
+4272|50
+4274|50
+4301|200
+4303|50
+4304|200
+4305|200
+4306|200
+4307|200
+4309|50
+4312|200
+4313|200
+4314|50
+4316|50
+4317|50
+4318|200
+4322|200
+4324|200
+4325|200
+4327|50
+4329|200
+4330|50
+4332|200
+4334|50
+4335|200
+4336|200
+4338|200
+4339|50
+4340|200
+4341|200
+4342|200
+4344|50
+4346|200
+4349|200
+4350|50
+4351|50
+4352|200
+4353|50
+4354|200
+4355|50
+4357|50
+4358|50
+4359|200
+4360|200
+4363|50
+4365|200
+4368|50
+4369|50
+4372|200
+4373|200
+4374|200
+4375|50
+4377|200
+4378|200
+4381|200
+4401|50
+4402|50
+4413|200
+4423|0
+4424|200
+4425|50
+4430|50
+4432|200
+4433|200
+4434|50
+4435|200
+4438|200
+4439|200
+4441|200
+4442|50
+4443|50
+4444|200
+4445|50
+4446|50
+4447|200
+4448|200
+4449|50
+4450|50
+4458|200
+4464|200
+4465|200
+4469|200
+4470|50
+4471|200
+4479|200
+4480|200
+4481|200
+4501|200
+4502|200
+4503|200
+4504|50
+4505|50
+4506|50
+4508|0
+4515|200
+4524|200
+4526|200
+4528|50
+4529|50
+4531|50
+4534|50
+4540|200
+4541|50
+4544|0
+4546|200
+4547|50
+4549|200
+4550|50
+4552|50
+4553|50
+4555|50
+4556|0
+4557|200
+4558|200
+4559|200
+4561|200
+4563|50
+4564|200
+4567|200
+4570|200
+4572|200
+4574|200
+4575|200
+4577|200
+4579|200
+4580|50
+4601|50
+4602|50
+4604|200
+4607|200
+4612|50
+4613|0
+4614|50
+4618|200
+4619|50
+4622|50
+4624|200
+4625|50
+4627|50
+4628|200
+4629|50
+4630|50
+4631|50
+4632|50
+4633|50
+4634|50
+4635|0
+4636|50
+4637|0
+4638|200
+4639|200
+4640|200
+4642|50
+4644|50
+4646|200
+4647|50
+4648|200
+4649|50
+4650|50
+4652|50
+4654|200
+4656|200
+4657|50
+4660|200
+4661|50
+4663|200
+4665|200
+4667|50
+4668|50
+4671|50
+4672|50
+4677|200
+4678|50
+4681|50
+4701|200
+4702|200
+4706|50
+4708|200
+4711|200
+4712|200
+4713|200
+4714|200
+4716|50
+4723|50
+4724|200
+4728|200
+4729|50
+4730|50
+4731|50
+4733|200
+4734|50
+4735|200
+4736|50
+4737|50
+4741|50
+4742|200
+4743|50
+4744|50
+4746|200
+4747|200
+4749|200
+4751|200
+4753|200
+4754|200
+4755|200
+4757|50
+4759|200
+4760|200
+4761|0
+4762|200
+4764|50
+4765|200
+4768|0
+4770|200
+4772|200
+4773|50
+4774|50
+4775|50
+4777|50
+4778|50
+4779|200
+4801|200
+4802|200
+4803|200
+4808|200
+4811|50
+4812|200
+4814|200
+4818|200
+4822|200
+4823|200
+4824|200
+4829|50
+4830|50
+4831|50
+4833|50
+4834|50
+4841|50
+4842|200
+4844|50
+4846|50
+4848|200
+4849|200
+4851|50
+4852|200
+4853|200
+4854|200
+4855|50
+4858|50
+4859|200
+4860|200
+4862|50
+4863|200
+4864|50
+4865|200
+4868|50
+4870|200
+4871|200
+4872|200
+4873|200
+4875|50
+4877|200
+4878|50
+4879|50
+4901|200
+4902|50
+4904|50
+4907|200
+4908|200
+4909|50
+4911|50
+4912|200
+4913|200
+4915|50
+4917|200
+4918|200
+4919|50
+4922|200
+4923|200
+4924|200
+4928|200
+4930|50
+4933|200
+4934|50
+4935|200
+4938|50
+4939|50
+4940|200
+4941|200
+4942|50
+4946|200
+4947|50
+4948|50
+4949|200
+4952|200
+4953|50
+4954|200
+4955|200
+4956|200
+4959|200
+4961|200
+4962|50
+4963|50
+4965|50
+4967|200
+4968|200
+4969|50
+4971|50
+4972|50
+4974|200
+4975|200
+4978|200
+4979|50
+4980|200
+5001|200
+5002|200
+5004|50
+5007|50
+5008|50
+5011|200
+5012|200
+5014|200
+5015|50
+5017|200
+5019|200
+5022|50
+5023|50
+5024|200
+5025|50
+5027|50
+5028|200
+5029|200
+5032|200
+5034|50
+5035|200
+5037|50
+5038|50
+5040|200
+5041|200
+5042|200
+5044|50
+5045|200
+5046|200
+5047|50
+5048|200
+5050|200
+5052|200
+5053|50
+5054|200
+5055|50
+5056|50
+5057|50
+5060|200
+5063|50
+5064|50
+5065|50
+5067|50
+5068|200
+5069|200
+5074|200
+5077|50
+5078|50
+5103|200
+5104|200
+5107|200
+5108|0
+5109|200
+5111|0
+5113|200
+5115|50
+5116|200
+5117|50
+5119|200
+5122|200
+5123|50
+5124|200
+5126|200
+5128|50
+5129|200
+5130|50
+5131|200
+5132|200
+5133|200
+5134|50
+5136|50
+5138|50
+5140|200
+5141|50
+5146|50
+5147|50
+5150|50
+5151|200
+5152|50
+5153|50
+5155|200
+5157|50
+5158|200
+5160|50
+5161|50
+5163|50
+5164|200
+5165|200
+5168|200
+5169|0
+5171|200
+5173|200
+5174|200
+5178|200
+5180|50
+5201|200
+5202|200
+5203|200
+5204|50
+5206|200
+5207|50
+5208|50
+5209|200
+5215|50
+5216|200
+5218|200
+5219|50
+5222|50
+5223|200
+5224|200
+5227|200
+5228|50
+5229|50
+5230|200
+5231|200
+5232|50
+5233|50
+5234|50
+5235|200
+5236|200
+5237|50
+5238|200
+5240|200
+5241|50
+5242|50
+5243|50
+5244|200
+5245|50
+5246|200
+5247|50
+5248|200
+5250|50
+5251|200
+5252|50
+5253|200
+5254|200
+5255|200
+5256|50
+5257|200
+5258|50
+5259|50
+5261|50
+5264|200
+5268|50
+5270|200
+5271|50
+5273|200
+5275|200
+5277|200
+5278|50
+5279|200
+5280|200
+5301|200
+5302|200
+5303|200
+5304|50
+5305|50
+5306|50
+5308|0
+5309|50
+5311|50
+5312|50
+5315|200
+5316|200
+5318|200
+5319|200
+5322|200
+5323|50
+5324|200
+5325|200
+5326|200
+5327|200
+5329|200
+5330|0
+5331|50
+5332|0
+5333|200
+5334|50
+5335|200
+5336|50
+5337|200
+5338|50
+5339|50
+5340|50
+5341|200
+5342|200
+5343|200
+5344|200
+5345|50
+5346|200
+5347|200
+5348|200
+5349|200
+5350|200
+5351|200
+5352|0
+5353|200
+5355|200
+5356|200
+5357|50
+5358|200
+5359|200
+5360|200
+5361|200
+5363|200
+5364|200
+5365|200
+5367|200
+5368|200
+5369|200
+5370|0
+5371|200
+5372|200
+5373|50
+5374|200
+5375|50
+5378|200
+5379|200
+5380|200
+5381|200
+5402|200
+5404|50
+5408|0
+5409|50
+5411|200
+5418|200
+5423|200
+5424|200
+5425|200
+5426|50
+5427|50
+5428|200
+5429|50
+5432|200
+5433|50
+5434|50
+5435|200
+5436|50
+5437|50
+5438|200
+5439|50
+5440|200
+5441|200
+5442|200
+5444|50
+5446|200
+5447|50
+5448|50
+5449|50
+5450|50
+5451|200
+5452|50
+5453|200
+5454|50
+5455|200
+5456|50
+5457|50
+5458|200
+5459|50
+5461|50
+5465|50
+5467|50
+5468|200
+5469|200
+5470|50
+5471|50
+5472|50
+5474|50
+5477|200
+5478|200
+5479|50
+5480|50
+5481|50
+5501|50
+5523|200
+5524|200
+5530|50
+5534|50
+5537|50
+5540|50
+5541|200
+5543|50
+5544|200
+5545|200
+5548|200
+5549|200
+5551|50
+5552|200
+5556|200
+5557|50
+5560|200
+5562|50
+5565|200
+5574|200
+5580|200
+5601|200
+5602|50
+5604|200
+5607|50
+5608|200
+5611|200
+5612|200
+5615|50
+5617|200
+5618|200
+5619|50
+5622|200
+5623|50
+5624|200
+5633|200
+5634|50
+5635|200
+5638|200
+5640|200
+5641|0
+5645|200
+5647|200
+5648|200
+5651|50
+5653|200
+5655|50
+5657|50
+5659|50
+5665|0
+5668|50
+5673|50
+5675|200
+5678|50
+5679|200
+5680|50
+5702|200
+5703|200
+5704|200
+5705|200
+5706|200
+5708|50
+5709|200
+5716|50
+5717|200
+5719|50
+5723|200
+5724|200
+5727|200
+5728|200
+5729|200
+5730|50
+5734|50
+5737|50
+5738|200
+5739|200
+5741|50
+5742|50
+5745|50
+5746|200
+5751|200
+5752|50
+5753|200
+5754|200
+5756|50
+5757|200
+5758|200
+5759|0
+5760|50
+5761|200
+5762|50
+5763|200
+5767|200
+5770|50
+5773|50
+5778|200
+5779|200
+5780|50
+5781|200
+5802|50
+5819|200
+5824|200
+5825|200
+5826|50
+5827|50
+5831|200
+5833|0
+5834|50
+5835|200
+5841|200
+5842|200
+5843|200
+5845|50
+5851|200
+5852|50
+5857|50
+5858|50
+5860|200
+5862|200
+5864|200
+5873|200
+5880|200
+5901|200
+5904|50
+5908|200
+5914|200
+5917|200
+5919|50
+5922|200
+5923|200
+5924|200
+5926|200
+5928|200
+5929|200
+5930|200
+5932|200
+5933|50
+5934|50
+5938|0
+5941|50
+5942|50
+5943|200
+5945|200
+5947|50
+5948|50
+5949|200
+5950|50
+5952|200
+5953|50
+5957|200
+5959|50
+5961|50
+5963|200
+5964|50
+5968|50
+5970|50
+5975|200
+5977|200
+6001|50
+6004|50
+6007|50
+6008|0
+6009|50
+6011|50
+6014|50
+6017|200
+6018|200
+6022|50
+6023|200
+6024|200
+6025|200
+6026|200
+6028|200
+6029|200
+6032|200
+6034|50
+6037|200
+6038|200
+6040|200
+6043|200
+6046|50
+6048|200
+6050|50
+6053|50
+6054|200
+6055|200
+6057|200
+6058|50
+6065|200
+6067|50
+6071|50
+6072|50
+6075|0
+6077|200
+6078|200
+6080|200
+6103|50
+6106|200
+6107|200
+6108|0
+6109|50
+6111|50
+6115|200
+6122|200
+6123|50
+6124|200
+6125|50
+6126|200
+6127|50
+6128|200
+6129|200
+6130|50
+6131|50
+6132|200
+6133|200
+6134|50
+6135|200
+6137|50
+6138|50
+6139|50
+6140|200
+6143|200
+6144|50
+6145|0
+6147|200
+6148|200
+6150|200
+6151|200
+6152|0
+6153|50
+6154|50
+6155|200
+6156|200
+6158|50
+6159|50
+6160|50
+6161|200
+6162|50
+6163|200
+6164|200
+6165|200
+6167|50
+6170|50
+6171|200
+6172|50
+6173|200
+6174|50
+6177|50
+6178|200
+6179|50
+6180|200
+6208|200
+6209|50
+6213|200
+6214|50
+6216|50
+6217|200
+6218|200
+6222|200
+6224|200
+6225|200
+6226|200
+6229|200
+6231|200
+6232|50
+6233|200
+6234|50
+6241|50
+6245|200
+6247|50
+6248|50
+6249|50
+6255|50
+6256|200
+6257|200
+6258|50
+6260|50
+6262|200
+6268|50
+6272|200
+6273|50
+6274|200
+6277|50
+6278|200
+6280|0
+6301|200
+6303|0
+6305|200
+6312|200
+6313|50
+6314|50
+6317|50
+6323|200
+6324|200
+6325|50
+6327|200
+6329|200
+6332|50
+6334|50
+6336|200
+6337|200
+6338|50
+6339|50
+6343|200
+6346|50
+6350|200
+6351|200
+6353|200
+6357|200
+6359|50
+6362|50
+6363|50
+6364|200
+6365|200
+6368|50
+6370|0
+6377|50
+6379|200
+6380|50
+6404|50
+6406|50
+6407|200
+6413|200
+6414|50
+6422|50
+6424|200
+6425|200
+6427|50
+6428|50
+6430|50
+6432|200
+6434|50
+6436|200
+6438|50
+6439|200
+6440|200
+6441|200
+6444|50
+6447|50
+6450|200
+6451|50
+6455|50
+6457|50
+6458|200
+6460|200
+6463|50
+6468|200
+6469|200
+6470|50
+6471|200
+6472|50
+6473|200
+6474|200
+6475|200
+6478|200
+6479|200
+6501|200
+6502|200
+6504|0
+6507|50
+6508|200
+6512|50
+6513|0
+6515|50
+6517|200
+6518|200
+6519|200
+6522|200
+6523|200
+6524|200
+6525|50
+6527|200
+6528|50
+6529|200
+6530|200
+6531|50
+6533|200
+6534|50
+6536|50
+6538|50
+6539|200
+6542|50
+6544|200
+6545|50
+6546|200
+6547|200
+6548|200
+6552|200
+6553|50
+6554|50
+6555|200
+6556|50
+6557|50
+6559|50
+6560|200
+6561|200
+6562|200
+6563|50
+6564|50
+6567|50
+6569|200
+6570|50
+6571|200
+6573|200
+6574|200
+6575|50
+6577|50
+6578|50
+6580|200
+6611|50
+6612|50
+6613|50
+6623|200
+6624|200
+6628|50
+6629|50
+6634|50
+6635|50
+6636|200
+6638|200
+6639|50
+6640|200
+6641|200
+6642|50
+6644|50
+6645|200
+6646|200
+6648|200
+6656|200
+6660|200
+6663|200
+6665|50
+6667|50
+6668|200
+6669|200
+6672|200
+6673|50
+6675|200
+6678|50
+6679|50
+6680|200
+6701|200
+6703|200
+6706|50
+6709|50
+6713|200
+6716|200
+6724|200
+6726|50
+6727|200
+6730|200
+6731|200
+6734|50
+6736|50
+6738|50
+6739|200
+6740|200
+6742|200
+6743|200
+6744|200
+6747|200
+6750|200
+6751|200
+6752|200
+6753|50
+6756|50
+6760|200
+6762|200
+6766|200
+6767|200
+6768|200
+6770|50
+6773|50
+6779|200
+6780|200
+6781|200
+6804|200
+6806|50
+6807|50
+6808|50
+6812|200
+6813|200
+6815|50
+6817|200
+6818|200
+6822|50
+6824|200
+6826|200
+6828|200
+6829|200
+6834|50
+6835|200
+6839|50
+6840|50
+6842|50
+6844|50
+6845|200
+6848|200
+6849|200
+6851|200
+6853|50
+6854|0
+6856|50
+6857|50
+6861|200
+6862|50
+6867|50
+6868|200
+6869|200
+6871|200
+6872|50
+6873|50
+6875|50
+6879|50
+6880|200
+6917|200
+6919|50
+6922|200
+6923|200
+6924|200
+6928|200
+6929|200
+6930|200
+6931|200
+6932|200
+6934|50
+6936|50
+6937|50
+6938|200
+6941|50
+6942|200
+6945|50
+6951|50
+6952|200
+6953|50
+6956|200
+6957|50
+6960|200
+6961|50
+6964|200
+6965|200
+6973|50
+6975|50
+6978|200
+6980|50
+7001|200
+7011|200
+7014|200
+7015|200
+7016|50
+7018|50
+7022|200
+7024|200
+7026|50
+7027|200
+7029|200
+7030|200
+7034|50
+7036|200
+7047|50
+7048|50
+7050|50
+7057|200
+7059|200
+7063|200
+7065|200
+7070|50
+7071|200
+7072|200
+7077|50
+7078|50
+7079|50
+7080|200
+7081|200
+7101|200
+7103|200
+7104|50
+7105|50
+7106|50
+7108|50
+7109|0
+7115|200
+7117|200
+7119|50
+7122|200
+7124|200
+7128|200
+7129|50
+7130|200
+7131|50
+7132|50
+7133|200
+7134|50
+7136|200
+7137|50
+7138|50
+7139|50
+7140|200
+7142|200
+7143|200
+7144|0
+7145|200
+7146|0
+7147|200
+7150|200
+7151|50
+7154|200
+7157|50
+7160|200
+7161|0
+7162|50
+7165|0
+7167|50
+7168|200
+7170|200
+7171|50
+7172|50
+7174|200
+7178|200
+7180|200
+7201|200
+7208|50
+7215|50
+7223|200
+7224|200
+7225|50
+7228|200
+7234|50
+7236|200
+7237|200
+7240|50
+7241|200
+7242|200
+7243|50
+7245|200
+7246|200
+7247|200
+7248|200
+7249|50
+7250|200
+7256|50
+7257|50
+7262|50
+7264|50
+7265|50
+7268|200
+7270|50
+7272|50
+7275|0
+7278|50
+7279|200
+7280|200
+7303|50
+7308|200
+7312|50
+7313|200
+7314|200
+7316|200
+7317|200
+7323|50
+7324|200
+7328|50
+7329|50
+7331|200
+7334|50
+7338|200
+7339|0
+7341|200
+7346|50
+7348|50
+7349|50
+7353|200
+7355|50
+7358|200
+7361|0
+7363|50
+7365|200
+7367|200
+7371|200
+7372|200
+7374|200
+7380|50
+7415|200
+7418|50
+7419|200
+7424|200
+7426|50
+7429|50
+7431|50
+7434|50
+7435|50
+7441|200
+7443|200
+7446|200
+7451|200
+7457|50
+7458|50
+7462|200
+7463|50
+7465|200
+7470|50
+7474|50
+7478|200
+7480|200
+7501|200
+7503|50
+7504|200
+7505|50
+7511|50
+7512|50
+7513|200
+7517|50
+7519|0
+7524|200
+7525|50
+7526|50
+7530|200
+7532|200
+7533|50
+7534|50
+7535|200
+7537|50
+7538|200
+7539|50
+7540|200
+7545|50
+7546|200
+7554|50
+7555|50
+7556|0
+7560|200
+7561|200
+7562|50
+7565|200
+7568|50
+7571|200
+7572|200
+7574|200
+7578|50
+7579|200
+7580|0
+7624|200
+7634|50
+7701|50
+7703|200
+7705|200
+7712|200
+7713|200
+7717|200
+7724|200
+7728|200
+7729|200
+7732|200
+7734|50
+7738|200
+7742|200
+7753|200
+7758|200
+7771|200
+7778|200
+7801|200
+7802|50
+7804|50
+7807|200
+7808|200
+7809|200
+7812|200
+7813|200
+7815|50
+7819|50
+7824|200
+7825|50
+7828|50
+7832|200
+7833|50
+7834|50
+7835|200
+7838|50
+7842|200
+7843|200
+7844|50
+7847|50
+7848|50
+7849|0
+7851|200
+7853|50
+7854|200
+7857|50
+7858|200
+7859|50
+7860|200
+7862|200
+7864|200
+7865|0
+7867|50
+7868|200
+7869|50
+7870|200
+7871|50
+7872|50
+7875|50
+7878|50
+7879|50
+7880|50
+7881|50
+7901|200
+7902|50
+7903|50
+7904|50
+7908|200
+7911|50
+7913|200
+7917|50
+7922|50
+7924|200
+7925|200
+7928|200
+7934|50
+7938|200
+7942|50
+7947|50
+7948|50
+7950|50
+7952|50
+7953|50
+7955|200
+7957|50
+7962|200
+7964|50
+7965|200
+7970|200
+7973|200
+7979|50
+7981|50
+8001|200
+8002|50
+8008|50
+8012|50
+8014|50
+8015|200
+8019|200
+8022|50
+8023|50
+8024|200
+8028|200
+8029|200
+8034|50
+8035|200
+8036|200
+8040|50
+8041|50
+8042|50
+8044|50
+8046|200
+8047|200
+8048|200
+8049|200
+8050|50
+8052|50
+8054|50
+8055|200
+8057|50
+8058|50
+8060|50
+8061|50
+8062|200
+8065|200
+8068|200
+8069|50
+8070|50
+8072|200
+8074|50
+8075|50
+8078|200
+8080|200
+8081|50
+8101|200
+8102|200
+8103|50
+8109|50
+8111|50
+8113|200
+8114|50
+8117|200
+8118|200
+8122|200
+8123|200
+8124|200
+8125|50
+8128|200
+8129|200
+8131|50
+8133|200
+8134|50
+8135|200
+8136|50
+8137|50
+8139|50
+8140|200
+8144|50
+8145|50
+8146|200
+8147|50
+8149|200
+8150|50
+8151|200
+8153|50
+8154|200
+8155|200
+8157|50
+8158|200
+8160|200
+8162|50
+8163|50
+8164|200
+8165|200
+8167|50
+8170|50
+8173|50
+8174|200
+8179|200
+8180|200
 """#
   static let speciesNamesYellow: String = #"""
 1|BULBASAUR
@@ -12949,5 +32930,1327 @@ enum Gen3BattleBlobs {
 1487|PIKACHU
 1488|EEVEE
 1523|MIMIKYU
+"""#
+
+  // Pokémon Prism (v0.95 build 254) — from Android *Prism.kt
+  static let movesPrism: String = #"""
+1|Pound|0|40
+2|Karate Chop|1|50
+3|Double Slap|10|15
+4|Final Chance|19|0
+5|Zen Headbutt|24|80
+6|Bulk Up|1|0
+7|Fire Punch|20|75
+8|Ice Punch|25|75
+9|ThunderPunch|23|75
+10|Scratch|0|40
+11|Fairy Wind|10|40
+12|DrainingKiss|10|50
+13|Iron Defense|9|0
+14|Swords Dance|1|0
+15|Cut|0|50
+16|Gust|2|40
+17|Wing Attack|2|60
+18|Whirlwind|0|0
+19|Fly|2|90
+20|Bug Buzz|7|90
+21|Nature Power|19|0
+22|Vine Whip|22|45
+23|Stomp|0|65
+24|Double Kick|1|30
+25|Cosmic Power|24|0
+26|Laughing Gas|11|50
+27|Flare Blitz|20|120
+28|Sand Attack|4|0
+29|Headbutt|0|70
+30|Prism Spray|15|100
+31|Power Ballad|13|60
+32|Brave Bird|2|120
+33|Tackle|0|40
+34|Body Slam|0|85
+35|Wrap|0|15
+36|Take Down|0|90
+37|Hail|25|0
+38|Double-Edge|0|120
+39|Tail Whip|0|0
+40|Poison Sting|3|15
+41|Aura Sphere|1|80
+42|Pin Missile|7|25
+43|Leer|27|0
+44|Bite|27|60
+45|Growl|13|0
+46|Roar|13|0
+47|Sing|13|0
+48|Supersonic|13|0
+49|Dragon Pulse|26|85
+50|Disable|27|0
+51|Acid|3|40
+52|Ember|20|40
+53|Flamethrower|20|90
+54|Mist|25|0
+55|Water Gun|21|40
+56|Hydro Pump|21|110
+57|Surf|21|90
+58|Ice Beam|25|90
+59|Blizzard|25|110
+60|Psybeam|24|65
+61|Bubble Beam|21|65
+62|Freeze Burn|25|75
+63|Hyper Beam|0|150
+64|Peck|2|35
+65|Drill Peck|2|80
+66|Lava Pool|20|0
+67|Drain Punch|1|75
+68|Counter|1|1
+69|Seismic Toss|1|1
+70|Strength|0|80
+71|Absorb|22|20
+72|Mega Drain|22|40
+73|Leech Seed|22|0
+74|Growth|0|0
+75|Razor Leaf|22|55
+76|Solar Beam|22|120
+77|PoisonPowder|3|0
+78|Stun Spore|22|0
+79|Sleep Powder|22|0
+80|Hyper Voice|13|90
+81|String Shot|7|0
+82|Bullet Punch|9|40
+83|Fire Spin|20|35
+84|ThunderShock|23|40
+85|Thunderbolt|23|90
+86|Thunder Wave|23|0
+87|Thunder|23|110
+88|Rock Throw|5|50
+89|Earthquake|4|100
+90|Nasty Plot|27|0
+91|Dig|4|80
+92|Toxic|3|0
+93|Confusion|24|50
+94|Psychic|24|90
+95|Hypnosis|24|0
+96|Dragon Dance|26|0
+97|Agility|24|0
+98|Quick Attack|0|40
+99|Rage|0|20
+100|Teleport|24|0
+101|Night Shade|8|1
+102|Energy Ball|22|90
+103|Screech|13|0
+104|Double Team|0|0
+105|Recover|24|0
+106|Harden|0|0
+107|Minimize|0|0
+108|Smokescreen|11|0
+109|Confuse Ray|8|0
+110|Head Smash|5|150
+111|Defense Curl|0|0
+112|Barrier|24|0
+113|Light Screen|24|0
+114|Haze|25|0
+115|Reflect|24|0
+116|Focus Energy|0|0
+117|Astonish|8|30
+118|Metronome|19|0
+119|Mirror Move|19|0
+120|SelfDestruct|0|200
+121|Metallurgy|9|0
+122|Lick|8|30
+123|Smog|11|30
+124|Sludge|3|65
+125|Thunder Fang|23|65
+126|Fire Blast|20|110
+127|Waterfall|21|80
+128|Storm Front|2|80
+129|Swift|0|60
+130|Aqua Jet|21|40
+131|Dust Devil|5|80
+132|Flash Cannon|9|80
+133|Amnesia|24|0
+134|Will-O-Wisp|20|0
+135|Soft-Boiled|0|0
+136|Hi Jump Kick|1|130
+137|Burning Mist|11|90
+138|Dream Eater|24|100
+139|Poison Gas|11|0
+140|Seed Bomb|22|80
+141|Leech Life|7|20
+142|Shock Smog|11|110
+143|Sky Attack|2|140
+144|Transform|19|0
+145|Bubble|21|40
+146|Dizzy Punch|10|70
+147|Spring Buds|22|75
+148|Flash|0|0
+149|Bass Tremor|13|100
+150|Splash|0|0
+151|Acid Armor|3|0
+152|Night Slash|27|70
+153|Explosion|0|250
+154|Poison Jab|3|80
+155|Signal Beam|7|75
+156|Rest|24|0
+157|Rock Slide|5|75
+158|Meteor Mash|9|90
+159|Void Sphere|0|90
+160|Conversion|0|0
+161|Tri Attack|14|80
+162|Dragon Claw|26|80
+163|Slash|0|70
+164|Substitute|19|0
+165|Struggle|0|50
+166|Crystal Bolt|23|75
+167|Wild Charge|23|90
+168|Thief|27|60
+169|X-Scissor|7|80
+170|Mind Reader|24|0
+171|Aerial Ace|2|60
+172|Flame Wheel|20|60
+173|Iron Head|9|80
+174|Curse|19|0
+175|Flail|0|1
+176|Conversion 2|0|0
+177|Aeroblast|2|100
+178|Cotton Spore|22|0
+179|Reversal|1|1
+180|Spite|8|0
+181|Powder Snow|25|40
+182|Protect|0|0
+183|Mach Punch|1|40
+184|Scary Face|0|0
+185|Feint Attack|27|60
+186|Sweet Kiss|6|0
+187|Belly Drum|0|0
+188|Sludge Bomb|3|90
+189|Mud-Slap|4|20
+190|Power Gem|5|80
+191|Spikes|4|0
+192|Zap Cannon|23|120
+193|Foresight|0|0
+194|Destiny Bond|8|0
+195|Perish Song|13|0
+196|Icy Wind|25|55
+197|Air Slash|2|75
+198|Dark Pulse|27|80
+199|Earth Power|4|90
+200|Outrage|26|120
+201|Sandstorm|5|0
+202|Giga Drain|22|75
+203|Endure|0|0
+204|Charm|10|0
+205|Rollout|5|30
+206|Vaporize|21|0
+207|Swagger|0|0
+208|Calm Mind|24|0
+209|Spark|23|65
+210|Fury Cutter|7|40
+211|Steel Wing|9|70
+212|Mean Look|27|0
+213|Attract|0|0
+214|Sleep Talk|13|0
+215|Heal Bell|13|0
+216|Return|0|1
+217|Psycho Cut|24|70
+218|Frustration|0|1
+219|Safeguard|0|0
+220|Pain Split|0|0
+221|Sacred Fire|20|100
+222|Magnitude|4|1
+223|DynamicPunch|1|100
+224|Megahorn|7|120
+225|DragonBreath|26|60
+226|Baton Pass|0|0
+227|Encore|0|0
+228|Pursuit|27|40
+229|Rapid Spin|0|50
+230|Sweet Scent|22|0
+231|Iron Tail|9|100
+232|Metal Claw|9|50
+233|Miasma|11|90
+234|Morning Sun|0|0
+235|Synthesis|22|0
+236|Moonlight|6|0
+237|Hidden Power|19|70
+238|Cross Chop|1|100
+239|Twister|26|40
+240|Rain Dance|21|0
+241|Sunny Day|20|0
+242|Crunch|27|80
+243|Boil|20|65
+244|Shadow Claw|8|70
+245|ExtremeSpeed|0|80
+246|AncientPower|5|60
+247|Shadow Ball|8|80
+248|Future Sight|24|120
+249|Rock Smash|1|40
+250|Steel Eater|3|70
+251|Ghost Hammer|8|85
+252|Moonblast|10|95
+253|Play Rough|10|90
+254|Noise Pulse|13|80
+"""#
+  static let speciesTypesPrism: String = #"""
+1|22|3
+2|22|3
+3|22|3
+4|20|20
+5|20|20
+6|20|2
+7|21|21
+8|21|21
+9|21|21
+10|7|7
+11|7|7
+12|7|2
+13|24|13
+14|24|13
+15|20|11
+16|0|2
+17|0|2
+18|0|2
+19|0|2
+20|0|2
+21|0|2
+22|0|2
+23|0|0
+24|0|0
+25|23|23
+26|23|23
+27|23|23
+28|23|23
+29|23|23
+30|23|23
+31|23|23
+32|25|25
+33|25|25
+34|25|8
+35|7|7
+36|7|7
+37|20|20
+38|20|20
+39|13|10
+40|13|10
+41|3|2
+42|3|2
+43|9|5
+44|9|5
+45|9|5
+46|7|22
+47|7|22
+48|7|3
+49|7|3
+50|9|24
+51|9|24
+52|3|7
+53|3|27
+54|5|5
+55|5|5
+56|5|9
+57|5|9
+58|20|20
+59|20|20
+60|13|13
+61|13|13
+62|13|13
+63|24|24
+64|24|24
+65|24|24
+66|1|1
+67|1|1
+68|1|1
+69|22|3
+70|22|3
+71|22|3
+72|21|3
+73|21|3
+74|5|4
+75|5|4
+76|5|4
+77|20|20
+78|20|20
+79|21|24
+80|21|24
+81|23|9
+82|23|9
+83|23|9
+84|8|2
+85|8|2
+86|27|8
+87|8|27
+88|8|8
+89|8|8
+90|8|8
+91|8|8
+92|8|11
+93|8|11
+94|8|11
+95|5|4
+96|5|24
+97|5|24
+98|4|26
+99|4|26
+100|1|1
+101|1|1
+102|22|24
+103|22|24
+104|22|22
+105|22|27
+106|1|1
+107|1|1
+108|4|4
+109|3|11
+110|3|11
+111|4|5
+112|4|5
+113|0|0
+114|22|22
+115|0|0
+116|22|22
+117|9|10
+118|21|21
+119|21|21
+120|21|22
+121|21|22
+122|21|22
+123|7|2
+124|21|5
+125|23|23
+126|20|20
+127|23|23
+128|20|20
+129|21|21
+130|21|2
+131|27|27
+132|19|19
+133|0|0
+134|21|21
+135|23|23
+136|20|20
+137|0|0
+138|20|21
+139|5|22
+140|5|22
+141|5|7
+142|5|7
+143|0|0
+144|25|2
+145|23|2
+146|20|2
+147|9|24
+148|9|24
+149|9|24
+150|24|24
+151|24|24
+152|22|22
+153|22|22
+154|22|22
+155|20|20
+156|20|20
+157|20|20
+158|21|21
+159|21|21
+160|21|21
+161|0|0
+162|0|0
+163|24|10
+164|24|10
+165|24|10
+166|24|1
+167|7|3
+168|7|3
+169|3|2
+170|21|23
+171|21|23
+172|23|23
+173|8|8
+174|13|10
+175|10|10
+176|10|2
+177|24|2
+178|24|2
+179|23|23
+180|23|23
+181|23|23
+182|10|2
+183|21|10
+184|21|10
+185|20|4
+186|20|4
+187|21|21
+188|21|21
+189|7|21
+190|7|2
+191|22|22
+192|22|1
+193|7|2
+194|7|2
+195|22|22
+196|24|24
+197|27|27
+198|25|25
+199|21|24
+200|8|13
+201|8|13
+202|0|2
+203|26|2
+204|7|7
+205|7|9
+206|4|5
+207|4|2
+208|9|4
+209|4|2
+210|21|21
+211|21|21
+212|7|9
+213|1|1
+214|1|9
+215|27|25
+216|0|0
+217|0|0
+218|20|20
+219|20|5
+220|25|4
+221|25|4
+222|26|4
+223|26|4
+224|26|4
+225|26|26
+226|26|26
+227|26|2
+228|27|20
+229|27|20
+230|25|4
+231|4|4
+232|4|4
+233|0|0
+234|0|13
+235|27|25
+236|1|1
+237|1|1
+238|8|1
+239|23|23
+240|20|20
+241|10|10
+242|0|0
+243|4|4
+244|21|21
+245|26|2
+246|5|4
+247|5|4
+248|5|27
+249|24|2
+250|20|2
+251|5|23
+252|8|2
+253|0|0
+254|9|3
+"""#
+  static let typeNamesPrism: String = #"""
+0|Normal
+1|Fighting
+2|Flying
+3|Poison
+4|Ground
+5|Rock
+7|Bug
+8|Ghost
+9|Steel
+10|Fairy
+11|Gas
+13|Sound
+14|Tri
+15|Prism
+20|Fire
+21|Water
+22|Grass
+23|Electric
+24|Psychic
+25|Ice
+26|Dragon
+27|Dark
+"""#
+  static let typeChartPrism: String = #"""
+5|50
+8|0
+9|50
+100|200
+102|50
+103|50
+105|200
+107|50
+108|0
+109|200
+110|50
+111|50
+113|200
+114|200
+124|50
+125|200
+127|200
+201|200
+205|50
+207|200
+209|50
+214|50
+222|200
+223|50
+303|50
+304|50
+305|50
+308|50
+309|0
+310|200
+322|200
+402|0
+403|200
+405|200
+407|50
+409|200
+411|50
+414|200
+420|200
+422|50
+423|200
+501|50
+502|200
+504|50
+507|200
+509|50
+513|50
+514|200
+520|200
+525|200
+701|50
+702|50
+703|50
+708|50
+709|50
+710|50
+713|200
+714|50
+720|50
+722|200
+724|200
+727|200
+800|0
+808|200
+824|200
+827|50
+905|200
+909|50
+910|200
+913|50
+914|50
+920|50
+921|50
+923|50
+925|200
+1001|200
+1003|50
+1009|50
+1011|50
+1014|50
+1020|50
+1026|200
+1027|200
+1101|200
+1105|50
+1110|200
+1113|50
+1120|200
+1122|50
+1125|50
+1301|50
+1307|50
+1308|200
+1309|200
+1313|0
+1321|200
+1402|200
+1404|0
+1405|50
+1407|200
+1411|200
+1413|200
+1414|50
+1420|50
+1421|50
+1422|200
+1423|50
+1426|50
+2005|50
+2007|200
+2009|200
+2011|200
+2020|50
+2021|50
+2022|200
+2025|200
+2026|50
+2104|200
+2105|200
+2113|50
+2114|200
+2120|200
+2121|50
+2122|50
+2126|50
+2202|50
+2203|50
+2204|200
+2205|200
+2207|50
+2209|50
+2211|200
+2214|50
+2220|50
+2221|200
+2222|50
+2226|50
+2302|200
+2304|0
+2311|200
+2313|200
+2314|50
+2321|200
+2322|50
+2323|50
+2326|50
+2401|200
+2403|200
+2409|50
+2424|50
+2427|0
+2502|200
+2504|200
+2509|50
+2514|50
+2520|50
+2521|50
+2522|200
+2525|50
+2526|200
+2609|50
+2610|0
+2626|200
+2701|50
+2708|200
+2710|50
+2724|200
+2727|50
+"""#
+  static let speciesNamesPrism: String = #"""
+1|Bulbasaur
+2|Ivysaur
+3|Venusaur
+4|Charmander
+5|Charmeleon
+6|Charizard
+7|Squirtle
+8|Wartortle
+9|Blastoise
+10|Caterpie
+11|Metapod
+12|Butterfree
+13|Chingling
+14|Chimecho
+15|Torkoal
+16|Pidgey
+17|Pidgeotto
+18|Pidgeot
+19|Taillow
+20|Swellow
+21|Spearow
+22|Fearow
+23|Buneary
+24|Lopunny
+25|Pikachu
+26|Raichu
+27|Shinx
+28|Luxio
+29|Luxray
+30|Electrike
+31|Manectric
+32|Snorunt
+33|Glalie
+34|Froslass
+35|Volbeat
+36|Illumise
+37|Vulpix
+38|Ninetales
+39|Jigglypuff
+40|Wigglytuff
+41|Zubat
+42|Golbat
+43|Aron
+44|Lairon
+45|Aggron
+46|Paras
+47|Parasect
+48|Venonat
+49|Venomoth
+50|Bronzor
+51|Bronzong
+52|Skorupi
+53|Drapion
+54|Cranidos
+55|Rampardos
+56|Shieldon
+57|Bastiodon
+58|Growlithe
+59|Arcanine
+60|Whismur
+61|Loudred
+62|Exploud
+63|Abra
+64|Kadabra
+65|Alakazam
+66|Machop
+67|Machoke
+68|Machamp
+69|Bellsprout
+70|Weepinbell
+71|Victreebel
+72|Tentacool
+73|Tentacruel
+74|Geodude
+75|Graveler
+76|Golem
+77|Ponyta
+78|Rapidash
+79|Slowpoke
+80|Slowbro
+81|Magnemite
+82|Magneton
+83|Magnezone
+84|Drifloon
+85|Drifblim
+86|Sableye
+87|Spiritomb
+88|Shuppet
+89|Banette
+90|Duskull
+91|Dusclops
+92|Gastly
+93|Haunter
+94|Gengar
+95|Onix
+96|Lunatone
+97|Solrock
+98|Vibrava
+99|Flygon
+100|Makuhita
+101|Hariyama
+102|Exeggcute
+103|Exeggutor
+104|Cacnea
+105|Cacturne
+106|Hitmonlee
+107|Hitmonchan
+108|Trapinch
+109|Koffing
+110|Weezing
+111|Rhyhorn
+112|Rhydon
+113|Chansey
+114|Tangela
+115|Kangaskhan
+116|Tangrowth
+117|Mawile
+118|Goldeen
+119|Seaking
+120|Lotad
+121|Lombre
+122|Ludicolo
+123|Scyther
+124|Relicanth
+125|Electabuzz
+126|Magmar
+127|Electivire
+128|Magmortar
+129|Magikarp
+130|Gyarados
+131|Absol
+132|Ditto
+133|Eevee
+134|Vaporeon
+135|Jolteon
+136|Flareon
+137|Porygon
+138|Varaneous
+139|Lileep
+140|Cradily
+141|Anorith
+142|Armaldo
+143|Snorlax
+144|Articuno
+145|Zapdos
+146|Moltres
+147|Beldum
+148|Metang
+149|Metagross
+150|Mewtwo
+151|Mew
+152|Chikorita
+153|Bayleef
+154|Meganium
+155|Cyndaquil
+156|Quilava
+157|Typhlosion
+158|Totodile
+159|Croconaw
+160|Feraligatr
+161|Sentret
+162|Furret
+163|Ralts
+164|Kirlia
+165|Gardevoir
+166|Gallade
+167|Spinarak
+168|Ariados
+169|Crobat
+170|Chinchou
+171|Lanturn
+172|Pichu
+173|Dusknoir
+174|Igglybuff
+175|Togepi
+176|Togetic
+177|Natu
+178|Xatu
+179|Mareep
+180|Flaaffy
+181|Ampharos
+182|Togekiss
+183|Marill
+184|Azumarill
+185|Numel
+186|Camerupt
+187|Wailmer
+188|Wailord
+189|Surskit
+190|Masquerain
+191|Shroomish
+192|Breloom
+193|Yanma
+194|Yanmega
+195|Leafeon
+196|Espeon
+197|Umbreon
+198|Glaceon
+199|Slowking
+200|Misdreavus
+201|Mismagius
+202|Swablu
+203|Altaria
+204|Pineco
+205|Forretress
+206|Rhyperior
+207|Gligar
+208|Steelix
+209|Gliscor
+210|Feebas
+211|Milotic
+212|Scizor
+213|Riolu
+214|Lucario
+215|Sneasel
+216|Teddiursa
+217|Ursaring
+218|Slugma
+219|Magcargo
+220|Swinub
+221|Piloswine
+222|Gible
+223|Gabite
+224|Garchomp
+225|Bagon
+226|Shelgon
+227|Salamence
+228|Houndour
+229|Houndoom
+230|Mamoswine
+231|Phanpy
+232|Donphan
+233|Porygon2
+234|Porygon-Z
+235|Weavile
+236|Tyrogue
+237|Hitmontop
+238|Fambaco
+239|Elekid
+240|Magby
+241|Sylveon
+242|Blissey
+243|Groudon
+244|Kyogre
+245|Rayquaza
+246|Larvitar
+247|Pupitar
+248|Tyranitar
+249|Lugia
+250|Ho-Oh
+251|Raiwato
+252|Phancero
+253|Egg
+254|Libabeel
+"""#
+  static let itemNamesPrism: String = #"""
+1|Master Ball
+2|Ultra Ball
+3|BrightPowder
+4|Great Ball
+5|Poké Ball
+6|Coal
+7|Bicycle
+8|Moon Stone
+9|Antidote
+10|Burn Heal
+11|Ice Heal
+12|Awakening
+13|ParalyzeHeal
+14|Full Restore
+15|Max Potion
+16|Hyper Potion
+17|Super Potion
+18|Potion
+19|Escape Rope
+20|Repel
+21|Max Elixir
+22|Fire Stone
+23|ThunderStone
+24|Water Stone
+25|Poison Guard
+26|HP Up
+27|Protein
+28|Iron
+29|Carbos
+30|Lucky Punch
+31|Calcium
+32|Rare Candy
+33|X Accuracy
+34|Leaf Stone
+35|Metal Powder
+36|Nugget
+37|Poké Doll
+38|Full Heal
+39|Revive
+40|Max Revive
+41|Guard Spec.
+42|Super Repel
+43|Max Repel
+44|Dire Hit
+45|Burn Guard
+46|Fresh Water
+47|Soda Pop
+48|Lemonade
+49|X Attack
+50|Freeze Guard
+51|X Defense
+52|X Speed
+53|X Sp. Atk
+54|Coin Case
+55|Item Finder
+56|Heart Scale
+57|Exp. Share
+58|Old Rod
+59|Good Rod
+60|Silver Leaf
+61|Super Rod
+62|PP Up
+63|Ether
+64|Max Ether
+65|Elixir
+66|Cage Card 1
+67|Rijon Pass
+68|Ferry Ticket
+69|Cage Card 2
+70|Cage Card 3
+71|Cage Card 4
+72|Moomoo Milk
+73|Quick Claw
+74|Pecha Berry
+75|Gold Leaf
+76|Soft Sand
+77|Sharp Beak
+78|Cheri Berry
+79|Aspear Berry
+80|Rawst Berry
+81|Poison Barb
+82|King's Rock
+83|Persim Berry
+84|Chesto Berry
+85|Red Apricorn
+86|TinyMushroom
+87|Big Mushroom
+88|SilverPowder
+89|Blu Apricorn
+90|Sleep Guard
+91|Amulet Coin
+92|Ylw Apricorn
+93|Grn Apricorn
+94|Cleanse Tag
+95|Mystic Water
+96|TwistedSpoon
+97|Wht Apricorn
+98|Blackbelt
+99|Blk Apricorn
+100|Prz Guard
+101|Pnk Apricorn
+102|BlackGlasses
+103|SlowpokeTail
+104|Pink Bow
+105|Stick
+106|Smoke Ball
+107|NeverMeltIce
+108|Magnet
+109|Lum Berry
+110|Pearl
+111|Big Pearl
+112|Everstone
+113|Spell Tag
+114|Silver Egg
+115|Crystal Egg
+116|Ruby Egg
+117|Miracle Seed
+118|Gold Egg
+119|Focus Band
+120|ConfuseGuard
+121|EnergyPowder
+122|Energy Root
+123|Heal Powder
+124|Revival Herb
+125|Hard Stone
+126|Lucky Egg
+127|Emerald Egg
+128|Prism Key
+129|Red Orb
+130|Green Orb
+131|Stardust
+132|Star Piece
+133|Mansion Key
+134|Blue Orb
+135|Sapphire Egg
+136|Curo Shard
+137|Bedroom Key
+138|Charcoal
+139|Berry Juice
+140|Scope Lens
+141|Megaphone
+142|Cigarette
+143|Metal Coat
+144|Dragon Fang
+145|Cage Card 5
+146|Leftovers
+147|Cage Card 6
+148|Eagulou Ball
+149|Giant Rock
+150|Leppa Berry
+151|Dragon Scale
+152|Berserk Gene
+153|Blue Flute
+154|X Sp. Def
+155|Cage Key
+156|Sacred Ash
+157|Reaper Cloth
+158|Gold Token
+159|Ore Case
+160|Dive Ball
+161|Fast Ball
+162|Smelter
+163|Light Ball
+164|Friend Ball
+165|Eviolite
+166|Macho Brace
+167|Burnt Berry
+168|Hyper Share
+169|Sun Stone
+170|Silk Scarf
+171|Dynamite
+172|Upgrade
+173|Oran Berry
+174|Sitrus Berry
+175|Dawn Stone
+176|Gold Dust
+177|Park Ball
+178|Iron Pickaxe
+179|Shiny Stone
+180|Brick Piece
+181|Red Flute
+182|Yellow Flute
+183|Black Flute
+184|White Flute
+185|Green Flute
+186|Orange Flute
+187|Soot Sack
+188|Purple Flute
+189|Shop Ticket
+190|Mining Pick
+191|TM Case
+192|Safe Goggles
+193|Red Jewel
+194|Blue Jewel
+195|Brown Jewel
+196|White Jewel
+197|Prism Jewel
+198|Big Nugget
+199|Heat Rock
+200|Damp Rock
+201|Smooth Rock
+202|Icy Rock
+203|Light Clay
+204|Shell Bell
+205|Keg of Beer
+206|Fire Ring
+207|Grass Ring
+208|Water Ring
+209|Thunder Ring
+210|Shiny Ring
+211|Dawn Ring
+212|Dusk Ring
+213|Moon Ring
+214|Dusk Stone
+215|Expert Belt
+216|Trade Stone
+217|Shiny Ball
+218|Ore
+219|Burger
+220|Muscle Band
+221|Fries
+222|Fossil Case
+223|Silk
+224|Magmarizer
+225|Electirizer
+226|Prism Scale
+227|Dubious Disc
+228|Razor Claw
+229|Razor Fang
+230|Protector
+231|OrngApricorn
+232|CyanApricorn
+233|GreyApricorn
+234|PrplApricorn
+235|ShnyApricorn
+236|Wise Glasses
+237|Mystery Tckt
+238|Orphan Card
+239|QR Scanner
+240|Gas Mask
+241|Fake ID
+242|Fluffy Coat
+243|Roof Card
+244|Lab Card
+245|Grapple Hook
+246|Quick Ball
+247|Dusk Ball
+248|Repeat Ball
+249|Timer Ball
+250|Magnet Pass
+251|Time Machine
+252|TokenTracker
+253|Power Herb
+254|Item FE
+255|Item FF
+257|TM01 DynamicPunch
+258|TM02 Headbutt
+259|TM03 Curse
+260|TM04 Rollout
+261|TM05 Night Shade
+262|TM06 Toxic
+263|TM07 Zap Cannon
+264|TM08 Flash
+265|TM09 Hail
+266|TM10 Hidden Power
+267|TM11 Sunny Day
+268|TM12 Sweet Scent
+269|TM13 Seed Bomb
+270|TM14 Blizzard
+271|TM15 Hyper Beam
+272|TM16 Icy Wind
+273|TM17 Protect
+274|TM18 Rain Dance
+275|TM19 Giga Drain
+276|TM20 Endure
+277|TM21 Frustration
+278|TM22 Solar Beam
+279|TM23 Iron Tail
+280|TM24 DragonBreath
+281|TM25 Thunder
+282|TM26 Earthquake
+283|TM27 Return
+284|TM28 Dig
+285|TM29 Psychic
+286|TM30 Shadow Ball
+287|TM31 Mud-Slap
+288|TM32 Double Team
+289|TM33 Ice Punch
+290|TM34 Swagger
+291|TM35 Sleep Talk
+292|TM36 Sludge Bomb
+293|TM37 Sandstorm
+294|TM38 Fire Blast
+295|TM39 Swift
+296|TM40 Defense Curl
+297|TM41 ThunderPunch
+298|TM42 Dream Eater
+299|TM43 Flash Cannon
+300|TM44 Rest
+301|TM45 Attract
+302|TM46 Thief
+303|TM47 Steel Wing
+304|TM48 Fire Punch
+305|TM49 Fury Cutter
+306|TM50 Poison Jab
+307|TM51 Dark Pulse
+308|TM52 Swords Dance
+309|TM53 Whirlwind
+310|TM54 Energy Ball
+311|TM55 Counter
+312|TM56 Seismic Toss
+313|TM57 Razor Leaf
+314|TM58 Iron Head
+315|TM59 Aerial Ace
+316|TM60 Reflect
+317|TM61 Metronome
+318|TM62 Sky Attack
+319|TM63 Thunder Wave
+320|TM64 Double-Edge
+321|TM65 Explosion
+322|TM66 Rock Slide
+323|TM67 Tri Attack
+324|TM68 Substitute
+325|TM69 Safeguard
+326|TM70 Dragon Claw
+327|TM71 Shadow Claw
+328|TM72 Bulk Up
+329|TM73 Cosmic Power
+330|TM74 Calm Mind
+331|TM75 Dizzy Punch
+332|TM76 AncientPower
+333|TM77 Body Slam
+334|TM78 Noise Pulse
+335|TM79 Hyper Voice
+336|TM80 Storm Front
+337|TM81 Dust Devil
+338|TM82 Will-O-Wisp
+339|TM83 Light Screen
+340|TM84 Thunderbolt
+341|TM85 Flamethrower
+342|TM86 Ice Beam
+343|TM87 Megahorn
+344|TM88 Signal Beam
+345|TM89 Freeze Burn
+346|TM90 Prism Spray
+347|TM91 Final Chance
+348|TM92 Burning Mist
+349|TM93 Boil
+350|TM94 Crystal Bolt
+351|TM95 Steel Eater
+352|TM96 Void Sphere
+353|HM01 Cut
+354|HM02 Fly
+355|HM03 Surf
+356|HM04 Strength
+357|HM05 Rock Smash
 """#
 }

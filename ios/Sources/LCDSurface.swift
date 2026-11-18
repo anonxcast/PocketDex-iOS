@@ -90,11 +90,15 @@ final class LCDHostView: UIView {
 
     if let place = expandPlacement {
       // Match PlayView gameSurface Expand: 1 game pixel = place.scale screen px.
-      let ns = max(window?.screen.scale ?? UIScreen.main.scale, 1)
+      // Same scale source as WideCameraMath so cover/portrait doesn't mix screens.
+      let ns = max(WideCameraMath.displayScale(), 1)
       let w = imagePixelSize.width * place.scale / ns
       let h = imagePixelSize.height * place.scale / ns
-      let x = (place.offX / ns).rounded(.toNearestOrAwayFromZero)
-      let y = (place.offY / ns).rounded(.toNearestOrAwayFromZero)
+      var x = (place.offX / ns).rounded(.toNearestOrAwayFromZero)
+      var y = (place.offY / ns).rounded(.toNearestOrAwayFromZero)
+      // Max-view clamp / portrait height cap: buffer can be shorter than the host — center it.
+      if w + 0.5 < bounds.width { x = ((bounds.width - w) / 2).rounded(.toNearestOrAwayFromZero) }
+      if h + 0.5 < bounds.height { y = ((bounds.height - h) / 2).rounded(.toNearestOrAwayFromZero) }
       fbLayer.frame = CGRect(x: x, y: y, width: w, height: h)
       return
     }

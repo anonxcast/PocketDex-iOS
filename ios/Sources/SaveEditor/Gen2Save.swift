@@ -29,13 +29,19 @@ import Foundation
 /// Polished Crystal and other hacks use a different map. They are not detected; if neither layout's party
 /// validates, `parse` throws so the caller can mark the save unsupported.
 struct Gen2Save {
-  enum Variant: Equatable { case crystal, goldSilver }
+  enum Variant: Equatable { case crystal, goldSilver, prism }
 
   struct Layout {
     let variant: Variant
     let money: Int
     let coins: Int
     let numItems: Int
+    let keyItemsCount: Int
+    let ballsCount: Int
+    let itemCapacity: Int
+    let keyItemCapacity: Int
+    let ballCapacity: Int
+    let maxSpecies: Int
     let partyCount: Int
     let mainStart: Int
     let mainEnd: Int        // inclusive
@@ -48,16 +54,29 @@ struct Gen2Save {
     var party: Int { partyCount + 8 }
     var partyOT: Int { party + 6 * Gen2Save.partyMonSize }
     var partyNick: Int { partyOT + 6 * Gen12Text.nameLength }
-    var keyItemsCount: Int { numItems + 42 }
-    var ballsCount: Int { numItems + 69 }
 
     static let crystal = Layout(
-      variant: .crystal, money: 0x23DC, coins: 0x23E3, numItems: 0x2420, partyCount: 0x2865,
+      variant: .crystal, money: 0x23DC, coins: 0x23E3,
+      numItems: 0x2420, keyItemsCount: 0x244A, ballsCount: 0x2465,
+      itemCapacity: 20, keyItemCapacity: 25, ballCapacity: 12, maxSpecies: 251,
+      partyCount: 0x2865,
+      mainStart: 0x2009, mainEnd: 0x2B82, mainChecksum: 0x2D0D,
+      backupStart: 0x1209, backupChecksum: 0x1F0D, gender: 0x3E3D)
+
+    /// Prism: Crystal party/checksums; bag pockets moved (WRAM D866/D8B8/D8EC → SRAM − 0xB472).
+    static let prism = Layout(
+      variant: .prism, money: 0x23DC, coins: 0x23E3,
+      numItems: 0x23F4, keyItemsCount: 0x2446, ballsCount: 0x247A,
+      itemCapacity: 40, keyItemCapacity: 50, ballCapacity: 25, maxSpecies: 254,
+      partyCount: 0x2865,
       mainStart: 0x2009, mainEnd: 0x2B82, mainChecksum: 0x2D0D,
       backupStart: 0x1209, backupChecksum: 0x1F0D, gender: 0x3E3D)
 
     static let goldSilver = Layout(
-      variant: .goldSilver, money: 0x23DB, coins: 0x23E2, numItems: 0x241F, partyCount: 0x288A,
+      variant: .goldSilver, money: 0x23DB, coins: 0x23E2,
+      numItems: 0x241F, keyItemsCount: 0x2449, ballsCount: 0x2464,
+      itemCapacity: 20, keyItemCapacity: 25, ballCapacity: 12, maxSpecies: 251,
+      partyCount: 0x288A,
       mainStart: 0x2009, mainEnd: 0x2D68, mainChecksum: 0x2D69,
       backupStart: nil, backupChecksum: nil, gender: nil)
   }
@@ -71,11 +90,9 @@ struct Gen2Save {
   static let trainerIdOff = 0x2009
   static let playerNameOff = 0x200B
   static let playTimeOff = 0x2053     // hours u16 BE, minutes, seconds
-  static let itemCapacity = 20
-  static let keyItemCapacity = 25
-  static let ballCapacity = 12
   static let maxMoney = 999_999
   static let maxCoins = 9_999
+  /// Retail Crystal / Gold / Silver National Dex count (Prism uses `layout.maxSpecies`).
   static let maxDex = 251
 
   private(set) var bytes: [UInt8]
@@ -89,23 +106,33 @@ struct Gen2Save {
 
   // MARK: Parse
 
-  static func parse(_ data: Data) throws -> Gen2Save {
+  static func parse(_ data: Data, preferPrism: Bool = false) throws -> Gen2Save {
     guard data.count >= saveSize else {
       throw Gen12SaveError("Gen 2 save too small (\(data.count) bytes, expected \(saveSize))")
     }
     let b = [UInt8](data)
-    // Prefer Crystal when both validate equally (it is the more common target here).
-    let candidates: [Layout] = [.crystal, .goldSilver]
+    // Prism before Crystal (same party offsets; larger species + moved bag). Prefer Prism when hinted
+    // or when a party mon uses species 252…254.
+    let candidates: [Layout] = preferPrism
+      ? [.prism, .crystal, .goldSilver]
+      : [.crystal, .prism, .goldSilver]
     var best: (layout: Layout, score: Int)?
     for l in candidates {
       guard partyLooksValid(b, l) else { continue }
       var score = 1
       if Int(b[l.partyCount]) > 0 { score += 2 }
       if checksumMatches(b, start: l.mainStart, end: l.mainEnd, at: l.mainChecksum) { score += 4 }
+      if l.variant == .prism {
+        if preferPrism { score += 8 }
+        if partyHasExpandedSpecies(b, l) { score += 6 }
+        if bagLooksValid(b, l) { score += 3 }
+      } else if l.variant == .crystal, bagLooksValid(b, l) {
+        score += 2
+      }
       if best == nil || score > best!.score { best = (l, score) }
     }
     guard let pick = best else {
-      throw Gen12SaveError("Gen 2 save: neither Crystal nor Gold/Silver party layout validates (unsupported or hacked save)")
+      throw Gen12SaveError("Gen 2 save: neither Crystal, Prism, nor Gold/Silver party layout validates (unsupported or hacked save)")
     }
     return Gen2Save(bytes: b, layout: pick.layout, nonStandard: data.count != saveSize)
   }
@@ -136,10 +163,36 @@ struct Gen2Save {
       let o = l.party + i * partyMonSize
       let own = Int(b[o])
       let level = Int(b[o + 31])
-      guard (1...maxDex).contains(own), (1...100).contains(level) else { return false }
+      guard (1...l.maxSpecies).contains(own), (1...100).contains(level) else { return false }
       guard listed == own || listed == eggSpecies else { return false }
     }
     return true
+  }
+
+  private static func partyHasExpandedSpecies(_ b: [UInt8], _ l: Layout) -> Bool {
+    let count = Int(b[l.partyCount])
+    guard count <= maxParty else { return false }
+    for i in 0..<count {
+      if Int(b[l.party + i * partyMonSize]) > maxDex { return true }
+    }
+    return false
+  }
+
+  /// Count byte ≤ capacity and terminator 0xFF after the listed stacks.
+  private static func bagLooksValid(_ b: [UInt8], _ l: Layout) -> Bool {
+    func pairsOk(_ base: Int, _ cap: Int) -> Bool {
+      guard base + 1 + cap * 2 < b.count else { return false }
+      let n = Int(b[base])
+      guard n <= cap else { return false }
+      return Int(b[base + 1 + n * 2]) == 0xFF
+    }
+    func keysOk() -> Bool {
+      guard l.keyItemsCount + 1 + l.keyItemCapacity < b.count else { return false }
+      let n = Int(b[l.keyItemsCount])
+      guard n <= l.keyItemCapacity else { return false }
+      return Int(b[l.keyItemsCount + 1 + n]) == 0xFF
+    }
+    return pairsOk(l.numItems, l.itemCapacity) && pairsOk(l.ballsCount, l.ballCapacity) && keysOk()
   }
 
   // MARK: Checksums
@@ -200,7 +253,7 @@ struct Gen2Save {
       ivs: [hpDV, atk, def, spe, spc, spc],
       nickname: Gen12Text.decode(bytes, off: layout.partyNick + slot * Gen12Text.nameLength),
       shiny: shiny,
-      gender: Gen2Gender.gender(species: species, atkDV: atk),
+      gender: Gen2Gender.gender(species: species, atkDV: atk, tables: nameTables),
       isEgg: isEgg,
       exp: Gen12Codec.be24(bytes, o + 8),
       nature: nil
@@ -224,25 +277,26 @@ struct Gen2Save {
   /// Items (pocket 0), key items (pocket 1, qty 1) and balls (pocket 2).
   func bag() -> [SaveItemStack] {
     var out: [SaveItemStack] = []
-    out += readPairs(at: layout.numItems, capacity: Self.itemCapacity, pocket: Pocket.items)
-    let kn = min(Int(bytes[layout.keyItemsCount]), Self.keyItemCapacity)
+    out += readPairs(at: layout.numItems, capacity: layout.itemCapacity, pocket: Pocket.items)
+    let kn = min(Int(bytes[layout.keyItemsCount]), layout.keyItemCapacity)
     for i in 0..<kn {
       let id = Int(bytes[layout.keyItemsCount + 1 + i])
       if id == 0xFF { break }
       if id > 0 { out.append(SaveItemStack(item: id, quantity: 1, pocket: Pocket.keyItems)) }
     }
-    out += readPairs(at: layout.ballsCount, capacity: Self.ballCapacity, pocket: Pocket.balls)
+    out += readPairs(at: layout.ballsCount, capacity: layout.ballCapacity, pocket: Pocket.balls)
     return out
   }
 
-  /// Crystal: owned @ 0x2A27 / seen @ 0x2A47; G/S: owned @ 0x2A4C / seen @ 0x2A6C (32 bytes each for 251 bits).
+  /// Crystal/Prism: owned @ 0x2A27 / seen @ 0x2A47; G/S: owned @ 0x2A4C / seen @ 0x2A6C.
   func dexSummary() -> SaveDexSummary {
-    let ownedOff = layout.variant == .crystal ? 0x2A27 : 0x2A4C
-    let seenOff = layout.variant == .crystal ? 0x2A47 : 0x2A6C
+    let ownedOff = layout.variant == .goldSilver ? 0x2A4C : 0x2A27
+    let seenOff = layout.variant == .goldSilver ? 0x2A6C : 0x2A47
+    let maxSp = layout.maxSpecies
     return SaveDexSummary(
-      owned: Self.countBits(bytes, off: ownedOff, species: Self.maxDex),
-      seen: Self.countBits(bytes, off: seenOff, species: Self.maxDex),
-      max: Self.maxDex,
+      owned: Self.countBits(bytes, off: ownedOff, species: maxSp),
+      seen: Self.countBits(bytes, off: seenOff, species: maxSp),
+      max: maxSp,
       nationalEnabled: nil
     )
   }
@@ -278,14 +332,14 @@ struct Gen2Save {
     Gen12Codec.putBE16(&bytes, layout.coins, Gen12Codec.clamp(value, 0, Self.maxCoins))
   }
 
-  /// Replaces the Items pocket (max 20 stacks, qty 1…99). Other pockets are untouched.
+  /// Replaces the Items pocket (qty 1…99). Other pockets are untouched.
   mutating func setItems(_ items: [SaveItemStack]) throws {
-    try writePairs(at: layout.numItems, capacity: Self.itemCapacity, items.filter { $0.quantity > 0 }, name: "Items")
+    try writePairs(at: layout.numItems, capacity: layout.itemCapacity, items.filter { $0.quantity > 0 }, name: "Items")
   }
 
-  /// Replaces the Balls pocket (max 12 stacks, qty 1…99).
+  /// Replaces the Balls pocket (qty 1…99).
   mutating func setBalls(_ items: [SaveItemStack]) throws {
-    try writePairs(at: layout.ballsCount, capacity: Self.ballCapacity, items.filter { $0.quantity > 0 }, name: "Balls")
+    try writePairs(at: layout.ballsCount, capacity: layout.ballCapacity, items.filter { $0.quantity > 0 }, name: "Balls")
   }
 
   private mutating func writePairs(at base: Int, capacity: Int, _ stacks: [SaveItemStack], name: String) throws {
@@ -330,8 +384,8 @@ struct Gen2Save {
     let o = layout.party + slot * Self.partyMonSize
 
     if let species {
-      guard (1...Self.maxDex).contains(species) else {
-        throw Gen12SaveError("Gen 2 species must be 1…\(Self.maxDex)")
+      guard (1...layout.maxSpecies).contains(species) else {
+        throw Gen12SaveError("Gen 2 species must be 1…\(layout.maxSpecies)")
       }
       bytes[o] = UInt8(species)
       if Int(bytes[layout.partySpecies + slot]) != Self.eggSpecies {
@@ -341,14 +395,14 @@ struct Gen2Save {
     var genderTouched = false
     if let gender {
       let sp = species ?? Int(bytes[o])
-      let opts = Gen2Gender.options(species: sp)
+      let opts = Gen2Gender.options(species: sp, tables: nameTables)
       guard opts.contains(gender) else {
         throw Gen12SaveError("That species can't be \(gender.label.lowercased())")
       }
       let dvAD = bytes[o + 21], dvSS = bytes[o + 22]
       let atk = Int(dvAD >> 4), def = Int(dvAD & 0xF), spe = Int(dvSS >> 4), spc = Int(dvSS & 0xF)
       let shiny = def == 10 && spe == 10 && spc == 10 && [2, 3, 6, 7, 10, 11, 14, 15].contains(atk)
-      let newAtk = Gen2Gender.atkDV(for: gender, species: sp, preferShiny: shiny, current: atk)
+      let newAtk = Gen2Gender.atkDV(for: gender, species: sp, preferShiny: shiny, current: atk, tables: nameTables)
       bytes[o + 21] = UInt8(((newAtk & 0xF) << 4) | (def & 0xF))
       genderTouched = true
     }
@@ -392,8 +446,15 @@ struct Gen2Save {
     }
     if genderTouched {
       let sp = Int(bytes[o])
-      let base = Gen3BaseStats.stats(species: sp, tables: .crystal)
+      let base = Gen3BaseStats.stats(species: sp, tables: nameTables)
       try? recomputeStats(slot: slot, baseStats: base, healFully: false)
+    }
+  }
+
+  private var nameTables: Gen3Tables {
+    switch layout.variant {
+    case .prism: return .prism
+    case .crystal, .goldSilver: return .crystal
     }
   }
 
@@ -424,14 +485,14 @@ struct Gen2Save {
   }
 }
 
-/// Gen 2 gender from Attack DV vs species threshold (Crystal / Gold / Silver / Polished).
+/// Gen 2 gender from Attack DV vs species threshold (Crystal / Gold / Silver / Polished / Prism).
 enum Gen2Gender {
-  static func options(species: Int) -> [Gen3MonGender] {
-    Gen3Gender.options(species: species, tables: .crystal)
+  static func options(species: Int, tables: Gen3Tables = .crystal) -> [Gen3MonGender] {
+    Gen3Gender.options(species: species, tables: tables)
   }
 
-  static func gender(species: Int, atkDV: Int) -> Gen3MonGender {
-    let r = Gen3Gender.ratio(species: species, tables: .crystal)
+  static func gender(species: Int, atkDV: Int, tables: Gen3Tables = .crystal) -> Gen3MonGender {
+    let r = Gen3Gender.ratio(species: species, tables: tables)
     if r == 255 { return .genderless }
     if r == 0 { return .male }
     if r == 254 { return .female }
@@ -440,8 +501,11 @@ enum Gen2Gender {
   }
 
   /// ATK DV that yields `gender`, preferring a shiny-legal nibble when `preferShiny`.
-  static func atkDV(for gender: Gen3MonGender, species: Int, preferShiny: Bool, current: Int) -> Int {
-    let r = Gen3Gender.ratio(species: species, tables: .crystal)
+  static func atkDV(
+    for gender: Gen3MonGender, species: Int, preferShiny: Bool, current: Int,
+    tables: Gen3Tables = .crystal
+  ) -> Int {
+    let r = Gen3Gender.ratio(species: species, tables: tables)
     if r == 255 || r == 0 || r == 254 { return current & 0xF }
     let thresh = atkThreshold(ratio: r)
     let wantFemale = gender == .female

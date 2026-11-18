@@ -167,12 +167,22 @@ final class Gen2Sampler: CompanionSampling, @unchecked Sendable {
       guard id > 0 else { return nil }
       return BagItem(itemId: id, quantity: 1, pocket: Gen3Pocket.keyItems, index: i)
     }
-    guard let tmRaw = read(c.tmsHms, Gen2ConfigStore.tmsHmsCount) else { return [] }
-    if (0..<Gen2ConfigStore.tmsHmsCount).contains(where: { Int(tmRaw[$0]) > 99 }) { return [] }
-    let tms = (0..<min(Gen2ConfigStore.tmsHmsCount, c.tmItems.count)).compactMap { i -> BagItem? in
-      let qty = Int(tmRaw[i])
-      guard qty > 0 else { return nil }
-      return BagItem(itemId: c.tmItems[i], quantity: qty, pocket: Gen3Pocket.tmHm, index: i)
+    let tms: [BagItem]
+    if c.tmBits {
+      let byteCount = (c.tmItems.count + 7) / 8
+      guard let bits = read(c.tmsHms, byteCount) else { return [] }
+      tms = c.tmItems.indices.compactMap { i -> BagItem? in
+        guard (Int(bits[i / 8]) >> (i % 8)) & 1 != 0 else { return nil }
+        return BagItem(itemId: c.tmItems[i], quantity: 1, pocket: Gen3Pocket.tmHm, index: i)
+      }
+    } else {
+      guard let tmRaw = read(c.tmsHms, Gen2ConfigStore.tmsHmsCount) else { return [] }
+      if (0..<Gen2ConfigStore.tmsHmsCount).contains(where: { Int(tmRaw[$0]) > 99 }) { return [] }
+      tms = (0..<min(Gen2ConfigStore.tmsHmsCount, c.tmItems.count)).compactMap { i -> BagItem? in
+        let qty = Int(tmRaw[i])
+        guard qty > 0 else { return nil }
+        return BagItem(itemId: c.tmItems[i], quantity: qty, pocket: Gen3Pocket.tmHm, index: i)
+      }
     }
     return items + balls + keys + tms
   }
